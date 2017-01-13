@@ -28,7 +28,7 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class DatenbankSchnittstelle {
 
-    private Connection data;                                                        // Datenbank Verbindung
+    protected Connection data;                                                        // Datenbank Verbindung
     //-----------------------------------------------------------------------------
 
     public DatenbankSchnittstelle() throws DBNotFoundException{
