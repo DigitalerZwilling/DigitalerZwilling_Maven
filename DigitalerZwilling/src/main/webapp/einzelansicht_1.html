@@ -20,8 +20,8 @@
         var documentNr = 1; //<--- HIER ÄNDERN
         
         
-        var elementId = 11;//localStorage.getItem('elementId');
-        var elementType = 'huqu';//localStorage.getItem('elementType');
+        var elementId = localStorage.getItem('elementId_1');
+        var elementType = localStorage.getItem('elementType_1');
         console.log("Start Einzelansicht"+documentNr);
         init(documentNr, elementType, elementId);
         
@@ -62,7 +62,7 @@
                 break;
             default:
              console.log("default");
-             init(documentNr, 'artikel', 1);
+             //init(documentNr, 'artikel', 1);
       }
     }
     
