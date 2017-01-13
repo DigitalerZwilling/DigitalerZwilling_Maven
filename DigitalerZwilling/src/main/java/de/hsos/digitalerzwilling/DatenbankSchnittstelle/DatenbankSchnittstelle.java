@@ -6,6 +6,7 @@
 package de.hsos.digitalerzwilling.DatenbankSchnittstelle;
 
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
+import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DB_Exception;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,6 +21,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 
 /**
  *
@@ -28,7 +31,11 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class DatenbankSchnittstelle {
 
-    private Connection data;                                                        // Datenbank Verbindung
+    private Connection data;        // Datenbank Verbindung
+    
+    @Inject
+    @DB_Exception
+    Event<Exception> exceptionEvent;
     //-----------------------------------------------------------------------------
 
     public DatenbankSchnittstelle() throws DBNotFoundException{
@@ -65,6 +72,7 @@ public class DatenbankSchnittstelle {
             this.data = DriverManager.getConnection(DbUrl, DbUser, DbPw);
         } catch (SQLException ex) {
             Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
+            this.exceptionEvent.fire(new DBNotFoundException(ex.getMessage()));
             throw new DBNotFoundException();
             //throw new Exception("Fehler: Datenbankverbindung auf "+ this._DbURL+" nicht möglich");
         }
@@ -83,7 +91,6 @@ public class DatenbankSchnittstelle {
      */
     public Map<String, List<String>> datenbankAnfrage(String sqlStatement) throws DBNotFoundException, QueryException {
         Map<String, List<String>> rsMap = new HashMap<>();
-
         if (data == null) {
             throw new DBNotFoundException();
         } else {
@@ -112,4 +119,6 @@ public class DatenbankSchnittstelle {
         }
         return rsMap;
     }
+    
+    
 }
