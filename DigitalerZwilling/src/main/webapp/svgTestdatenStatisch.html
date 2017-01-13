@@ -1,0 +1,337 @@
+    <html>
+
+    <svg id="svgOne" xmlns="http://www.w3.org/2000/svg" width=100% height=100% viewBox="0 0 9000 3000"> 
+    <!-- <rect id "Sektor1" x="0" y="10" width="50" height="50" fill="blue" onclick = "idAusgeben(this)"></rect>-->
+    </svg>
+    <script type="text/javascript">
+		
+    var svgns = "http://www.w3.org/2000/svg";
+    var rect;
+	var sektor_width = 400;
+	var sektor_height = 400;
+	var sektor_fill = '#6BCDFD';
+	var WT_width = 200;
+	var WT_height = 200;
+	var WT_fill = '#FF9900';
+	var baender_thick = 50;
+	var baender_fill = '#CCCCCC';
+	var stoerung_fill = '#FF0000';
+	var f_size = 100;
+	//var zoom = 0.11;
+	
+	var sektoren = '{ "inhalt" : [' + 
+	'{ "id_sektor": 1,	"bezeichnung": "", "user_parameter": "","zeitstempel": "","stoerung": 0, "x": 175,  "y": 375,	"z":0, "ausrichtung": 90,  "warentraegerIDs": 	{"inhalt" : []}	, "hubpodestIDs": {"inhalt" : []}, "hubquerpodestIDs": {"inhalt": []}, "roboterIDs": {"inhalt": []}, "sensorIDs": {"inhalt": []}, "vorTransportbandIDs": {"inhalt": []}, "nachTransportbandIDs": {"inhalt": []}	},' +
+	'{ "id_sektor": 2,	"bezeichnung": "", "user_parameter": "","zeitstempel": "","stoerung": 0, "x": 935,  "y": 0,		"z":0, "ausrichtung": 90,  "warentraegerIDs": 	{"inhalt" : []}	, "hubpodestIDs": {"inhalt" : []}, "hubquerpodestIDs": {"inhalt": []}, "roboterIDs": {"inhalt": []}, "sensorIDs": {"inhalt": []}, "vorTransportbandIDs": {"inhalt": []}, "nachTransportbandIDs": {"inhalt": []}	},' +
+	'{ "id_sektor": 3,	"bezeichnung": "", "user_parameter": "","zeitstempel": "","stoerung": 0, "x": 1575, "y": 375, 	"z":0, "ausrichtung": 90,  "warentraegerIDs": 	{"inhalt" : []}	, "hubpodestIDs": {"inhalt" : []}, "hubquerpodestIDs": {"inhalt": []}, "roboterIDs": {"inhalt": []}, "sensorIDs": {"inhalt": []}, "vorTransportbandIDs": {"inhalt": []}, "nachTransportbandIDs": {"inhalt": []}	},' +
+	'{ "id_sektor": 4,	"bezeichnung": "", "user_parameter": "","zeitstempel": "","stoerung": 0, "x": 2985, "y": 375, 	"z":0, "ausrichtung": 90,  "warentraegerIDs": 	{"inhalt" : []}	, "hubpodestIDs": {"inhalt" : []}, "hubquerpodestIDs": {"inhalt": []}, "roboterIDs": {"inhalt": []}, "sensorIDs": {"inhalt": []}, "vorTransportbandIDs": {"inhalt": []}, "nachTransportbandIDs": {"inhalt": []}	},' +
+	'{ "id_sektor": 5,	"bezeichnung": "", "user_parameter": "","zeitstempel": "","stoerung": 0, "x": 4785, "y": 375, 	"z":0, "ausrichtung": 90,  "warentraegerIDs": 	{"inhalt" : []}	, "hubpodestIDs": {"inhalt" : []}, "hubquerpodestIDs": {"inhalt": []}, "roboterIDs": {"inhalt": []}, "sensorIDs": {"inhalt": []}, "vorTransportbandIDs": {"inhalt": []}, "nachTransportbandIDs": {"inhalt": []}	},' +
+	'{ "id_sektor": 6,	"bezeichnung": "", "user_parameter": "","zeitstempel": "","stoerung": 0, "x": 6015, "y": 375, 	"z":0, "ausrichtung": 90,  "warentraegerIDs": 	{"inhalt" : []}	, "hubpodestIDs": {"inhalt" : []}, "hubquerpodestIDs": {"inhalt": []}, "roboterIDs": {"inhalt": []}, "sensorIDs": {"inhalt": []}, "vorTransportbandIDs": {"inhalt": []}, "nachTransportbandIDs": {"inhalt": []}	},' +
+	'{ "id_sektor": 7,	"bezeichnung": "", "user_parameter": "","zeitstempel": "","stoerung": 0, "x": 6875, "y": 375, 	"z":0, "ausrichtung": 90,  "warentraegerIDs": 	{"inhalt" : []}	, "hubpodestIDs": {"inhalt" : []}, "hubquerpodestIDs": {"inhalt": []}, "roboterIDs": {"inhalt": []}, "sensorIDs": {"inhalt": []}, "vorTransportbandIDs": {"inhalt": []}, "nachTransportbandIDs": {"inhalt": []}	},' +
+	'{ "id_sektor": 8,	"bezeichnung": "", "user_parameter": "","zeitstempel": "","stoerung": 0, "x": 8295, "y": 375, 	"z":0, "ausrichtung": 180, "warentraegerIDs": 	{"inhalt" : []}	, "hubpodestIDs": {"inhalt" : []}, "hubquerpodestIDs": {"inhalt": []}, "roboterIDs": {"inhalt": []}, "sensorIDs": {"inhalt": []}, "vorTransportbandIDs": {"inhalt": []}, "nachTransportbandIDs": {"inhalt": []}	},' +
+	'{ "id_sektor": 9,	"bezeichnung": "", "user_parameter": "","zeitstempel": "","stoerung": 0, "x": 8295, "y": 2165,	"z":0, "ausrichtung": 270, "warentraegerIDs": 	{"inhalt" : []}	, "hubpodestIDs": {"inhalt" : []}, "hubquerpodestIDs": {"inhalt": []}, "roboterIDs": {"inhalt": []}, "sensorIDs": {"inhalt": []}, "vorTransportbandIDs": {"inhalt": []}, "nachTransportbandIDs": {"inhalt": []}	},' +
+	'{ "id_sektor": 10, "bezeichnung": "", "user_parameter": "","zeitstempel": "","stoerung": 0, "x": 7025, "y": 2340,	"z":0, "ausrichtung": 270, "warentraegerIDs":	{"inhalt" : []}	, "hubpodestIDs": {"inhalt" : []}, "hubquerpodestIDs": {"inhalt": []}, "roboterIDs": {"inhalt": []}, "sensorIDs": {"inhalt": []}, "vorTransportbandIDs": {"inhalt": []}, "nachTransportbandIDs": {"inhalt": []}	},' +
+	'{ "id_sektor": 11, "bezeichnung": "", "user_parameter": "","zeitstempel": "","stoerung": 0, "x": 6015, "y": 2165,	"z":0, "ausrichtung": 270, "warentraegerIDs": 	{"inhalt" : []}	, "hubpodestIDs": {"inhalt" : []}, "hubquerpodestIDs": {"inhalt": []}, "roboterIDs": {"inhalt": []}, "sensorIDs": {"inhalt": []}, "vorTransportbandIDs": {"inhalt": []}, "nachTransportbandIDs": {"inhalt": []}	},' +
+	'{ "id_sektor": 12, "bezeichnung": "", "user_parameter": "","zeitstempel": "","stoerung": 0, "x": 4695, "y": 2340,	"z":0, "ausrichtung": 270, "warentraegerIDs": 	{"inhalt" : []}	, "hubpodestIDs": {"inhalt" : []}, "hubquerpodestIDs": {"inhalt": []}, "roboterIDs": {"inhalt": []}, "sensorIDs": {"inhalt": []}, "vorTransportbandIDs": {"inhalt": []}, "nachTransportbandIDs": {"inhalt": []}	},' +
+	'{ "id_sektor": 13, "bezeichnung": "", "user_parameter": "","zeitstempel": "","stoerung": 0, "x": 3355, "y": 2165,	"z":0, "ausrichtung": 270, "warentraegerIDs": 	{"inhalt" : []}	, "hubpodestIDs": {"inhalt" : []}, "hubquerpodestIDs": {"inhalt": []}, "roboterIDs": {"inhalt": []}, "sensorIDs": {"inhalt": []}, "vorTransportbandIDs": {"inhalt": []}, "nachTransportbandIDs": {"inhalt": []}	},' +
+	'{ "id_sektor": 14, "bezeichnung": "", "user_parameter": "","zeitstempel": "","stoerung": 0, "x": 1825, "y": 2340,	"z":0, "ausrichtung": 270, "warentraegerIDs": 	{"inhalt" : []} , "hubpodestIDs": {"inhalt" : []}, "hubquerpodestIDs": {"inhalt": []}, "roboterIDs": {"inhalt": []}, "sensorIDs": {"inhalt": []}, "vorTransportbandIDs": {"inhalt": []}, "nachTransportbandIDs": {"inhalt": []}	},' +
+	'{ "id_sektor": 15, "bezeichnung": "", "user_parameter": "","zeitstempel": "","stoerung": 0, "x": 175,  "y": 2165,	"z":0, "ausrichtung": 0,   "warentraegerIDs": 	{"inhalt" : []}	, "hubpodestIDs": {"inhalt" : []}, "hubquerpodestIDs": {"inhalt": []}, "roboterIDs": {"inhalt": []}, "sensorIDs": {"inhalt": []}, "vorTransportbandIDs": {"inhalt": []}, "nachTransportbandIDs": {"inhalt": []}	}' +
+	']}';                                                                                                                                                                                                                       
+	var transportbaender = '{ "inhalt" : [' +
+	'{ "reihe": "0",  "id_transportband": "13",   "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 1,  "id_sektor_nach": 3,  "warentraegerIDs": 	{"inhalt" : []} },' +
+	'{ "reihe": "0",  "id_transportband": "34",   "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 3,  "id_sektor_nach": 4,  "warentraegerIDs": 	{"inhalt" : []}	},' +
+	'{ "reihe": "0",  "id_transportband": "45",   "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 4,  "id_sektor_nach": 5,  "warentraegerIDs": 	{"inhalt" : []}	},' +
+	'{ "reihe": "0",  "id_transportband": "56",   "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 5,  "id_sektor_nach": 6,  "warentraegerIDs": 	{"inhalt" : []}	},' +
+	'{ "reihe": "0",  "id_transportband": "67",   "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 6,  "id_sektor_nach": 7,  "warentraegerIDs": 	{"inhalt" : []}	},' +
+	'{ "reihe": "0",  "id_transportband": "78",   "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 7,  "id_sektor_nach": 8,  "warentraegerIDs": 	{"inhalt" : []}	},' +
+	'{ "reihe": "0",  "id_transportband": "89",   "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 8,  "id_sektor_nach": 9,  "warentraegerIDs": 	{"inhalt" : []}	},' +
+	'{ "reihe": "1",  "id_transportband": "910",  "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 9,  "id_sektor_nach": 10, "warentraegerIDs": 	{"inhalt" : []}	},' +
+	'{ "reihe": "0",  "id_transportband": "1011", "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 10, "id_sektor_nach": 11, "warentraegerIDs": 	{"inhalt" : []}	},' +
+	'{ "reihe": "-1", "id_transportband": "911",  "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 9,  "id_sektor_nach": 11, "warentraegerIDs":	{"inhalt" : []}	},' +
+	'{ "reihe": "1",  "id_transportband": "1112", "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 11, "id_sektor_nach": 12, "warentraegerIDs":	{"inhalt" : []}	},' +
+	'{ "reihe": "0",  "id_transportband": "1213", "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 12, "id_sektor_nach": 13, "warentraegerIDs":	{"inhalt" : []}	},' +
+	'{ "reihe": "-1", "id_transportband": "1113", "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 11, "id_sektor_nach": 13, "warentraegerIDs":	{"inhalt" : []}	},' +
+	'{ "reihe": "1",  "id_transportband": "1314", "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 13, "id_sektor_nach": 14, "warentraegerIDs":	{"inhalt" : []}	},' +
+	'{ "reihe": "0",  "id_transportband": "1415", "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 14, "id_sektor_nach": 15, "warentraegerIDs":	{"inhalt" : []}	},' +
+	'{ "reihe": "-1", "id_transportband": "1315", "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 13, "id_sektor_nach": 15, "warentraegerIDs":	{"inhalt" : []}	},' +
+	'{ "reihe": "0",  "id_transportband": "151",  "bezeichnung": "", "user_parameter": "", "stoerung": 0, "laenge": 0, "geschwindigkeit": 0, "id_sektor_vor": 15, "id_sektor_nach": 1,  "warentraegerIDs":	{"inhalt" : []}	}' +
+	']}';
+	var warentraeger = '{ "inhalt" : [' +
+	'{"id_warentraeger": "1",   "bezeichnung": "Warentraeger1",		"user_parameter": "","zeitstempel": "", "stoerung": 0, "abstand_mm": 0, 	  "montagezustand": 3,   "artikelIDs": 	{"inhalt" : [1]},   "transportbandIDs": {"inhalt" : []},      "sektorIDs": 	{"inhalt" : [2]} 		},' +
+	'{"id_warentraeger": "2",   "bezeichnung": "Warentraeger2",		"user_parameter": "","zeitstempel": "", "stoerung": 0, "abstand_mm": 0, 	  "montagezustand": 45,  "artikelIDs": 	{"inhalt" : [2]},   "transportbandIDs": {"inhalt" : []},      "sektorIDs": 	{"inhalt" : [7]} 		},' +
+	'{"id_warentraeger": "3",   "bezeichnung": "Warentraeger3",		"user_parameter": "","zeitstempel": "", "stoerung": 0, "abstand_mm": 0, 	  "montagezustand": 99,  "artikelIDs": 	{"inhalt" : [1,2]}, "transportbandIDs": {"inhalt" : []},      "sektorIDs": 	{"inhalt" : [5]} 		},' +
+	'{"id_warentraeger": "4",   "bezeichnung": "Warentraeger4",		"user_parameter": "","zeitstempel": "", "stoerung": 0, "abstand_mm": 0, 	  "montagezustand": 8,   "artikelIDs": 	{"inhalt" : []},    "transportbandIDs": {"inhalt" : []},      "sektorIDs": 	{"inhalt" : [14]} 		},' +
+	'{"id_warentraeger": "5",   "bezeichnung": "Warentraeger5",		"user_parameter": "","zeitstempel": "", "stoerung": 0, "abstand_mm": 0, 	  "montagezustand": 0,   "artikelIDs": 	{"inhalt" : []},    "transportbandIDs": {"inhalt" : [13]},    "sektorIDs": 	{"inhalt" : []} 		},' +
+	'{"id_warentraeger": "6",   "bezeichnung": "Warentraeger6",		"user_parameter": "","zeitstempel": "", "stoerung": 0, "abstand_mm": 50,	  "montagezustand": 44,  "artikelIDs": 	{"inhalt" : [2]},   "transportbandIDs": {"inhalt" : [45]},    "sektorIDs": 	{"inhalt" : []} 		},' +
+	'{"id_warentraeger": "7",   "bezeichnung": "Warentraeger7",		"user_parameter": "","zeitstempel": "", "stoerung": 0, "abstand_mm": 150,  "montagezustand": 106, "artikelIDs": 	{"inhalt" : [1,2]}, "transportbandIDs": {"inhalt" : [45]},    "sektorIDs": 	{"inhalt" : []} 		},' +
+	'{"id_warentraeger": "8",   "bezeichnung": "Warentraeger8",		"user_parameter": "","zeitstempel": "", "stoerung": 0, "abstand_mm": 0, 	  "montagezustand": 33,  "artikelIDs": 	{"inhalt" : [1,2]}, "transportbandIDs": {"inhalt" : [67]},    "sektorIDs": 	{"inhalt" : []} 		},' +
+	'{"id_warentraeger": "8.5",   "bezeichnung": "Warentraeger8",		"user_parameter": "","zeitstempel": "", "stoerung": 0, "abstand_mm": 1250, 	  "montagezustand": 33,  "artikelIDs": 	{"inhalt" : [1,2]}, "transportbandIDs": {"inhalt" : [67]},    "sektorIDs": 	{"inhalt" : []} 		},' +
+	'{"id_warentraeger": "9",   "bezeichnung": "Warentraeger9",		"user_parameter": "","zeitstempel": "", "stoerung": 0, "abstand_mm": 0, 	  "montagezustand": 77,  "artikelIDs": 	{"inhalt" : [1]},   "transportbandIDs": {"inhalt" : [89]},    "sektorIDs": 	{"inhalt" : []} 		},' +
+	'{"id_warentraeger": "10",  "bezeichnung": "Warentraeger10",	"user_parameter": "","zeitstempel": "", "stoerung": 0, "abstand_mm": 0, 	  "montagezustand": 0,   "artikelIDs": 	{"inhalt" : []},    "transportbandIDs": {"inhalt" : [911]},   "sektorIDs": 	{"inhalt" : []} 		},' +
+	'{"id_warentraeger": "11",  "bezeichnung": "Warentraeger11",	"user_parameter": "","zeitstempel": "", "stoerung": 0, "abstand_mm": 0, 	  "montagezustand": 44,  "artikelIDs": 	{"inhalt" : [2]},   "transportbandIDs": {"inhalt" : [910]},   "sektorIDs": 	{"inhalt" : []} 		},' +
+	'{"id_warentraeger": "12",  "bezeichnung": "Warentraeger12",	"user_parameter": "","zeitstempel": "", "stoerung": 0, "abstand_mm": 200,  "montagezustand": 40,  "artikelIDs": 	{"inhalt" : [1,2]}, "transportbandIDs": {"inhalt" : [1213]},  "sektorIDs": 	{"inhalt" : []} 		},' +
+	'{"id_warentraeger": "13",  "bezeichnung": "Warentraeger13",	"user_parameter": "","zeitstempel": "", "stoerung": 0, "abstand_mm": 0,	  "montagezustand": 33,  "artikelIDs": 	{"inhalt" : [1,2]}, "transportbandIDs": {"inhalt" : [151]},   "sektorIDs": 	{"inhalt" : []} 		}' +
+	']}';
+	
+	var j_sektoren = JSON.parse(sektoren);
+	var j_baender = JSON.parse(transportbaender);
+	var j_warentraeger = JSON.parse(warentraeger);
+	
+	function idAusgeben(elmnt) {
+		console.log(elmnt.id);
+		uebersichtsinfosAusgeben(elmnt.id);
+    }
+
+    function uebersichtsinfosAusgeben(info){
+    	localStorage.removeItem("stoerung");
+    	localStorage.setItem("svgAnzeige", info);
+    	$elementUebersicht=info;
+    	$("#uebersichtsinfos").load("uebersichtsinfos.html", $elementUebersicht);
+    }
+	
+	function getSekByID(key) {
+		//finde Sektor mit uebergebener ID
+		for (var i=0;i<j_sektoren.inhalt.length;i++) {
+			if (j_sektoren.inhalt[i].id_sektor == key) {
+				return i;
+			}
+		}
+		console.log(key + " nicht gefunden in S");
+		return 0;
+	}
+	
+	function getTBByID(key) {
+		//finde TB mit uebergebener ID
+		for (var i=0;i<j_baender.inhalt.length;i++) {
+			if (j_baender.inhalt[i].id_transportband == key) {
+				return i;
+			}
+		}
+		console.log(key + " nicht gefunden in TB");
+		return 0;
+	}
+	
+	function sektorenErstellen(){
+		for (var i=0;i<j_sektoren.inhalt.length;i++) {
+			//Sektoren erstellen
+			rect = document.createElementNS(svgns, 'rect');
+			rect.setAttributeNS(null, 'id', 'Sektor' + j_sektoren.inhalt[i].id_sektor);
+			rect.setAttributeNS(null, 'x', j_sektoren.inhalt[i].x);
+			rect.setAttributeNS(null, 'y', j_sektoren.inhalt[i].y);
+			rect.setAttributeNS(null, 'height', sektor_height);
+			rect.setAttributeNS(null, 'width', sektor_width);
+			if (j_sektoren.inhalt[i].stoerung != 0)
+				rect.setAttributeNS(null, 'fill', stoerung_fill);
+			else 
+				rect.setAttributeNS(null, 'fill', sektor_fill);
+			rect.setAttributeNS(null, 'stroke-width', '5');
+			rect.setAttributeNS(null, 'stroke', 'black');
+			rect.setAttributeNS(null, 'onclick', 'idAusgeben(this)'); //Beim anklicken wird die Id des Elementes ausgeben
+			document.getElementById('svgOne').appendChild(rect);
+			
+			//zugehöriges Label erstellen
+			var text = document.createElementNS(svgns, 'text');
+            text.setAttributeNS(null, 'fill', 'black');
+            text.setAttributeNS(null, 'x', j_sektoren.inhalt[i].x);
+            text.setAttributeNS(null, 'y', j_sektoren.inhalt[i].y+f_size/1.5);
+            text.setAttributeNS(null,"font-size",f_size);
+            text.setAttributeNS(null,"font-family","Calibri");
+
+            var textNode = document.createTextNode("A" + j_sektoren.inhalt[i].id_sektor);
+            text.appendChild(textNode);
+            document.getElementById("svgOne").appendChild(text);
+		}
+	}
+	
+	function transportbaenderErstellen(){
+		var id_vor = 0;
+		var id_nach = 0;
+		for (var i =0;i < j_baender.inhalt.length; i++) {
+			id_vor = j_baender.inhalt[i].id_sektor_vor;
+			id_nach = j_baender.inhalt[i].id_sektor_nach;
+			rect = document.createElementNS(svgns, 'rect');
+			rect.setAttributeNS(null, 'id', 'Transportband' + j_baender.inhalt[i].id_transportband);
+			rect.setAttributeNS(null, 'stroke-width', '3');
+			rect.setAttributeNS(null, 'stroke', 'black');
+			rect.setAttributeNS(null, 'onclick', 'idAusgeben(this)');
+			if (j_baender.inhalt[i].stoerung != 0) {
+				rect.setAttributeNS(null, 'fill', stoerung_fill);
+			}
+			else {
+				rect.setAttributeNS(null, 'fill', baender_fill);
+			}
+			switch(j_sektoren.inhalt[(id_vor)-1].ausrichtung) {
+			//ausrichtung des Sektors finden, welcher vor dem TB liegt
+				case 90: //"Ausgang" des Sektors nach rechts
+					//Reihe (innen/mitte/aussen) des TB bestimmen und plazieren
+					rect.setAttributeNS(null, 'x', (j_sektoren.inhalt[id_vor-1].x + sektor_width));
+					if (j_baender.inhalt[i].reihe == -1) {
+						rect.setAttributeNS(null, 'y', (j_sektoren.inhalt[id_vor-1].y + sektor_height) - baender_thick);
+					}
+					else if (j_baender.inhalt[i].reihe == 1) {
+						rect.setAttributeNS(null, 'y', j_sektoren.inhalt[id_vor-1].y);
+					}
+					else {
+						rect.setAttributeNS(null, 'y', (j_sektoren.inhalt[id_vor-1].y + sektor_height/2) - baender_thick/2);
+					}
+					rect.setAttributeNS(null, 'width', j_sektoren.inhalt[id_nach-1].x - (j_sektoren.inhalt[id_vor-1].x + sektor_width));
+					rect.setAttributeNS(null, 'height', baender_thick);
+					break;
+				case 180: //"Ausgang" des Sektors nach rechts
+					//Reihe (innen/mitte/aussen) des TB bestimmen und plazieren
+					if (j_baender.inhalt[i].reihe == -1) {
+						rect.setAttributeNS(null, 'x', j_sektoren.inhalt[id_vor-1].x);
+					}
+					else if (j_baender.inhalt[i].reihe == 1) {
+						rect.setAttributeNS(null, 'x', (j_sektoren.inhalt[id_vor-1].x + sektor_width) - baender_thick);
+					}
+					else {
+						rect.setAttributeNS(null, 'x', (j_sektoren.inhalt[id_vor-1].x + sektor_width/2) - baender_thick/2);
+					}
+					rect.setAttributeNS(null, 'y', (j_sektoren.inhalt[id_vor-1].y + sektor_height));
+					rect.setAttributeNS(null, 'width', baender_thick);
+					rect.setAttributeNS(null, 'height', j_sektoren.inhalt[id_nach-1].y - (j_sektoren.inhalt[id_vor-1].y + sektor_height));
+					break;
+				case 270: //"Ausgang" des Sektors nach rechts
+					//Reihe (innen/mitte/aussen) des TB bestimmen und plazieren
+					rect.setAttributeNS(null, 'x', (j_sektoren.inhalt[id_nach-1].x + sektor_width));
+					if (j_baender.inhalt[i].reihe == -1) {
+						rect.setAttributeNS(null, 'y', j_sektoren.inhalt[id_vor-1].y);
+					}
+					else if (j_baender.inhalt[i].reihe == 1) {
+						rect.setAttributeNS(null, 'y', (j_sektoren.inhalt[id_vor-1].y + sektor_height) - baender_thick);
+					}
+					else {
+						rect.setAttributeNS(null, 'y', (j_sektoren.inhalt[id_vor-1].y + sektor_height/2) - baender_thick/2);
+					}
+					rect.setAttributeNS(null, 'width', j_sektoren.inhalt[id_vor-1].x - (j_sektoren.inhalt[id_nach-1].x + sektor_width));
+					rect.setAttributeNS(null, 'height', baender_thick);
+					break;
+				case 0: //"Ausgang" des Sektors nach rechts
+					//Reihe (innen/mitte/aussen) des TB bestimmen und plazieren
+					if (j_baender.inhalt[i].reihe == -1) {
+						rect.setAttributeNS(null, 'x', (j_sektoren.inhalt[id_vor-1].x + sektor_width) - baender_thick);
+						rect.setAttributeNS(null, 'x', j_sektoren.inhalt[id_vor-1].x);
+					}
+					else if (j_baender.inhalt[i].reihe == 1) {
+						rect.setAttributeNS(null, 'x', j_sektoren.inhalt[id_vor-1].x);
+					}
+					else {
+						rect.setAttributeNS(null, 'x', (j_sektoren.inhalt[id_vor-1].x + sektor_width/2) - baender_thick/2);
+					}
+					rect.setAttributeNS(null, 'y', (j_sektoren.inhalt[id_nach-1].y + sektor_height));
+					rect.setAttributeNS(null, 'width', baender_thick);
+					rect.setAttributeNS(null, 'height', j_sektoren.inhalt[id_vor-1].y - (j_sektoren.inhalt[id_nach-1].y + sektor_height));
+					break;
+				default:
+					console.log("Sektor " + j_sektoren.inhalt[id_vor-1].id_sektor + " falsche Ausrichtung.");
+			}
+			document.getElementById('svgOne').appendChild(rect);
+		}
+	}
+	
+	function warentraegerErstellen(){
+		for (var i = 0;i<j_warentraeger.inhalt.length;i++) {
+			rect = document.createElementNS(svgns, 'rect');
+			rect.setAttributeNS(null, 'id', 'Warentraeger' + j_warentraeger.inhalt[i].id_warentraeger);
+			if ((j_warentraeger.inhalt[i].transportbandIDs.inhalt.length==1) && (j_warentraeger.inhalt[i].sektorIDs.inhalt.length==0)) {
+			//WT liegt auf einem TB und in keinem Sektor
+				switch(j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].ausrichtung) {
+				//ausrichtung des Sektors finden, welcher vor dem TB liegt
+					case 90: //"Ausgang" des Sektors nach rechts
+						//Reihe (innen/mitte/aussen) des TB bestimmen, WT plazieren
+						if (j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].reihe == -1) {
+							rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].y+sektor_height-WT_height/2-baender_thick/2);
+						}
+						else if (j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].reihe == 1) {
+							rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].y-WT_height/2+baender_thick/2);
+						}
+						else {
+							rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].y+sektor_height/2-WT_height/2);
+						}
+						rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].x+sektor_width+j_warentraeger.inhalt[i].abstand_mm);	
+						break;
+					case 180: //"Ausgang" des Sektors nach unten
+						//Reihe (innen/mitte/aussen) des TB bestimmen, WT plazieren
+						if (j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].reihe == -1) {
+							rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].x-WT_width/2+baender_thick/2);
+						}
+						else if (j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].reihe == 1) {
+							rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].x+sektor_width-WT_width/2-baender_thick/2);
+						}
+						else {
+							rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].x+sektor_width/2-WT_width/2);
+						}
+						rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].y+sektor_height+j_warentraeger.inhalt[i].abstand_mm);
+						break;
+					case 270: //"Ausgang" des Sektors nach links
+						//Reihe (innen/mitte/aussen) des TB bestimmen, WT plazieren
+						if (j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].reihe == -1) {
+							rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].y-WT_height/2+baender_thick/2);
+						}
+						else if (j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].reihe == 1) {
+							rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].y+sektor_height-WT_height/2-baender_thick/2);
+						}
+						else {
+							rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].y+sektor_height/2-WT_height/2);
+						}
+						rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].x-WT_width-j_warentraeger.inhalt[i].abstand_mm);
+						break;
+					case 0: //"Ausgang" des Sektors nach oben
+						//Reihe (innen/mitte/aussen) des TB bestimmen, WT plazieren
+						if (j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].reihe == -1) {
+							rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].x+sektor_width-WT_width/2+baender_thick/2);
+						}
+						else if (j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].reihe == 1) {
+							rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].x-WT_width/2-baender_thick/2);
+						}
+						else {
+							rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].x+sektor_width/2-WT_width/2);
+						}
+						rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs.inhalt[0])].id_sektor_vor)].y-WT_height-j_warentraeger.inhalt[i].abstand_mm);
+						break;
+					default:
+					console.log("Sektor " + j_sektoren.inhalt[id_vor-1].id_sektor + " falsche ausrichtung.");
+				}
+			}
+			
+			else if ((j_warentraeger.inhalt[i].transportbandIDs.inhalt.length==0) && (j_warentraeger.inhalt[i].sektorIDs.inhalt.length==1)) {
+			//WT liegt in einem Sektor und auf keinem TB
+				rect = document.createElementNS(svgns, 'rect');
+				rect.setAttributeNS(null, 'id', 'Warentraeger' + j_warentraeger.inhalt[i].id_warentraeger);
+				rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_warentraeger.inhalt[i].sektorIDs.inhalt[0])].x+sektor_width/2-WT_width/2);
+				rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_warentraeger.inhalt[i].sektorIDs.inhalt[0])].y+sektor_height/2-WT_height/2);
+				
+			}
+			else {
+			//WT liegt auf einem TB und in einem Sektor --> Fehler
+				console.log("WT" + j_warentraeger.inhalt[i].id_warentraeger + " hat falsche Zuordnung.");
+			}
+			rect.setAttributeNS(null, 'height', WT_height);
+			rect.setAttributeNS(null, 'width', WT_width);
+			rect.setAttributeNS(null, 'stroke-width', '7');
+			rect.setAttributeNS(null, 'stroke', 'black');
+			if (j_warentraeger.inhalt[i].stoerung != 0) //Farbe bestimmen bzgl. stoerung
+				rect.setAttributeNS(null, 'fill', stoerung_fill);
+			else 
+				rect.setAttributeNS(null, 'fill', WT_fill);
+			rect.setAttributeNS(null, 'onclick', 'idAusgeben(this)'); //Beim anklicken wird die Id des Elementes ausgeben
+			document.getElementById('svgOne').appendChild(rect);
+			
+		}
+	}
+
+	//erst Sektoren, dann Transportbaender, dann Warentraeger erstellen
+    sektorenErstellen();
+	transportbaenderErstellen();
+	warentraegerErstellen();
+	
+	</script>
+    </html>
+	
+	
+	
+	
+	
+	
+	
+	

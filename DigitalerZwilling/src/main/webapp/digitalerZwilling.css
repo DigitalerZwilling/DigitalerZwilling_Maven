@@ -1,0 +1,220 @@
+
+/*Removed brand from navbar, so buttons need to be shift to the left*/
+/*.navbar .container-fluid, .navbar-collapse {
+    padding-left:0;
+}*/
+
+
+/*CHANGES AT NAVBAR-DEFAULT*/
+.navbar-default{
+    background-color:#00ccff;
+    border-color:#00ccff;
+
+    margin-bottom: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.navbar-default .navbar-brand,
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #ffffff;
+}
+
+
+.navbar-default .navbar-nav > li > a {
+    color: #ffffff;
+}
+
+
+/*hover-flaechen*/
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color:#ffffff;
+    background-color: #00a3cc;
+}
+
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+    color: #ffffff;
+    background-color: #00a3cc;
+}
+
+.navbar-default .navbar-text {
+    color: #ffffff;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: #00a3cc;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #ffffff;
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+    background-color: #00a3cc;
+}
+
+/*Navbar im Vordergrund*/
+nav{
+    z-index: 10;
+}
+
+html {
+  height: 100%;
+}
+
+html body {
+  height: 100%;
+  overflow: hidden;
+}
+
+html body .container-fluid.body-content {
+  position: absolute;
+  top: 50px;
+  bottom: 40px;
+  right: 0;
+  left: 0;
+  overflow-y: auto;
+}
+
+header {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: #4C4;
+    height: 50px;
+}
+
+footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #00ccff;
+    height: 40px;
+}
+
+.panel {
+    margin:0;
+}
+
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
+/* xs */
+.panelUebersicht{
+    height:50%; 
+    padding-top:10px;
+    padding-bottom:10px;
+    padding-left:5px;
+    padding-right:5px;
+}
+
+.panelUebersichtsInfos{
+    height:50%; 
+    padding-top:10px;
+    padding-bottom:5px;
+    padding-left:5px;
+    padding-right:5px;
+}
+
+.panelEinzelansicht{
+    height:50%; 
+    padding-top:5px;
+    padding-bottom:10px;
+    padding-left:5px;
+    padding-right:5px;
+}
+/* sm */
+@media (min-width: 768px) {
+
+    .panelUebersicht{
+        height:50%; 
+        padding-top:10px;
+        padding-bottom:10px;
+        padding-left:5px;
+        padding-right:5px;
+    }
+
+    .panelUebersichtsInfos{
+        height:50%; 
+        padding-top:10px;
+        padding-bottom:5px;
+        padding-left:5px;
+        padding-right:5px;
+    }
+
+    .panelEinzelansicht{
+        height:50%; 
+        padding-top:5px;
+        padding-bottom:10px;
+        padding-left:5px;
+        padding-right:5px;
+    }
+}
+/* md */
+@media (min-width: 992px) {
+
+    .panelUebersicht{
+        height:100%; 
+        padding-top:10px;
+        padding-bottom:10px;
+        padding-left:5px;
+        padding-right:5px;
+    }
+
+    .panelUebersichtsInfos{
+        height:50%; 
+        padding-top:10px;
+        padding-bottom:5px;
+        padding-left:5px;
+        padding-right:5px;
+    }
+
+    .panelEinzelansicht{
+        height:50%; 
+        padding-top:5px;
+        padding-bottom:10px;
+        padding-left:5px;
+        padding-right:5px;
+    }
+}
+/* lg */
+@media (min-width: 1200px) {
+
+
+    .panelUebersicht{
+        height:100%; 
+        padding-top:10px;
+        padding-bottom:10px;
+        padding-left:5px;
+        padding-right:5px;
+    }
+
+    .panelUebersichtsInfos{
+        height:50%; 
+        padding-top:10px;
+        padding-bottom:5px;
+        padding-left:5px;
+        padding-right:5px;
+    }
+
+    .panelEinzelansicht{
+        height:50%; 
+        padding-top:5px;
+        padding-bottom:10px;
+        padding-left:5px;
+        padding-right:5px;
+    }
+}

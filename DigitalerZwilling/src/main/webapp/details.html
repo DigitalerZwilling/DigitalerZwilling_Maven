@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	</head>
+
+			<script>
+				var idBtn = null;
+
+				$(document).ready(function(){
+					localStorage.setItem("mainContainer", "details");
+					
+					//LocalStorage abfragen: Daten für beständiges Div vorhanden?
+					if(localStorage.getItem("divOfTwoViews")!=null){
+						steadyDiv(localStorage.getItem("divOfTwoViews"));
+					}else{
+						console.log("No data for steady div in local storage!");
+					}
+
+					$(".btn.btn-default.dropdown-toggle").on('click', function(){
+	            		idBtn = $(this).attr('id');
+	            		console.log(idBtn);
+	            		loadDiv(idBtn);
+	            	});
+	            });
+
+				function steadyDiv(itemOfLocalStorage){
+					$val = itemOfLocalStorage;
+        			$(".dd-btn6").html($val+$caret);
+            		$("#einzelansicht6").load("tabelle6.html", $val);
+				}
+
+
+	           	function loadDiv(idBtn){
+	            	console.log("loadDivOpt");
+	            	$caret = ' <span class="caret"></span>';
+	            	switch(idBtn){
+	            		case "dd-btn1":
+	            		$(".dropdown1 li a").click(function(){
+	            			$val = $(this).html();
+        					$(".dd-btn1").html($val+$caret);
+            				$("#einzelansicht1").load("tabelle1.html", $val);
+            			});
+
+	            		case "dd-btn2":
+	            		$(".dropdown2 li a").click(function(){
+	            			$val = $(this).html();
+        					$(".dd-btn2").html($val+$caret);
+            				$("#einzelansicht2").load("tabelle2.html", $val);
+            			});
+
+	            		case "dd-btn3":
+	            		$(".dropdown3 li a").click(function(){
+	            			$val = $(this).html();
+        					$(".dd-btn3").html($val+$caret);
+            				$("#einzelansicht3").load("tabelle3.html", $val);
+            			});
+
+            			case "dd-btn4":
+	            		$(".dropdown4 li a").click(function(){
+	            			$val = $(this).html();
+        					$(".dd-btn4").html($val+$caret);
+            				$("#einzelansicht4").load("tabelle4.html", $val);
+            			});
+
+            			case "dd-btn5":
+	            		$(".dropdown5 li a").click(function(){
+        					$(".dd-btn5").html($val+$caret);
+            				$("#einzelansicht5").load("tabelle5.html", $val);
+            			});
+
+            			case "dd-btn6":
+	            		$(".dropdown6 li a").click(function(){
+	            			$val = $(this).html();
+
+	            			//Store information for steady div
+            				localStorage.setItem("divOfTwoViews", $val);
+
+        					$(".dd-btn6").html($val+$caret);
+            				$("#einzelansicht6").load("tabelle6.html", $val);
+            			});
+
+	            	}
+	            }      
+
+	            	
+			</script>
+
+			
+
+			<div class="row" style="background-color:lightgrey; height:100%;">
+
+				<!--COL1-->
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="height:100%;">
+					<div class="row" style="background-color:lightgrey; height:100%;">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
+							<div class="panel panel-default" style="height:100%; overflow-y: auto;">
+							  	<div class="panel-body" id="panel1">
+							  		<div class="btn-group" role="group" aria-label="...">
+								    	<div class="btn-group" role="group">
+	  										<button type="button" class="btn btn-default dropdown-toggle dd-btn1" id="dd-btn1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
+											<ul class="dropdown-menu dropdown1 scrollable-menu">
+										    	<li><a href="#">Artikel</a></li>
+										    	<!--<li><a href="#">Gelenk</a></li>-->
+										    	<li><a href="#">Hubpositionierstationen</a></li>
+										    	<li><a href="#">Hub-Quer-Stationen</a></li>
+										    	<li><a href="#">Roboter</a></li>
+										    	<li><a href="#">Sektoren</a></li>
+										    	<li><a href="#">Sensoren</a></li>
+										    	<li><a href="#">Transportbänder</a></li>
+										    	<li><a href="#">Warenträger</a></li>
+										    	<!--<li><a href="#">Werkzeug</a></li>-->
+										  	</ul>  	
+										</div> 
+										<button type="button" class="btn btn-default">Speichern</button>
+									</div>
+									<div></br></div>
+									<div id="einzelansicht1">Keine Komponente gewählt.</div>
+							  	</div>
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
+							<div class="panel panel-default" style="height:100%; overflow-y: auto;">
+							  	<div class="panel-body">
+							  		<div class="btn-group" role="group" aria-label="...">
+								    	<div class="btn-group" role="group">
+	  										<button type="button" class="btn btn-default dropdown-toggle dd-btn2" id="dd-btn2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
+											<ul class="dropdown-menu dropdown2 scrollable-menu">
+										    	<li><a href="#">Artikel</a></li>
+										    	<!--<li><a href="#">Gelenk</a></li>-->
+										    	<li><a href="#">Hubpositionierstationen</a></li>
+										    	<li><a href="#">Hub-Quer-Stationen</a></li>
+										    	<li><a href="#">Roboter</a></li>
+										    	<li><a href="#">Sektoren</a></li>
+										    	<li><a href="#">Sensoren</a></li>
+										    	<li><a href="#">Transportbänder</a></li>
+										    	<li><a href="#">Warenträger</a></li>
+										    	<!--<li><a href="#">Werkzeug</a></li>-->
+										  	</ul>  	
+										</div> 
+										<button type="button" class="btn btn-default">Speichern</button>
+									</div>
+									<div></br></div>
+									<div id="einzelansicht2">Keine Komponente gewählt.</div>
+							  	</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--COL2-->
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="height:100%;">
+					<div class="row" style="background-color:lightgrey; height:100%;">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
+							<div class="panel panel-default" style="height:100%; overflow-y: auto;">
+							  	<div class="panel-body" id="panel3">
+							  		<div class="btn-group" role="group" aria-label="...">
+								    	<div class="btn-group" role="group">
+	  										<button type="button" class="btn btn-default dropdown-toggle dd-btn3" id="dd-btn3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
+											<ul class="dropdown-menu dropdown3 scrollable-menu">
+										    	<li><a href="#">Artikel</a></li>
+										    	<!--<li><a href="#">Gelenk</a></li>-->
+										    	<li><a href="#">Hubpositionierstationen</a></li>
+										    	<li><a href="#">Hub-Quer-Stationen</a></li>
+										    	<li><a href="#">Roboter</a></li>
+										    	<li><a href="#">Sektoren</a></li>
+										    	<li><a href="#">Sensoren</a></li>
+										    	<li><a href="#">Transportbänder</a></li>
+										    	<li><a href="#">Warenträger</a></li>
+										    	<!--<li><a href="#">Werkzeug</a></li>-->
+										  	</ul>  	
+										</div> 
+										<button type="button" class="btn btn-default">Speichern</button>
+									</div>
+									<div></br></div>
+									<div id="einzelansicht3">Keine Komponente gewählt.</div>
+							  	</div>
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
+							<div class="panel panel-default" style="height:100%; overflow-y: auto;">
+							  	<div class="panel-body">
+							  		<div class="btn-group" role="group" aria-label="...">
+								    	<div class="btn-group" role="group">
+	  										<button type="button" class="btn btn-default dropdown-toggle dd-btn4" id="dd-btn4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
+											<ul class="dropdown-menu dropdown4 scrollable-menu">
+										    	<li><a href="#">Artikel</a></li>
+										    	<!--<li><a href="#">Gelenk</a></li>-->
+										    	<li><a href="#">Hubpositionierstationen</a></li>
+										    	<li><a href="#">Hub-Quer-Stationen</a></li>
+										    	<li><a href="#">Roboter</a></li>
+										    	<li><a href="#">Sektoren</a></li>
+										    	<li><a href="#">Sensoren</a></li>
+										    	<li><a href="#">Transportbänder</a></li>
+										    	<li><a href="#">Warenträger</a></li>
+										    	<!--<li><a href="#">Werkzeug</a></li>-->
+										  	</ul>  	
+										</div> 
+										<button type="button" class="btn btn-default">Speichern</button>
+									</div>
+									<div></br></div>
+									<div id="einzelansicht4">Keine Komponente gewählt.</div>
+							  	</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--END COL2-->
+
+				<!--COL3-->
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="height:100%;">
+					<div class="row" style="background-color:lightgrey; height:100%;">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
+							<div class="panel panel-default" style="height:100%; overflow-y: auto;">
+							  	<div class="panel-body">
+							  		<div class="btn-group" role="group" aria-label="...">
+								    	<div class="btn-group" role="group">
+	  										<button type="button" class="btn btn-default dropdown-toggle dd-btn5" id="dd-btn5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
+											<ul class="dropdown-menu dropdown5 scrollable-menu">
+										    	<li><a href="#">Artikel</a></li>
+										    	<!--<li><a href="#">Gelenk</a></li>-->
+										    	<li><a href="#">Hubpositionierstationen</a></li>
+										    	<li><a href="#">Hub-Quer-Stationen</a></li>
+										    	<li><a href="#">Roboter</a></li>
+										    	<li><a href="#">Sektoren</a></li>
+										    	<li><a href="#">Sensoren</a></li>
+										    	<li><a href="#">Transportbänder</a></li>
+										    	<li><a href="#">Warenträger</a></li>
+										    	<!--<li><a href="#">Werkzeug</a></li>-->
+										  	</ul>  	
+										</div> 
+										<button type="button" class="btn btn-default">Speichern</button>
+									</div>
+									<div></br></div>
+									<div id="einzelansicht5">Keine Komponente gewählt.</div>
+							  	</div>
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
+							<div class="panel panel-default" style="height:100%; overflow-y: auto;">
+							  	<div class="panel-body">
+							  		<div class="btn-group" role="group" aria-label="...">
+								    	<div class="btn-group" role="group">
+	  										<button type="button" class="btn btn-default dropdown-toggle dd-btn6" id="dd-btn6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
+											<ul class="dropdown-menu dropdown6 scrollable-menu">
+										    	<li><a href="#">Artikel</a></li>
+										    	<!--<li><a href="#">Gelenk</a></li>-->
+										    	<li><a href="#">Hubpositionierstationen</a></li>
+										    	<li><a href="#">Hub-Quer-Stationen</a></li>
+										    	<li><a href="#">Roboter</a></li>
+										    	<li><a href="#">Sektoren</a></li>
+										    	<li><a href="#">Sensoren</a></li>
+										    	<li><a href="#">Transportbänder</a></li>
+										    	<li><a href="#">Warenträger</a></li>
+										    	<!--<li><a href="#">Werkzeug</a></li>-->
+										  	</ul>  	
+										</div> 
+										<button type="button" class="btn btn-default">Speichern</button>
+									</div>
+									<div></br></div>
+									<div id="einzelansicht6">Keine Komponente gewählt.</div>
+							  	</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+
+</html>

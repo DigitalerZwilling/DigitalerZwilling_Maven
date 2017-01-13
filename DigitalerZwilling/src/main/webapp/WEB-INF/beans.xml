@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
+       bean-discovery-mode="all">
+    
+    <bean id="updater" class="Cache.Updater.Updater">
+        <constructor-arg type="int" value="500"/>
+    </bean>
+    <bean id="datenbankschnittstelle" class="Datenbankschnittstelle.Datenbankschnittstelle">
+        <constructor-arg type="String" value="jdbc:derby://localhost:1527/db_DigitalerZwilling"/>
+        <constructor-arg type="String" value="org.apache.derby.jdbc.ClientDriver"/>
+        <!--either 2 above or 2 below/bIng-->
+        <!--<constructor-arg type="String" value="jdbc:mysql://131.173.117.48:3306/df_16115"/>   -->
+        <!--<constructor-arg type="String" value="com.mysql.jdbc.Driver"/>                       -->
+       
+        <constructor-arg type="String" value="root"/>             <!--DbUser-->
+        <constructor-arg type="String" value="Didpw4df"/>         <!--DbPw-->
+    </bean>
+   
+</beans>

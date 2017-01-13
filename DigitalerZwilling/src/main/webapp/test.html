@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+
+
+    </head>
+    <body>
+        <div>TODO write content</div>
+        <div>
+            <button type="button" onclick="send();" value="send" id="b1">Send</button>
+        </div>
+        <div id="messages"></div>
+        
+        <script type="text/javascript">
+    
+            //Browserunterstuetzung vorhanden?
+            /*var browserSupport = ("WebSocket" in window) ? true : false;
+    
+    
+            //Zugriff auf Elemente der HTML-Seite
+            var messages = document.getElementById("messages");
+            
+            //Deklariere WebSocket
+            var host = "ws://localhost:8080/DigitalerZwilling/ArtikelWebSocket";
+            var wSocket = new WebSocket(host);
+            
+            //Initalisierung der WebSockets
+            function init(){
+                if (browserSupport) {
+                    //Oeffnen des WebSockets und Senden einer Nachricht
+                    wSocket.onopen = function() {
+                        wSocket.send("LIST");
+                    };
+                    
+                }
+                else {
+                    alert("WebSocket is NOT supported by your Browser!");
+                }
+            }*/
+            
+            
+            //Wird nach Start der Seite aufgerufen
+            window.onload = function () {
+                var s ='{ "inhalt" : [' +
+        '{ "bezeichnung":"Sensor_1" , "zeitstempel":"14:21:03" , "zustand":"0"},' +
+        '{ "bezeichnung":"Sensor_2" , "zeitstempel":"14:22:05" , "zustand":"1"},' +
+        '{ "bezeichnung":"Sensor_3" , "zeitstempel":"14:22:12" , "zustand":"0"},' +
+        '{ "bezeichnung":"Sensor_4" , "zeitstempel":"14:23:16" , "zustand":"0"} ]}';
+
+                var j = JSON.parse(s);
+                
+               console.log(j.inhalt[0].bezeichnung);
+                
+                
+                //init();
+            };
+    
+    /*
+            //called when a message is received
+            wSocket.onmessage = function(event) {
+                var received_msg = event.data;
+                messages.innerHTML = "<br/>" + received_msg;
+            };
+    
+            // websocket is closed.
+            wSocket.onclose = function() {
+                alert("Connection is closed...");
+            };
+            
+            //Send something to the WebSocket 
+            function send(){
+                wSocket.send("GET");
+            }*/
+      </script>
+    </body>
+</html>
