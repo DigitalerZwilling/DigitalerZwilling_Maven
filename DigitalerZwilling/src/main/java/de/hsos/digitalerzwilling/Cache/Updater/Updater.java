@@ -19,7 +19,6 @@ import javax.ejb.Timer;
 import javax.enterprise.concurrent.ManagedThreadFactory;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-//import org.jboss.logging.Logger;
 
 
 /**

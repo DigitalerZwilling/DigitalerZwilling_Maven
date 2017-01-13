@@ -247,8 +247,8 @@
 	function coutWTinSek(sID) {
 	var value = 0;
 		for (var i=0;i<j_warentraeger.inhalt.length;i++) {
-			if (j_warentraeger.inhalt[i].sektorIDs.inhalt.length>0) {
-				if (j_warentraeger.inhalt[i].sektorIDs.inhalt[0] == sID) {
+			if (j_warentraeger.inhalt[i].sektorIDs.length==1) {
+				if (j_warentraeger.inhalt[i].sektorIDs[0] == sID) {
 					value++;
 				}
 			}
@@ -462,18 +462,18 @@
 				}
 			}
 			
-			else if ((j_warentraeger.inhalt[i].transportbandIDs.length==0) && (j_warentraeger.inhalt[i].sektorIDs.length>0)) {
+			else if ((j_warentraeger.inhalt[i].transportbandIDs.length==0) && (j_warentraeger.inhalt[i].sektorIDs.length==1)) {
 			//WT liegt in einem Sektor und auf keinem TB
 				rect = document.createElementNS(svgns, 'rect');
 				rect.setAttributeNS(null, 'id', 'Warentraeger' + j_warentraeger.inhalt[i].id);
 				rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_warentraeger.inhalt[i].sektorIDs[0])].x+sektor_width/2-WT_width/2);
 				rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_warentraeger.inhalt[i].sektorIDs[0])].y+sektor_height/2-WT_height/2);
 				
-				var count = coutWTinSek(j_warentraeger.inhalt[i].sektorIDs.inhalt[0]);
+				var count = coutWTinSek(j_warentraeger.inhalt[i].sektorIDs[0]);
 				if (count>1) {
 					rect2 = document.createElementNS(svgns, 'rect');
-					rect2.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_warentraeger.inhalt[i].sektorIDs.inhalt[0])].x+sektor_width/2.5);
-					rect2.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_warentraeger.inhalt[i].sektorIDs.inhalt[0])].y+sektor_height/2.5);
+					rect2.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_warentraeger.inhalt[i].sektorIDs[0])].x+sektor_width/2.5);
+					rect2.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_warentraeger.inhalt[i].sektorIDs[0])].y+sektor_height/2.5);
 					rect2.setAttributeNS(null, 'height', WT_height);
 					rect2.setAttributeNS(null, 'width', WT_width);
 					//if (j_warentraeger.inhalt[i].stoerung != 0)
