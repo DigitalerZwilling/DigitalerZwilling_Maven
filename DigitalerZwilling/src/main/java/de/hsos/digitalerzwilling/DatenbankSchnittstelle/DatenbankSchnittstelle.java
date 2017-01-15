@@ -34,7 +34,7 @@ public class DatenbankSchnittstelle {
     protected Connection data;                                                        // Datenbank Verbindung
     //-----------------------------------------------------------------------------
     
-    private static final boolean DBCONFILE = false; 
+    private static final boolean DBCONFILE = false; // Server mit Config Datei???
 
     public DatenbankSchnittstelle() throws DBNotFoundException{
         
@@ -47,7 +47,7 @@ public class DatenbankSchnittstelle {
         String DbUser = "root";
         String DbPw = "Didpw4df";
         
-        if(DBCONFILE){
+        if(DBCONFILE){ // Auswerden der Konstanten
             File dbConfig = new File("./dbConfig.cfg");
             if(!dbConfig.exists()){
                 throw new DBNotFoundException("Config file not found...");
@@ -58,8 +58,8 @@ public class DatenbankSchnittstelle {
                     dbCReader = new FileReader(dbConfig);
                     bufferedReader = new BufferedReader(dbCReader);
                     String input;
-                    while((input = bufferedReader.readLine()) != null){
-                        String line[] = input.split("= ");
+                    while((input = bufferedReader.readLine()) != null){ // Liest Config Datei Zeile für Zeile aus und übernimmt die Werte.
+                        String line[] = input.split("= "); // Kann sein dass nicht beide Zeichen wie gewünscht wegfallen. TESTEN!!!
                         if(line.length>1){
                             if(line[0].compareToIgnoreCase("DbUrl")==0){
                                 DbUrl = line[1];
@@ -75,7 +75,7 @@ public class DatenbankSchnittstelle {
                         }
                     }
                     
-                    if(!connect(DbUrl, DbCd, DbUser, DbPw))
+                    if(!connect(DbUrl, DbCd, DbUser, DbPw)) // Oeffnet eine Verbindung mit Werten aus der Config Datei.
                         throw new DBNotFoundException("DB error...");
                     
                 } catch (FileNotFoundException ex) {
@@ -98,7 +98,7 @@ public class DatenbankSchnittstelle {
             }
             
         }else{
-            if(!connect(DbUrl,DbCd,DbUser,DbPw))
+            if(!connect(DbUrl,DbCd,DbUser,DbPw))// Oeffnet eine Verbindung mit Standartwerten.
                 throw new DBNotFoundException("DB error...");
         }
     }
