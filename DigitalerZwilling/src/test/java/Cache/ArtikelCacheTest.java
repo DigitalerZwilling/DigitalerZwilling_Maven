@@ -17,6 +17,8 @@ import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException
 import DatenbankTestInsert.DatenbankTestInsert;
 import de.hsos.digitalerzwilling.Cache.ArtikelCache;
 import de.hsos.digitalerzwilling.Cache.Cache;
+import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
+import de.hsos.digitalerzwilling.DatenKlassen.Artikel;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -64,10 +66,11 @@ public class ArtikelCacheTest extends CacheTest{
     @After
     public void tearDown() throws DBNotFoundException, QueryException {
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
-        datenbankTestInsert.datenbankUpdate("DELETE FROM ARTIKEL_WARENTRAEGER WHERE WARENTRAEGER_ID = 4242'");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM ARTIKEL_WARENTRAEGER WHERE WARENTRAEGER_ID = 4242");
         datenbankTestInsert.datenbankUpdate("DELETE FROM ARTIKEL WHERE ARTIKEL_ID = 4242");
         datenbankTestInsert.datenbankUpdate("DELETE FROM ARTIKEL WHERE ARTIKEL_ID = 4243");
-        datenbankTestInsert.datenbankUpdate("DELETE FROM WARENTRAEGER WHERE WARENTRAEGER_ID = 4242'");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM WARENTRAEGER WHERE WARENTRAEGER_ID = 4242");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM WARENTRAEGER WHERE WARENTRAEGER_ID = 4243");
         datenbankTestInsert.close();
     }
 
@@ -77,7 +80,7 @@ public class ArtikelCacheTest extends CacheTest{
     }
 
     @Override
-    public void testUpdate() throws DBNotFoundException, QueryException, DBErrorException {
+    public void testUpdate() throws DBNotFoundException, QueryException, DBErrorException, ElementNotFoundException {
         Element element1;
         Element element2;
         for(Element element: cache.getAll()){
@@ -91,22 +94,43 @@ public class ArtikelCacheTest extends CacheTest{
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
         datenbankTestInsert.datenbankUpdate("UPDATE ARTIKEL SET BEZEICHNUNG='CacheTestArtikel12' WHERE BEZEICHNUNG LIKE 'CacheTestArtikel1'");
         datenbankTestInsert.datenbankUpdate("UPDATE ARTIKEL SET BEZEICHNUNG='CacheTestArtikel22' WHERE BEZEICHNUNG LIKE 'CacheTestArtikel2'");
+        
+        if(((Artikel)cache.getById(new Long(4242))).getId_Warentraeger()==null){
+            assertTrue("Warentraeger nicht gefunden.",false);
+            return;
+        }
+        
+        if(((Artikel)cache.getById(new Long(4242))).getId_Warentraeger()!=null){
+            assertTrue("Fehlerhafter Warentraeger eintrag.",false);
+            return;
+        }
+        
+        datenbankTestInsert.datenbankUpdate("INSERT INTO WARENTRAEGER (ID_WARENTRAEGER,BEZEICHNUNG, STOERUNG,"
+                + "MONTAGEZUSTAND,RFID_INHALT,ABSTAND_MM) VALUES "
+                + "(4243,'CacheTestWarentraeger1',0,100,'FOOBAR',42)");
+        datenbankTestInsert.datenbankUpdate("INSERT INTO ARTIKEL_WARENTRAEGER (ID_ARTIKEL, ID_WARENTRAEGER) VALUES (4243,4243)");
         datenbankTestInsert.close();
         
         cache.update();
-        boolean found1 = false, found2 = false;
-        
+        boolean found1 = true, found2 = true;
+        // Aenderungen duerfen nicht uebernommen werden, da sie nicht aktualiesiert werden.
         for(Element element: cache.getAll()){
             if(element.getBezeichnung().equals("CacheTestArtikel12'"))
-                found1 = true;
+                found1 = false;
             
             if(element.getBezeichnung().equals("CacheTestArtikel22'"))
-                found2 = true;
+                found2 = false;
+        }
+        assertTrue(found1 & found2);
+        if(((Artikel)cache.getById(new Long(4242))).getId_Warentraeger()==null){
+            assertTrue("Warentraeger nicht gefunden.",false);
+            return;
         }
         
-        System.out.println("1" + found1);
-        System.out.println("2" + found2);
-        assertTrue(found1 & found2);
+        if(((Artikel)cache.getById(new Long(4242))).getId_Warentraeger()==null){
+            assertTrue("Fehlerhafter Warentraeger eintrag.",false);
+            return;
+        }
     }
 
     @Override

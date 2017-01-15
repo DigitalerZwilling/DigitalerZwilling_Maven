@@ -32,8 +32,13 @@ public class DatenbankTestInsert extends DatenbankSchnittstelle{
         String DbUser = "testroot";
         String DbPw = "testDidpw4df";
         
-        File dbConfig = new File("./dbConfig.cfg");
+        File dbConfig = new File("./testdbConfig.cfg");
         if (!dbConfig.exists()) {
+            try {
+                dbConfig.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(DatenbankTestInsert.class.getName()).log(Level.SEVERE, null, ex);
+            }
             throw new DBNotFoundException("Config file not found...");
         } else {
             FileReader dbCReader = null;

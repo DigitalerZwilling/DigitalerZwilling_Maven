@@ -21,7 +21,7 @@ import org.junit.Test;
 public abstract class CacheTest {
     
     @Test
-    abstract public void testUpdate() throws DBNotFoundException, QueryException, DBErrorException;
+    abstract public void testUpdate() throws DBNotFoundException, QueryException, DBErrorException, ElementNotFoundException;
     
     @Test
     abstract public void testUpdateAll() throws DBNotFoundException, QueryException;
