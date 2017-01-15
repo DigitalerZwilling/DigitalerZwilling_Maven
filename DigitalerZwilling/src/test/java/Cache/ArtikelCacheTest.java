@@ -17,8 +17,6 @@ import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException
 import DatenbankTestInsert.DatenbankTestInsert;
 import de.hsos.digitalerzwilling.Cache.ArtikelCache;
 import de.hsos.digitalerzwilling.Cache.Cache;
-import java.util.List;
-import java.util.Map;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -26,7 +24,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.After;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
