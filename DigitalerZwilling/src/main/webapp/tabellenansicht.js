@@ -5,12 +5,18 @@
  */
 
 
- function loadDiv(divId, documentNr){
+
+function loadDiv(){
+ 
      //elemenType aus localstorage lesen ->typ
-     //divID und documentNr
+     //divID entspricht documentNr
+     
+  var typ ="Artikel";
+  var documentNr = "1";
      
   switch (typ) {
             case 'Artikel':
+               console.log("In tabellenansicht.js");
                var artikelSocket = new WebSocket(host+"ArtikelWebSocket");       
               
                 artikelSocket.onopen = function() {
@@ -192,7 +198,7 @@
             default:
                 document.getElementById("spalte_1.1").innerHTML = 'Fehler beim Darstellen der Tabelle (ready-Function)';
       }
-    };
+    }
 
 
 
@@ -207,8 +213,9 @@
         var spaltennamen = getSpaltenname(typ); //Ermittelt die benötigten Spaltnamen
 
         //Erstellen der Tabelle
-        node = document.getElementById("tabelle_"+documentNr); //Tabelle wird an schon im Body erstellte Tabelle angehangen
-        node.parentNode.insertBefore(createTable(typ, liste, spaltennamen, liste.inhalt.length, spaltennamen.length, documentNr), node);
+        //!!Div + documentNr holen, statt
+        node = document.getElementById("einzelansicht"+documentNr); //Tabelle an passendes Div angehangen
+        node.appendChild(createTable(typ, liste, spaltennamen, liste.inhalt.length, spaltennamen.length, documentNr));
         
         //UpdateTabelle wird bei Empfang von neuen Daten aufgerufen
         switch (typ) {
@@ -395,33 +402,56 @@
         
         
         //Gibt den Spalten, die im Body erzeugt wurden die jeweiligen Namen
-        if (spaltennamen < 2){
+     
+        //TODO!!! holt sich das div + documentNr
+       // var myTable = document.getElementById("tabelle_"+documentNr); 
+       //var div = document.getElementById("einzelansicht"+documentNr);
+       
+        var myTable = document.createElement("table");
+        myTable.setAttribute('id', "tablle_"+documentNr);
+        
+        
+        var thead = document.createElement("thead");
+        thead.setAttribute('id', "thead_" + documentNr);
+        
+        var tr = document.createElement("tr");
+        tr.setAttribute('id', "tr_" + documentNr);
+        
+        var th1 = document.createElement("th");
+        th1.setAttribute('id', "spalte_" + documentNr + ".1");
+        
+        var th2 = document.createElement("th");
+        th2.setAttribute('id', "spalte_" + documentNr + ".2");
+        
+        var th3 = document.createElement("th");
+        th3.setAttribute('id', "spalte_" + documentNr + ".3");
+        
+        tr.appendChild(th1);
+        tr.appendChild(th2);
+        tr.appendChild(th3);
+        
+        thead.appendChild(tr);
+        myTable.appendChild(thead);
+        
+           if (spaltennamen < 2){
             //console.log("Fehler: spaltennamen < 2");
         }else{
-            document.getElementById("spalte_"+documentNr+".1").innerHTML = spaltennamen[0];
-            document.getElementById("spalte_"+documentNr+".2").innerHTML = spaltennamen[1];
+            th1.innerHTML = spaltennamen[0];
+            th2.innerHTML = spaltennamen[1];
         }
 
         //Falls eine dritte Spalte benötigt wird:
         if (spaltennamen.length == 3){
-            document.getElementById("spalte_"+documentNr+".3").innerHTML = spaltennamen[2];
+            th3.innerHTML = spaltennamen[2];
         }
 
-        var myTable = document.getElementById("tabelle_"+documentNr); //holt sich die im Body erstellte Tabelle
-            
-        /*if (document.getElementsByTagName("tbody")[0] != null){
-            zeile = document.getElementsByTagName("tbody")[0];
-            zeile.parentNode.removeChild(zeile);
-        }*/
-        
-        
          if (document.getElementById("tbody_" + documentNr) != null){
             zeile = document.getElementById("tbody_" + documentNr);
             zeile.parentNode.removeChild(zeile);
         }
 
         var mytablebody = document.createElement("tbody");
-           mytablebody.setAttribute('id', "tbody_" + "documentNr");
+           mytablebody.setAttribute('id', "tbody_" + documentNr);
 
         for(var j = 0; j < row; j++) {
             mycurrent_row = document.createElement("tr");     
@@ -537,6 +567,7 @@
         
     }
     
+
     //Alles vom Div lösche
     //Alle Websockets schließen
     
