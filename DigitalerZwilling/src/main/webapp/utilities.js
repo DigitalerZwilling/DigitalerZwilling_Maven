@@ -1,8 +1,3 @@
-    var host = "ws://131.173.127.174:8080/DigitalerZwilling/";
-    var documentNameEinzelansicht = "einzelansicht_";
-    var divName = "einzelansicht";
-    var websocketList_1;
-
     function createAttributes(documentNr, attribute, id){
         var attributes = document.getElementById(documentNr+"_attributes");
         
@@ -40,10 +35,19 @@
 
             attributes.appendChild(zeile);
                   
-            $("#"+documentNr+"_"+id[i]).click(function() {         
-                localStorage.setItem("elementId",$(this).attr("elementId"));
-                localStorage.setItem("elementType",$(this).attr("elementType"));
-                $("#"+divName+documentNr).load(documentNameEinzelansicht+documentNr+".html");
+            $("#"+documentNr+"_"+id[i]).click(function() {  
+                closeWebsockets(documentNr);
+                localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));
+                localStorage.setItem("elementType_"+documentNr,$(this).attr("elementType"));
+
+                var div = document.getElementById(divName+documentNr);
+                var childs = div.childNodes;
+
+                for(var i=0; i<childs.length; i++){
+                    div.removeChild(childs[i]);
+                }
+
+                initEinzelansicht(documentNr);
             });
         }
     }
@@ -93,9 +97,18 @@
                     link.setAttribute("elementId",jsonObject['id']);
                     link.setAttribute("elementType",type);
                     link.onclick = function() {
-                        localStorage.setItem("elementId",$(this).attr("elementId"));
-                        localStorage.setItem("elementType",$(this).attr("elementType"));
-                        $("#"+divName+documentNr).load(documentNameEinzelansicht+documentNr+".html");
+                        closeWebsockets(documentNr);
+                        localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));
+                        localStorage.setItem("elementType_"+documentNr,$(this).attr("elementType"));
+                        
+                        var div = document.getElementById(divName+documentNr);
+                        var childs = div.childNodes;
+                        
+                        for(var i=0; i<childs.length; i++){
+                            div.removeChild(childs[i]);
+                        }
+                        
+                        initEinzelansicht(documentNr);
                     };
                     
                     element.appendChild(link);
@@ -226,15 +239,17 @@
     function jsonToHuPo(jsonObject){
         var bezeichnung = jsonObject.bezeichnung;
         var zeitstempel = jsonObject.zeitstempel;
+        
+        zeitstempel.replace('T',' ');
         var oben = jsonObject.oben;
         var unten = jsonObject.unten;
         var userParameter = jsonObject.user_Parameter;
         var zustand="X";
         
         if(oben==="1" && unten==="0"){
-            zustand = "^";
+            zustand = "&uarr;";
         }else if(oben==="0" && unten==="1"){
-            zustand = "v";
+            zustand = "&darr;";
         }
         
         return [bezeichnung, zeitstempel, zustand, userParameter];
@@ -251,11 +266,11 @@
         var zustand="X";
         
         if(oben==="1" && mittig==="0"&& unten==="0"){
-            zustand = "^";
+            zustand = "&uarr;";
         }else if(oben==="0" && mittig==="1" && unten==="0"){
-            zustand = "-";
+            zustand = "&mdash;";
         }else if(oben==="0" && mittig==="0" && unten==="1"){
-            zustand = "v";
+            zustand = "darr;";
         }
         
         if(motor === "1"){
@@ -265,4 +280,40 @@
         }
         
         return [bezeichnung, zeitstempel, zustand, userParameter];
+    }
+    
+    function closeWebsockets(documentId){
+        var websocketList;
+        switch (documentId) {
+           case 1: websocketList = websocketList_1; break;
+           case 2: websocketList = websocketList_2; break;
+           case 3: websocketList = websocketList_3; break;
+           case 4: websocketList = websocketList_4; break;
+           case 5: websocketList = websocketList_5; break;
+           case 6: websocketList = websocketList_6; break;
+           case 7: websocketList = websocketList_7; break;
+        }
+        
+        while(websocketList.length>0){
+            websocketList[websocketList.length-1].close();
+            websocketList.pop();
+        }
+    }
+    
+    function addWebsockets(documentId, array){
+        var websocketList;
+        switch (documentId) {
+           case 1: websocketList = websocketList_1; break;
+           case 2: websocketList = websocketList_2; break;
+           case 3: websocketList = websocketList_3; break;
+           case 4: websocketList = websocketList_4; break;
+           case 5: websocketList = websocketList_5; break;
+           case 6: websocketList = websocketList_6; break;
+           case 7: websocketList = websocketList_7; break;
+        }
+        
+        for(var i=0; i< array.length; i++){
+            websocketList.push(array[i]);
+        }
+        
     }

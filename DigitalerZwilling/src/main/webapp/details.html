@@ -2,6 +2,9 @@
 <html lang="en">
 	<head>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+                
+    <script src="utilities.js"></script>
+    <script src="initEinzelansicht.js"></script>
 	</head>
 
 			<script>
@@ -64,7 +67,8 @@
 	            			localStorage.removeItem('elementId_1');
 	            			localStorage.setItem('elementType_1',$val);
         					$(".dd-btn1").html($val+$caret);
-            				$("#einzelansicht1").load("tabelle_1.html", $val);
+            				//$("#einzelansicht1").load("tabelle_1.html", $val);
+                                        initEinzelansicht(1);
             			});
 
 	            		case "dd-btn2":
