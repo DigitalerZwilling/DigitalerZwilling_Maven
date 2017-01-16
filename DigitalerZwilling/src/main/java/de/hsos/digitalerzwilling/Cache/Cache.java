@@ -48,7 +48,8 @@ public abstract class Cache {
     }
     
     public Element getById(Long id) throws ElementNotFoundException{
-        if(!(state==true?elements[1]:elements[0]).containsKey(id)) throw new ElementNotFoundException();
+        if(!(state==true?elements[1]:elements[0]).containsKey(id))
+            throw new ElementNotFoundException("Can not find ID="+id+"...");
         
         return state==true?elements[1].get(id):elements[0].get(id);
     }

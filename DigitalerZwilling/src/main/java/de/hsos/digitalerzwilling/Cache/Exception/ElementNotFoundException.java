@@ -11,7 +11,7 @@ package de.hsos.digitalerzwilling.Cache.Exception;
  */
 public class ElementNotFoundException extends Exception {
     public ElementNotFoundException(){
-        super("ElementNotFoundExeption");
+        super("ElementNotFoundException");
     }
     
     public ElementNotFoundException(String str){

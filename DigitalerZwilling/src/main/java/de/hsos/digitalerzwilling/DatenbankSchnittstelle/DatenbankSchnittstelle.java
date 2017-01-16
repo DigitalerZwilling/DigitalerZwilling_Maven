@@ -35,86 +35,96 @@ public class DatenbankSchnittstelle {
     //-----------------------------------------------------------------------------
     
     private static final boolean DBCONFILE = false; // Server mit Config Datei???
+    
+    private String DbUrl = "jdbc:mysql://131.173.117.48:3306/df_16115";
+    private String DbCd = "com.mysql.jdbc.Driver";
+    private String DbUser = "root";
+    private String DbPw = "Didpw4df";
 
     public DatenbankSchnittstelle() throws DBNotFoundException{
         
-        //String DbUrl = "jdbc:derby://localhost:1527/db_DigitalerZwilling";
-        String DbUrl = "jdbc:mysql://131.173.117.48:3306/df_16115";
-        //String DbCd = "org.apache.derby.jdbc.ClientDriver";
-        String DbCd = "com.mysql.jdbc.Driver";
-        //String DbUser = "db_user";
-        //String DbPw = "SB0222";
-        String DbUser = "root";
-        String DbPw = "Didpw4df";
-        
         if(DBCONFILE){ // Auswerden der Konstanten
-            File dbConfig = new File("./dbConfig.cfg");
-            if(!dbConfig.exists()){
-                throw new DBNotFoundException("Config file not found...");
-            }else{
-                FileReader dbCReader = null;
-                BufferedReader bufferedReader = null;
-                try {
-                    dbCReader = new FileReader(dbConfig);
-                    bufferedReader = new BufferedReader(dbCReader);
-                    String input;
-                    while((input = bufferedReader.readLine()) != null){ // Liest Config Datei Zeile für Zeile aus und übernimmt die Werte.
-                        String line[] = input.split("= "); // Kann sein dass nicht beide Zeichen wie gewünscht wegfallen. TESTEN!!!
-                        if(line.length>1){
-                            if(line[0].compareToIgnoreCase("DbUrl")==0){
-                                DbUrl = line[1];
-                            }else if(line[0].compareToIgnoreCase("DbCd")==0){
-                                 DbCd = line[1];
-                            }else if(line[0].compareToIgnoreCase("DbUser")==0){
-                                DbUser  = line[1];
-                            }else if(line[0].compareToIgnoreCase("DbPw")==0){
-                                DbPw  = line[1];
-                            }
-                        }else{
-                            throw new DBNotFoundException("Error in config file...");
-                        }
-                    }
-                    
-                    if(!connect(DbUrl, DbCd, DbUser, DbPw)) // Oeffnet eine Verbindung mit Werten aus der Config Datei.
-                        throw new DBNotFoundException("DB error...");
-                    
-                } catch (FileNotFoundException ex) {
-                    throw new DBNotFoundException("Config file not found...");
-                } catch (IOException ex) {
-                    throw new DBNotFoundException("Error in file stream...");
-                } finally {
-                    try {
-                        
-                        if(bufferedReader != null)
-                            bufferedReader.close();
-                        if(dbCReader != null)
-                            dbCReader.close();
-                        
-                    } catch (IOException ex) {
-                        throw new DBNotFoundException("Error in file stream...");
-                    }
-                }
-                
-            }
-            
+           if(!connect("./dbConfig.cfg")){
+               throw new DBNotFoundException("DB error...");
+           }            
         }else{
             if(!connect(DbUrl,DbCd,DbUser,DbPw))// Oeffnet eine Verbindung mit Standartwerten.
                 throw new DBNotFoundException("DB error...");
         }
     }
     
+    public boolean connect(String pathToConfigFile) throws DBNotFoundException{
+        File dbConfig = new File(pathToConfigFile);
+        if (!dbConfig.exists()) {
+            throw new DBNotFoundException("Config file not found (" + pathToConfigFile + ")...");
+        } else {
+            FileReader dbCReader = null;
+            BufferedReader bufferedReader = null;
+            try {
+                dbCReader = new FileReader(dbConfig);
+                bufferedReader = new BufferedReader(dbCReader);
+                String input;
+                while ((input = bufferedReader.readLine()) != null) { // Liest Config Datei Zeile für Zeile aus und übernimmt die Werte.
+                    String line[] = input.split("="); // Kann sein dass nicht beide Zeichen wie gewünscht wegfallen. TESTEN!!!
+                    if (line.length > 1) {
+                        if (line[0].compareToIgnoreCase("DbUrl") == 0) {
+                            DbUrl = line[1];
+                        } else if (line[0].compareToIgnoreCase("DbCd") == 0) {
+                            DbCd = line[1];
+                        } else if (line[0].compareToIgnoreCase("DbUser") == 0) {
+                            DbUser = line[1];
+                        } else if (line[0].compareToIgnoreCase("DbPw") == 0) {
+                            DbPw = line[1];
+                        }
+                    } else {
+                        throw new DBNotFoundException("Error in config file...");
+                    }
+                }
+
+                if (!connect(DbUrl, DbCd, DbUser, DbPw)) // Oeffnet eine Verbindung mit Werten aus der Config Datei.
+                {
+                    throw new DBNotFoundException("DB error...");
+                }
+
+            } catch (FileNotFoundException ex) {
+                throw new DBNotFoundException("Config file not found...");
+            } catch (IOException ex) {
+                throw new DBNotFoundException("Error in file stream...");
+            } finally {
+                try {
+
+                    if (bufferedReader != null) {
+                        bufferedReader.close();
+                    }
+                    if (dbCReader != null) {
+                        dbCReader.close();
+                    }
+
+                } catch (IOException ex) {
+                    throw new DBNotFoundException("Error in file stream...");
+                }
+            }
+        }
+        
+        return data != null;
+    }
+    
     public boolean connect(String DbUrl, String DbCd, String DbUser, String DbPw) throws DBNotFoundException {
         try {
             Class.forName(DbCd).newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            throw new DBNotFoundException("Driver not found...");
+            throw new DBNotFoundException("Driver not found ("+DbCd+")...");
         }
         try {
+            if(data != null){
+                data.close();
+                data = null;
+            }
             this.data = DriverManager.getConnection(DbUrl, DbUser, DbPw);
             return data != null;
         } catch (SQLException ex) {
             //Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
-            throw new DBNotFoundException("DB not found...");
+            throw new DBNotFoundException("DB not found ("+DbUrl+")...");
             //throw new Exception("Fehler: Datenbankverbindung auf "+ this._DbURL+" nicht möglich");
         }
     }
@@ -156,7 +166,7 @@ public class DatenbankSchnittstelle {
                 stmt.close();
             } catch (SQLException ex) {
                 //Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
-                throw new QueryException();
+                throw new QueryException(ex.getMessage());
             }
         }
         return rsMap;

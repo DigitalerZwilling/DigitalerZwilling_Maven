@@ -47,15 +47,20 @@ public class ArtikelCacheTest extends CacheTest{
     @Inject
     ArtikelCache cache;
     
+    @Inject
+    DatenbankSchnittstelle datenbankSchnittstelle;
+    
     /**
      * Test of update method, of class ArtikelCache.
      */
     
     @Before
     public void setUp() throws DBNotFoundException, QueryException {
+        tearDown();
+        datenbankSchnittstelle.connect("./testdbConfig.cfg");
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
         datenbankTestInsert.datenbankUpdate("INSERT INTO ARTIKEL (ID_ARTIKEL,BEZEICHNUNG) VALUES (4242,'CacheTestArtikel1')");
-        datenbankTestInsert.datenbankUpdate("INSERT INTO ARTIKEL (ID_ARTIKEL,BEZEICHNUNG) VALUES (4243'CacheTestArtikel2')");
+        datenbankTestInsert.datenbankUpdate("INSERT INTO ARTIKEL (ID_ARTIKEL,BEZEICHNUNG) VALUES (4243,'CacheTestArtikel2')");
         datenbankTestInsert.datenbankUpdate("INSERT INTO WARENTRAEGER (ID_WARENTRAEGER,BEZEICHNUNG, STOERUNG,"
                 + "MONTAGEZUSTAND,RFID_INHALT,ABSTAND_MM) VALUES "
                 + "(4242,'CacheTestWarentraeger1',0,100,'FOOBAR',42)");
@@ -66,11 +71,12 @@ public class ArtikelCacheTest extends CacheTest{
     @After
     public void tearDown() throws DBNotFoundException, QueryException {
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
-        datenbankTestInsert.datenbankUpdate("DELETE FROM ARTIKEL_WARENTRAEGER WHERE WARENTRAEGER_ID = 4242");
-        datenbankTestInsert.datenbankUpdate("DELETE FROM ARTIKEL WHERE ARTIKEL_ID = 4242");
-        datenbankTestInsert.datenbankUpdate("DELETE FROM ARTIKEL WHERE ARTIKEL_ID = 4243");
-        datenbankTestInsert.datenbankUpdate("DELETE FROM WARENTRAEGER WHERE WARENTRAEGER_ID = 4242");
-        datenbankTestInsert.datenbankUpdate("DELETE FROM WARENTRAEGER WHERE WARENTRAEGER_ID = 4243");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM ARTIKEL_WARENTRAEGER WHERE ID_WARENTRAEGER = 4242");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM ARTIKEL_WARENTRAEGER WHERE ID_WARENTRAEGER = 4243");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM ARTIKEL WHERE ID_ARTIKEL = 4242");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM ARTIKEL WHERE ID_ARTIKEL = 4243");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM WARENTRAEGER WHERE ID_WARENTRAEGER = 4242");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM WARENTRAEGER WHERE ID_WARENTRAEGER = 4243");
         datenbankTestInsert.close();
     }
 
@@ -95,12 +101,12 @@ public class ArtikelCacheTest extends CacheTest{
         datenbankTestInsert.datenbankUpdate("UPDATE ARTIKEL SET BEZEICHNUNG='CacheTestArtikel12' WHERE BEZEICHNUNG LIKE 'CacheTestArtikel1'");
         datenbankTestInsert.datenbankUpdate("UPDATE ARTIKEL SET BEZEICHNUNG='CacheTestArtikel22' WHERE BEZEICHNUNG LIKE 'CacheTestArtikel2'");
         
-        if(((Artikel)cache.getById(new Long(4242))).getId_Warentraeger()==null){
+        if(((Artikel)cache.getById(new Long(4242))).getId_Warentraeger().size()<=0){
             assertTrue("Warentraeger nicht gefunden.",false);
             return;
         }
         
-        if(((Artikel)cache.getById(new Long(4242))).getId_Warentraeger()!=null){
+        if(((Artikel)cache.getById(new Long(4243))).getId_Warentraeger().size()>0){
             assertTrue("Fehlerhafter Warentraeger eintrag.",false);
             return;
         }
@@ -135,7 +141,7 @@ public class ArtikelCacheTest extends CacheTest{
 
     @Override
     public void testUpdateAll() throws DBNotFoundException, QueryException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

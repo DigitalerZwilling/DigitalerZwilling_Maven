@@ -11,7 +11,7 @@ package de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception;
  */
 public class DBNotFoundException extends Exception{
     public DBNotFoundException(){
-        super("DBNotFoundExeption");
+        super("DBNotFoundException");
     }
     
     public DBNotFoundException(String str){

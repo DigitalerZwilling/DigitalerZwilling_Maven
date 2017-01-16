@@ -27,10 +27,10 @@ import javax.enterprise.context.ApplicationScoped;
 public class DatenbankTestInsert extends DatenbankSchnittstelle{
 
     public DatenbankTestInsert() throws DBNotFoundException {
-        String DbUrl = "jdbc:mysql://131.173.117.48:3306/df_16115";
-        String DbCd = "com.mysql.jdbc.Driver";
-        String DbUser = "testroot";
-        String DbPw = "testDidpw4df";
+        String DbUrl = "";
+        String DbCd = "";
+        String DbUser = "";
+        String DbPw = "";
         
         File dbConfig = new File("./testdbConfig.cfg");
         if (!dbConfig.exists()) {
@@ -48,7 +48,7 @@ public class DatenbankTestInsert extends DatenbankSchnittstelle{
                 bufferedReader = new BufferedReader(dbCReader);
                 String input;
                 while ((input = bufferedReader.readLine()) != null) { // Liest Config Datei Zeile für Zeile aus und übernimmt die Werte.
-                    String line[] = input.split("= "); // Kann sein dass nicht beide Zeichen wie gewünscht wegfallen. TESTEN!!!
+                    String line[] = input.split("="); // Kann sein dass nicht beide Zeichen wie gewünscht wegfallen. TESTEN!!!
                     if (line.length > 1) {
                         if (line[0].compareToIgnoreCase("DbUrl") == 0) {
                             DbUrl = line[1];
@@ -99,9 +99,9 @@ public class DatenbankTestInsert extends DatenbankSchnittstelle{
                 Statement stmt = data.createStatement();
                 stmt.executeUpdate(sqlStatement);
                 stmt.close();
+                //data.commit();
             } catch (SQLException ex) {
-                Logger.getLogger(DatenbankTestInsert.class.getName()).log(Level.SEVERE, null, ex);
-                throw new QueryException();
+                throw new QueryException(ex.getMessage());
             }
             
         }
@@ -111,9 +111,9 @@ public class DatenbankTestInsert extends DatenbankSchnittstelle{
         if(data != null)
             try {
                 data.close();
+                data = null;
         } catch (SQLException ex) {
-            Logger.getLogger(DatenbankTestInsert.class.getName()).log(Level.SEVERE, null, ex);
-            throw new QueryException();
+            throw new QueryException(ex.getMessage());
         }
     }
 }

@@ -12,7 +12,7 @@ package de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception;
 public class QueryException extends Exception{
 
     public QueryException() {
-        super("QueryExetion");
+        super("QueryException");
     }
     
     public QueryException(String str){
