@@ -61,10 +61,15 @@
             var name = document.createTextNode(list_tilte[i]);
             lists.appendChild(name);
             var table = document.createElement("table");
-            table.id = list_id[i];            
+            var tbody = document.createElement("tbody");
+            tbody.id = list_id[i];          
+            table.setAttribute('class', "table table-striped");
+            
+            setHeader(list_header[i], table);
+            
+            table.appendChild(tbody);
             lists.appendChild(table);
             lists.appendChild(document.createElement("br"));
-            setHeader(list_header[i], table);
         }
         
     }
@@ -78,13 +83,15 @@
     }
     
     function setHeader(headerlist, parentNode){
+            var thead = document.createElement("thead");
             var tr = document.createElement("tr");
             for(var i=0; i<headerlist.length; i++){
                 var th = document.createElement("th");
                 th.innerHTML = headerlist[i];
                 tr.appendChild(th);
             }
-            parentNode.appendChild(tr);
+            thead.appendChild(tr)
+            parentNode.appendChild(thead);
     }
     
     function addLine(documentNr, jsonObject, attributes, parentNode, type){
@@ -293,6 +300,8 @@
            case 6: websocketList = websocketList_6; break;
            case 7: websocketList = websocketList_7; break;
         }
+        
+        console.log("length="+websocketList.length);
         
         while(websocketList.length>0){
             websocketList[websocketList.length-1].close();

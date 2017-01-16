@@ -3,6 +3,11 @@ var divName = "einzelansicht";
 
 function initEinzelansicht(documentNr){
         var div = document.getElementById(divName+documentNr);
+        var childs = div.childNodes;
+
+        for(var i=0; i<childs.length; i++){
+            div.removeChild(childs[i]);
+        }
         
         var table = document.createElement("table");
         table.id=documentNr+"_attributes";
@@ -16,8 +21,8 @@ function initEinzelansicht(documentNr){
         closeWebsockets(documentNr);
     
         
-        var elementId = 1//localStorage.getItem('elementId_'+documentNr);
-        var elementType = 'sektor'//localStorage.getItem('elementType_'+documentNr);
+        var elementId = localStorage.getItem('elementId_'+documentNr);
+        var elementType =  localStorage.getItem('elementType_'+documentNr);
         
         switch (elementType) {
             case 'artikel':

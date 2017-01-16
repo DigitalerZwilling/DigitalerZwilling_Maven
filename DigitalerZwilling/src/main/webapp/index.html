@@ -24,7 +24,6 @@
 
 
 		<script type="text/javascript">
-			localStorage.clear();
 
 			//Host bekanntmachen
     		var host = "ws://131.173.127.174:8080/DigitalerZwilling/";
@@ -79,13 +78,13 @@
 			$(function() {
 			  	$(".buttonDetails").on("click",function() {
                                 console.log("schließe WebsocketLists7-8 beim Click auf den Detailsbutton.")
-			    	for(i=7;i<9;i++){
+			    	/*for(i=7;i<9;i++){
 			    		var size = websocketList_all.size;
 			    		var j;
 			    		for(j = 0; j < size; j++){
 			    			websocketList_all[i][j].close();
 			    		}
-			    	}
+			    	}*/
                                 console.log("BUTZ");
 			    	$("#mainContainer").load("details.html");
 			  	});
@@ -94,13 +93,13 @@
 			$(function() {
 			  	$(".buttonUebersicht").on("click",function() {
 			  	console.log("schließe WebsocketLists1-5 beim Click auf den Übersichtsbutton.")
-			    	for(i=0;i<5;i++){
+			    	/*for(i=0;i<5;i++){
 			    		var size = websocketList_all.size;
 			    		var j;
 			    		for(j = 0; j < size; j++){
 			    			websocketList_all[i][j].close();
 			    		}
-			    	}
+			    	}*/
 			    	$("#mainContainer").load("uebersicht.html");
 			  	});
 			});
