@@ -1,225 +1,62 @@
-<html>
-   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+var host = "ws://131.173.127.174:8080/DigitalerZwilling/";
+var divName = "einzelansicht";
+
+function initEinzelansicht(documentNr){
+        var div = document.getElementById(divName+documentNr);
+        
+        var table = document.createElement("table");
+        table.id=documentNr+"_attributes";
+        div.appendChild(table);
+        
+        var divListe = document.createElement("div");
+        divListe.id = documentNr+"_lists";
+        div.appendChild(divListe);
     
-  </head>
-  <body id="body"> 
-      <table id="2_attributes" border="0"></table><br/>
-      <div id="2_lists"></div>
- 
-  
-  <script language="javascript"> 
-    //Browserunterstuetzung vorhanden?
-    var browserSupport = ("WebSocket" in window) ? true : false;
-            
-    //Deklariere WebSocket
-    var host = "ws://131.173.127.174:8080/DigitalerZwilling/";
-    var documentName = "indexNiklas.html";
-    var documentNr2 = 2;
-       
-    $(document).ready(function(){        
-        console.log("Start Niklas 2");
-        init();
-    });   
     
-    function init(){
-        var elementId = localStorage.getItem('elementId');
-        var elementType = localStorage.getItem('elementType');
+        closeWebsockets(documentNr);
+    
+        
+        var elementId = 1//localStorage.getItem('elementId_'+documentNr);
+        var elementType = 'sektor'//localStorage.getItem('elementType_'+documentNr);
         
         switch (elementType) {
             case 'artikel':
-                initArtikel(elementId);
+                initArtikel(documentNr, elementId);
                 break;
             case "warentraeger":
-                initWarentraeger(elementId);
+                initWarentraeger(documentNr, elementId);
                 break;
             case "transportbaender":
-                initTransportbaender(elementId);
+                initTransportbaender(documentNr, elementId);
                 break;
             case "roboter":
-                initRoboter(elementId);
+                initRoboter(documentNr, elementId);
                 break;
             case "sektor":
-                initSektoren(elementId);
+                initSektoren(documentNr, elementId);
                 break;
             case "sensor":
-                initSensor(elementId);
+                initSensor(documentNr, elementId);
                 break;
             case "gelenk":
-                initGelenke(elementId);
+                initGelenke(documentNr, elementId);
                 break;
             case "werkzeug":
-                initWerkzeuge(elementId);
+                initWerkzeuge(documentNr, elementId);
                 break;
             case "hupo":
-                initHuPo(elementId);
+                initHuPo(documentNr, elementId);
                 break;
             case "huqu":
-                initHuQu(elementId);
+                initHuQu(documentNr, elementId);
                 break;
             default:
-               initTransportbaender(13);
+             console.log("default");
+             //init(documentNr, 'artikel', 1);
       }
     }
-      
-      
-    function createAttributes(attribute, id){
-        var attributes = document.getElementById(documentNr2+"_attributes");
-        
-        
-        for(var i=0; i<attribute.length; i++){
-            var zeile = document.createElement("tr");
-            var name = document.createElement("td");
-            name.innerHTML = attribute[i];
-            zeile.appendChild(name);
-
-            var value = document.createElement("td");
-            value.id = documentNr2+"_"+id[i];
-            zeile.appendChild(value);
-
-            attributes.appendChild(zeile);
-        }
-    }
     
-    
-    function createAttributLink(attribute, id){
-        var attributes = document.getElementById(documentNr2+"_attributes");
-        
-        
-        for(var i=0; i<attribute.length; i++){
-            var zeile = document.createElement("tr");
-            var name = document.createElement("td");
-            name.innerHTML = attribute[i];
-            zeile.appendChild(name);
-
-            var value = document.createElement("td");
-            var link = document.createElement("a");
-            link.id = documentNr2+"_"+id[i];
-            value.appendChild(link);
-            zeile.appendChild(value);
-
-            attributes.appendChild(zeile);
-                  
-            $("#"+documentNr2+"_"+id[i]).click(function() {         
-                localStorage.setItem("elementId",$(this).attr("elementId"));
-                localStorage.setItem("elementType",$(this).attr("elementType"));
-                $("#einzelansicht"+documentNr2).load(documentName);
-            });
-        }
-        
-        
-        
-        
-    }
-        
-    function createLists(list_tilte, list_id, list_header){
-        if(list_tilte.length !== list_id.length) return;
-        
-        var lists = document.getElementById(documentNr2+"_lists");
-        
-        for(var i=0; i<list_tilte.length; i++){
-            var name = document.createTextNode(list_tilte[i]);
-            lists.appendChild(name);
-            var table = document.createElement("table");
-            table.id = list_id[i];            
-            lists.appendChild(table);
-            lists.appendChild(document.createElement("br"));
-            setHeader(list_header[i], table);
-        }
-        
-    }
-    
-    function removeList(parent){
-            var childs = parent.childNodes;
-            
-            while(childs.length>1){
-                parent.removeChild(childs[1]);
-            }
-    }
-    
-    function setHeader(headerlist, parentNode){
-            var tr = document.createElement("tr");
-            for(var i=0; i<headerlist.length; i++){
-                var th = document.createElement("th");
-                th.innerHTML = headerlist[i];
-                tr.appendChild(th);
-            }
-            parentNode.appendChild(tr);
-    }
-    
-    function addLine(jsonObject, attributes, parentNode, type){
-            var zeile = document.createElement("tr");
-            for(var k=0; k<attributes.length; k++){
-                var element = document.createElement("td");
-                if(attributes[k]=="bezeichnung"){
-                    var link = document.createElement("a");
-                    link.innerHTML = jsonObject[attributes[k]];
-                    link.setAttribute("elementId",jsonObject['id']);
-                    link.setAttribute("elementType",type);
-                    link.onclick = function() {
-                        localStorage.setItem("elementId",$(this).attr("elementId"));
-                        localStorage.setItem("elementType",$(this).attr("elementType"));
-                        $("#einzelansicht"+documentNr2).load(documentName);
-                    };
-                    
-                    element.appendChild(link);
-                }else{
-                    element.innerHTML = jsonObject[attributes[k]];
-                }
-                zeile.appendChild(element);
-            }
-            parentNode.appendChild(zeile);
-    }
-    
-    function myalert(){
-        alert("HALLO");
-    }
-    
- 
-    
-    function updateAttributes(attribute_id, json, element_id){
-        for(var i=0; i<attribute_id.length; i++){
-            var element = document.getElementById(documentNr2+"_"+element_id[i]);
-            element.innerHTML = json[attribute_id[i]];
-        }
-    }
-    
-    function updateAttributLink(attribute_id, json, element_id, type){
-        for(var i=0; i<attribute_id.length; i++){
-            var element = document.getElementById(documentNr2+"_"+element_id[i]);
-            element.innerHTML = json[attribute_id[i]];
-            element.setAttribute("elementId",json['id']);
-            element.setAttribute("elementType",type);
-        }
-            
-            
-    }
-    
-    function updateList(id, list_id, jsonString, childAttributes, objectIDs, type){        
-        var json = JSON.parse(jsonString);
-        var parent = document.getElementById(list_id);
-        removeList(parent);
-        
-        for(var i=0; i<json.inhalt.length; i++){
-            var ids = json.inhalt[i][objectIDs];
-            for(var j=0; j<ids.length; j++){
-                if(ids[j]==id){
-                    addLine(json.inhalt[i],childAttributes,parent, type);
-                }
-            }
-        }
-    }
-    
-    function create(attribute_title, attribute_id, list_title, list_id, list_header){
-        createAttributes(attribute_title,attribute_id);
-        createLists(list_title, list_id, list_header);
-    }
-    
-    function initArtikel(id){
+    function initArtikel(documentNr, id){
         //Einzelne Attribute:
         var attribute_title = ['Bezeichnung', 'Zeitstempel', 'User Parameter'];
         var attribute_id    = ['bezeichnung', 'zeitstempel', 'user_parameter'];
@@ -233,11 +70,12 @@
         var list_attribute = [['bezeichnung', 'zeitstempel']];
 
         //Tabelle Erstellen
-        create(attribute_title, attribute_id, list_title, list_id, list_header);
+        create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
         var ArtikelWebSocket = new WebSocket(host+"ArtikelWebSocket");
         var WarentraegerWebSocket = new WebSocket(host+"WarentraegerWebSocket");
+        addWebsockets(documentNr,[ArtikelWebSocket, WarentraegerWebSocket]);
 
         ArtikelWebSocket.onopen = function() {
                 ArtikelWebSocket.send(id);
@@ -249,20 +87,20 @@
 
         ArtikelWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            var json = JSON.parse(jsonString);
-            updateAttributes(attribute_id,json,attribute_id);
+            var attribute_value = jsonToArtikel(JSON.parse(jsonString));
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
         };
 
         WarentraegerWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(id, list_id[0], jsonString, list_attribute[0],"artikelIDs","warentraeger");
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"artikelIDs","warentraeger");
         };
     }
     
-    function initSensor(id){
+    function initSensor(documentNr, id){
         //Einzelne Attribute:
-        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'User Parameter', 'Störung', 'phy. Adresse', 'Zustand'];
-        var attribute_id    = ['bezeichnung', 'zeitstempel', 'user_parameter', 'stoerung', 'phy_adresse', 'zustand'];
+        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'Störung', 'Zustand', 'phy. Adresse', 'User Parameter'];
+        var attribute_id    = ['bezeichnung', 'zeitstempel', 'stoerung', 'zustand', 'phy_adresse', 'user_parameter'];
 
         //Einzelne Tabellen:
         var list_title = ['Sektoren' ];
@@ -273,11 +111,12 @@
         var list_attribute = [['bezeichnung', 'zeitstempel', 'stoerung']];
 
         //Tabelle Erstellen
-        create(attribute_title, attribute_id, list_title, list_id, list_header);
+        create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
         var SensorWebSocket = new WebSocket(host+"SensorWebSocket");
         var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
+        addWebsockets(documentNr,[SensorWebSocket, SektorWebSocket]);
         
         SensorWebSocket.onopen = function() {
                 SensorWebSocket.send(id);
@@ -289,20 +128,20 @@
 
         SensorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            var json = JSON.parse(jsonString);
-            updateAttributes(attribute_id,json,attribute_id);
+            var attribute_value = jsonToSensor(JSON.parse(jsonString));
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
         };
 
         SektorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(id, list_id[0], jsonString, list_attribute[0],"sensorIDs","sektor");
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"sensorIDs","sektor");
         };
     }
     
-    function initWarentraeger(id){
+    function initWarentraeger(documentNr, id){
         //Einzelne Attribute:
-        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'User Parameter', 'Störung', 'Abstand', 'Montagezustand'];
-        var attribute_id    = ['bezeichnung', 'zeitstempel', 'user_parameter', 'stoerung', 'abstand_mm', 'montagezustand'];
+        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'Zustand', 'Störung', 'User Parameter'];
+        var attribute_id    = ['bezeichnung', 'zeitstempel', 'zustand', 'stoerung', 'user_parameter'];
 
         //Einzelne Tabellen:
         var list_title = ['Artikel', 'Transportband', 'Sektoren'];
@@ -313,13 +152,14 @@
         var list_attribute = [['bezeichnung', 'zeitstempel'],['bezeichnung', 'zeitstempel','stoerung'],['bezeichnung', 'zeitstempel','stoerung']];
 
         //Tabelle Erstellen
-        create(attribute_title, attribute_id, list_title, list_id, list_header);
+        create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
         var WarentreagerWebSocket = new WebSocket(host+"WarentraegerWebSocket");
         var ArtikelWebSocket = new WebSocket(host+"ArtikelWebSocket");
         var TransportbandWebSocket = new WebSocket(host+"TransportbandWebSocket");
         var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
+        addWebsockets(documentNr,[WarentreagerWebSocket, ArtikelWebSocket, TransportbandWebSocket, SektorWebSocket]);
         
         WarentreagerWebSocket.onopen = function() {
                 WarentreagerWebSocket.send(id);
@@ -339,30 +179,30 @@
 
         WarentreagerWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            var json = JSON.parse(jsonString);
-            updateAttributes(attribute_id,json,attribute_id);
+            var attribute_value = jsonToWarentraeger(JSON.parse(jsonString));
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
         };
 
         ArtikelWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(id, list_id[0], jsonString, list_attribute[0],"warentraegerIDs","artikel");
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"warentraegerIDs","artikel");
         };
         
         TransportbandWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(id, list_id[1], jsonString, list_attribute[1],"warentraegerIDs"),"transportband";
+            updateList(documentNr, id, list_id[1], jsonString, list_attribute[1],"warentraegerIDs"),"transportband";
         };
 
         SektorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(id, list_id[2], jsonString, list_attribute[2],"warentraegerIDs","sektor");
+            updateList(documentNr, id, list_id[2], jsonString, list_attribute[2],"warentraegerIDs","sektor");
         };
     }
     
-    function initTransportbaender(id){
+    function initTransportbaender(documentNr, id){
         //Einzelne Attribute:
-        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'User Parameter', 'Störung', 'Länge', 'Geschwindigkeit'];
-        var attribute_id    = ['bezeichnung', 'zeitstempel', 'user_parameter', 'stoerung', 'laenge', 'geschwindigkeit'];
+        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'Störung', 'User Parameter'];
+        var attribute_id    = ['bezeichnung', 'zeitstempel', 'stoerung', 'user_parameter'];
 
         //Einzelne Tabellen:
         var list_title = ['Warenträger'];
@@ -373,13 +213,14 @@
         var list_attribute = [['bezeichnung', 'zeitstempel']];
 
         //Tabelle Erstellen
-        create(attribute_title, attribute_id, list_title, list_id, list_header);
-        createAttributLink(['Sektor vorher','Sektor nachher'],['vorTransportband','nachTransportband']);
+        create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
+        createAttributLink(documentNr, ['Sektor vorher','Sektor nachher'],['vorTransportband','nachTransportband']);
 
         //WebSockets
         var TransportbandWebSocket = new WebSocket(host+"TransportbandWebSocket");
         var WarentreagerWebSocket = new WebSocket(host+"WarentraegerWebSocket");
         var SektorWebSocket = new WebSocket(host+"SektorWebSocket"); 
+        addWebsockets(documentNr,[TransportbandWebSocket, WarentreagerWebSocket, SektorWebSocket]);
         
         TransportbandWebSocket.onopen = function() {
                 TransportbandWebSocket.send(id);
@@ -402,12 +243,14 @@
             var nid = json.inhalt[i]['nachTransportbandIDs'];
                 for(var j=0; j<vid.length; j++){
                     if(vid[j]==id){
-                        updateAttributLink(['bezeichnung'],json.inhalt[i],['vorTransportband'],'sektor');
+                        var attribute_value = jsonToSektor(json.inhalt[i]);
+                        updateAttributLink(documentNr, ['bezeichnung'],json.inhalt[i],attribute_value,['vorTransportband'],'sektor');
                     }
                 }
                 for(var j=0; j<vid.length; j++){
                     if(nid[j]==id){
-                        updateAttributLink(['bezeichnung'],json.inhalt[i],['nachTransportband'],'sektor');
+                        var attribute_value = jsonToSektor(json.inhalt[i]);
+                        updateAttributLink(documentNr, ['bezeichnung'],json.inhalt[i],attribute_value,['nachTransportband'],'sektor');
                     }
                 }
                 
@@ -416,20 +259,20 @@
 
         TransportbandWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            var json = JSON.parse(jsonString);
-            updateAttributes(attribute_id,json,attribute_id);
+            var attribute_value = jsonToTransportband(JSON.parse(jsonString));
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
         };
 
         WarentreagerWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(id, list_id[0], jsonString, list_attribute[0],"transportbandIDs","warentraeger");
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"transportbandIDs","warentraeger");
         };
     }
     
-    function initRoboter(id){
+    function initRoboter(documentNr, id){
         //Einzelne Attribute:
-        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'User Parameter', 'Störung', 'X', 'Y', 'Z', 'Ausrichtung'];
-        var attribute_id    = ['bezeichnung', 'zeitstempel', 'user_parameter', 'stoerung', 'x', 'y', 'z', 'ausrichtung'];
+        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'Störung', 'User Parameter'];
+        var attribute_id    = ['bezeichnung', 'zeitstempel', 'stoerung', 'user_parameter'];
 
         //Einzelne Tabellen:
         var list_title = ['Sektoren'];
@@ -440,14 +283,15 @@
         var list_attribute = [['bezeichnung', 'zeitstempel','stoerung']];
 
         //Tabelle Erstellen
-        create(attribute_title, attribute_id, list_title, list_id, list_header);
-        createAttributLink(['Gelenk','Werkzeug'],['gelenk','werkzeug']);
+        create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
+        createAttributLink(documentNr, ['Gelenk','Werkzeug'],['gelenk','werkzeug']);
 
         //WebSockets
         var RoboterWebSocket = new WebSocket(host+"RoboterWebSocket");
         var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
         var GelenkWebSocket = new WebSocket(host+"GelenkWebSocket");
         var WerkzeugWebSocket = new WebSocket(host+"WerkzeugWebSocket");
+        addWebsockets(documentNr,[RoboterWebSocket, SektorWebSocket, GelenkWebSocket, WerkzeugWebSocket]);
         
         RoboterWebSocket.onopen = function() {
                 RoboterWebSocket.send(id);
@@ -467,13 +311,13 @@
 
         RoboterWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            var json = JSON.parse(jsonString);
-            updateAttributes(attribute_id,json,attribute_id);
+            var attribute_value = jsonToRoboter(JSON.parse(jsonString));
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
         };
 
         SektorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(id, list_id[0], jsonString, list_attribute[0],"roboterIDs","sektor");
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"roboterIDs","sektor");
         };
 
 
@@ -484,7 +328,8 @@
             for(var i=0; i<json.inhalt.length; i++){
             var rid = json.inhalt[i]['roboterID'];
                 if(rid==id){
-                        updateAttributes(['bezeichnung'],json.inhalt[i],['gelenk']);
+                        var attribute_value = jsonToGelenk(json.inhalt[i]);
+                        updateAttributes(documentNr, ['bezeichnung'],attribute_value,['gelenk']);
                 }
             }
         };
@@ -496,16 +341,17 @@
             for(var i=0; i<json.inhalt.length; i++){
             var wid = json.inhalt[i]['roboterID'];
                 if(wid==id){
-                        updateAttributes(['bezeichnung'],json.inhalt[i],['werkzeug']);
+                        var attribute_value = jsonToWerkzeug(json.inhalt[i]);
+                        updateAttributes(documentNr, ['bezeichnung'],attribute_value,['werkzeug']);
                 }
             }
         };
     }
     
-    function initSektoren(id){
+    function initSektoren(documentNr, id){
         //Einzelne Attribute:
-        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'User Parameter', 'Störung', 'X', 'Y', 'Z', 'Ausrichtung'];
-        var attribute_id    = ['bezeichnung', 'zeitstempel', 'user_parameter', 'stoerung', 'x', 'y', 'z', 'ausrichtung'];
+        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'Störung', 'User Parameter'];
+        var attribute_id    = ['bezeichnung', 'zeitstempel', 'stoerung', 'user_parameter'];
 
         //Einzelne Tabellen:
         var list_title = ['Warenträger','Hubpodest','Hubquerpodest','Roboter','Sensor','Transportband vorher','Tansportband nachher'];
@@ -529,7 +375,7 @@
                                ['bezeichnung', 'zeitstempel','stoerung']];
 
         //Tabelle Erstellen
-        create(attribute_title, attribute_id, list_title, list_id, list_header);
+        create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
         var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
@@ -540,6 +386,8 @@
         var RoboterWebSocket = new WebSocket(host+"RoboterWebSocket");
         var SensorWebSocket = new WebSocket(host+"SensorWebSocket");
         var TransportbandWebSocket = new WebSocket(host+"TransportbandWebSocket");
+        
+        addWebsockets(documentNr,[SektorWebSocket, WarentraegerWebSocket, HubpodestWebSocket, HubquerpodestWebSocket, RoboterWebSocket, SensorWebSocket, TransportbandWebSocket]);
         
         SektorWebSocket.onopen = function() {
                 SektorWebSocket.send(id);
@@ -571,14 +419,13 @@
 
         SektorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            
-            var json = JSON.parse(jsonString);
-            updateAttributes(attribute_id,json,attribute_id);
+            var attribute_value = jsonToSektor(JSON.parse(jsonString));
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
         };
 
         WarentraegerWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(id, list_id[0], jsonString, list_attribute[0],"sektorIDs","warentraeger");
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"sektorIDs","warentraeger");
         };
 
         HubpodestWebSocket.onmessage = function(event) {
@@ -590,7 +437,7 @@
             for(var i=0; i<json.inhalt.length; i++){
             var sid = json.inhalt[i]['sektorID'];
                 if(sid==id){
-                    addLine(json.inhalt[i],list_attribute[1],parent,'hupo');
+                    addLine(documentNr, json.inhalt[i],list_attribute[1],parent,'hupo');
                 }
             }
         };
@@ -605,14 +452,14 @@
             for(var i=0; i<json.inhalt.length; i++){
             var sid = json.inhalt[i]['sektorID'];
                 if(sid==id){
-                    addLine(json.inhalt[i],list_attribute[2],parent,'huqu');
+                    addLine(documentNr, json.inhalt[i],list_attribute[2],parent,'huqu');
                 }
             }
         };
 
         RoboterWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(id, list_id[3], jsonString, list_attribute[3],"sektorIDs","roboter");
+            updateList(documentNr, id, list_id[3], jsonString, list_attribute[3],"sektorIDs","roboter");
         };
 
         SensorWebSocket.onmessage = function(event) {
@@ -624,22 +471,22 @@
             for(var i=0; i<json.inhalt.length; i++){
             var sid = json.inhalt[i]['sektorID'];
                 if(sid==id){
-                    addLine(json.inhalt[i],list_attribute[4],parent,'sensor');
+                    addLine(documentNr, json.inhalt[i],list_attribute[4],parent,'sensor');
                 }
             }
         };
 
         TransportbandWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(id, list_id[5], jsonString, list_attribute[5],"vorSektorID","tarnsportband");
-            updateList(id, list_id[6], jsonString, list_attribute[6],"nachSektorID","transportband");
+            updateList(documentNr, id, list_id[5], jsonString, list_attribute[5],"vorSektorID","tarnsportband");
+            updateList(documentNr, id, list_id[6], jsonString, list_attribute[6],"nachSektorID","transportband");
         };
     }
     
-    function initGelenke(id){
+    function initGelenke(documentNr, id){
         //Einzelne Attribute:
-        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'User Parameter', 'Typ', 'Nummer', 'Gelenkstellung'];
-        var attribute_id    = ['bezeichnung', 'zeitstempel', 'user_parameter', 'typ', 'nummer', 'gelenkstellung'];
+        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'Gelenkstellung', 'Typ', 'Nummer', 'User Parameter'];
+        var attribute_id    = ['bezeichnung', 'zeitstempel', 'gelenkstellung', 'typ', 'nummer', 'user_parameter'];
 
         //Einzelne Tabellen:
         var list_title = ['Roboter'];
@@ -650,11 +497,12 @@
         var list_attribute = [['bezeichnung', 'zeitstempel','stoerung']];
 
         //Tabelle Erstellen
-        create(attribute_title, attribute_id, list_title, list_id, list_header);
+        create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
         var GelenkWebSocket = new WebSocket(host+"GelenkWebSocket");
         var RoboterWebSocket = new WebSocket(host+"RoboterWebSocket");
+        addWebsockets(documentNr,[GelenkWebSocket, RoboterWebSocket]);
         
         GelenkWebSocket.onopen = function() {
                 GelenkWebSocket.send(id);
@@ -666,8 +514,8 @@
 
         GelenkWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            var json = JSON.parse(jsonString);
-            updateAttributes(attribute_id,json, attribute_id);
+            var attribute_value = jsonToGelenk(JSON.parse(jsonString));
+            updateAttributes(documentNr, attribute_id,attribute_value, attribute_id);
         };
 
         RoboterWebSocket.onmessage = function(event) {
@@ -679,16 +527,16 @@
             for(var i=0; i<json.inhalt.length; i++){
             var sid = json.inhalt[i]['gelenkID'];
                 if(sid==id){
-                    addLine(json.inhalt[i],list_attribute[0],parent);
+                    addLine(documentNr, json.inhalt[i],list_attribute[0],parent);
                 }
             }
         };
     }
     
-    function initWerkzeuge(id){
+    function initWerkzeuge(documentNr, id){
         //Einzelne Attribute:
-        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'User Parameter', 'Zustand'];
-        var attribute_id    = ['bezeichnung', 'zeitstempel', 'user_parameter', 'zustand'];
+        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'Zustand', 'User Parameter'];
+        var attribute_id    = ['bezeichnung', 'zeitstempel', 'zustand', 'user_parameter'];
 
         //Einzelne Tabellen:
         var list_title = ['Roboter'];
@@ -699,11 +547,12 @@
         var list_attribute = [['bezeichnung', 'zeitstempel','stoerung']];
 
         //Tabelle Erstellen
-        create(attribute_title, attribute_id, list_title, list_id, list_header);
+        create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
         var WerkzeugWebSocket = new WebSocket(host+"WerkzeugWebSocket");
         var RoboterWebSocket = new WebSocket(host+"RoboterWebSocket");
+        addWebsockets(documentNr,[WerkzeugWebSocket, RoboterWebSocket]);
         
         WerkzeugWebSocket.onopen = function() {
                 WerkzeugWebSocket.send(id);
@@ -715,20 +564,20 @@
 
         WerkzeugWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            var json = JSON.parse(jsonString);
-            updateAttributes(attribute_id,json,attribute_id);
+            var attribute_value = jsonToWerkzeug(JSON.parse(jsonString));
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
         };
 
         RoboterWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(id, list_id[0], jsonString, list_attribute[0],"werkzeugIDs","roboter");
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"werkzeugIDs","roboter");
         };
     }
     
-    function initHuPo(id){
+    function initHuPo(documentNr, id){
         //Einzelne Attribute:
-        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'User Parameter', 'Oben', 'Unten'];
-        var attribute_id    = ['bezeichnung', 'zeitstempel', 'user_parameter', 'oben', 'unten'];
+        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'Zustand', 'User Parameter'];
+        var attribute_id    = ['bezeichnung', 'zeitstempel', 'zustand', 'user_parameter'];
 
         //Einzelne Tabellen:
         var list_title = ['Sektor'];
@@ -739,11 +588,12 @@
         var list_attribute = [['bezeichnung', 'zeitstempel']];
 
         //Tabelle Erstellen
-        create(attribute_title, attribute_id, list_title, list_id, list_header);
+        create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
         var HubpodestWebSocket = new WebSocket(host+"HubPodestWebSocket");
         var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
+        addWebsockets(documentNr,[HubpodestWebSocket, SektorWebSocket]);
         
         HubpodestWebSocket.onopen = function() {
                 HubpodestWebSocket.send(id);
@@ -755,20 +605,20 @@
 
         HubpodestWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            var json = JSON.parse(jsonString);
-            updateAttributes(attribute_id,json,attribute_id);
+            var attribute_value = jsonToHuPo(JSON.parse(jsonString));
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
         };
 
         SektorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(id, list_id[0], jsonString, list_attribute[0],"hubpodestIDs","sektor");
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"hubpodestIDs","sektor");
         };
     }
     
-    function initHuQu(id){
+    function initHuQu(documentNr, id){
         //Einzelne Attribute:
-        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'User Parameter', 'Oben', 'Mittig','Unten','Motor'];
-        var attribute_id    = ['bezeichnung', 'zeitstempel', 'user_parameter', 'oben', 'mittig','unten','motor'];
+        var attribute_title = ['Bezeichnung', 'Zeitstempel', 'Zustand', 'User Parameter'];
+        var attribute_id    = ['bezeichnung', 'zeitstempel', 'zustand', 'user_parameter'];
 
         //Einzelne Tabellen:
         var list_title = ['Sektor'];
@@ -779,11 +629,12 @@
         var list_attribute = [['bezeichnung', 'zeitstempel']];
 
         //Tabelle Erstellen
-        create(attribute_title, attribute_id, list_title, list_id, list_header);
+        create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
         var HubQuerPodestWebSocket = new WebSocket(host+"HubQuerPodestWebSocket");
         var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
+        addWebsockets(documentNr,[HubQuerPodestWebSocket, SektorWebSocket]);
         
         HubQuerPodestWebSocket.onopen = function() {
                 HubQuerPodestWebSocket.send(id);
@@ -795,15 +646,12 @@
 
         HubQuerPodestWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            var json = JSON.parse(jsonString);
-            updateAttributes(attribute_id,json,attribute_id);
+            var attribute_value = jsonToHuQu(JSON.parse(jsonString));
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
         };
 
         SektorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(id, list_id[0], jsonString, list_attribute[0],"hubquerpodestIDs","sektor");
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"hubquerpodestIDs","sektor");
         };
     }
-  </script>
-   </body>
-</html>

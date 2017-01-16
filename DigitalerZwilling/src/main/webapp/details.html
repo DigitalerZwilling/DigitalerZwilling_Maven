@@ -2,20 +2,38 @@
 <html lang="en">
 	<head>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+                
+    <script src="utilities.js"></script>
+    <script src="initEinzelansicht.js"></script>
 	</head>
 
 			<script>
+				var i=0
 				var idBtn = null;
+				var elementTypeList = ["elementType_1","elementType_2","elementType_3","elementType_4","elementType_5","elementType_6"];
+				var elementIdList = ["elementId_1","elementId_2","elementId_3","elementId_4","elementId_5","elementId_6"];
+
 
 				$(document).ready(function(){
+					console.log("sollte mainContainer auf DETAILS setzen");
 					localStorage.setItem("mainContainer", "details");
-					
-					//LocalStorage abfragen: Daten für beständiges Div vorhanden?
-					if(localStorage.getItem("divOfTwoViews")!=null){
-						steadyDiv(localStorage.getItem("divOfTwoViews"));
-					}else{
-						console.log("No data for steady div in local storage!");
-					}
+                                        console.log("#Elementid="+localStorage.getItem(elementIdList[0]));
+					//LocalStorage abfragen und Div 1-6 laden
+	            	//elementType liegt vor, wenn tabellenansicht
+	            	//elementType und elementId, wenn einzelansicht
+	            	for(i=0;i<7;i++){
+	            		if(localStorage.getItem(elementTypeList[i])!=null){
+	            			if(localStorage.getItem(elementIdList[i])!=null){
+                                            console.log("TEST");
+	            				reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i)
+	            			}else{
+	            				console.log("No cached data for elementId_" + (i+1) + "!")
+	            				reloadTabelle(localStorage.getItem(elementTypeList[i]),i);
+	            			}
+	            		}else{
+							console.log("No cached data for elementType_" + (i+1) + "!");
+						}
+	            	} i=0;
 
 					$(".btn.btn-default.dropdown-toggle").on('click', function(){
 	            		idBtn = $(this).attr('id');
@@ -24,12 +42,20 @@
 	            	});
 	            });
 
-				function steadyDiv(itemOfLocalStorage){
-					$val = itemOfLocalStorage;
-        			$(".dd-btn6").html($val+$caret);
-            		$("#einzelansicht6").load("tabelle6.html", $val);
+
+				function reloadTabelle(elementType, divNumber){
+					console.log("reload " + elementType + "in Div " + (i+1));
+					$val = elementType;
+					$(".dd-btn"+(i+1)).html($val+$caret);
+					$("#einzelansicht_"+i).load("tabelle_"+(i+1)+".html", $val);
 				}
 
+				function reloadEinzelansicht(elementType, elementId, divNumber){
+					console.log("reload " + elementType + " & " + elementId + " in Div " + (i+1));
+					$val = elementType;
+					$(".dd-btn"+(i+1)).html($val+$caret);
+					$("#einzelansicht"+(i+1)).load("einzelansicht_"+(i+1)+".html");
+				}
 
 	           	function loadDiv(idBtn){
 	            	console.log("loadDivOpt");
@@ -38,13 +64,18 @@
 	            		case "dd-btn1":
 	            		$(".dropdown1 li a").click(function(){
 	            			$val = $(this).html();
+	            			localStorage.removeItem('elementId_1');
+	            			localStorage.setItem('elementType_1',$val);
         					$(".dd-btn1").html($val+$caret);
-            				$("#einzelansicht1").load("tabelle1.html", $val);
+            				//$("#einzelansicht1").load("tabelle_1.html", $val);
+                                        initEinzelansicht(1);
             			});
 
 	            		case "dd-btn2":
 	            		$(".dropdown2 li a").click(function(){
 	            			$val = $(this).html();
+	            			localStorage.removeItem('elementId_2');
+	            			localStorage.setItem('elementType_2',$val);
         					$(".dd-btn2").html($val+$caret);
             				$("#einzelansicht2").load("tabelle2.html", $val);
             			});
@@ -52,6 +83,8 @@
 	            		case "dd-btn3":
 	            		$(".dropdown3 li a").click(function(){
 	            			$val = $(this).html();
+	            			localStorage.removeItem('elementId_3');
+	            			localStorage.setItem('elementType_3',$val);
         					$(".dd-btn3").html($val+$caret);
             				$("#einzelansicht3").load("tabelle3.html", $val);
             			});
@@ -59,12 +92,17 @@
             			case "dd-btn4":
 	            		$(".dropdown4 li a").click(function(){
 	            			$val = $(this).html();
+	            			localStorage.removeItem('elementId_4');
+	            			localStorage.setItem('elementType_4',$val);
         					$(".dd-btn4").html($val+$caret);
             				$("#einzelansicht4").load("tabelle4.html", $val);
             			});
 
             			case "dd-btn5":
 	            		$(".dropdown5 li a").click(function(){
+	            			$val= $(this).html();
+        					localStorage.removeItem('elementId_5');
+        					localStorage.setItem('elementType_5',$val);
         					$(".dd-btn5").html($val+$caret);
             				$("#einzelansicht5").load("tabelle5.html", $val);
             			});
@@ -72,10 +110,8 @@
             			case "dd-btn6":
 	            		$(".dropdown6 li a").click(function(){
 	            			$val = $(this).html();
-
-	            			//Store information for steady div
-            				localStorage.setItem("divOfTwoViews", $val);
-
+	            			localStorage.removeItem('elementId_6');
+	            			localStorage.setItem('elementType_6',$val);
         					$(".dd-btn6").html($val+$caret);
             				$("#einzelansicht6").load("tabelle6.html", $val);
             			});
