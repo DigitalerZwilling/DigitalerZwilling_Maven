@@ -1,51 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<head>
-    <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  </head>
-
-<!-- TODO: 
-           - bei Hubpodest und Hubquerpodest Pfeile für die Darstellung benutzten
-           - WebSocketList_1 testen
- -->
-
-<body> 
-    <table class="table table-striped" width="100" border="0" cellpadding="0" cellspacing="1" id="tabelle_1">
-    <!--Tabelle an der die Daten angehangen werden -->
-        <thead>
-            <tr>
-                <th id = "spalte_1.1"></th>
-                <th id = "spalte_1.2"></th>
-                <th id = "spalte_1.3"></th> 
-            </tr>
-        </thead>
-    </table>
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 
-</body>
-
-<script language="javascript">
-    var browsersupport = ("WebSocket" in window) ? true : false;
-
-    //Deklariere WebSocket
-    var host = "ws://localhost:8080/DigitalerZwilling/";
-    //var testSocket = new WebSocket(host+"RoboterWebSocket");
-  
-    var documentNr = 1;
-    var websocketList_1 = new Array();
-        
-   $(document).ready(function(){
-        console.log("----------------------StartNeu-------------------------");
-        
-        //var elementType = localStorage.getItem('elementType');
-        
-        switch ($val) {
-        //switch(elementType){
+ function loadDiv(divId, documentNr){
+     //elemenType aus localstorage lesen ->typ
+     //divID und documentNr
+     
+  switch (typ) {
             case 'Artikel':
-                //Bereitsgeöffnete Websockts (-> websocketList_1) noch schließen
                var artikelSocket = new WebSocket(host+"ArtikelWebSocket");       
               
                 artikelSocket.onopen = function() {
@@ -64,9 +29,8 @@
                 artikelSocket.onmessage = function(event) {
                     var received_msg = event.data;
                    // console.log("Message"+received_msg);
-                    erzeugeTabelle("artikel", received_msg, artikelSocket);
+                    erzeugeTabelle("artikel", received_msg, artikelSocket, documentNr);
                 };
-
             break;
             
             case "Warenträger":
@@ -74,7 +38,7 @@
                 /* for (var i = 0; i < websocketList_1.length; i++){
                     websocketList_1[i].close();
                 }*/
-                    websocketList_1 = [warentraegerSocket];
+               // websocketList_1 = [warentraegerSocket];
         
                 
                 warentraegerSocket.onopen = function() {
@@ -83,7 +47,7 @@
                 warentraegerSocket.onmessage = function(event) {
                     var received_msg = event.data;
                     //console.log("Message"+received_msg);
-                    erzeugeTabelle("warentraeger", received_msg, warentraegerSocket); 
+                    erzeugeTabelle("warentraeger", received_msg, warentraegerSocket, documentNr); 
                 };
                 
             
@@ -91,9 +55,9 @@
                 
             case "Transportbänder":
               
-               for (var i = 0; i < websocketList_1.length; i++){
+             /*  for (var i = 0; i < websocketList_1.length; i++){
                     websocketList_1[i].close();
-                }
+                } */
                // websocketList_1 = [transportbandSocket];
                var transportbandSocket = new WebSocket(host+"TransportbandWebSocket");         
                transportbandSocket.onopen = function() {
@@ -103,7 +67,7 @@
                 transportbandSocket.onmessage = function(event) {
                     var received_msg = event.data;
                     console.log("Message"+received_msg);
-                    erzeugeTabelle("transportband", received_msg, transportbandSocket);
+                    erzeugeTabelle("transportband", received_msg, transportbandSocket, documentNr);
                 };
                 break;
                 
@@ -112,7 +76,7 @@
                 /*for (var i = 0; i < websocketList_1.length; i++){
                     websocketList_1[i].close();
                 }*/
-                websocketList_1[0] = roboterSocket;
+              //  websocketList_1[0] = roboterSocket;
                 roboterSocket.onopen = function() {
                     roboterSocket.send("LIST");
                 };
@@ -120,7 +84,7 @@
                 roboterSocket.onmessage = function(event) {
                     var received_msg = event.data;
                     console.log("Message"+received_msg);
-                    erzeugeTabelle("roboter", received_msg, roboterSocket);
+                    erzeugeTabelle("roboter", received_msg, roboterSocket, documentNr);
                 };
                 break;
                 
@@ -137,7 +101,7 @@
                 sektorSocket.onmessage = function(event) {
                     var received_msg = event.data;
                     console.log("Message"+received_msg);
-                    erzeugeTabelle("sektor", received_msg, sektorSocket);
+                    erzeugeTabelle("sektor", received_msg, sektorSocket, documentNr);
                 };
                 break;
             case "Sensoren":
@@ -154,7 +118,7 @@
                 sensorSocket.onmessage = function(event) {
                     var received_msg = event.data;
                     console.log("Message"+received_msg);
-                    erzeugeTabelle("sensor", received_msg, sensorSocket);
+                    erzeugeTabelle("sensor", received_msg, sensorSocket, documentNr);
                 };
                 break;
             case "Gelenke":
@@ -171,7 +135,7 @@
                 gelenkSocket.onmessage = function(event) {
                     var received_msg = event.data;
                     console.log("Message"+received_msg);
-                    erzeugeTabelle("gelenk", received_msg, gelenkSocket);
+                    erzeugeTabelle("gelenk", received_msg, gelenkSocket, documentNr);
                 };
                 break;
            
@@ -189,7 +153,7 @@
                 werkzeugSocket.onmessage = function(event) {
                     var received_msg = event.data;
                     console.log("Message"+received_msg);
-                    erzeugeTabelle("werkzeug", received_msg, werkzeugSocket);
+                    erzeugeTabelle("werkzeug", received_msg, werkzeugSocket, documentNr);
                 };
                 break;
             case "Hubpositionierstationen":
@@ -206,7 +170,7 @@
                 huboSocket.onmessage = function(event) {
                     var received_msg = event.data;
                     console.log("Message"+received_msg);
-                    erzeugeTabelle("hubpositionierstation", received_msg, hubpoSocket);
+                    erzeugeTabelle("hubpositionierstation", received_msg, hubpoSocket, documentNr);
                 };
                 break;
             case "Hub-Quer-Stationen":
@@ -222,18 +186,18 @@
                 huquSocket.onmessage = function(event) {
                     var received_msg = event.data;
                     console.log("Message"+received_msg);
-                    erzeugeTabelle("hubQuerStation", received_msg, huquSocket);
+                    erzeugeTabelle("hubQuerStation", received_msg, huquSocket, documentNr);
                 };
                 break;
             default:
                 document.getElementById("spalte_1.1").innerHTML = 'Fehler beim Darstellen der Tabelle (ready-Function)';
       }
-    });
+    };
 
 
 
     /* ------------------------------ERZEUGE TABELLE -------------------------------- */
-    function erzeugeTabelle(typ, listeJSON, websocket){
+    function erzeugeTabelle(typ, listeJSON, websocket, documentNr){
         websocket.onmessage = function(event) {
         };
         
@@ -244,7 +208,7 @@
 
         //Erstellen der Tabelle
         node = document.getElementById("tabelle_"+documentNr); //Tabelle wird an schon im Body erstellte Tabelle angehangen
-        node.parentNode.insertBefore(createTable(typ, liste, spaltennamen, liste.inhalt.length, spaltennamen.length), node);
+        node.parentNode.insertBefore(createTable(typ, liste, spaltennamen, liste.inhalt.length, spaltennamen.length, documentNr), node);
         
         //UpdateTabelle wird bei Empfang von neuen Daten aufgerufen
         switch (typ) {
@@ -252,49 +216,49 @@
                 websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-               updateTabelle("artikel", received_msg);
+               updateTabelle("artikel", received_msg, documentNr);
             };
             break;
         case 'warentraeger':
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("warentraeger", received_msg);
+                updateTabelle("warentraeger", received_msg, documentNr);
             };
             break;
         case 'transportband':
                 websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("transportband", received_msg);
+                updateTabelle("transportband", received_msg, documentNr);
             };
             break;
         case 'roboter':
                 websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("roboter", received_msg);
+                updateTabelle("roboter", received_msg, documentNr);
             };
             break;
         case "sektor":
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("sektor", received_msg);
+                updateTabelle("sektor", received_msg, documentNr);
             };
             break;
         case "sensor":
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("sensor", received_msg);
+                updateTabelle("sensor", received_msg, documentNr);
             };
             break;
         case "gelenk":
              websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("gelenk", received_msg);
+                updateTabelle("gelenk", received_msg, documentNr);
             };
             break;
 
@@ -302,7 +266,7 @@
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("werkzeug", received_msg);
+                updateTabelle("werkzeug", received_msg, documentNr);
             };
             break;
             
@@ -310,7 +274,7 @@
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("hubpositionierstation", received_msg);
+                updateTabelle("hubpositionierstation", received_msg, documentNr);
             }
             break;
             
@@ -318,7 +282,7 @@
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("hubQuerStation", received_msg);
+                updateTabelle("hubQuerStation", received_msg, documentNr);
             }
             break;
             
@@ -369,7 +333,7 @@
     }
     
     /* ------------------------------UPDATE TABELLE -------------------------------- */
-    function updateTabelle(typ, listeJSON){
+    function updateTabelle(typ, listeJSON, documentNr){
         //Aktualisiert die Werte in der schon erstellten Tabelle
         
         //console.log("update Tabelle von " + typ);
@@ -425,7 +389,7 @@
    
    
        //-------------TABELLENERZEUGUNG-----------------------------------------------------
-    function createTable(typ, liste, spaltennamen, row, col) {
+    function createTable(typ, liste, spaltennamen, row, col, documentNr) {
         //console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
         //console.log("In CreateTable mit Typ: " + typ);
         
@@ -569,31 +533,10 @@
                             return zustandHuQu;
     }
     
-  
-            
-         
-        /*    function init(){
-                if (browsersupport) {
-                    //Oeffnen des WebSockets und Senden einer Nachricht
-                    wSocket.onopen = function() {
-                        wSocket.send("LIST");
-                    };
-                }
-                else {
-                    alert("WebSocket is NOT supported by your Browser:)");
-                }
-            }
-         */
-            
-       /*     testSocket.onclose = function() {
-                alert("Connection is closed...");
-            };
-            
-            //Send something to the WebSocket 
-            function send(){
-                testSocket.send("GET");
-            }*/
-
-</script> 
-</html>
-
+    function closeWebsockets(){
+        
+    }
+    
+    //Alles vom Div lösche
+    //Alle Websockets schließen
+    
