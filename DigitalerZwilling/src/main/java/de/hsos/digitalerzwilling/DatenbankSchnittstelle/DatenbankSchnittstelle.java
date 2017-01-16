@@ -8,9 +8,11 @@ package de.hsos.digitalerzwilling.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -181,6 +183,9 @@ public class DatenbankSchnittstelle {
         if (!config.exists()) {
             try {
                 config.createNewFile();
+                try (FileWriter fw = new FileWriter(config)) {
+                    fw.append("dbConfigFile=./CONFIGFILE.cfg");
+                }
             } catch (IOException ex) {
                 Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
             }
