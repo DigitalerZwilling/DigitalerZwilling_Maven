@@ -37,7 +37,7 @@ public abstract class CacheTest {
                 return;
             }
         }
-        Assert.assertTrue("Elmenet not Found", false);
+        Assert.assertTrue("Elemnet not Found", false);
     }
     
     @Test

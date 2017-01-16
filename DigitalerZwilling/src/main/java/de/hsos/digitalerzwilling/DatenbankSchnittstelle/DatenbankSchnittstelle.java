@@ -34,7 +34,7 @@ public class DatenbankSchnittstelle {
     protected Connection data;                                                        // Datenbank Verbindung
     //-----------------------------------------------------------------------------
     
-    private static final boolean DBCONFILE = false; // Server mit Config Datei???
+    private static final boolean DBCONFILE = true; // Server mit Config Datei???
     
     private String DbUrl = "jdbc:mysql://131.173.117.48:3306/df_16115";
     private String DbCd = "com.mysql.jdbc.Driver";
