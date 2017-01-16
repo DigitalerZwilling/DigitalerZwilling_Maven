@@ -57,6 +57,7 @@ public class DatenbankSchnittstelle {
             this.data = DriverManager.getConnection(DbUrl, DbUser, DbPw);
         } catch (SQLException ex) {
             Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
+            this.exceptionEvent.fire(new DBNotFoundException(ex.getMessage()));
             throw new DBNotFoundException();
             //throw new Exception("Fehler: Datenbankverbindung auf "+ this._DbURL+" nicht möglich");
         }
@@ -114,6 +115,9 @@ public class DatenbankSchnittstelle {
                 stmt.close();
             } catch (SQLException ex) {
                 Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+                this.exceptionEvent.fire(new QueryException(ex.getMessage()));
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!2");
                 throw new QueryException();
             }
         }

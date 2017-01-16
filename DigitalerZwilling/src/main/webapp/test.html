@@ -16,14 +16,16 @@ and open the template in the editor.
     <body>
         <div>TODO write content</div>
         <div>
+            <button type="button" onclick="init()" value="init" id="b2">Init</button>
             <button type="button" onclick="sende()" value="send" id="b1">Send</button>
         </div>
         <div id="messages"></div>
         
         <script type="text/javascript">
+            var browsersupport = ("WebSocket" in window) ? true : false;
             var host = "ws://131.173.127.175:8080/DigitalerZwilling/";
             var websocket=new WebSocket(host+"ExceptionWebSocket");
-            var websocket2=new WebSocket(host+"SektorWebSocket");
+            var websocket2=new WebSocket(host+"SensorWebSocket");
             function init(){
   
    if (browsersupport) {
@@ -106,7 +108,8 @@ and open the template in the editor.
                 wSocket.send("GET");
             }*/
     function sende(){
-        //websocket2.send("LIST");
+        websocket.send("message");
+        websocket2.send("LIST");
         console.log("1111111111111");
     }
       </script>
