@@ -32,11 +32,11 @@
 	            		}else{
 							console.log("No cached data for elementType_" + (i+1) + "!");
 						}
-	            	} i=0;
+                                                
+	            	} 
 
 	            	//history für ZurueckButton abfragen.
 	            	//wenn history vorhanden, Zurück-Button anzeigen.
-                        
 	            	for(i=0;i<7;i++){
 	            		if(zurueckList_all[i].length==0){
 	            			$(backButtons[i]).hide();
@@ -78,7 +78,7 @@
 
 	            	
 
-					$(".btn.btn-default.dropdown-toggle").on('click', function(){
+                                $(".btn.btn-default.dropdown-toggle").on('click', function(){
 	            		idBtn = $(this).attr('id');
 	            		console.log(idBtn);
 	            		loadViaDropdown(idBtn);
