@@ -9,6 +9,9 @@ import de.hsos.digitalerzwilling.Cache.Cache;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DB_Exception;
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,11 +36,16 @@ public class ExceptionWebSocket {
     @Inject WebSocketBean WebSocketBeanConversation;
     Session session;
     
+    private Map<String,Exception> exMap;
+    private Map<String,Long> timeMap;
+    
     @OnOpen
     public void onOpen(Session session) {
         System.out.println("open");
+        exMap=new HashMap<>();
+        timeMap=new HashMap<>();
         this.session=session;
-        this.WebSocketBeanConversation.add(session);
+        this.WebSocketBeanConversation.add(this);
         //WebSocketBeanConversation=new WebSocketBean(session);
         
     }
@@ -49,14 +57,42 @@ public class ExceptionWebSocket {
 
     @OnMessage
     public void onMessage(String message) {
-
+        ;
     }
-
+    public void addToMap(Exception ex){
+        String key=ex.getClass().getName()+ex.getMessage();
+        Long now=new java.util.Date().getTime();
+        if(exMap.containsKey(key)){
+            if(this.timeMap.get(key)+(1000*60)<now){
+                timeMap.put(key, now);
+                this.send();
+            }
+        }
+        else{
+            exMap.put(key, ex);
+            timeMap.put(key, now);
+            this.send();
+        }
+    }
+    private void send(){
+        Long now=new java.util.Date().getTime();
+        String ausgabe="";
+        for (String s:exMap.keySet()){
+            if(this.timeMap.get(s)+(1000*60)>now){
+                ausgabe=ausgabe+exMap.get(s).getMessage()+"\n";
+            }
+        }
+                try {
+            session.getBasicRemote().sendText(ausgabe);
+        } catch (IOException ex) {
+            Logger.getLogger(ExceptionWebSocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 
     @OnClose
     public void onClose() {
-        this.WebSocketBeanConversation.delete(this.session);
+        this.WebSocketBeanConversation.delete(this);
     }
 
     @OnError

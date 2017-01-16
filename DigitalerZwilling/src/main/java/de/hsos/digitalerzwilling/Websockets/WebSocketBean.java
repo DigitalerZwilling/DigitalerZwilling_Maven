@@ -33,35 +33,34 @@ import javax.websocket.Session;
 @ApplicationScoped
 public class WebSocketBean {
     //@Inject private Conversation conversation;
-    private Set<Session> sessions;
+    private Set<ExceptionWebSocket> sessions;
     public WebSocketBean(){
-        sessions=new ConcurrentSkipListSet<Session>();
+        sessions=new ConcurrentSkipListSet<ExceptionWebSocket>();
     };
 
 
-    public void add(Session session){
+    public void add(ExceptionWebSocket session){
         if ( session!=null) this.sessions.add(session);
     }
-    public void delete(Session session){
+    public void delete(ExceptionWebSocket session){
         if ( session!=null) this.sessions.remove(session);
     }
     
     public void send(@Observes @DB_Exception Exception ex) {
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!3"+ex.getMessage()+"ex");
-        for(Session s:sessions){
-            if (s==null){
-                sessions.remove(s);
+        
+        ExceptionWebSocket s[]=this.sessions.toArray(new ExceptionWebSocket[this.sessions.size()]);
+        
+        for(int i=0;i<s.length;i++){
+            if (s[i].getSession()==null){
+                sessions.remove(s[i]);
             }
             else{
-                if(s.isOpen()){
-                    try {
-                        s.getBasicRemote().sendText(ex.getClass().getName()+" ist aufgetreten "+ex.getMessage());
-                    } catch (IOException ex1) {
-                        Logger.getLogger(WebSocketBean.class.getName()).log(Level.SEVERE, null, ex1);
-                    }
+                if(s[i]!=null){
+                        s[i].addToMap(ex);
                 }
                 else{
-                    sessions.remove(s);
+                    sessions.remove(s[i]);
                 }
             }
         }
