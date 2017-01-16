@@ -8,6 +8,9 @@
 		<title>Digitaler Zwilling</title>
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="initEinzelansicht.js"></script>
+		<script src="utilities.js"></script>
+		<script src="tabellenansicht.js"></script>
 
 		<!-- Bootstrap -->
 		<!-- Latest compiled and minified CSS -->
@@ -19,37 +22,84 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+
 		<script type="text/javascript">
+			localStorage.clear();
+
+			//Host bekanntmachen
+    		var host = "ws://131.173.127.174:8080/DigitalerZwilling/";
+
+
+    		//Listen für Websockets
+    		var websocketList_1 = new Array();
+    		var websocketList_2 = new Array();
+    		var websocketList_3 = new Array();
+    		var websocketList_4 = new Array();
+    		var websocketList_5 = new Array();
+    		var websocketList_6 = new Array();
+    		var websocketList_7 = new Array();
+    		var websocketList_8 = new Array();
+    		var websocketList_all = [websocketList_1, websocketList_2, websocketList_3, websocketList_4, websocketList_5, websocketList_6, websocketList_7, websocketList_8];
+
+    		//Listen für Zurück-Buttons der Einzelansichten
+    		var zurueckList_1 = new Array();
+    		var zurueckList_2 = new Array();
+    		var zurueckList_3 = new Array();
+    		var zurueckList_4 = new Array();
+    		var zurueckList_5 = new Array();
+    		var zurueckList_6 = new Array();
+    		var zurueckList_7 = new Array();
+    		var zurueckList_all = [zurueckList_1, zurueckList_2, zurueckList_3, zurueckList_4, zurueckList_5, zurueckList_6, zurueckList_7];
+
+    		var i = 0;
 
 			$(document).ready(function(){
 				//Clear local storage information, by refreshing website
-				localStorage.clear();
+				//localStorage.clear();
 
             	$("#mainContainer").load("uebersicht.html");
+
         	});
 
 			$(function() {
 			  	$(".buttonStoerung").on("click",function(e) {
 			    	e.preventDefault();
 			    	localStorage.setItem("stoerung", "stoerungLaden");
+			    	localStorage.removeItem("elementId_7");
+			    	localStorage.removeItem("elementType_7");
 			    	if(localStorage.getItem("mainContainer")=="details"){
 			    		$("#mainContainer").load("uebersicht.html");
 			    	}else{
-			    		$("#uebersichtsinfos").load("stoerungen.html");
+			    		loadDiv(7);
+			    		//$("#einzelansicht7").load("stoerungen.html");
 			    	}
 			  	});
 			});
 
 			$(function() {
-			  	$(".buttonDetails").on("click",function(e) {
-			    	e.preventDefault();
+			  	$(".buttonDetails").on("click",function() {
+			  		/*console.log("schließe WebsocketLists7-8 beim Click auf den Detailsbutton.")
+			    	for(i=7;i<9;i++){
+			    		var size = websocketList_all.size;
+			    		var j;
+			    		for(j = 0; j < size; j++){
+			    			websocketList_all[i][j].close();
+			    		}
+			    	}*/
 			    	$("#mainContainer").load("details.html");
 			  	});
 			});
 
 			$(function() {
-			  	$(".buttonUebersicht").on("click",function(e) {
-			    	e.preventDefault();
+			  	$(".buttonUebersicht").on("click",function() {
+			  		/*console.log("schließe WebsocketLists1-5 beim Click auf den Übersichtsbutton.")
+			    	for(i=0;i<5;i++){
+			    		var size = websocketList_all.size;
+			    		var j;
+			    		for(j = 0; j < size; j++){
+			    			websocketList_all[i][j].close();
+			    		}
+			    	}*/
 			    	$("#mainContainer").load("uebersicht.html");
 			  	});
 			});
