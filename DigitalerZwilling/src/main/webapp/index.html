@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<title>Digitaler Zwilling</title>
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="initEinzelansicht.js"></script>
+		<script src="utilities.js"></script>
+		<script src="tabellenansicht.js"></script>
+
+		<!-- Bootstrap -->
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+		<!-- css-Changes for "Digitaler Zwilling" -->
+		<link rel="stylesheet" href="digitalerZwilling.css">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+		<script type="text/javascript">
+			localStorage.clear();
+
+			//Host bekanntmachen
+    		var host = "ws://131.173.127.174:8080/DigitalerZwilling/";
+
+
+    		//Listen für Websockets
+    		var websocketList_1 = new Array();
+    		var websocketList_2 = new Array();
+    		var websocketList_3 = new Array();
+    		var websocketList_4 = new Array();
+    		var websocketList_5 = new Array();
+    		var websocketList_6 = new Array();
+    		var websocketList_7 = new Array();
+    		var websocketList_8 = new Array();
+    		var websocketList_all = [websocketList_1, websocketList_2, websocketList_3, websocketList_4, websocketList_5, websocketList_6, websocketList_7, websocketList_8];
+
+    		//Listen für Zurück-Buttons der Einzelansichten
+    		var zurueckList_1 = new Array();
+    		var zurueckList_2 = new Array();
+    		var zurueckList_3 = new Array();
+    		var zurueckList_4 = new Array();
+    		var zurueckList_5 = new Array();
+    		var zurueckList_6 = new Array();
+    		var zurueckList_7 = new Array();
+    		var zurueckList_all = [zurueckList_1, zurueckList_2, zurueckList_3, zurueckList_4, zurueckList_5, zurueckList_6, zurueckList_7];
+
+    		var i = 0;
+
+			$(document).ready(function(){
+				//Clear local storage information, by refreshing website
+				//localStorage.clear();
+
+            	$("#mainContainer").load("uebersicht.html");
+
+        	});
+
+			$(function() {
+			  	$(".buttonStoerung").on("click",function(e) {
+			    	e.preventDefault();
+			    	localStorage.setItem("stoerung", "stoerungLaden");
+			    	localStorage.removeItem("elementId_7");
+			    	localStorage.removeItem("elementType_7");
+			    	if(localStorage.getItem("mainContainer")=="details"){
+			    		$("#mainContainer").load("uebersicht.html");
+			    	}else{
+			    		loadDiv(7);
+			    		//$("#einzelansicht7").load("stoerungen.html");
+			    	}
+			  	});
+			});
+
+			$(function() {
+			  	$(".buttonDetails").on("click",function() {
+                                console.log("schließe WebsocketLists7-8 beim Click auf den Detailsbutton.")
+			    	for(i=7;i<9;i++){
+			    		var size = websocketList_all.size;
+			    		var j;
+			    		for(j = 0; j < size; j++){
+			    			websocketList_all[i][j].close();
+			    		}
+			    	}
+                                console.log("BUTZ");
+			    	$("#mainContainer").load("details.html");
+			  	});
+			});
+
+			$(function() {
+			  	$(".buttonUebersicht").on("click",function() {
+			  	console.log("schließe WebsocketLists1-5 beim Click auf den Übersichtsbutton.")
+			    	for(i=0;i<5;i++){
+			    		var size = websocketList_all.size;
+			    		var j;
+			    		for(j = 0; j < size; j++){
+			    			websocketList_all[i][j].close();
+			    		}
+			    	}
+			    	$("#mainContainer").load("uebersicht.html");
+			  	});
+			});
+
+			function isBreakpoint( alias ) {
+			    return $('.device-' + alias).is(':visible');
+			}
+
+			function loadUebersichtOnResize () {
+				if(localStorage.getItem("mainContainer")=="uebersicht"){
+		        	$("#mainContainer").load("uebersicht.html");
+				}
+			}
+			
+		</script>
+	</head>
+
+
+
+	<body onresize="loadUebersichtOnResize()">
+		
+
+		<header>
+			<nav class="navbar navbar-default">
+			  <div class="container-fluid">
+			    <!-- Brand and toggle get grouped for better mobile display -->
+			    <div class="navbar-header">
+			      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+			        <span class="sr-only">Toggle navigation</span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			      </button>
+			      <a class="navbar-brand">Digitaler Zwilling</a>
+			      <a href="#" class="buttonStoerung"><span class="badge hidden-lg hidden-md hidden-sm" id="iconStoerung" style="margin-top:15px">0</span></a>
+
+			    </div>
+
+			    <!-- Collect the nav links, forms, and other content for toggling -->
+			    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			      	<ul class="nav navbar-nav">
+			        	<li><a href="#" class="buttonUebersicht">Übersicht <span class="sr-only">(current)</span></a></li>
+			        	<li><a href="#" class="buttonDetails">Details</a></li>
+			        	<li><a href="#" class="buttonStoerung">Störung <span class="badge" id="iconStoerung">0</span></a></li>
+			      	</ul>
+
+			    </div><!-- /.navbar-collapse -->
+			  </div><!-- /.container-fluid -->
+			</nav>
+		</header>
+
+
+
+		<!--CONTENT-->
+		<div id="mainContainer" class="container-fluid body-content">
+			
+		</div>
+
+		<div class="device-xs visible-xs"></div>
+		<div class="device-sm visible-sm"></div>
+		<div class="device-md visible-md"></div>
+		<div class="device-lg visible-lg"></div>
+
+		<!--FOOTER-->
+		<footer></footer>
+
+
+	</body>
+
+
+</html>
