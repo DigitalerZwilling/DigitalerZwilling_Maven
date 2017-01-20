@@ -28,7 +28,7 @@ import javax.websocket.server.ServerEndpoint;
 
 @ServerEndpoint("/ExceptionWebSocket")
 public class ExceptionWebSocket implements Comparable<ExceptionWebSocket>{
-    @Inject private ExceptionEventHandlerScope WebSocketBeanConversation;
+    @Inject private ExceptionEventHandlerScope ExceptionHandlerScope;
     private Session session;
     private Long createtTime;
     
@@ -42,7 +42,7 @@ public class ExceptionWebSocket implements Comparable<ExceptionWebSocket>{
         exMap=new HashMap<>();
         timeMap=new HashMap<>();
         this.session=session;
-        this.WebSocketBeanConversation.add(this);
+        this.ExceptionHandlerScope.add(this);
         //WebSocketBeanConversation=new ExceptionEventHandlerScope(session);
         
     }
@@ -57,9 +57,9 @@ public class ExceptionWebSocket implements Comparable<ExceptionWebSocket>{
 
     @OnMessage
     public void onMessage(String message) {
-        send();
+        this.send(ExceptionHandlerScope.toJson());//send();
     }
-    
+    /*
     public void addToMap(Exception ex){
         String key=ex.getClass().getName()+ex.getMessage();
         Long now=new java.util.Date().getTime();
@@ -77,8 +77,8 @@ public class ExceptionWebSocket implements Comparable<ExceptionWebSocket>{
             this.send();
         }
     }
-    
-    private void send(){
+    */
+    /*private void send(){
         Long now=new java.util.Date().getTime();
         String ausgabe="";
         for (String s:exMap.keySet()){
@@ -97,12 +97,19 @@ public class ExceptionWebSocket implements Comparable<ExceptionWebSocket>{
         } catch (IOException ex) {
             Logger.getLogger(ExceptionWebSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }*/
+    public void send(String Status){
+        try {
+            this.session.getBasicRemote().sendText(Status);
+        } catch (IOException ex) {
+            Logger.getLogger(ExceptionWebSocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 
     @OnClose
     public void onClose() {
-        this.WebSocketBeanConversation.delete(this);
+        this.ExceptionHandlerScope.delete(this);
     }
 
     @OnError
