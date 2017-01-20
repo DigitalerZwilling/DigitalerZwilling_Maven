@@ -14,6 +14,7 @@ import de.hsos.digitalerzwilling.Cache.Updater.WebSocketUpdateThread;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -21,11 +22,13 @@ import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.runner.RunWith;
 
 /**
  *
  * @author florian
  */
+@RunWith(Arquillian.class)
 public class SensorCacheTest extends CacheTest{
     
     @Deployment
