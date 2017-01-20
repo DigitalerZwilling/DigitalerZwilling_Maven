@@ -31,10 +31,10 @@
                     //elementType und elementId, wenn einzelansicht
                     if(localStorage.getItem(elementTypeList[0])!=null){
                         if(localStorage.getItem(elementIdList[0])!=null){
-                            reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i)
+                            reloadEinzelansicht(localStorage.getItem(elementTypeList[0]),localStorage.getItem(elementIdList[0]),6);
                         }else{
-                            console.log("No cached data for elementId_" + 6 + "!")
-                            reloadTabelle(localStorage.getItem(elementTypeList[i]),i);
+                            console.log("No cached data for elementId_" + 6 + "!");
+                            reloadTabelle(localStorage.getItem(elementTypeList[0]),6);
                         }
                     }else{
                         console.log("No cached data for elementType_" + 6 + "!");
@@ -43,7 +43,7 @@
                     //localStorage für Div7 abfragen
                     if(localStorage.getItem("elementType_7")!=null && localStorage.getItem("elementId_7")!=null){
                         localStorage.removeItem("stoerung");
-                        loadDiv(7);
+                        initEinzelansicht(7);
                         //$("#einzelansicht7").load("einzelansicht_7.html");
                     }
 
@@ -54,25 +54,27 @@
                 }
 				
                 function reloadTabelle(elementType, divNumber){
-                    console.log("reload " + elementType + "in Div " + (i+1));
+                    var i = divNumber;
+                    console.log("reload " + elementType + "in Div " + i);
                     $val = elementType;
-                    $(".dd-btn"+(i+1)).html($val+$caret);
-                    loadDiv(i+1);
+                    $(".dd-btn"+i).html($val+$caret);
+                    loadDiv(i);
                     //$("#einzelansicht_"+i).load("tabelle_"+(i+1)+".html", $val);
                 }
 
                 function reloadEinzelansicht(elementType, elementId, divNumber){
-                    console.log("reload " + elementType + " & " + elementId + " in Div " + (i+1));
+                    var i = divNumber;
+                    console.log("reload " + elementType + " & " + elementId + " in Div " + i);
                     $val = elementType;
-                    $(".dd-btn"+(i+1)).html($val+$caret);
-                    loadDiv(i+1);
+                    $(".dd-btn"+i).html($val+$caret);
+                    loadDiv(i);
                     //$("#einzelansicht_"+i).load("einzelansicht_"+(i+1)+".html");
                 }
 
-                function loadDiv6(){
+                function loadDiv6(val){
                     localStorage.removeItem('elementId_6');
-                    localStorage.setItem('elementType_6',$val);
-                    $(".btn.dropdown-toggle").html($val+$caret)
+                    localStorage.setItem('elementType_6',val);
+                    $(".btn.dropdown-toggle").html(val+$caret);
                     loadDiv(i+1);
                     //$("#einzelansicht6").load("tabelle6.html", $val);
                 }
@@ -123,7 +125,7 @@
                                                 <!--<li><a href="#">Werkzeug</a></li>-->
                                                 </ul>  	
                                             </div> 
-                                            <button type="button" class="btn btn-default">Speichern</button>
+                                            <button type="button" class="btn btn-default">Zurück</button>
                                         </div>
                                         <div></br></div>
                                         <div id="einzelansicht6">Keine Komponente gewählt.</div>

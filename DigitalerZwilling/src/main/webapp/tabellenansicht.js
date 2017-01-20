@@ -7,7 +7,7 @@
 
 
 function loadDiv(documentNr){
-    
+    console.log("DokuNr: " + documentNr);
     var div = document.getElementById("einzelansicht"+documentNr);
         var childs = div.childNodes;
 
