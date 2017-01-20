@@ -32,15 +32,17 @@ import javax.websocket.server.ServerEndpoint;
  */
 
 @ServerEndpoint("/ExceptionWebSocket")
-public class ExceptionWebSocket {
-    @Inject WebSocketBean WebSocketBeanConversation;
-    Session session;
+public class ExceptionWebSocket implements Comparable<ExceptionWebSocket>{
+    @Inject private WebSocketBean WebSocketBeanConversation;
+    private Session session;
+    private Long createtTime;
     
     private Map<String,Exception> exMap;
     private Map<String,Long> timeMap;
     
     @OnOpen
     public void onOpen(Session session) {
+        this.createtTime=new java.util.Date().getTime();
         System.out.println("open");
         exMap=new HashMap<>();
         timeMap=new HashMap<>();
@@ -48,6 +50,9 @@ public class ExceptionWebSocket {
         this.WebSocketBeanConversation.add(this);
         //WebSocketBeanConversation=new WebSocketBean(session);
         
+    }
+    public Long getCreatetTime(){
+        return this.createtTime;
     }
     /*@PostConstruct
     public void init(){
@@ -57,8 +62,9 @@ public class ExceptionWebSocket {
 
     @OnMessage
     public void onMessage(String message) {
-        ;
+        send();
     }
+    
     public void addToMap(Exception ex){
         String key=ex.getClass().getName()+ex.getMessage();
         Long now=new java.util.Date().getTime();
@@ -66,6 +72,8 @@ public class ExceptionWebSocket {
             if(this.timeMap.get(key)+(1000*60)<now){
                 timeMap.put(key, now);
                 this.send();
+            }else{
+                return;
             }
         }
         else{
@@ -74,15 +82,19 @@ public class ExceptionWebSocket {
             this.send();
         }
     }
+    
     private void send(){
         Long now=new java.util.Date().getTime();
         String ausgabe="";
         for (String s:exMap.keySet()){
             if(this.timeMap.get(s)+(1000*60)>now){
                 ausgabe=ausgabe+exMap.get(s).getMessage()+"\n";
+            }else{
+                this.timeMap.remove(s);
+                this.exMap.remove(s);
             }
         }
-                try {
+        try {
             session.getBasicRemote().sendText(ausgabe);
         } catch (IOException ex) {
             Logger.getLogger(ExceptionWebSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -129,6 +141,14 @@ public class ExceptionWebSocket {
             return false;
         }
         return true;
+    }
+
+    
+
+    @Override
+    public int compareTo(ExceptionWebSocket o) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Integer.parseInt(String.valueOf(this.createtTime-o.createtTime));
     }
     
     

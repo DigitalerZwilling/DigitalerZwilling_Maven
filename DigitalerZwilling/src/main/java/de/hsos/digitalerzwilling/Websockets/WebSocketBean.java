@@ -33,14 +33,16 @@ import javax.websocket.Session;
 @ApplicationScoped
 public class WebSocketBean {
     //@Inject private Conversation conversation;
-    private Set<ExceptionWebSocket> sessions;
+    private final Set<ExceptionWebSocket> sessions;
     public WebSocketBean(){
-        sessions=new ConcurrentSkipListSet<ExceptionWebSocket>();
+        sessions=new ConcurrentSkipListSet<>();
     };
 
 
     public void add(ExceptionWebSocket session){
         if ( session!=null) this.sessions.add(session);
+        else System.out.println("session null");
+        System.out.println(this.sessions.contains(session));
     }
     public void delete(ExceptionWebSocket session){
         if ( session!=null) this.sessions.remove(session);
@@ -52,6 +54,7 @@ public class WebSocketBean {
         ExceptionWebSocket s[]=this.sessions.toArray(new ExceptionWebSocket[this.sessions.size()]);
         
         for(int i=0;i<s.length;i++){
+            System.out.println(s[i].toString());
             if (s[i].getSession()==null){
                 sessions.remove(s[i]);
             }
