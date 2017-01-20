@@ -61,6 +61,8 @@
                     $(".buttonStoerung").on("click",function() {
                         localStorage.removeItem("elementId_7");
                         localStorage.removeItem("elementType_7");
+                        console.log("schließe WebsocketList7 beim Click auf den Störungsbutton.");
+                        closeWebsockets(7);
                         localStorage.setItem("stoerung", "stoerungLaden");
                         if(localStorage.getItem("mainContainer")=="details"){
                             $("#mainContainer").load("uebersicht.html");
@@ -73,7 +75,7 @@
 
                 $(function() {
                     $(".buttonDetails").on("click",function() {
-                    console.log("schließe WebsocketLists6-8 beim Click auf den Detailsbutton.")
+                    console.log("schließe WebsocketLists6-8 beim Click auf den Detailsbutton.");
                     for(var i = 6; i<=8;i++){
                         closeWebsockets(i);
                     }
@@ -83,7 +85,7 @@
 
                 $(function() {
                     $(".buttonUebersicht").on("click",function() {
-                    console.log("schließe WebsocketLists1-6 beim Click auf den Übersichtsbutton.")
+                    console.log("schließe WebsocketLists1-6 beim Click auf den Übersichtsbutton.");
                     for(var i = 1; i<=6;i++){
                         closeWebsockets(i);
                     }
