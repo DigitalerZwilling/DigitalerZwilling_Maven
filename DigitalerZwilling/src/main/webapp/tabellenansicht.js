@@ -404,11 +404,7 @@ function loadDiv(documentNr){
         
         
         //Gibt den Spalten, die im Body erzeugt wurden die jeweiligen Namen
-     
-        //TODO!!! holt sich das div + documentNr
-       // var myTable = document.getElementById("tabelle_"+documentNr); 
-       //var div = document.getElementById("einzelansicht"+documentNr);
-       
+ 
         var myTable = document.createElement("table");
         myTable.setAttribute('class', "table table-striped");
         myTable.setAttribute('id', "tablle_"+documentNr);
@@ -471,6 +467,16 @@ function loadDiv(documentNr){
                     //console.log("My currenttext: " + currenttext.id);
                     currenttext.innerHTML = liste.inhalt[j].bezeichnung;
                     currenttext.setAttribute("elementId",liste.inhalt[j].id);
+                    
+                    //TODO nur zu Testzwecken! Einheitlicher Typ in Tabellen und Einzelansichten nötig!
+                    if (typ == "hubpositionierstation"){
+                        typ = "hupo";
+                    }
+                    if (typ == "hubQuerStation"){
+                        typ = "huqu";
+                    }
+                    //Ende Test
+                    
                     currenttext.setAttribute("elementType",typ);
                    
                     
@@ -482,6 +488,15 @@ function loadDiv(documentNr){
 
                         closeWebsockets(documentNr);
                         initEinzelansicht(documentNr);
+                        
+                    //TODO nur zu Testzwecken! Einheitlicher Typ in Tabellen und Einzelansichten nötig!
+                    if (typ == "hupo"){
+                        typ = "hubpositionierstation";
+                    }
+                    if (typ == "huqu"){
+                        typ = "hubQuerStation";
+                    }
+                    //Ende Test
                     }
                 }
 
