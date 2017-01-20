@@ -20,8 +20,12 @@ import javax.enterprise.event.Observes;
 @ApplicationScoped
 public class ExceptionEventHandlerScope {
     private final Set<ExceptionWebSocket> sessions;
+    private boolean datenbankFehlerStatus;
+    private boolean spsFehlerStatus;
     public ExceptionEventHandlerScope(){
         sessions=new ConcurrentSkipListSet<>();
+        this.datenbankFehlerStatus=false;
+        this.spsFehlerStatus=false;
     };
 
 
@@ -34,7 +38,7 @@ public class ExceptionEventHandlerScope {
         if ( session!=null) this.sessions.remove(session);
     }
     
-    public void send(@Observes @DB_Exception Exception ex) {
+    /*public void send(@Observes @DB_Exception Exception ex) {
         ExceptionWebSocket s[]=this.sessions.toArray(new ExceptionWebSocket[this.sessions.size()]);
         
         for (ExceptionWebSocket item : s) {
@@ -49,5 +53,40 @@ public class ExceptionEventHandlerScope {
                 }
             }
         }
+    }*/
+    public void send() {
+        ExceptionWebSocket s[]=this.sessions.toArray(new ExceptionWebSocket[this.sessions.size()]);
+        
+        for (ExceptionWebSocket item : s) {
+            System.out.println(item.toString());
+            if (item.getSession() == null) {
+                sessions.remove(item);
+            } else {
+                item.send(this.toJson());  
+            }
+        }
+    }
+    
+    public void spsFehlerStatus(Boolean wert){
+        if(wert.equals(this.spsFehlerStatus)){   
+        }else{
+            this.spsFehlerStatus=wert;
+            this.send();
+        }
+    }
+    public void datenbankFehlerStatus(Boolean wert){
+        if(wert.equals(this.datenbankFehlerStatus)){   
+        }else{
+            this.datenbankFehlerStatus=wert;
+            this.send();
+        }
+    }
+    public String toJson(){
+        String json = new String();
+        json += '{';
+        json += "\"datenbankFehlerStatus\": " + datenbankFehlerStatus + ",";
+        json += "\"spsFehlerStatus\": \"" + spsFehlerStatus + "\"";
+        json+='}';
+        return json;
     }
 }
