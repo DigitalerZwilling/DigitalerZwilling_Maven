@@ -290,7 +290,7 @@
     }
     
     function closeWebsockets(documentId){
-        var websocketList;
+        var websocketList = [];
         switch (documentId) {
            case 1: websocketList = websocketList_1; break;
            case 2: websocketList = websocketList_2; break;

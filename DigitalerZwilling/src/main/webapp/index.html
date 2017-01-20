@@ -38,7 +38,6 @@
     		var websocketList_6 = new Array();
     		var websocketList_7 = new Array();
     		var websocketList_8 = new Array();
-    		var websocketList_all = [websocketList_1, websocketList_2, websocketList_3, websocketList_4, websocketList_5, websocketList_6, websocketList_7, websocketList_8];
 
     		//Listen für Zurück-Buttons der Einzelansichten
     		var zurueckList_1 = new Array();
@@ -74,29 +73,20 @@
 
                 $(function() {
                     $(".buttonDetails").on("click",function() {
-                    console.log("schließe WebsocketLists7-8 beim Click auf den Detailsbutton.")
-                    /*for(i=7;i<9;i++){
-                            var size = websocketList_all.size;
-                            var j;
-                            for(j = 0; j < size; j++){
-                                    websocketList_all[i][j].close();
-                            }
-                    }*/
-                    console.log("BUTZ");
+                    console.log("schließe WebsocketLists6-8 beim Click auf den Detailsbutton.")
+                    for(var i = 6; i<=8;i++){
+                        closeWebsockets(i);
+                    }
                     $("#mainContainer").load("details.html");
                     });
                 });
 
                 $(function() {
                     $(".buttonUebersicht").on("click",function() {
-                    console.log("schließe WebsocketLists1-5 beim Click auf den Übersichtsbutton.")
-                    /*for(i=0;i<5;i++){
-                            var size = websocketList_all.size;
-                            var j;
-                            for(j = 0; j < size; j++){
-                                    websocketList_all[i][j].close();
-                            }
-                    }*/
+                    console.log("schließe WebsocketLists1-6 beim Click auf den Übersichtsbutton.")
+                    for(var i = 1; i<=6;i++){
+                        closeWebsockets(i);
+                    }
                     $("#mainContainer").load("uebersicht.html");
                     });
                 });
