@@ -1,4 +1,4 @@
-var host = "ws://131.173.127.174:8080/DigitalerZwilling/";
+var host = "ws://localhost:8080/DigitalerZwilling/";
 var divName = "einzelansicht";
 
 function initEinzelansicht(documentNr){
