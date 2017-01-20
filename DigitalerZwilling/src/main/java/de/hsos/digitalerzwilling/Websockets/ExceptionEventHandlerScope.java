@@ -6,35 +6,21 @@
 package de.hsos.digitalerzwilling.Websockets;
 
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DB_Exception;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.websocket.Session;
+
 
 /**
  *
  * @author user
  */
-//@Named
 @ApplicationScoped
-public class WebSocketBean {
-    //@Inject private Conversation conversation;
+public class ExceptionEventHandlerScope {
     private final Set<ExceptionWebSocket> sessions;
-    public WebSocketBean(){
+    public ExceptionEventHandlerScope(){
         sessions=new ConcurrentSkipListSet<>();
     };
 
@@ -49,21 +35,17 @@ public class WebSocketBean {
     }
     
     public void send(@Observes @DB_Exception Exception ex) {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!3"+ex.getMessage()+"ex");
-        
         ExceptionWebSocket s[]=this.sessions.toArray(new ExceptionWebSocket[this.sessions.size()]);
         
-        for(int i=0;i<s.length;i++){
-            System.out.println(s[i].toString());
-            if (s[i].getSession()==null){
-                sessions.remove(s[i]);
-            }
-            else{
-                if(s[i]!=null){
-                        s[i].addToMap(ex);
-                }
-                else{
-                    sessions.remove(s[i]);
+        for (ExceptionWebSocket item : s) {
+            System.out.println(item.toString());
+            if (item.getSession() == null) {
+                sessions.remove(item);
+            } else {
+                if (item != null) {
+                    item.addToMap(ex);
+                } else {
+                    sessions.remove(item);
                 }
             }
         }

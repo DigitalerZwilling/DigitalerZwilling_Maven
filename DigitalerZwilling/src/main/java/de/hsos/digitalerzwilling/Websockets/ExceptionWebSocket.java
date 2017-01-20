@@ -8,16 +8,11 @@ package de.hsos.digitalerzwilling.Websockets;
 import de.hsos.digitalerzwilling.Cache.Cache;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DB_Exception;
 import java.io.IOException;
-import java.io.Serializable;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -33,7 +28,7 @@ import javax.websocket.server.ServerEndpoint;
 
 @ServerEndpoint("/ExceptionWebSocket")
 public class ExceptionWebSocket implements Comparable<ExceptionWebSocket>{
-    @Inject private WebSocketBean WebSocketBeanConversation;
+    @Inject private ExceptionEventHandlerScope WebSocketBeanConversation;
     private Session session;
     private Long createtTime;
     
@@ -48,7 +43,7 @@ public class ExceptionWebSocket implements Comparable<ExceptionWebSocket>{
         timeMap=new HashMap<>();
         this.session=session;
         this.WebSocketBeanConversation.add(this);
-        //WebSocketBeanConversation=new WebSocketBean(session);
+        //WebSocketBeanConversation=new ExceptionEventHandlerScope(session);
         
     }
     public Long getCreatetTime(){
@@ -95,7 +90,10 @@ public class ExceptionWebSocket implements Comparable<ExceptionWebSocket>{
             }
         }
         try {
-            session.getBasicRemote().sendText(ausgabe);
+            if (ausgabe.equals("")){
+            } else {
+                session.getBasicRemote().sendText(ausgabe);
+            }
         } catch (IOException ex) {
             Logger.getLogger(ExceptionWebSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
