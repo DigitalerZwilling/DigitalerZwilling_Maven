@@ -54,21 +54,20 @@
 
                 $(document).ready(function(){
                     //Clear local storage information, by refreshing website
-                    //localStorage.clear();
+                   //localStorage.clear();
                     $("#mainContainer").load("uebersicht.html");
         	});
 
                 $(function() {
-                    $(".buttonStoerung").on("click",function(e) {
-                        e.preventDefault();
-                        localStorage.setItem("stoerung", "stoerungLaden");
+                    $(".buttonStoerung").on("click",function() {
                         localStorage.removeItem("elementId_7");
                         localStorage.removeItem("elementType_7");
+                        localStorage.setItem("stoerung", "stoerungLaden");
                         if(localStorage.getItem("mainContainer")=="details"){
                             $("#mainContainer").load("uebersicht.html");
                         }else{
-                            loadDiv(7);
-                            //$("#einzelansicht7").load("stoerungen.html");
+                            //loadDiv(7);
+                           $("#einzelansicht7").load("stoerungen.html");
                         }
                     });
                 });
