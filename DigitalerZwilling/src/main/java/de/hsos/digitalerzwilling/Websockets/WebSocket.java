@@ -49,7 +49,13 @@ public abstract class WebSocket {
         } catch (IOException ex) {
             Logger.getLogger(WebSocket.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ElementNotFoundException ex) {
+            
             Logger.getLogger(WebSocket.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                session.close();
+            } catch (IOException ex1) {
+                Logger.getLogger(WebSocket.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
     
@@ -121,4 +127,5 @@ public abstract class WebSocket {
         
         return json;
     }
+    
 }

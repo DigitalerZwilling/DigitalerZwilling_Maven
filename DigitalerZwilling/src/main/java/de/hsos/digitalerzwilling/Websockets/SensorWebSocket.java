@@ -9,6 +9,7 @@ import de.hsos.digitalerzwilling.Cache.Cache;
 import de.hsos.digitalerzwilling.Cache.SensorCache;
 import javax.inject.Inject;
 import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -62,6 +63,13 @@ public class SensorWebSocket extends WebSocket{
     public void onClose(Session session){
         this.setRegistriert(Boolean.FALSE);
         this.webSocketUpdater.removeWebSocket(this);
+    }
+    
+    @OnError
+    public void onError(Throwable t) {
+        //this.WebSocketBeanConversation.endConversation();
+        System.out.println(this.toString());
+        System.out.println("Error: "+t.getMessage()+" : "+ t.getClass().getName());
     }
 
     @Override
