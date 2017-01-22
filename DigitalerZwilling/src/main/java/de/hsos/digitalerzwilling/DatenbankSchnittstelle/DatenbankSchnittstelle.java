@@ -8,7 +8,6 @@ package de.hsos.digitalerzwilling.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -41,21 +40,16 @@ public class DatenbankSchnittstelle {
     private static final boolean DBCONFILE = true; // Server mit Config Datei???
     private static final String pathToConfig = "./config.cfg";
     
-    private String DbUrl = "jdbc:mysql://131.173.117.48:3306/df_16115";
-    private String DbCd = "com.mysql.jdbc.Driver";
-    private String DbUser = "root";
-    private String DbPw = "Didpw4df";
+    private String DbUrl = "";
+    private String DbCd = "";
+    private String DbUser = "";
+    private String DbPw = "";
 
     public DatenbankSchnittstelle() throws DBNotFoundException{
+        if(!connect(this.findDBConfigFile())){
+            throw new DBNotFoundException("DB error...");
+        }            
         
-        if(DBCONFILE){ // Auswerden der Konstanten
-           if(!connect(this.findDBConfigFile())){
-               throw new DBNotFoundException("DB error...");
-           }            
-        }else{
-            if(!connect(DbUrl,DbCd,DbUser,DbPw))// Oeffnet eine Verbindung mit Standartwerten.
-                throw new DBNotFoundException("DB error...");
-        }
     }
     
     public boolean connect(String pathToConfigFile) throws DBNotFoundException{
@@ -146,12 +140,13 @@ public class DatenbankSchnittstelle {
      * @throws de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException
      */
     public Map<String, List<String>> datenbankAnfrage(String sqlStatement) throws DBNotFoundException, QueryException {
-        Map<String, List<String>> rsMap = new HashMap<>();
-
-        if (data == null) {
-            throw new DBNotFoundException("DB error...");
-        } else {
-            try {
+        try {
+            Map<String, List<String>> rsMap = new HashMap<>();
+            
+            if (data == null || !data.isValid(5)) {
+                connect(DbUrl, DbCd, DbUser, DbPw);
+                //throw new DBNotFoundException("DB error...");
+            } else {
                 Statement stmt = this.data.createStatement();
                 ResultSet rs = stmt.executeQuery(sqlStatement);
                 //----------------------------------------------------
@@ -169,12 +164,11 @@ public class DatenbankSchnittstelle {
                 //------------------------------------------------------
                 rs.close();
                 stmt.close();
-            } catch (SQLException ex) {
-                //Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
-                throw new QueryException(ex.getMessage());
             }
+            return rsMap;
+        } catch (SQLException ex) {
+            throw new QueryException(ex.getMessage());
         }
-        return rsMap;
     }
     
     public String findDBConfigFile() throws DBNotFoundException{
