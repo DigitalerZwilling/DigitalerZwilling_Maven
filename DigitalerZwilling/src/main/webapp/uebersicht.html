@@ -20,6 +20,7 @@
                     $caret = ' <span class="caret"></span>';
 
                     //LocalStorage abfragen: Störungen aus Detailansicht heraus aufgerufen?
+                    //Dann in Übersicht wechseln.
                     if(localStorage.getItem("stoerung")=="stoerungLaden"){
                         $("#einzelansicht7").load("stoerungen.html");
                     }else{
@@ -44,7 +45,6 @@
                     if(localStorage.getItem("elementType_7")!=null && localStorage.getItem("elementId_7")!=null){
                         localStorage.removeItem("stoerung");
                         initEinzelansicht(7);
-                        //$("#einzelansicht7").load("einzelansicht_7.html");
                     }
 
                     $(".dropdown-menu li a").click(function(){
@@ -59,7 +59,6 @@
                     $val = elementType;
                     $(".dd-btn"+i).html($val+$caret);
                     loadDiv(i);
-                    //$("#einzelansicht_"+i).load("tabelle_"+(i+1)+".html", $val);
                 }
 
                 function reloadEinzelansicht(elementType, elementId, divNumber){
@@ -68,7 +67,6 @@
                     $val = elementType;
                     $(".dd-btn"+i).html($val+$caret);
                     loadDiv(i);
-                    //$("#einzelansicht_"+i).load("einzelansicht_"+(i+1)+".html");
                 }
 
                 function loadDiv6(val){
@@ -76,7 +74,6 @@
                     localStorage.setItem('elementType_6',val);
                     $(".btn.dropdown-toggle").html(val+$caret);
                     loadDiv(i+1);
-                    //$("#einzelansicht6").load("tabelle6.html", $val);
                 }
 
 
@@ -114,7 +111,6 @@
                                                 <button type="button" class="btn btn-default dropdown-toggle dd-btn6" id="dd-btn6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
                                                 <ul class="dropdown-menu dropdown6 scrollable-menu">
                                                 <li><a href="#">Artikel</a></li>
-                                                <!--<li><a href="#">Gelenk</a></li>-->
                                                 <li><a href="#">Hubpositionierstationen</a></li>
                                                 <li><a href="#">Hub-Quer-Stationen</a></li>
                                                 <li><a href="#">Roboter</a></li>
@@ -122,7 +118,6 @@
                                                 <li><a href="#">Sensoren</a></li>
                                                 <li><a href="#">Transportbänder</a></li>
                                                 <li><a href="#">Warenträger</a></li>
-                                                <!--<li><a href="#">Werkzeug</a></li>-->
                                                 </ul>  	
                                             </div> 
                                             <button type="button" class="btn btn-default">Zurück</button>

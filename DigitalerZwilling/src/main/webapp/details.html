@@ -50,31 +50,27 @@
                             //Zurück-Buttons, onClick
                             $(".btn.btn-default.backBtn").on('click', function(){            		
                                 idBtn = $(this).attr('id');
+                                var nummer;
                                 switch(idBtn){
                                     case "backBtn1":
-                                            console.log("Button1");
-                                            loadHistory(0);
+                                            nummer = 0;
                                             break;	
                                     case "backBtn2":
-                                            console.log("Button2");
-                                            loadHistory(1);	
+                                            nummer = 1;	
                                             break;	
                                     case "backBtn3":
-                                            console.log("Button3");
-                                            loadHistory(2);	
+                                            nummer = 2;	
                                             break;	
                                     case "backBtn4":
-                                            console.logt("Button4");
-                                            loadHistory(3);	
+                                            nummer = 3;	
                                             break;	
                                     case "backBtn5":
-                                            console.log("Button5");
-                                            loadHistory(4);	
+                                            nummer = 4;	
                                             break;	
                                     case "backBtn6":
-                                            console.log("Button6");
-                                            loadHistory(5);	
+                                            nummer = 5;	
                                 }
+                                loadHistory(nummer);
                             });
 
 	            	
@@ -91,20 +87,16 @@
                             i = divNumber;
                             console.log("reload " + elementType + "in Div " + (i+1));
                             $val = elementType;
-                            //$val = "Artikel";
                             $(".dd-btn"+(i+1)).html($val+$caret);
                             loadDiv(i+1);
-                            //$("#einzelansicht"+(i+1)).load("tabelle_"+(i+1)+".html", $val);
                         }
 
                         function reloadEinzelansicht(elementType, elementId, divNumber){
                             i = divNumber;
                             console.log("reload " + elementType + " _____ " + elementId + " in Div " + (i+1));
                             $val = elementType;
-                            //localStorage.setItem("elementType_1","Artikel");
                             $(".dd-btn"+(i+1)).html($val+$caret);
                             initEinzelansicht(i+1);
-                            //$("#einzelansicht"+(i+1)).load("einzelansicht_"+(i+1)+".html");
                         }
 
                         function loadHistory(ListNummer){
@@ -123,78 +115,41 @@
                                 reloadEinzelansicht(elementTypeBack,elementIdBack,ListNummer);
                             }
                         }
-
-
-
+    
                         function loadViaDropdown(idBtn){
                             $caret = ' <span class="caret"></span>';
+                            var nummer;
                             switch(idBtn){
                                 case "dd-btn1":
-                                $(".dropdown1 li a").click(function(){
-                                        $val = $(this).html();
-                                        console.log("lösche elemID_1");
-                                        localStorage.removeItem('elementId_1');
-                                        localStorage.setItem('elementType_1',$val);
-                                                $(".dd-btn1").html($val+$caret);
-                                                loadDiv(1);
-                                        //$("#einzelansicht1").load("tabelle1.html", $val);
-                                });
-
+                                    nummer = 1;
+                                    break;
                                 case "dd-btn2":
-                                $(".dropdown2 li a").click(function(){
-                                        $val = $(this).html();
-                                        localStorage.removeItem('elementId_2');
-                                        localStorage.setItem('elementType_2',$val);
-                                                $(".dd-btn2").html($val+$caret);
-                                                loadDiv(2);
-                                        //$("#einzelansicht2").load("tabelle2.html", $val);
-                                });
-
+                                    nummer = 2;
+                                    break;
                                 case "dd-btn3":
-                                $(".dropdown3 li a").click(function(){
-                                        $val = $(this).html();
-                                        localStorage.removeItem('elementId_3');
-                                        localStorage.setItem('elementType_3',$val);
-                                                $(".dd-btn3").html($val+$caret);
-                                                loadDiv(3);
-                                        //$("#einzelansicht3").load("tabelle3.html", $val);
-                                });
-
+                                    nummer = 3;
+                                    break;
                                 case "dd-btn4":
-                                $(".dropdown4 li a").click(function(){
-                                        $val = $(this).html();
-                                        localStorage.removeItem('elementId_4');
-                                        localStorage.setItem('elementType_4',$val);
-                                                $(".dd-btn4").html($val+$caret);
-                                                loadDiv(4);
-                                        //$("#einzelansicht4").load("tabelle4.html", $val);
-                                });
-
+                                    nummer = 4;
+                                    break;
                                 case "dd-btn5":
-                                $(".dropdown5 li a").click(function(){
-                                        $val= $(this).html();
-                                                localStorage.removeItem('elementId_5');
-                                                localStorage.setItem('elementType_5',$val);
-                                                $(".dd-btn5").html($val+$caret);
-                                                loadDiv(5);
-                                        //$("#einzelansicht5").load("tabelle5.html", $val);
-                                });
-
+                                    nummer = 5;
+                                    break;
                                 case "dd-btn6":
-                                $(".dropdown6 li a").click(function(){
-                                        $val = $(this).html();
-                                        localStorage.removeItem('elementId_6');
-                                        localStorage.setItem('elementType_6',$val);
-                                                $(".dd-btn6").html($val+$caret);
-                                                loadDiv(6);
-                                        //$("#einzelansicht6").load("tabelle6.html", $val);
-                                });
+                                    nummer = 6;
                             }
+                            $(".dropdown"+nummer+" li a").click(function(){
+                                    $val = $(this).html();
+                                    console.log("lösche elemID_"+nummer);
+                                    localStorage.removeItem('elementId_'+nummer);
+                                    localStorage.setItem('elementType_'+nummer,$val);
+                                            $(".dd-btn"+nummer).html($val+$caret);
+                                            loadDiv(nummer);
+                            }); 
                         }
 
 			</script>
 
-			
 
 			<div class="row" style="background-color:lightgrey; height:100%;">
 
@@ -208,7 +163,6 @@
                                                 <button type="button" class="btn btn-default dropdown-toggle dd-btn1" id="dd-btn1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
                                                     <ul class="dropdown-menu dropdown1 scrollable-menu">
                                                         <li><a href="#">Artikel</a></li>
-                                                        <!--<li><a href="#">Gelenk</a></li>-->
                                                         <li><a href="#">Hubpositionierstationen</a></li>
                                                         <li><a href="#">Hub-Quer-Stationen</a></li>
                                                         <li><a href="#">Roboter</a></li>
@@ -216,7 +170,6 @@
                                                         <li><a href="#">Sensoren</a></li>
                                                         <li><a href="#">Transportbänder</a></li>
                                                         <li><a href="#">Warenträger</a></li>
-                                                        <!--<li><a href="#">Werkzeug</a></li>-->
                                                     </ul>  	
                                             </div>
                                             <button id="backBtn1" type="button" class="btn btn-default backBtn">zurück</button>
@@ -232,7 +185,6 @@
                                                 <button type="button" class="btn btn-default dropdown-toggle dd-btn2" id="dd-btn2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
                                                     <ul class="dropdown-menu dropdown2 scrollable-menu">
                                                         <li><a href="#">Artikel</a></li>
-                                                        <!--<li><a href="#">Gelenk</a></li>-->
                                                         <li><a href="#">Hubpositionierstationen</a></li>
                                                         <li><a href="#">Hub-Quer-Stationen</a></li>
                                                         <li><a href="#">Roboter</a></li>
@@ -240,7 +192,6 @@
                                                         <li><a href="#">Sensoren</a></li>
                                                         <li><a href="#">Transportbänder</a></li>
                                                         <li><a href="#">Warenträger</a></li>
-                                                        <!--<li><a href="#">Werkzeug</a></li>-->
                                                     </ul> 
                                             </div> 	
                                             <button id="backBtn2" type="button" class="btn btn-default">zurück</button>
@@ -261,7 +212,6 @@
                                                 <button type="button" class="btn btn-default dropdown-toggle dd-btn3" id="dd-btn3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
                                                     <ul class="dropdown-menu dropdown3 scrollable-menu">
                                                         <li><a href="#">Artikel</a></li>
-                                                        <!--<li><a href="#">Gelenk</a></li>-->
                                                         <li><a href="#">Hubpositionierstationen</a></li>
                                                         <li><a href="#">Hub-Quer-Stationen</a></li>
                                                         <li><a href="#">Roboter</a></li>
@@ -269,7 +219,6 @@
                                                         <li><a href="#">Sensoren</a></li>
                                                         <li><a href="#">Transportbänder</a></li>
                                                         <li><a href="#">Warenträger</a></li>
-                                                        <!--<li><a href="#">Werkzeug</a></li>-->
                                                     </ul>  	
                                             </div>
                                             <button id="backBtn3" type="button" class="btn btn-default">zurück</button>
@@ -285,7 +234,6 @@
                                                 <button type="button" class="btn btn-default dropdown-toggle dd-btn4" id="dd-btn4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
                                                     <ul class="dropdown-menu dropdown4 scrollable-menu">
                                                         <li><a href="#">Artikel</a></li>
-                                                        <!--<li><a href="#">Gelenk</a></li>-->
                                                         <li><a href="#">Hubpositionierstationen</a></li>
                                                         <li><a href="#">Hub-Quer-Stationen</a></li>
                                                         <li><a href="#">Roboter</a></li>
@@ -293,7 +241,6 @@
                                                         <li><a href="#">Sensoren</a></li>
                                                         <li><a href="#">Transportbänder</a></li>
                                                         <li><a href="#">Warenträger</a></li>
-                                                        <!--<li><a href="#">Werkzeug</a></li>-->
                                                     </ul>  	
                                             </div>
                                             <button id="backBtn4" type="button" class="btn btn-default">zurück</button>
@@ -316,7 +263,6 @@
                                                 <button type="button" class="btn btn-default dropdown-toggle dd-btn5" id="dd-btn5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
                                                     <ul class="dropdown-menu dropdown5 scrollable-menu">
                                                         <li><a href="#">Artikel</a></li>
-                                                        <!--<li><a href="#">Gelenk</a></li>-->
                                                         <li><a href="#">Hubpositionierstationen</a></li>
                                                         <li><a href="#">Hub-Quer-Stationen</a></li>
                                                         <li><a href="#">Roboter</a></li>
@@ -324,7 +270,6 @@
                                                         <li><a href="#">Sensoren</a></li>
                                                         <li><a href="#">Transportbänder</a></li>
                                                         <li><a href="#">Warenträger</a></li>
-                                                        <!--<li><a href="#">Werkzeug</a></li>-->
                                                     </ul>  	
                                             </div>
                                             <button id="backBtn5" type="button" class="btn btn-default">zurück</button>
@@ -340,7 +285,6 @@
                                                 <button type="button" class="btn btn-default dropdown-toggle dd-btn6" id="dd-btn6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
                                                     <ul class="dropdown-menu dropdown6 scrollable-menu">
                                                         <li><a href="#">Artikel</a></li>
-                                                        <!--<li><a href="#">Gelenk</a></li>-->
                                                         <li><a href="#">Hubpositionierstationen</a></li>
                                                         <li><a href="#">Hub-Quer-Stationen</a></li>
                                                         <li><a href="#">Roboter</a></li>
@@ -348,7 +292,6 @@
                                                         <li><a href="#">Sensoren</a></li>
                                                         <li><a href="#">Transportbänder</a></li>
                                                         <li><a href="#">Warenträger</a></li>
-                                                        <!--<li><a href="#">Werkzeug</a></li>-->
                                                     </ul>  
                                             </div>	
                                             <button id="backBtn6" type="button" class="btn btn-default">zurück</button>
