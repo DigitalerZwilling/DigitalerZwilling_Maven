@@ -35,21 +35,23 @@
 
             attributes.appendChild(zeile);
                   
-            $("#"+documentNr+"_"+id[i]).click(function() {  
-                closeWebsockets(documentNr);
-                alert("id="+$(this).attr("elementId")+" type="+$(this).attr("elementType"));
-                localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));
-                localStorage.setItem("elementType_"+documentNr,$(this).attr("elementType"));
+            link.onclick = function() {
+                        var elementId = $(this).attr("elementId");
+                        var elementTyp = $(this).attr("elementType");
+                        addZurueckList(documentNr, elementId, elementTyp);
+                        closeWebsockets(documentNr);
+                        localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));
+                        localStorage.setItem("elementType_"+documentNr,$(this).attr("elementType"));
 
-                var div = document.getElementById(divName+documentNr);
-                var childs = div.childNodes;
+                        var div = document.getElementById(divName+documentNr);
+                        var childs = div.childNodes;
 
-                for(var i=0; i<childs.length; i++){
-                    div.removeChild(childs[i]);
-                }
+                        for(var i=0; i<childs.length; i++){
+                            div.removeChild(childs[i]);
+                        }
 
-                initEinzelansicht(documentNr);
-            });
+                        initEinzelansicht(documentNr);
+                    }
         }
     }
         
@@ -111,9 +113,12 @@
                     link.setAttribute("elementId",jsonObject['id']);
                     link.setAttribute("elementType",type);
                     link.onclick = function() {
+                        var elementId = $(this).attr("elementId");
+                        var elementTyp = $(this).attr("elementType");
+                        addZurueckList(documentNr, elementId, elementTyp);
                         closeWebsockets(documentNr);
-                        localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));
-                        localStorage.setItem("elementType_"+documentNr,$(this).attr("elementType"));
+                        localStorage.setItem("elementId_"+documentNr,elementId);
+                        localStorage.setItem("elementType_"+documentNr,elementTyp);
                         
                         var div = document.getElementById(divName+documentNr);
                         var childs = div.childNodes;

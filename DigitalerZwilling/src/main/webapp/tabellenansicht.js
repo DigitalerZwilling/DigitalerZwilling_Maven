@@ -456,10 +456,13 @@ function loadDiv(documentNr){
                    
                     
                     currenttext.onclick = function() {
+                       var elementId = $(this).attr("elementId");
+                       var elementTyp = $(this).attr("elementType");
+                       addZurueckList(documentNr, elementId, elementTyp);
                        
-                       localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));
-                       localStorage.setItem("elementType_"+documentNr,$(this).attr("elementType"));
-
+                       localStorage.setItem("elementId_"+documentNr, elementId);
+                       localStorage.setItem("elementType_"+documentNr, elementTyp);
+                       
                        closeWebsockets(documentNr);
                        initEinzelansicht(documentNr);
                   
