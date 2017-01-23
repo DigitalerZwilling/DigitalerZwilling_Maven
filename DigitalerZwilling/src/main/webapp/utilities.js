@@ -332,7 +332,7 @@
     }
     
     function addWebsockets(documentId, array){
-        var websocketList= [];
+        var websocketList = [];
         switch (documentId) {
            case 1: websocketList = websocketList_1; break;
            case 2: websocketList = websocketList_2; break;
@@ -350,5 +350,17 @@
     }
     
     function addZurueckList(documentId, elementId, elementTyp){
-        console.log("Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp)
+        console.log("Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp);
+        var zurueckList = [];
+        switch (documentId) {
+           case 1: zurueckList = zurueckList_1; break;
+           case 2: zurueckList = zurueckList_2; break;
+           case 3: zurueckList = zurueckList_3; break;
+           case 4: zurueckList = zurueckList_4; break;
+           case 5: zurueckList = zurueckList_5; break;
+           case 6: zurueckList = zurueckList_6; break;
+           case 7: zurueckList = zurueckList_7; break;
+        }
+        
+        zurueckList.push([elementTyp,elementId]);
     }

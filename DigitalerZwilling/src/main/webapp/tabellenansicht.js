@@ -20,6 +20,7 @@ function loadDiv(documentNr){
 
   var typ = localStorage.getItem('elementType_'+documentNr);
   console.log("Type="+typ);
+    addZurueckList(documentNr, null ,typ);
   
   switch (typ) {
             case 'Artikel':
