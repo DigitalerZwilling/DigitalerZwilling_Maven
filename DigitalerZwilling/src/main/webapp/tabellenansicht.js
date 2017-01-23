@@ -50,7 +50,7 @@ function loadDiv(documentNr){
                     var received_msg = event.data;
                     //console.log("Message"+received_msg);
                     erzeugeTabelle("warentraeger", received_msg, warentraegerSocket, documentNr); 
-                    //erzeugeTabelle("Warentraeger", received_msg, warentraegerSocket, documentNr); 
+                    //erzeugeTabelle("Warenträger", received_msg, warentraegerSocket, documentNr); 
                 };
                 break;
                 
@@ -66,7 +66,7 @@ function loadDiv(documentNr){
                     var received_msg = event.data;
                     //console.log("Message"+received_msg);
                     erzeugeTabelle("transportband", received_msg, transportbandSocket, documentNr);
-                    //erzeugeTabelle("Transportband", received_msg, transportbandSocket, documentNr);
+                    //erzeugeTabelle("Transportbänder", received_msg, transportbandSocket, documentNr);
                 };
                 break;
                 
@@ -98,7 +98,7 @@ function loadDiv(documentNr){
                     var received_msg = event.data;
                     console.log("Message"+received_msg);
                     erzeugeTabelle("sektor", received_msg, sektorSocket, documentNr);
-                    //erzeugeTabelle("Sektor", received_msg, sektorSocket, documentNr);
+                    //erzeugeTabelle("Sektoren", received_msg, sektorSocket, documentNr);
                 };
                 break;
             case "Sensoren":
@@ -114,7 +114,7 @@ function loadDiv(documentNr){
                     var received_msg = event.data;
                     //console.log("Message"+received_msg);
                     erzeugeTabelle("sensor", received_msg, sensorSocket, documentNr);
-                   // erzeugeTabelle("Sensor", received_msg, sensorSocket, documentNr);
+                   // erzeugeTabelle("Sensoren", received_msg, sensorSocket, documentNr);
                 };
                 break;
             case "Gelenke":
@@ -130,7 +130,7 @@ function loadDiv(documentNr){
                     var received_msg = event.data;
                     //console.log("Message"+received_msg);
                     erzeugeTabelle("gelenk", received_msg, gelenkSocket, documentNr);
-                    //erzeugeTabelle("Gelenk", received_msg, gelenkSocket, documentNr);
+                    //erzeugeTabelle("Gelenke", received_msg, gelenkSocket, documentNr);
                 };
                 break;
            
@@ -147,7 +147,7 @@ function loadDiv(documentNr){
                     var received_msg = event.data;
                     //console.log("Message"+received_msg);
                     erzeugeTabelle("werkzeug", received_msg, werkzeugSocket, documentNr);
-                    //erzeugeTabelle("Werkzeug", received_msg, werkzeugSocket, documentNr);
+                    //erzeugeTabelle("Werkzeuge", received_msg, werkzeugSocket, documentNr);
                 };
                 break;
             case "Hubpositionierstationen":
@@ -162,7 +162,7 @@ function loadDiv(documentNr){
                     var received_msg = event.data;
                   //  console.log("Message"+received_msg);
                     erzeugeTabelle("hubpositionierstation", received_msg, hupoSocket, documentNr);
-                    //erzeugeTabelle("Hubpositionierstation", received_msg, hupoSocket, documentNr);
+                    //erzeugeTabelle("Hubpositionierstationen", received_msg, hupoSocket, documentNr);
                 };
                 break;
             case "Hub-Quer-Stationen":
@@ -177,7 +177,7 @@ function loadDiv(documentNr){
                     var received_msg = event.data;
                     console.log("Message"+received_msg);
                     erzeugeTabelle("hubQuerStation", received_msg, huquSocket, documentNr);
-                    //erzeugeTabelle("HubQuerStation", received_msg, huquSocket, documentNr);
+                    //erzeugeTabelle("HubQuerStationen", received_msg, huquSocket, documentNr);
                 };
                 break;
             default:
@@ -213,7 +213,7 @@ function loadDiv(documentNr){
             };
             break;
         case 'warentraeger':
-        //case 'Warentraeger':
+        //case 'Warenträger':
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
@@ -221,7 +221,7 @@ function loadDiv(documentNr){
             };
             break;
         case 'transportband':
-        //case 'Transportband':
+        //case 'Transportbänder':
                 websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
@@ -237,7 +237,7 @@ function loadDiv(documentNr){
             };
             break;
         case "sektor":
-        //case 'Soboter':
+        //case 'Sektoren':
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
@@ -245,7 +245,7 @@ function loadDiv(documentNr){
             };
             break;
         case "sensor":
-        //case "Sensor":
+        //case "Sensoren":
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
@@ -253,7 +253,7 @@ function loadDiv(documentNr){
             };
             break;
         case "gelenk":
-        //case "Gelenk":
+        //case "Gelenke":
              websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
@@ -262,7 +262,7 @@ function loadDiv(documentNr){
             break;
 
         case "werkzeug":
-        //case "Werkzeug":
+        //case "Werkzeuge":
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
@@ -271,7 +271,7 @@ function loadDiv(documentNr){
             break;
             
         case "hubpositionierstation":
-        //case "Hubpositionierstation":
+        //case "Hubpositionierstationen":
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
@@ -280,7 +280,7 @@ function loadDiv(documentNr){
             break;
             
         case "hubQuerStation":
-        //case "HubQuerStation":
+        //case "HubQuerStationen":
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
@@ -299,34 +299,44 @@ function loadDiv(documentNr){
         var spaltennamen;
          switch (typ) {
             case 'artikel':
+            //case 'Artikel':
                 spaltennamen = ['Bezeichnung', 'Zeitstempel']; 
                 return spaltennamen;
             case "warentraeger":
+            //case "Warenträger":
                spaltennamen =  ['Bezeichnung', 'Zeitstempel', 'Montagezustand'];
                 return spaltennamen;
             case "transportband":
+            //case "Transportbänder":
                  spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Stoerung'];
                 return spaltennamen;
             case "roboter":
+            //case "Roboter":
                 console.log("++++Roboter");
                 spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Stoerung'];
                 return spaltennamen;
             case "sektor":
+            //case "Sektoren":
                  spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Stoerung'];
                 return spaltennamen;
             case "sensor":
+            //case "Sensoren":
                  spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Zustand']; 
                 return spaltennamen;
             case "gelenk":
+            //case "Gelenke":
                 spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Gelenkstellung'];
                 return spaltennamen;
             case "werkzeug":
+            //case "Werkzeuge":
                  spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Zustand'];
                 return spaltennamen;
             case "hubpositionierstation":
+            //case "Hubpositionierstationen":
                 spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Position'];
                 return spaltennamen;
             case "hubQuerStation":
+            //case "HubQuerStationen":
                 spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Zustand'];
                 return spaltennamen;
             default:
@@ -342,8 +352,6 @@ function loadDiv(documentNr){
         var liste = JSON.parse(listeJSON);
         var anzahlElemente = liste.inhalt.length;
         
-        
-       //console.log(typ+"Bezeichnung_"+liste.inhalt[0].id + "_" + documentNr);
         //Aktualisieren der Werte:
         for (var i = 0; i < anzahlElemente; i++){
             document.getElementById(typ+"Bezeichnung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].bezeichnung;
@@ -351,29 +359,38 @@ function loadDiv(documentNr){
          
               switch (typ) {
                 case "artikel":
+                //case "Artikel":
                     break;
                 case "warentraeger":
+                //case "Warenträger":
                     document.getElementById(typ + "Montagezustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].montagezustand;
                     break;
                 case "transportband":
+                //case "Transportbänder"
                     document.getElementById(typ+"Stoerung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].stoerung;
                     break;
-                case "toboter":
+                case "roboter":
+                //case "Roboter":
                     document.getElementById(typ +"Stoerung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].stoerung;
                     break;
                 case "sektor":
+                //case "Sektoren":
                     document.getElementById(typ + "Stoerung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].stoerung;
                     break;
                 case "sensor":
+                //case "Sensoren":
                     document.getElementById(typ +"Zustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].zustand;
                     break;
                 case "gelenk":
+                //case "Gelenke":
                     document.getElementById(typ +"Stellung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].gelenkstellung;
                     break;
                 case "werkzeug":
+                //case "Werkzeuge":
                     document.getElementById(typ +"Zustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].zustand;
                     break;
                 case "hubpositionierstation":
+                 //case "Hubpositionierstationen":
                     var position = "";
                     if (liste.inhalt[i].oben == 1){
                         position = "\u2191";
@@ -385,6 +402,7 @@ function loadDiv(documentNr){
                    document.getElementById('id', typ+"Postition_"+liste.inhalt[i].id  + "_" + documentNr).innerHTML = position;
                    break;
                 case "hubQuerStation":
+                //case "HubQuerStationen":
                      var zustand = getZustandHuQu(liste.inhalt[j].motor, liste.inhalt[i].oben, liste.inhalt[j].mittig, liste.inhalt[j].unten);
                     document.getElementById(typ+"Zustand_"+liste.inhalt[i].id  + "_" + documentNr).innerHTML = zustand;
                     break;
@@ -585,6 +603,3 @@ function loadDiv(documentNr){
                             return zustandHuQu;
     }
     
-
-    //Alles vom Div lösche
-    //Alle Websockets schließen    
