@@ -365,7 +365,7 @@ function loadDiv(documentNr){
                     }else if (liste.inhalt[i].unten == 1){
                         position = "\u2193";
                     }else{
-                        position = "-";
+                        position = "X";
                     }
                     document.getElementById(typ+"Position_"+liste.inhalt[i].id  + "_" + documentNr).innerHTML = position;
                    break;
