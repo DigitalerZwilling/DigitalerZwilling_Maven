@@ -6,13 +6,16 @@
 package de.hsos.digitalerzwilling.DatenbankSchnittstelle;
 
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
+import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DB_Exception;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
+import de.hsos.digitalerzwilling.Websockets.ExceptionEventHandlerScope;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +23,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 
 /**
  *
@@ -28,7 +33,17 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class DatenbankSchnittstelle {
 
-    private Connection data;                                                        // Datenbank Verbindung
+    private Connection data;        // Datenbank Verbindung
+    
+    private Long SPS_Heartbeat_Deadline_ms=1000*60*2l;
+    
+    /*@Inject
+    @DB_Exception
+    Event<Exception> exceptionEvent;*/
+    @Inject private ExceptionEventHandlerScope evs;
+    
+    private Long letzterZeitstempel;
+    
     //-----------------------------------------------------------------------------
 
     public DatenbankSchnittstelle() throws DBNotFoundException{
@@ -50,7 +65,8 @@ public class DatenbankSchnittstelle {
             this.data = DriverManager.getConnection(DbUrl, DbUser, DbPw);
         } catch (SQLException ex) {
             Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
-            throw new DBNotFoundException();
+            evs.datenbankFehlerStatus(Boolean.TRUE);
+            throw new DBNotFoundException(ex.getMessage());
             //throw new Exception("Fehler: Datenbankverbindung auf "+ this._DbURL+" nicht möglich");
         }
     }
@@ -65,7 +81,8 @@ public class DatenbankSchnittstelle {
             this.data = DriverManager.getConnection(DbUrl, DbUser, DbPw);
         } catch (SQLException ex) {
             Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
-            throw new DBNotFoundException();
+            evs.datenbankFehlerStatus(Boolean.TRUE);
+            throw new DBNotFoundException(ex.getMessage());
             //throw new Exception("Fehler: Datenbankverbindung auf "+ this._DbURL+" nicht möglich");
         }
     }
@@ -83,11 +100,12 @@ public class DatenbankSchnittstelle {
      */
     public Map<String, List<String>> datenbankAnfrage(String sqlStatement) throws DBNotFoundException, QueryException {
         Map<String, List<String>> rsMap = new HashMap<>();
-
         if (data == null) {
+            evs.datenbankFehlerStatus(Boolean.TRUE);
             throw new DBNotFoundException();
         } else {
             try {
+                this.timeTrial();
                 Statement stmt = this.data.createStatement();
                 ResultSet rs = stmt.executeQuery(sqlStatement);
                 //----------------------------------------------------
@@ -99,17 +117,35 @@ public class DatenbankSchnittstelle {
                 while (rs.next()) {
                     for (int i = 1; i <= columnCount; i++) {
                         rsMap.get(rsmd.getColumnName(i).toUpperCase()).add(rs.getString(i));
-                        
                     }
                 }
                 //------------------------------------------------------
                 rs.close();
                 stmt.close();
+                evs.datenbankFehlerStatus(Boolean.FALSE);
             } catch (SQLException ex) {
                 Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
-                throw new QueryException();
+                evs.datenbankFehlerStatus(Boolean.TRUE);
+                throw new QueryException(ex.getMessage());
             }
         }
         return rsMap;
     }
+    
+    public void timeTrial() throws SQLException{
+        Long now=new java.util.Date().getTime();
+        Statement stmt = this.data.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT ZEITSTEMPEL FROM HEARTBEAT LIMIT 1");
+        rs.next();
+        if (rs.getTimestamp("ZEITSTEMPEL").getTime()+this.SPS_Heartbeat_Deadline_ms<now){
+            this.evs.spsFehlerStatus(Boolean.TRUE);
+        }
+        else{
+            this.evs.spsFehlerStatus(Boolean.FALSE);
+        }
+        rs.close();
+        stmt.close();
+    }
+           
+    
 }
