@@ -7,6 +7,7 @@ package de.hsos.digitalerzwilling.DatenbankSchnittstelle;
 
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
+import de.hsos.digitalerzwilling.Websockets.ExceptionEventHandlerScope;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,6 +27,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 /**
  *
@@ -43,6 +45,13 @@ public class DatenbankSchnittstelle {
     private String DbCd = "";
     private String DbUser = "";
     private String DbPw = "";
+    
+    private Long SPS_Heartbeat_Deadline_ms=1000*60*2l;
+    
+    @Inject
+    private ExceptionEventHandlerScope evs;
+    
+    private Long letzterZeitstempel;
 
     public DatenbankSchnittstelle() throws DBNotFoundException{
         if(!connect(this.findDBConfigFile())){
@@ -170,6 +179,21 @@ public class DatenbankSchnittstelle {
         } catch (SQLException ex) {
             throw new QueryException(ex.getMessage());
         }
+    }
+    
+    public void timeTrial() throws SQLException{
+        Long now=new java.util.Date().getTime();
+        Statement stmt = this.data.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT ZEITSTEMPEL FROM HEARTBEAT LIMIT 1");
+        rs.next();
+        if (rs.getTimestamp("ZEITSTEMPEL").getTime()+this.SPS_Heartbeat_Deadline_ms<now){
+            this.evs.spsFehlerStatus(Boolean.TRUE);
+        }
+        else{
+            this.evs.spsFehlerStatus(Boolean.FALSE);
+        }
+        rs.close();
+        stmt.close();
     }
     
     public String findDBConfigFile() throws DBNotFoundException{
