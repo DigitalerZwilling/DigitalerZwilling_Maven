@@ -1,10 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 function initStoerung(documentNr){
     closeWebsockets(documentNr);
     
@@ -74,7 +67,7 @@ function initStoerung(documentNr){
 
 
 function updateStoerung(documentNr, parentNode, jsonString, typ){
-    console.log()
+    console.log("----")
     var json = JSON.parse(jsonString);
     
     removeLines(parentNode, typ);
@@ -89,14 +82,25 @@ function updateStoerung(documentNr, parentNode, jsonString, typ){
 
 function removeLines(parentNode, typ){
     var childs = parentNode.childNodes;
-
+    
     for(var i=0; i<childs.length; i++){
         var td = childs[i].childNodes[0];
-        if(td == undefined) continue;
+        if(td == undefined){
+            console.log("td");
+            continue;
+        }
         var a = td.childNodes[0];
-        if(a == undefined) continue;
+        if(a == undefined){ 
+            console.log("a");
+            continue;
+        }
+        
         if(a.getAttribute("elementType")==typ){
+            console.log("Remove="+a.innerHTML);
             parentNode.removeChild(childs[i]);
-        } 
+            i--;
+        }else{
+            console.log("ignore");
+        }
     }
 }
