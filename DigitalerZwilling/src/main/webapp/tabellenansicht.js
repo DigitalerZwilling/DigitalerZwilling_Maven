@@ -95,7 +95,7 @@ function loadDiv(documentNr){
                 
                 sektorSocket.onmessage = function(event) {
                     var received_msg = event.data;
-                    console.log("Message"+received_msg);
+                   // console.log("Message"+received_msg);
                   
                     erzeugeTabelle("Sektoren", received_msg, sektorSocket, documentNr);
                 };
@@ -159,7 +159,7 @@ function loadDiv(documentNr){
                 
                 hupoSocket.onmessage = function(event) {
                     var received_msg = event.data;
-                  //  console.log("Message"+received_msg);
+                   // console.log("Message"+received_msg);
                     
                     erzeugeTabelle("Hubpositionierstationen", received_msg, hupoSocket, documentNr);
                 };
@@ -174,7 +174,7 @@ function loadDiv(documentNr){
                 
                 huquSocket.onmessage = function(event) {
                     var received_msg = event.data;
-                    console.log("Message"+received_msg);
+                   // console.log("Message"+received_msg);
                     erzeugeTabelle("Hub-Quer-Stationen", received_msg, huquSocket, documentNr);
                 };
                 break;
@@ -189,7 +189,7 @@ function loadDiv(documentNr){
     function erzeugeTabelle(typ, listeJSON, websocket, documentNr){
        
         
-        console.log("++++++++++++++++++++++++++++++");
+       // console.log("++++++++++++++++++++++++++++++");
         console.log("ErzeugeTabelle vom Typ: " + typ + ", Websocket: " + websocket);
         var liste = JSON.parse(listeJSON);
         var spaltennamen = getSpaltenname(typ); //Ermittelt die benötigten Spaltnamen
@@ -262,7 +262,7 @@ function loadDiv(documentNr){
         case "Hubpositionierstationen":
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
-                //console.log("Message"+received_msg);
+             //   console.log("Message"+received_msg);
                 updateTabelle("Hubpositionierstationen", received_msg, documentNr);
             }
             break;
@@ -295,7 +295,6 @@ function loadDiv(documentNr){
                  spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Stoerung'];
                 return spaltennamen;
             case "Roboter":
-                console.log("++++Roboter");
                 spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Stoerung'];
                 return spaltennamen;
             case "Sektoren":
@@ -331,7 +330,6 @@ function loadDiv(documentNr){
         
         //Aktualisieren der Werte:
         for (var i = 0; i < anzahlElemente; i++){
-            console.log("+++++" + i);
             document.getElementById(typ+"Bezeichnung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].bezeichnung;
             document.getElementById(typ+"Zeitstempel_"+liste.inhalt[i].id+ "_" + documentNr).innerHTML = liste.inhalt[i].zeitstempel;
          
@@ -360,6 +358,7 @@ function loadDiv(documentNr){
                     document.getElementById(typ +"Zustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].zustand;
                     break;
                 case "Hubpositionierstationen":
+                   
                     var position = "";
                     if (liste.inhalt[i].oben == 1){
                         position = "\u2191";
@@ -368,7 +367,7 @@ function loadDiv(documentNr){
                     }else{
                         position = "-";
                     }
-                   document.getElementById('id', typ+"Postition_"+liste.inhalt[i].id  + "_" + documentNr).innerHTML = position;
+                    document.getElementById(typ+"Position_"+liste.inhalt[i].id  + "_" + documentNr).innerHTML = position;
                    break;
                 case "Hub-Quer-Stationen":
                      var zustand = getZustandHuQu(liste.inhalt[i].motor, liste.inhalt[i].oben, liste.inhalt[i].mittig, liste.inhalt[i].unten);
@@ -508,7 +507,9 @@ function loadDiv(documentNr){
                                mycurrent_cell.setAttribute('id', typ+"Position_"+liste.inhalt[j].id  + "_" + documentNr);
                                currenttext = document.createTextNode("\u2193");
                            }else{
+                         
                                 mycurrent_cell.setAttribute('id', typ+"Position_"+liste.inhalt[j].id  + "_" + documentNr);
+                     
                                currenttext = document.createTextNode("X");
                            }
                             break;
@@ -533,11 +534,9 @@ function loadDiv(documentNr){
         var zustandHuQu = '';
                            if (motor == 1){
                                motorzustand = "ein";
-                               console.log("ein");
                            }
                            else if (motor == 0){
                                motorzustand = "aus";
-                               console.log("aus");
                            }
                             if (oben){
                                 zustandHuQu = motorzustand+ " - Oben";
