@@ -20,7 +20,6 @@ function loadDiv(documentNr){
 
   var typ = localStorage.getItem('elementType_'+documentNr);
   console.log("Type="+typ);
-    addZurueckList(documentNr, null ,typ);
   
   switch (typ) {
             case 'Artikel':
@@ -207,49 +206,49 @@ function loadDiv(documentNr){
                 websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-               updateTabelle("artikel", received_msg, documentNr);
+               updateTabelle("Artikel", received_msg, documentNr);
             };
             break;
         case 'Warenträger':
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("warentraeger", received_msg, documentNr);
+                updateTabelle("Warenträger", received_msg, documentNr);
             };
             break;
         case 'Transportbänder':
                 websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("transportband", received_msg, documentNr);
+                updateTabelle("Transportbänder", received_msg, documentNr);
             };
             break;
         case 'Roboter':
                 websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("roboter", received_msg, documentNr);
+                updateTabelle("Roboter", received_msg, documentNr);
             };
             break;
         case 'Sektoren':
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("sektor", received_msg, documentNr);
+                updateTabelle("Sektoren", received_msg, documentNr);
             };
             break;
         case "Sensoren":
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("sensor", received_msg, documentNr);
+                updateTabelle("Sensoren", received_msg, documentNr);
             };
             break;
         case "Gelenke":
              websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("gelenk", received_msg, documentNr);
+                updateTabelle("Gelenke", received_msg, documentNr);
             };
             break;
 
@@ -257,7 +256,7 @@ function loadDiv(documentNr){
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("werkzeug", received_msg, documentNr);
+                updateTabelle("Werkzeuge", received_msg, documentNr);
             };
             break;
             
@@ -265,7 +264,7 @@ function loadDiv(documentNr){
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("hubpositionierstation", received_msg, documentNr);
+                updateTabelle("Hubpositionierstationen", received_msg, documentNr);
             }
             break;
             
@@ -273,7 +272,7 @@ function loadDiv(documentNr){
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
                 //console.log("Message"+received_msg);
-                updateTabelle("hubQuerStation", received_msg, documentNr);
+                updateTabelle("Hub-Quer-Stationen", received_msg, documentNr);
             }
             break;
             
@@ -337,39 +336,30 @@ function loadDiv(documentNr){
             document.getElementById(typ+"Zeitstempel_"+liste.inhalt[i].id+ "_" + documentNr).innerHTML = liste.inhalt[i].zeitstempel;
          
               switch (typ) {
-                case "artikel":
-                //case "Artikel":
+                case "Artikel":
                     break;
-                case "warentraeger":
-                //case "Warenträger":
+                case "Warenträger":
                     document.getElementById(typ + "Montagezustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].montagezustand;
                     break;
-                case "transportband":
-                //case "Transportbänder"
+                case "Transportbänder":
                     document.getElementById(typ+"Stoerung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].stoerung;
                     break;
-                case "roboter":
-                //case "Roboter":
+                case "Roboter":
                     document.getElementById(typ +"Stoerung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].stoerung;
                     break;
-                case "sektor":
-                //case "Sektoren":
+                case "Sektoren":
                     document.getElementById(typ + "Stoerung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].stoerung;
                     break;
-                case "sensor":
-                //case "Sensoren":
+                case "Sensoren":
                     document.getElementById(typ +"Zustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].zustand;
                     break;
-                case "gelenk":
-                //case "Gelenke":
+                case "Gelenke":
                     document.getElementById(typ +"Stellung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].gelenkstellung;
                     break;
-                case "werkzeug":
-                //case "Werkzeuge":
+                case "Werkzeuge":
                     document.getElementById(typ +"Zustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].zustand;
                     break;
-                case "hubpositionierstation":
-                 //case "Hubpositionierstationen":
+                case "Hubpositionierstationen":
                     var position = "";
                     if (liste.inhalt[i].oben == 1){
                         position = "\u2191";
@@ -380,8 +370,7 @@ function loadDiv(documentNr){
                     }
                    document.getElementById('id', typ+"Postition_"+liste.inhalt[i].id  + "_" + documentNr).innerHTML = position;
                    break;
-                case "hubQuerStation":
-                //case "HubQuerStationen":
+                case "Hub-Quer-Stationen":
                      var zustand = getZustandHuQu(liste.inhalt[j].motor, liste.inhalt[i].oben, liste.inhalt[j].mittig, liste.inhalt[j].unten);
                     document.getElementById(typ+"Zustand_"+liste.inhalt[i].id  + "_" + documentNr).innerHTML = zustand;
                     break;
@@ -520,7 +509,7 @@ function loadDiv(documentNr){
                                currenttext = document.createTextNode("\u2193");
                            }else{
                                 mycurrent_cell.setAttribute('id', typ+"Position_"+liste.inhalt[j].id  + "_" + documentNr);
-                               currenttext = document.createTextNode("-");
+                               currenttext = document.createTextNode("X");
                            }
                             break;
                       
@@ -558,7 +547,7 @@ function loadDiv(documentNr){
                                 zustandHuQu = motorzustand+ " - Unten"; 
                             }
                             else{
-                                zustandHuQu = motorzustand+ " - x "; 
+                                zustandHuQu = motorzustand+ " - X "; 
                             }
                             return zustandHuQu;
     }
