@@ -348,3 +348,7 @@
         }
         
     }
+    
+    function addZurueckList(documentId, elementId, elementTyp){
+        console.log("Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp)
+    }

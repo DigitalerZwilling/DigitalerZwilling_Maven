@@ -29,6 +29,7 @@ function initEinzelansicht(documentNr){
         
         var elementId = localStorage.getItem('elementId_'+documentNr);
         var elementType =  localStorage.getItem('elementType_'+documentNr);
+        addZurueckList(documentNr, elementId, elementType);
         
         switch (elementType) {
             case 'Artikel':
@@ -55,15 +56,15 @@ function initEinzelansicht(documentNr){
             case "Werkzeuge":
                 initWerkzeug(documentNr, elementId);
                 break;
-            case "hupo":
+            case "Hubpositionierstationen":
                 initHuPo(documentNr, elementId);
                 break;
-            case "huqu":
+            case "Hub-Quer-Stationen":
                 initHuQu(documentNr, elementId);
                 break;
             default:
              console.log("default");
-             initSektor(documentNr, 1);
+             alert("DEFAULT");
       }
     }
     
@@ -452,33 +453,13 @@ function initEinzelansicht(documentNr){
 
         HubpodestWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(documentNr, id, list_id[1], jsonString, list_attribute[1],"sektorID","hupo");
-            /*var json = JSON.parse(jsonString);
-            var parent = document.getElementById(documentNr+"_"+list_id[1]);
-            removeList(parent);
-        
-            for(var i=0; i<json.inhalt.length; i++){
-            var sid = json.inhalt[i]['sektorID'];
-                if(sid==id){
-                    addLine(documentNr, json.inhalt[i],list_attribute[1],parent,'hupo');
-                }
-            }*/
+            updateList(documentNr, id, list_id[1], jsonString, list_attribute[1],"sektorID","Hubpositionierstationen");
         };
 
 
         HubquerpodestWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(documentNr, id, list_id[2], jsonString, list_attribute[2],"sektorID","huqu");
-            /*var json = JSON.parse(jsonString);
-            var parent = document.getElementById(documentNr+"_"+list_id[2]);
-            removeList(parent);
-        
-            for(var i=0; i<json.inhalt.length; i++){
-            var sid = json.inhalt[i]['sektorID'];
-                if(sid==id){
-                    addLine(documentNr, json.inhalt[i],list_attribute[2],parent,'huqu');
-                }
-            }*/
+            updateList(documentNr, id, list_id[2], jsonString, list_attribute[2],"sektorID","Hub-Quer-Stationen");
         };
 
         RoboterWebSocket.onmessage = function(event) {
@@ -490,18 +471,6 @@ function initEinzelansicht(documentNr){
             var jsonString = event.data;
             
             updateList(documentNr, id, list_id[4], jsonString, list_attribute[4],"sektorID","Sensoren");
-            /*
-            var json = JSON.parse(jsonString);
-            var parent = document.getElementById(documentNr+"_"+list_id[4]);
-            removeList(parent);
-        
-            for(var i=0; i<json.inhalt.length; i++){
-            var sid = json.inhalt[i]['sektorID'];
-                if(sid==id){
-                    addLine(documentNr, json.inhalt[i],list_attribute[4],parent,'sensor');
-                }
-            }
-            //*/
         };
 
         TransportbandWebSocket.onmessage = function(event) {
