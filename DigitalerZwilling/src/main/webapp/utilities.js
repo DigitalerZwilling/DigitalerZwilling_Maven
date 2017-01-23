@@ -37,6 +37,7 @@
                   
             $("#"+documentNr+"_"+id[i]).click(function() {  
                 closeWebsockets(documentNr);
+                alert("id="+$(this).attr("elementId")+" type="+$(this).attr("elementType"));
                 localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));
                 localStorage.setItem("elementType_"+documentNr,$(this).attr("elementType"));
 
@@ -58,17 +59,23 @@
         var lists = document.getElementById(documentNr+"_lists");
         
         for(var i=0; i<list_tilte.length; i++){
+            var div = document.createElement("div");
+            div.id = documentNr+"_div_"+list_id[i];
+            div.setAttribute("hidden","");
+            
+            
             var name = document.createTextNode(list_tilte[i]);
-            lists.appendChild(name);
+            div.appendChild(name);
             var table = document.createElement("table");
             var tbody = document.createElement("tbody");
-            tbody.id = list_id[i];          
+            tbody.id = documentNr+"_"+list_id[i];          
             table.setAttribute('class', "table table-striped");
             
             setHeader(list_header[i], table);
             
             table.appendChild(tbody);
-            lists.appendChild(table);
+            div.appendChild(table)
+            lists.appendChild(div);
             lists.appendChild(document.createElement("br"));
         }
         
@@ -77,8 +84,8 @@
     function removeList(parent){
             var childs = parent.childNodes;
             
-            while(childs.length>1){
-                parent.removeChild(childs[1]);
+            while(childs.length>0){
+                parent.removeChild(childs[0]);
             }
     }
     
@@ -147,16 +154,31 @@
     
     function updateList(documentNr, id, list_id, jsonString, childAttributes, objectIDs, type){        
         var json = JSON.parse(jsonString);
-        var parent = document.getElementById(list_id);
+        var parent = document.getElementById(documentNr+"_"+list_id);
         removeList(parent);
         
         for(var i=0; i<json.inhalt.length; i++){
             var ids = json.inhalt[i][objectIDs];
-            for(var j=0; j<ids.length; j++){
-                if(ids[j]==id){
+            if (ids.length === undefined){
+                if(ids==id){
                     addLine(documentNr, json.inhalt[i],childAttributes,parent, type);
                 }
+            }else{
+                 for(var j=0; j<ids.length; j++){
+                     console.log(ids[j]);
+                    if(ids[j]==id){
+                        console.log("ok");
+                        addLine(documentNr, json.inhalt[i],childAttributes,parent, type);
+                    }
+                }
             }
+           
+        }
+        var div = document.getElementById(documentNr+"_div_"+list_id);
+        if(parent.childNodes.length<1){
+            //div.setAttribute("hidden","");
+        }else{
+            div.removeAttribute("hidden");
         }
     }
     
@@ -325,4 +347,8 @@
             websocketList.push(array[i]);
         }
         
+    }
+    
+    function addZurueckList(documentId, elementId, elementTyp){
+        console.log("Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp)
     }

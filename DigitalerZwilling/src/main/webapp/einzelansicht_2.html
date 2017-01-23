@@ -9,18 +9,17 @@
     <script src="initEinzelansicht.js"></script>
     
   </head>
-  <body id="body"> 
-      <table id="1_attributes" border="0"></table><br/>      <!-- ID ÄNDERN -->
-      <div id="1_lists"></div>                               <!-- ID ÄNDERN -->
+  <body id="einzelansicht1">
  
   
   <script language="javascript"> 
       
+      var websocketList_1 = new Array();
     $(document).ready(function(){
         var documentNr = 1;                                 //<--- HIER ÄNDERN
         
         console.log("Start Einzelansicht"+documentNr);
-        init(documentNr);
+        initEinzelansicht(documentNr);
     });
   </script>
    </body>
