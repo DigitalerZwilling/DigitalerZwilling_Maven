@@ -187,8 +187,7 @@ function loadDiv(documentNr){
 
     /* ------------------------------ERZEUGE TABELLE -------------------------------- */
     function erzeugeTabelle(typ, listeJSON, websocket, documentNr){
-        websocket.onmessage = function(event) {
-        };
+       
         
         console.log("++++++++++++++++++++++++++++++");
         console.log("ErzeugeTabelle vom Typ: " + typ + ", Websocket: " + websocket);
@@ -324,7 +323,7 @@ function loadDiv(documentNr){
     
     /* ------------------------------UPDATE TABELLE -------------------------------- */
     function updateTabelle(typ, listeJSON, documentNr){
-        //Aktualisiert die Werte in der schon erstellten Tabelle
+       //Aktualisiert die Werte in der schon erstellten Tabelle
         
         //console.log("update Tabelle von " + typ);
         var liste = JSON.parse(listeJSON);
@@ -332,10 +331,11 @@ function loadDiv(documentNr){
         
         //Aktualisieren der Werte:
         for (var i = 0; i < anzahlElemente; i++){
+            console.log("+++++" + i);
             document.getElementById(typ+"Bezeichnung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].bezeichnung;
             document.getElementById(typ+"Zeitstempel_"+liste.inhalt[i].id+ "_" + documentNr).innerHTML = liste.inhalt[i].zeitstempel;
          
-              switch (typ) {
+               switch (typ) {
                 case "Artikel":
                     break;
                 case "Warenträger":
@@ -371,11 +371,11 @@ function loadDiv(documentNr){
                    document.getElementById('id', typ+"Postition_"+liste.inhalt[i].id  + "_" + documentNr).innerHTML = position;
                    break;
                 case "Hub-Quer-Stationen":
-                     var zustand = getZustandHuQu(liste.inhalt[j].motor, liste.inhalt[i].oben, liste.inhalt[j].mittig, liste.inhalt[j].unten);
+                     var zustand = getZustandHuQu(liste.inhalt[i].motor, liste.inhalt[i].oben, liste.inhalt[i].mittig, liste.inhalt[i].unten);
                     document.getElementById(typ+"Zustand_"+liste.inhalt[i].id  + "_" + documentNr).innerHTML = zustand;
                     break;
                 default:
-                 //   document.getElementById("spalte1.3").innerHTML = 'Fehler im switch case - updateTabelle';                      
+                console.log("Default");                 
            } 
         }
     }
