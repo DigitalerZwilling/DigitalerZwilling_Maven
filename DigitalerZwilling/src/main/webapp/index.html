@@ -55,8 +55,6 @@
     		var i = 0;
 
                 $(document).ready(function(){
-                    //Clear local storage information, by refreshing website
-                   //localStorage.clear();
                     $("#mainContainer").load("uebersicht.html");
         	});
 
@@ -78,25 +76,25 @@
 
                 $(function() {
                     $(".buttonDetails").on("click",function() {
-                    console.log("schließe WebsocketLists6-8 beim Click auf den Detailsbutton.");
-                    for(var i = 6; i<=8;i++){
-                        closeWebsockets(i);
-                    }
-                    $("#mainContainer").load("details.html");
+                        console.log("schließe WebsocketLists6-8 beim Click auf den Detailsbutton.");
+                        for(var i = 6; i<=8;i++){
+                            closeWebsockets(i);
+                        }
+                        $("#mainContainer").load("details.html");
                     });
                 });
 
                 $(function() {
                     $(".buttonUebersicht").on("click",function() {
-                    console.log("schließe WebsocketLists1-6 beim Click auf den Übersichtsbutton.");
-                    for(var i = 1; i<=6;i++){
-                        closeWebsockets(i);
-                    }
-                    $("#mainContainer").load("uebersicht.html");
+                        console.log("schließe WebsocketLists1-6 beim Click auf den Übersichtsbutton.");
+                        for(var i = 1; i<=6;i++){
+                            closeWebsockets(i);
+                        }
+                        $("#mainContainer").load("uebersicht.html");
                     });
                 });
 
-                function isBreakpoint( alias ) {
+                function isBreakpoint(alias) {
                     return $('.device-' + alias).is(':visible');
                 }
 
