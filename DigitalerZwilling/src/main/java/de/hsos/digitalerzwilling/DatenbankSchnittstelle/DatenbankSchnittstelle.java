@@ -197,7 +197,7 @@ public class DatenbankSchnittstelle {
     }
     
     public String findDBConfigFile() throws DBNotFoundException{
-        String dbConfigFile = "";
+        String dbConfigFile = "";System.out.println("dbConfig" + pathToConfig);
         File config = new File(pathToConfig);
         if (!config.exists()) {
             try {

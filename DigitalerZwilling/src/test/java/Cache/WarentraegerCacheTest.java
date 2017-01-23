@@ -12,6 +12,7 @@ import de.hsos.digitalerzwilling.Cache.Updater.Updater;
 import de.hsos.digitalerzwilling.Cache.Updater.WebSocketUpdateThread;
 import de.hsos.digitalerzwilling.Cache.WarentraegerCache;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
+import de.hsos.digitalerzwilling.Websockets.ExceptionEventHandlerScope;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -34,7 +35,7 @@ public class WarentraegerCacheTest extends CacheTest{
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-            .addClasses(WarentraegerCache.class,Updater.class,CacheUpdateThread.class,WebSocketUpdateThread.class,DatenbankSchnittstelle.class,SelfTimer.class)
+            .addClasses(WarentraegerCache.class,Updater.class,CacheUpdateThread.class,WebSocketUpdateThread.class,DatenbankSchnittstelle.class,SelfTimer.class,ExceptionEventHandlerScope.class)
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
     

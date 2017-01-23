@@ -18,6 +18,7 @@ import de.hsos.digitalerzwilling.DatenKlassen.Gelenk;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
+import de.hsos.digitalerzwilling.Websockets.ExceptionEventHandlerScope;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
@@ -44,12 +45,9 @@ public class GelenkCacheTest extends CacheTest{
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-            .addClasses(GelenkCache.class,Updater.class,CacheUpdateThread.class,WebSocketUpdateThread.class,DatenbankSchnittstelle.class,SelfTimer.class)
+            .addClasses(GelenkCache.class,Updater.class,CacheUpdateThread.class,WebSocketUpdateThread.class,DatenbankSchnittstelle.class,SelfTimer.class,ExceptionEventHandlerScope.class)
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
-    
-    @Inject
-    DatenbankSchnittstelle datenbankSchnittstelle;
     
     @Inject
     GelenkCache cache;

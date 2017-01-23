@@ -9,8 +9,10 @@ import de.hsos.digitalerzwilling.Cache.Cache;
 import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
 import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
 import de.hsos.digitalerzwilling.DatenKlassen.Element;
+import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
+import javax.inject.Inject;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,6 +21,10 @@ import org.junit.Test;
  * @author florian
  */
 public abstract class CacheTest {
+    
+    
+    @Inject
+    DatenbankSchnittstelle datenbankSchnittstelle;
     
     @Test
     abstract public void testUpdate() throws DBNotFoundException, QueryException, DBErrorException, ElementNotFoundException;
