@@ -492,7 +492,7 @@ function loadDiv(documentNr){
                             currenttext = document.createTextNode(liste.inhalt[j].montagezustand);
                             break;
                         case "Zustand":
-                            if (typ == "hubQuerStation"){
+                            if (typ == "Hub-Quer-Stationen"){
                                 var zustand = getZustandHuQu(liste.inhalt[j].motor, liste.inhalt[j].oben, liste.inhalt[j].mittig, liste.inhalt[j].unten);
                                 mycurrent_cell.setAttribute('id', typ+"Zustand_"+liste.inhalt[j].id  + "_" + documentNr);
                                 currenttext = document.createTextNode(zustand);
