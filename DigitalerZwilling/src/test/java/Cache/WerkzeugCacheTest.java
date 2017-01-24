@@ -5,6 +5,7 @@
  */
 package Cache;
 
+import DatenbankTestInsert.DatenbankTestInsert;
 import de.hsos.digitalerzwilling.Cache.Cache;
 import de.hsos.digitalerzwilling.Cache.Updater.CacheUpdateThread;
 import de.hsos.digitalerzwilling.Cache.Updater.SelfTimer;
@@ -12,6 +13,8 @@ import de.hsos.digitalerzwilling.Cache.Updater.Updater;
 import de.hsos.digitalerzwilling.Cache.Updater.WebSocketUpdateThread;
 import de.hsos.digitalerzwilling.Cache.WerkzeugCache;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
+import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
+import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
 import de.hsos.digitalerzwilling.Websockets.ExceptionEventHandlerScope;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -43,11 +46,26 @@ public class WerkzeugCacheTest extends CacheTest{
     WerkzeugCache cache;
 
     @Before
-    public void setUp() {
+    public void setUp() throws DBNotFoundException, QueryException {
+        tearDown();
+        datenbankSchnittstelle.connect("./testdbConfig.cfg");
+        DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
+        datenbankTestInsert.datenbankUpdate("INSERT INTO ROBOTER (ID_ROBOTER,BEZEICHNUNG,STOERUNG,POSITION_X,POSITION_Y,POSITION_Z,POSITION_AUSRICHTUNG) VALUES (4242,'CacheTestRoboter1',0,0,0,0,0)");
+        datenbankTestInsert.datenbankUpdate("INSERT INTO WERKZEUG (ID_WERKZEUG,BEZEICHNUNG,ZUSTAND) VALUES (4242,'CacheTestWERKZEUG1',1)");
+        datenbankTestInsert.datenbankUpdate("INSERT INTO WERKZEUG (ID_WERKZEUG,BEZEICHNUNG,ZUSTAND) VALUES (4243,'CacheTestWERKZEUG2',1)");
+        datenbankTestInsert.datenbankUpdate("INSERT INTO ROBOTER_WERKZEUG (ID_ROBOTER,ID_WERKZEUG) VALUES (4242,4242)");
+        
+        datenbankTestInsert.close();
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws DBNotFoundException, QueryException {
+        DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
+        datenbankTestInsert.datenbankUpdate("DELETE FROM ROBOTER_WERKZEUG WHERE ID_WERKZEUG = 4242");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM ROBOTER WHERE ID_ROBOTER = 4242");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM WERKZEUG WHERE ID_WERKZEUG = 4242");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM ROBOTER WHERE ID_WERKZEUG = 4242");
+        datenbankTestInsert.close();
     }
 
     @Override

@@ -7,6 +7,7 @@ package Cache;
 
 import DatenbankTestInsert.DatenbankTestInsert;
 import de.hsos.digitalerzwilling.Cache.Cache;
+import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
 import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
 import de.hsos.digitalerzwilling.Cache.HubPodestCache;
 import de.hsos.digitalerzwilling.Cache.Updater.CacheUpdateThread;
@@ -56,9 +57,9 @@ public class HubPodestCacheTest extends CacheTest{
         datenbankTestInsert.datenbankUpdate("INSERT INTO SEKTOR (ID_SEKTOR,BEZEICHNUNG,STOERUNG,POSITION_X,POSITION_Y,POSITION_Z,POSITION_AUSRICHTUNG) VALUES (4242,'CACHETESTSEKTOR1',0,0,0,0,0)");
         datenbankTestInsert.datenbankUpdate("INSERT INTO SEKTOR (ID_SEKTOR,BEZEICHNUNG,STOERUNG,POSITION_X,POSITION_Y,POSITION_Z,POSITION_AUSRICHTUNG) VALUES (4243,'CACHETESTSEKTOR2',0,1,4,6,90)");
         datenbankTestInsert.datenbankUpdate("INSERT INTO SEKTOR (ID_SEKTOR,BEZEICHNUNG,STOERUNG,POSITION_X,POSITION_Y,POSITION_Z,POSITION_AUSRICHTUNG) VALUES (4244,'CACHETESTSEKTOR2',0,2,5,7,180)");
-        datenbankTestInsert.datenbankUpdate("INSERT INTO HUBPODEST (ID_HUBPODEST,BEZEICHNUNG,MOTOR,OBEN,MITTIG,UNTEN,ID_SEKTOR) VALUES (4242,'CacheTestHubPodest1',1,1,0,0,4242)");
-        datenbankTestInsert.datenbankUpdate("INSERT INTO HUBPODEST (ID_HUBPODEST,BEZEICHNUNG,MOTOR,OBEN,MITTIG,UNTEN,ID_SEKTOR) VALUES (4243,'CacheTestHubPodest2',1,0,1,0,4243)");
-        datenbankTestInsert.datenbankUpdate("INSERT INTO HUBPODEST (ID_HUBPODEST,BEZEICHNUNG,MOTOR,OBEN,MITTIG,UNTEN,ID_SEKTOR) VALUES (4244,'CacheTestHubPodest3',1,1,0,1,4244)");
+        datenbankTestInsert.datenbankUpdate("INSERT INTO HUBPODEST (ID_HUBPODEST,BEZEICHNUNG,OBEN,UNTEN,ID_SEKTOR) VALUES (4242,'CacheTestHubPodest1',1,0,4242)");
+        datenbankTestInsert.datenbankUpdate("INSERT INTO HUBPODEST (ID_HUBPODEST,BEZEICHNUNG,OBEN,UNTEN,ID_SEKTOR) VALUES (4243,'CacheTestHubPodest2',0,1,4243)");
+        datenbankTestInsert.datenbankUpdate("INSERT INTO HUBPODEST (ID_HUBPODEST,BEZEICHNUNG,OBEN,UNTEN,ID_SEKTOR) VALUES (4244,'CacheTestHubPodest3',1,0,4244)");
         datenbankTestInsert.close();
     }
     
@@ -80,7 +81,7 @@ public class HubPodestCacheTest extends CacheTest{
     }
 
     @Override
-    public void testUpdate() throws ElementNotFoundException {
+    public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
         assertTrue("CacheTestHubPodest1", cache.getById(new Long(4242)).getBezeichnung().equals("CacheTestHubPodest1"));
         assertTrue("CacheTestHubPodest1", cache.getById(new Long(4243)).getBezeichnung().equals("CacheTestHubPodest2"));
         assertTrue("CacheTestHubPodest1", cache.getById(new Long(4244)).getBezeichnung().equals("CacheTestHubPodest3"));
@@ -89,7 +90,27 @@ public class HubPodestCacheTest extends CacheTest{
         assertTrue("CacheTestHubPodest1 -> Sektor", Objects.equals(((HubPodest)cache.getById(new Long(4243))).getId_sektor(), new Long(4243)));
         assertTrue("CacheTestHubPodest1 -> Sektor", Objects.equals(((HubPodest)cache.getById(new Long(4244))).getId_sektor(), new Long(4244)));
         
+        assertTrue("CacheTestHubPodest1 -> Zustand", ((HubPodest)cache.getById(new Long(4242))).isOben() == true &&
+                                                     ((HubPodest)cache.getById(new Long(4242))).isUnten()== false );
+        assertTrue("CacheTestHubPodest1 -> Zustand", ((HubPodest)cache.getById(new Long(4243))).isOben() == false &&
+                                                     ((HubPodest)cache.getById(new Long(4243))).isUnten()== true );
+        assertTrue("CacheTestHubPodest1 -> Zustand", ((HubPodest)cache.getById(new Long(4244))).isOben() == true &&
+                                                     ((HubPodest)cache.getById(new Long(4244))).isUnten()== false );
         
+        DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
+        datenbankTestInsert.datenbankUpdate("UPDATE HUBPODEST SET OBEN=0,UNTEN=1 WHERE ID_HUBPODEST=4242");
+        datenbankTestInsert.datenbankUpdate("UPDATE HUBPODEST SET OBEN=1,UNTEN=0 WHERE ID_HUBPODEST=4243");
+        datenbankTestInsert.datenbankUpdate("UPDATE HUBPODEST SET OBEN=0,UNTEN=0 WHERE ID_HUBPODEST=4244");
+        datenbankTestInsert.close();
+        
+        cache.update();
+        
+        assertTrue("CacheTestHubPodest1 -> Zustand(Update)", ((HubPodest)cache.getById(new Long(4242))).isOben() == false &&
+                                                             ((HubPodest)cache.getById(new Long(4242))).isUnten()== true );
+        assertTrue("CacheTestHubPodest1 -> Zustand(Update)", ((HubPodest)cache.getById(new Long(4243))).isOben() == true &&
+                                                             ((HubPodest)cache.getById(new Long(4243))).isUnten()== false );
+        assertTrue("CacheTestHubPodest1 -> Zustand(Update)", ((HubPodest)cache.getById(new Long(4244))).isOben() == false &&
+                                                             ((HubPodest)cache.getById(new Long(4244))).isUnten()== false );
     }
 
     @Override

@@ -7,6 +7,7 @@ package Cache;
 
 import DatenbankTestInsert.DatenbankTestInsert;
 import de.hsos.digitalerzwilling.Cache.Cache;
+import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
 import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
 import de.hsos.digitalerzwilling.Cache.HubQuerPodestCache;
 import de.hsos.digitalerzwilling.Cache.Updater.CacheUpdateThread;
@@ -60,13 +61,15 @@ public class HubQuerPodestCacheTest extends CacheTest{
         datenbankTestInsert.datenbankUpdate("INSERT INTO SEKTOR (ID_SEKTOR,BEZEICHNUNG,STOERUNG,POSITION_X,POSITION_Y,POSITION_Z,POSITION_AUSRICHTUNG) VALUES (4244,'CACHETESTSEKTOR2',0,2,5,7,180)");
         datenbankTestInsert.datenbankUpdate("INSERT INTO HUBQUERPODEST (ID_HUBQUERPODEST,BEZEICHNUNG,MOTOR,OBEN,MITTIG,UNTEN,ID_SEKTOR) VALUES (4242,'CacheTestHubQuerPodest1',1,1,0,0,4242)");
         datenbankTestInsert.datenbankUpdate("INSERT INTO HUBQUERPODEST (ID_HUBQUERPODEST,BEZEICHNUNG,MOTOR,OBEN,MITTIG,UNTEN,ID_SEKTOR) VALUES (4243,'CacheTestHubQuerPodest1',1,0,1,0,4243)");
-        datenbankTestInsert.datenbankUpdate("INSERT INTO HUBQUERPODEST (ID_HUBQUERPODEST,BEZEICHNUNG,MOTOR,OBEN,MITTIG,UNTEN,ID_SEKTOR) VALUES (4244,'CacheTestHubQuerPodest1',1,1,0,1,4244)");
+        datenbankTestInsert.datenbankUpdate("INSERT INTO HUBQUERPODEST (ID_HUBQUERPODEST,BEZEICHNUNG,MOTOR,OBEN,MITTIG,UNTEN,ID_SEKTOR) VALUES (4244,'CacheTestHubQuerPodest1',1,0,0,1,4244)");
+        datenbankTestInsert.datenbankUpdate("INSERT INTO Hubquerpodest_Hubquerpodest (ID_HUBQUERPODEST1,ID_HUBQUERPODEST2) VALUES (4242,4243)");
         datenbankTestInsert.close();
     }
     
     @After
     public void tearDown() throws DBNotFoundException, QueryException {
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
+        datenbankTestInsert.datenbankUpdate("DELETE FROM Hubquerpodest_Hubquerpodest WHERE ID_HUBQUERPODEST1 = 4242");
         datenbankTestInsert.datenbankUpdate("DELETE FROM GELENK WHERE ID_GELENK = 4242");
         datenbankTestInsert.datenbankUpdate("DELETE FROM GELENK WHERE ID_GELENK = 4243");
         datenbankTestInsert.datenbankUpdate("DELETE FROM GELENK WHERE ID_GELENK = 4244");
@@ -82,7 +85,7 @@ public class HubQuerPodestCacheTest extends CacheTest{
     }
 
     @Override
-    public void testUpdate() throws ElementNotFoundException {
+    public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
         assertTrue("CacheTestHubPodest1", cache.getById(new Long(4242)).getBezeichnung().equals("CacheTestHubPodest1"));
         assertTrue("CacheTestHubPodest1", cache.getById(new Long(4243)).getBezeichnung().equals("CacheTestHubPodest2"));
         assertTrue("CacheTestHubPodest1", cache.getById(new Long(4244)).getBezeichnung().equals("CacheTestHubPodest3"));
@@ -90,6 +93,46 @@ public class HubQuerPodestCacheTest extends CacheTest{
         assertTrue("CacheTestHubPodest1 -> Sektor", Objects.equals(((HubQuerPodest)cache.getById(new Long(4242))).getId_Sektor(), new Long(4242)));
         assertTrue("CacheTestHubPodest1 -> Sektor", Objects.equals(((HubQuerPodest)cache.getById(new Long(4243))).getId_Sektor(), new Long(4243)));
         assertTrue("CacheTestHubPodest1 -> Sektor", Objects.equals(((HubQuerPodest)cache.getById(new Long(4244))).getId_Sektor(), new Long(4244)));
+        
+        assertTrue("GroupID", !((HubQuerPodest)cache.getById(new Long(4242))).getGruppenIDs().isEmpty());
+        
+        assertTrue("CacheTestHubQuerPodest1 -> Zustand", ((HubQuerPodest)cache.getById(new Long(4242))).isMotor() == true  &&
+                                                         ((HubQuerPodest)cache.getById(new Long(4242))).isOben()  == true  &&
+                                                         ((HubQuerPodest)cache.getById(new Long(4242))).isMittig()== false &&
+                                                         ((HubQuerPodest)cache.getById(new Long(4242))).isUnten() == false);
+        
+        assertTrue("CacheTestHubQuerPodest1 -> Zustand", ((HubQuerPodest)cache.getById(new Long(4243))).isMotor() == true  &&
+                                                         ((HubQuerPodest)cache.getById(new Long(4243))).isOben()  == false &&
+                                                         ((HubQuerPodest)cache.getById(new Long(4243))).isMittig()== true  &&
+                                                         ((HubQuerPodest)cache.getById(new Long(4243))).isUnten() == false);
+        
+        assertTrue("CacheTestHubQuerPodest1 -> Zustand", ((HubQuerPodest)cache.getById(new Long(4244))).isMotor() == true  &&
+                                                         ((HubQuerPodest)cache.getById(new Long(4244))).isOben()  == false &&
+                                                         ((HubQuerPodest)cache.getById(new Long(4244))).isMittig()== false &&
+                                                         ((HubQuerPodest)cache.getById(new Long(4244))).isUnten() == true);
+        
+        DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
+        datenbankTestInsert.datenbankUpdate("UPDATE HUBQUERPODEST SET MOTOR=0,OBEN=0,MITTIG=1,UNTEN=0 WHERE ID_HUBQUERPODEST=4242");
+        datenbankTestInsert.datenbankUpdate("UPDATE HUBQUERPODEST SET MOTOR=0,OBEN=0,MITTIG=0,UNTEN=1 WHERE ID_HUBQUERPODEST=4243");
+        datenbankTestInsert.datenbankUpdate("UPDATE HUBQUERPODEST SET MOTOR=0,OBEN=1,MITTIG=0,UNTEN=0 WHERE ID_HUBQUERPODEST=4244");
+        datenbankTestInsert.close();
+        
+        cache.update();
+        
+        assertTrue("CacheTestHubQuerPodest1 -> Zustand(Update)", ((HubQuerPodest)cache.getById(new Long(4242))).isMotor() == false  &&
+                                                                 ((HubQuerPodest)cache.getById(new Long(4242))).isOben()  == false  &&
+                                                                 ((HubQuerPodest)cache.getById(new Long(4242))).isMittig()== true   &&
+                                                                 ((HubQuerPodest)cache.getById(new Long(4242))).isUnten() == false);
+        
+        assertTrue("CacheTestHubQuerPodest1 -> Zustand(Update)", ((HubQuerPodest)cache.getById(new Long(4243))).isMotor() == false  &&
+                                                                 ((HubQuerPodest)cache.getById(new Long(4243))).isOben()  == false  &&
+                                                                 ((HubQuerPodest)cache.getById(new Long(4243))).isMittig()== false  &&
+                                                                 ((HubQuerPodest)cache.getById(new Long(4243))).isUnten() == true);
+        
+        assertTrue("CacheTestHubQuerPodest1 -> Zustand(Update)", ((HubQuerPodest)cache.getById(new Long(4244))).isMotor() == false  &&
+                                                                 ((HubQuerPodest)cache.getById(new Long(4244))).isOben()  == true   &&
+                                                                 ((HubQuerPodest)cache.getById(new Long(4244))).isMittig()== false  &&
+                                                                 ((HubQuerPodest)cache.getById(new Long(4244))).isUnten() == false);
     }
 
     @Override
