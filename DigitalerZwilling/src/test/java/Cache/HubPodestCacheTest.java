@@ -66,9 +66,9 @@ public class HubPodestCacheTest extends CacheTest{
     @After
     public void tearDown() throws DBNotFoundException, QueryException {
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
-        datenbankTestInsert.datenbankUpdate("DELETE FROM GELENK WHERE ID_GELENK = 4242");
-        datenbankTestInsert.datenbankUpdate("DELETE FROM GELENK WHERE ID_GELENK = 4243");
-        datenbankTestInsert.datenbankUpdate("DELETE FROM GELENK WHERE ID_GELENK = 4244");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM HUBPODEST WHERE ID_HUBPODEST = 4242");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM HUBPODEST WHERE ID_HUBPODEST = 4243");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM HUBPODEST WHERE ID_HUBPODEST = 4244");
         datenbankTestInsert.datenbankUpdate("DELETE FROM SEKTOR WHERE ID_SEKTOR = 4242");
         datenbankTestInsert.datenbankUpdate("DELETE FROM SEKTOR WHERE ID_SEKTOR = 4243");
         datenbankTestInsert.datenbankUpdate("DELETE FROM SEKTOR WHERE ID_SEKTOR = 4244");
@@ -83,18 +83,20 @@ public class HubPodestCacheTest extends CacheTest{
     @Override
     public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
         assertTrue("CacheTestHubPodest1", cache.getById(new Long(4242)).getBezeichnung().equals("CacheTestHubPodest1"));
-        assertTrue("CacheTestHubPodest1", cache.getById(new Long(4243)).getBezeichnung().equals("CacheTestHubPodest2"));
-        assertTrue("CacheTestHubPodest1", cache.getById(new Long(4244)).getBezeichnung().equals("CacheTestHubPodest3"));
+        assertTrue("CacheTestHubPodest2", cache.getById(new Long(4243)).getBezeichnung().equals("CacheTestHubPodest2"));
+        assertTrue("CacheTestHubPodest3", cache.getById(new Long(4244)).getBezeichnung().equals("CacheTestHubPodest3"));
         
         assertTrue("CacheTestHubPodest1 -> Sektor", Objects.equals(((HubPodest)cache.getById(new Long(4242))).getId_sektor(), new Long(4242)));
         assertTrue("CacheTestHubPodest1 -> Sektor", Objects.equals(((HubPodest)cache.getById(new Long(4243))).getId_sektor(), new Long(4243)));
         assertTrue("CacheTestHubPodest1 -> Sektor", Objects.equals(((HubPodest)cache.getById(new Long(4244))).getId_sektor(), new Long(4244)));
         
+        System.out.println(((HubPodest)cache.getById(new Long(4242))).isOben()+ " "+((HubPodest)cache.getById(new Long(4242))).isUnten());
+        
         assertTrue("CacheTestHubPodest1 -> Zustand", ((HubPodest)cache.getById(new Long(4242))).isOben() == true &&
                                                      ((HubPodest)cache.getById(new Long(4242))).isUnten()== false );
-        assertTrue("CacheTestHubPodest1 -> Zustand", ((HubPodest)cache.getById(new Long(4243))).isOben() == false &&
+        assertTrue("CacheTestHubPodest2 -> Zustand", ((HubPodest)cache.getById(new Long(4243))).isOben() == false &&
                                                      ((HubPodest)cache.getById(new Long(4243))).isUnten()== true );
-        assertTrue("CacheTestHubPodest1 -> Zustand", ((HubPodest)cache.getById(new Long(4244))).isOben() == true &&
+        assertTrue("CacheTestHubPodest3 -> Zustand", ((HubPodest)cache.getById(new Long(4244))).isOben() == true &&
                                                      ((HubPodest)cache.getById(new Long(4244))).isUnten()== false );
         
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
@@ -107,9 +109,9 @@ public class HubPodestCacheTest extends CacheTest{
         
         assertTrue("CacheTestHubPodest1 -> Zustand(Update)", ((HubPodest)cache.getById(new Long(4242))).isOben() == false &&
                                                              ((HubPodest)cache.getById(new Long(4242))).isUnten()== true );
-        assertTrue("CacheTestHubPodest1 -> Zustand(Update)", ((HubPodest)cache.getById(new Long(4243))).isOben() == true &&
+        assertTrue("CacheTestHubPodest2 -> Zustand(Update)", ((HubPodest)cache.getById(new Long(4243))).isOben() == true &&
                                                              ((HubPodest)cache.getById(new Long(4243))).isUnten()== false );
-        assertTrue("CacheTestHubPodest1 -> Zustand(Update)", ((HubPodest)cache.getById(new Long(4244))).isOben() == false &&
+        assertTrue("CacheTestHubPodest3 -> Zustand(Update)", ((HubPodest)cache.getById(new Long(4244))).isOben() == false &&
                                                              ((HubPodest)cache.getById(new Long(4244))).isUnten()== false );
     }
 

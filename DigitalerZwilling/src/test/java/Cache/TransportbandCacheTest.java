@@ -84,7 +84,7 @@ public class TransportbandCacheTest extends CacheTest{
         assertTrue("Bezeichnung", cache.getById(new Long(4242)).getBezeichnung().equalsIgnoreCase("CacheTestTransportband1"));
         assertTrue("Laenge"     , ((Transportband)cache.getById(new Long(4242))).getLaenge()   == 100);
         assertTrue("Reihe"      , ((Transportband)cache.getById(new Long(4242))).getReihe()    == 1);
-        assertTrue("Stoerung"   , ((Transportband)cache.getById(new Long(4242))).getStoerung() == 1);
+        assertTrue("Stoerung"   , ((Transportband)cache.getById(new Long(4242))).getStoerung() == 0);
         assertTrue("Geschwindigkeit", ((Transportband)cache.getById(new Long(4242))).getGeschwindigkeit() == 2);
         assertTrue("vorSektor"  , Objects.equals(((Transportband)cache.getById(new Long(4242))).getVorSektorID() , new Long(4242)));
         assertTrue("nachSektor" , Objects.equals(((Transportband)cache.getById(new Long(4242))).getNachSektorID(), new Long(4243)));
@@ -100,7 +100,6 @@ public class TransportbandCacheTest extends CacheTest{
         
         cache.update();
         
-        assertTrue("Reihe<-Update"         , ((Transportband)cache.getById(new Long(4242))).getReihe()    == 1);
         assertTrue("Stoerung<-Update"      , ((Transportband)cache.getById(new Long(4242))).getStoerung() == 1);
         assertTrue("WarentraegerID<-Update", ((Transportband)cache.getById(new Long(4242))).getWarentraegerIDs().isEmpty());
         

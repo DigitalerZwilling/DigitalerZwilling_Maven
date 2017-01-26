@@ -70,9 +70,9 @@ public class HubQuerPodestCacheTest extends CacheTest{
     public void tearDown() throws DBNotFoundException, QueryException {
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
         datenbankTestInsert.datenbankUpdate("DELETE FROM Hubquerpodest_Hubquerpodest WHERE ID_HUBQUERPODEST1 = 4242");
-        datenbankTestInsert.datenbankUpdate("DELETE FROM GELENK WHERE ID_GELENK = 4242");
-        datenbankTestInsert.datenbankUpdate("DELETE FROM GELENK WHERE ID_GELENK = 4243");
-        datenbankTestInsert.datenbankUpdate("DELETE FROM GELENK WHERE ID_GELENK = 4244");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM HUBQUERPODEST WHERE ID_HUBQUERPODEST = 4242");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM HUBQUERPODEST WHERE ID_HUBQUERPODEST = 4243");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM HUBQUERPODEST WHERE ID_HUBQUERPODEST = 4244");
         datenbankTestInsert.datenbankUpdate("DELETE FROM SEKTOR WHERE ID_SEKTOR = 4242");
         datenbankTestInsert.datenbankUpdate("DELETE FROM SEKTOR WHERE ID_SEKTOR = 4243");
         datenbankTestInsert.datenbankUpdate("DELETE FROM SEKTOR WHERE ID_SEKTOR = 4244");
@@ -86,13 +86,13 @@ public class HubQuerPodestCacheTest extends CacheTest{
 
     @Override
     public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
-        assertTrue("CacheTestHubPodest1", cache.getById(new Long(4242)).getBezeichnung().equals("CacheTestHubPodest1"));
-        assertTrue("CacheTestHubPodest1", cache.getById(new Long(4243)).getBezeichnung().equals("CacheTestHubPodest2"));
-        assertTrue("CacheTestHubPodest1", cache.getById(new Long(4244)).getBezeichnung().equals("CacheTestHubPodest3"));
+        assertTrue("CacheTestHubPodest1", cache.getById(new Long(4242)).getBezeichnung().equals("CacheTestHubQuerPodest1"));
+        assertTrue("CacheTestHubPodest2", cache.getById(new Long(4243)).getBezeichnung().equals("CacheTestHubQuerPodest2"));
+        assertTrue("CacheTestHubPodest3", cache.getById(new Long(4244)).getBezeichnung().equals("CacheTestHubQuerPodest3"));
         
         assertTrue("CacheTestHubPodest1 -> Sektor", Objects.equals(((HubQuerPodest)cache.getById(new Long(4242))).getId_Sektor(), new Long(4242)));
-        assertTrue("CacheTestHubPodest1 -> Sektor", Objects.equals(((HubQuerPodest)cache.getById(new Long(4243))).getId_Sektor(), new Long(4243)));
-        assertTrue("CacheTestHubPodest1 -> Sektor", Objects.equals(((HubQuerPodest)cache.getById(new Long(4244))).getId_Sektor(), new Long(4244)));
+        assertTrue("CacheTestHubPodest2 -> Sektor", Objects.equals(((HubQuerPodest)cache.getById(new Long(4243))).getId_Sektor(), new Long(4243)));
+        assertTrue("CacheTestHubPodest3 -> Sektor", Objects.equals(((HubQuerPodest)cache.getById(new Long(4244))).getId_Sektor(), new Long(4244)));
         
         assertTrue("GroupID", !((HubQuerPodest)cache.getById(new Long(4242))).getGruppenIDs().isEmpty());
         

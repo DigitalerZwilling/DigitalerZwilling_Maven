@@ -68,7 +68,7 @@ public class WerkzeugCacheTest extends CacheTest{
         datenbankTestInsert.datenbankUpdate("DELETE FROM ROBOTER_WERKZEUG WHERE ID_WERKZEUG = 4242");
         datenbankTestInsert.datenbankUpdate("DELETE FROM ROBOTER WHERE ID_ROBOTER = 4242");
         datenbankTestInsert.datenbankUpdate("DELETE FROM WERKZEUG WHERE ID_WERKZEUG = 4242");
-        datenbankTestInsert.datenbankUpdate("DELETE FROM ROBOTER WHERE ID_WERKZEUG = 4242");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM WERKZEUG WHERE ID_WERKZEUG = 4243");
         datenbankTestInsert.close();
     }
 
@@ -79,14 +79,14 @@ public class WerkzeugCacheTest extends CacheTest{
 
     @Override
     public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
-        assertTrue("WerkzeugCachetest", cache.getById(new Long(4242)).getBezeichnung().equalsIgnoreCase("CacheTestWerkzeug1"));
-        assertTrue("WerkzeugCachetest", cache.getById(new Long(4243)).getBezeichnung().equalsIgnoreCase("CacheTestWerkzeug2"));
+        assertTrue("WerkzeugCachetest1", cache.getById(new Long(4242)).getBezeichnung().equalsIgnoreCase("CacheTestWerkzeug1"));
+        assertTrue("WerkzeugCachetest2", cache.getById(new Long(4243)).getBezeichnung().equalsIgnoreCase("CacheTestWerkzeug2"));
         
-        assertTrue("RoboterID", Objects.equals(((Werkzeug)cache.getById(new Long(4242))).getRoboterID(), new Long(4242)));
-        assertTrue("RoboterID", ((Werkzeug)cache.getById(new Long(4242))).getRoboterID() == null);
+        assertTrue("RoboterID1", Objects.equals(((Werkzeug)cache.getById(new Long(4242))).getRoboterID(), new Long(4242)));
+        assertTrue("RoboterID2", ((Werkzeug)cache.getById(new Long(4243))).getRoboterID() == null);
         
-        assertTrue("Zustand", ((Werkzeug)cache.getById(new Long(4242))).getZustand() == 1);
-        assertTrue("Zustand", ((Werkzeug)cache.getById(new Long(4242))).getZustand() == 1);
+        assertTrue("Zustand1", ((Werkzeug)cache.getById(new Long(4242))).getZustand() == 1);
+        assertTrue("Zustand2", ((Werkzeug)cache.getById(new Long(4243))).getZustand() == 1);
         
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
         datenbankTestInsert.datenbankUpdate("UPDATE WERKZEUG SET ZUSTAND=0 WHERE ID_WERKZEUG=4242");
@@ -95,8 +95,8 @@ public class WerkzeugCacheTest extends CacheTest{
         
         cache.update();
         
-        assertTrue("Zustand", ((Werkzeug)cache.getById(new Long(4242))).getZustand() == 0);
-        assertTrue("Zustand", ((Werkzeug)cache.getById(new Long(4242))).getZustand() == 0);
+        assertTrue("Zustand1->Update", ((Werkzeug)cache.getById(new Long(4242))).getZustand() == 0);
+        assertTrue("Zustand2->Update", ((Werkzeug)cache.getById(new Long(4242))).getZustand() == 0);
         
     }
 
