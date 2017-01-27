@@ -35,15 +35,7 @@
 
             attributes.appendChild(zeile);
                   
-<<<<<<< HEAD
-            link.onclick = function() {
-                        var elementId = $(this).attr("elementId");
-                        var elementTyp = $(this).attr("elementType");
-                        addZurueckList(documentNr, elementId, elementTyp);
-                        closeWebsockets(documentNr);
-                        localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));
-                        localStorage.setItem("elementType_"+documentNr,$(this).attr("elementType"));
-=======
+
             link.onclick = function() {  
                 var elementId = $(this).attr("elementId");
                 var elementTyp = $(this).attr("elementType");
@@ -52,7 +44,6 @@
                 closeWebsockets(documentNr);
                 localStorage.setItem("elementId_"+documentNr,elementId);
                 localStorage.setItem("elementType_"+documentNr,elementTyp);
->>>>>>> refs/remotes/origin/Tabellenansicht_mit_Nextbuttonexperiment
 
                         var div = document.getElementById(divName+documentNr);
                         var childs = div.childNodes;
@@ -61,13 +52,8 @@
                             div.removeChild(childs[i]);
                         }
 
-<<<<<<< HEAD
-                        initEinzelansicht(documentNr);
-                    }
-=======
                 initEinzelansicht(documentNr);
             }
->>>>>>> refs/remotes/origin/Tabellenansicht_mit_Nextbuttonexperiment
         }
     }
         
@@ -130,16 +116,11 @@
                     link.setAttribute("elementType",type);
                     link.onclick = function() {
                         var elementId = $(this).attr("elementId");
-<<<<<<< HEAD
-                        var elementTyp = $(this).attr("elementType");
-                        addZurueckList(documentNr, elementId, elementTyp);
-=======
                         console.log("ELEM-ID: "+ elementId);
                         var elementTyp = $(this).attr("elementType");
                         console.log("ELEM-Type: "+ elementTyp);
                         addZurueckList(documentNr, elementId, elementTyp);
                         console.log("!!!!!!!!!!!!!!!!!!!!!!!!!! ADD ZURÜCKLIST Einzelansicht");
->>>>>>> refs/remotes/origin/Tabellenansicht_mit_Nextbuttonexperiment
                         closeWebsockets(documentNr);
                         localStorage.setItem("elementId_"+documentNr,elementId);
                         localStorage.setItem("elementType_"+documentNr,elementTyp);

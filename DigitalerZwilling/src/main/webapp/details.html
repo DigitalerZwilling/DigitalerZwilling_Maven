@@ -112,17 +112,17 @@
                            var laenge = zurueckList_all[nummer].length;
                            console.log("Länge des ZurückArrays:" + laenge);
                            console.log(zurueckList_all);
-                           if(zurueckList_all[nummer].length==1){
-                               console.log("BUTZ der Button verschwindet.");
-                               $(backButtons[nummer]).hide();    
-                           }
+                          
                            localStorage.setItem("elementType_"+nrAusgabe, zurueckList_all[(nummer)][lastElement-1][0]);
                            localStorage.setItem("elementId_"+nrAusgabe, zurueckList_all[(nummer)][lastElement-1][1]);
                            console.log(zurueckList_all[nummer][lastElement][0] + "&" + zurueckList_all[nummer][lastElement][1] + "werden aus Array gepoppt.");
                            zurueckList_all[nummer].pop();
                            zurueckList_all[nummer].length = laenge-1;
                            console.log("Neue Länge des ZurückArrays:" + zurueckList_all[nummer].length);
-                           
+                            if(zurueckList_all[nummer].length==1){
+                               console.log("BUTZ der Button verschwindet.");
+                               $(backButtons[nummer]).hide();    
+                           }
                            if(zurueckList_all[nummer][lastElement-1][1]==null){
                             loadDiv(nummer+1);                               
                            }else

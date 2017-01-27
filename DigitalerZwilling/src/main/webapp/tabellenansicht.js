@@ -20,11 +20,7 @@ function loadDiv(documentNr){
 
   var typ = localStorage.getItem('elementType_'+documentNr);
   console.log("Type="+typ);
-<<<<<<< HEAD
-=======
-    
->>>>>>> refs/remotes/origin/Tabellenansicht_mit_Nextbuttonexperiment
-  
+
   switch (typ) {
             case 'Artikel':
                 
@@ -461,20 +457,11 @@ function loadDiv(documentNr){
                    
                     
                     currenttext.onclick = function() {
-<<<<<<< HEAD
-                       var elementId = $(this).attr("elementId");
-                       var elementTyp = $(this).attr("elementType");
-                       addZurueckList(documentNr, elementId, elementTyp);
-                       
-                       localStorage.setItem("elementId_"+documentNr, elementId);
-                       localStorage.setItem("elementType_"+documentNr, elementTyp);
-                       
-=======
+
                        addZurueckList(documentNr, $(this).attr("elementId") ,typ);
                        localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));
                        localStorage.setItem("elementType_"+documentNr,$(this).attr("elementType"));
 
->>>>>>> refs/remotes/origin/Tabellenansicht_mit_Nextbuttonexperiment
                        closeWebsockets(documentNr);
                        initEinzelansicht(documentNr);
                   

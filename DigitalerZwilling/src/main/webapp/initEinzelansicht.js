@@ -6,11 +6,10 @@ function initEinzelansicht(documentNr){
     console.log("ElementTyp initEInzelansicht: " + localStorage.getItem("elementType_"+documentNr));
     console.log("ElementId initEInzelansicht: " + localStorage.getItem("elementId_"+documentNr));
         var div = document.getElementById(divName+documentNr);
-        var childs = div.childNodes;
 
-        for(var i=0; i<childs.length; i++){
-            div.removeChild(childs[i]);
-            console.log("remove Childs");
+        
+        while(div.childNodes.length >0){
+            div.removeChild(div.childNodes[0]);
         }
         
         var table = document.createElement("table");
@@ -33,10 +32,7 @@ function initEinzelansicht(documentNr){
         
         var elementId = localStorage.getItem('elementId_'+documentNr);
         var elementType =  localStorage.getItem('elementType_'+documentNr);
-<<<<<<< HEAD
-      
-=======
->>>>>>> refs/remotes/origin/Tabellenansicht_mit_Nextbuttonexperiment
+
         
         switch (elementType) {
             case 'Artikel':
