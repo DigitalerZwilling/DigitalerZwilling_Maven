@@ -54,7 +54,7 @@ public class DatenbankSchnittstelle {
     private Long letzterZeitstempel;
 
     public DatenbankSchnittstelle() throws DBNotFoundException{
-        if(!connect(this.findDBConfigFile())){
+        if(!connect("./DZConfig.cfg")){
             throw new DBNotFoundException("DB error...");
         }            
         
@@ -195,7 +195,7 @@ public class DatenbankSchnittstelle {
         rs.close();
         stmt.close();
     }
-    
+    /*
     public String findDBConfigFile() throws DBNotFoundException{
         String dbConfigFile = "";System.out.println("dbConfig" + pathToConfig);
         File config = new File(pathToConfig);
@@ -252,5 +252,5 @@ public class DatenbankSchnittstelle {
         }
         
         return dbConfigFile;
-    }
+    }*/
 }
