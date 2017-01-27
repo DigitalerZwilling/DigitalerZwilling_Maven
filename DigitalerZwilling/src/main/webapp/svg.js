@@ -62,11 +62,6 @@ function initSVG() {
 }
 function createSVG(){
     if(jsonCache[0] != "" && jsonCache[1]!="" && jsonCache[2]!=""){
-        //console.log("sektor:" + jsonCache[0].inhalt[0].bezeichnung);
-        //console.log("band:" + jsonCache[1].inhalt[0].bezeichnung);
-        //console.log("WT:" + jsonCache[2].inhalt[0].bezeichnung);
-        
-        
         
         websocketList_8[0].onmessage = function(event) {
             var j_sektoren = JSON.parse(event.data);
@@ -101,10 +96,6 @@ function reloadSVG(){
         sektorenAendern(jsonCache[0]);
 	transportbaenderAendern(jsonCache[1]);
 	warentraegerAendern(jsonCache[0], jsonCache[1], jsonCache[2]);
-}
-
-function idAusgeben(elmnt) {
-    console.log(elmnt.id);
 }
 
 function getSekByID(j_sektoren, key) {
@@ -142,6 +133,38 @@ function getTBByID(j_baender, key) {
     return 0;
 }
 
+function clickSektoren(sektor){
+    var id = sektor.getAttributeNS(null,'elementId');
+    var type='Sektoren';
+    var documentNr = 7;
+    
+    localStorage.setItem('elementId_'+documentNr,id);
+    localStorage.setItem('elementType_'+documentNr,type);
+    initEinzelansicht(documentNr);
+}
+
+function clickTransportbaender(transportband){
+    var id = transportband.getAttributeNS(null,'elementId');
+    var type='Transportbänder';
+    var documentNr = 7;
+    
+    localStorage.setItem('elementId_'+documentNr,id);
+    localStorage.setItem('elementType_'+documentNr,type);
+    initEinzelansicht(documentNr);
+}
+
+function clickWarentraeger(warentraeger){
+    var id = warentraeger.getAttributeNS(null,'elementId');
+    var type='Warenträger';
+    var documentNr = 7;
+    
+    localStorage.setItem('elementId_'+documentNr,id);
+    localStorage.setItem('elementType_'+documentNr,type);
+    initEinzelansicht(documentNr);
+}
+
+
+
 
 function sektorenErstellen(j_sektoren) {
     for (var i = 0; i < j_sektoren.inhalt.length; i++) {
@@ -149,6 +172,7 @@ function sektorenErstellen(j_sektoren) {
         var rect = document.createElementNS(svgns, 'rect');
         //rect = document.getElementById("svgOne").getElementById("Sektor" + j_sektoren.inhalt[i].id);
         rect.setAttributeNS(null, 'id', 'Sektor' + j_sektoren.inhalt[i].id);
+        rect.setAttributeNS(null, 'elementId', j_sektoren.inhalt[i].id);
         rect.setAttributeNS(null, 'x', j_sektoren.inhalt[i].x);
         rect.setAttributeNS(null, 'y', j_sektoren.inhalt[i].y);
         rect.setAttributeNS(null, 'height', sektor_height);
@@ -159,7 +183,7 @@ function sektorenErstellen(j_sektoren) {
             rect.setAttributeNS(null, 'fill', sektor_fill);
         rect.setAttributeNS(null, 'stroke-width', '5');
         rect.setAttributeNS(null, 'stroke', 'black');
-        rect.setAttributeNS(null, 'onclick', 'idAusgeben(this)'); //Beim anklicken wird die Id des Elementes ausgeben
+        rect.setAttributeNS(null, 'onclick', 'clickSektoren(this)'); //Beim anklicken wird die Id des Elementes ausgeben
         document.getElementById('svgOne').appendChild(rect);
         
         //zugehöriges Label erstellen
@@ -181,7 +205,6 @@ function sektorenErstellen(j_sektoren) {
 
 function transportbaenderErstellen(j_sektoren, j_baender) {
     
-    console.log("sektor:" + j_sektoren.inhalt[0].bezeichnung);
     var id_vor = 0;
     var id_nach = 0;
     for (var i = 0; i < j_baender.inhalt.length; i++) {
@@ -193,10 +216,11 @@ function transportbaenderErstellen(j_sektoren, j_baender) {
         var rect = document.createElementNS(svgns, 'rect');
         //rect = document.getElementById("svgOne").getElementById("Transportband" + j_baender.inhalt[i].id);
         rect.setAttributeNS(null, 'id', 'Transportband' + j_baender.inhalt[i].id);
+        rect.setAttributeNS(null, 'elementId', j_baender.inhalt[i].id);
         rect.setAttributeNS(null, 'stroke-width', '3');
         rect.setAttributeNS(null, 'stroke', 'black');
 
-        rect.setAttributeNS(null, 'onclick', 'idAusgeben(this)');
+        rect.setAttributeNS(null, 'onclick', 'clickTransportbaender(this)');
         if (j_baender.inhalt[i].stoerung != 0) {
             rect.setAttributeNS(null, 'fill', stoerung_fill);
         } else {
@@ -269,7 +293,8 @@ function warentraegerErstellen(j_sektoren, j_baender, j_warentraeger) {
         //console.log(document.getElementById("svgOne").getElementById("Warentraeger" + j_warentraeger.inhalt[i].id));
         var rect = document.createElementNS(svgns, 'rect');
         //rect = document.getElementById("svgOne").getElementById("Warentraeger" + j_warentraeger.inhalt[i].id);
-        rect.setAttributeNS(null, 'id', 'Warentraeger' + j_warentraeger.inhalt[i].id);
+        rect.setAttributeNS(null, 'elementId', j_warentraeger.inhalt[i].id);
+        rect.setAttributeNS(null, 'id', "Warentraeger" + j_warentraeger.inhalt[i].id);
         if ((j_warentraeger.inhalt[i].transportbandIDs.length === 1) && (j_warentraeger.inhalt[i].sektorIDs.length === 0)) {
             //WT liegt auf einem TB und in keinem Sektor
             switch (j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].ausrichtung) {
@@ -324,7 +349,8 @@ function warentraegerErstellen(j_sektoren, j_baender, j_warentraeger) {
         } else if ((j_warentraeger.inhalt[i].transportbandIDs.length == 0) && (j_warentraeger.inhalt[i].sektorIDs.length == 1)) {
             //WT liegt in einem Sektor und auf keinem TB
             rect = document.createElementNS(svgns, 'rect');
-            rect.setAttributeNS(null, 'id', 'Warentraeger' + j_warentraeger.inhalt[i].id);
+            rect.setAttributeNS(null, 'elementId', j_warentraeger.inhalt[i].id);
+            rect.setAttributeNS(null, 'id', "Warentraeger" + j_warentraeger.inhalt[i].id);
             rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren, j_warentraeger.inhalt[i].sektorIDs[0])].x + sektor_width / 2 - WT_width / 2);
             rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_warentraeger.inhalt[i].sektorIDs[0])].y + sektor_height / 2 - WT_height / 2);
 
@@ -356,7 +382,7 @@ function warentraegerErstellen(j_sektoren, j_baender, j_warentraeger) {
             rect.setAttributeNS(null, 'fill', stoerung_fill);
         else
             rect.setAttributeNS(null, 'fill', WT_fill);
-        rect.setAttributeNS(null, 'onclick', 'idAusgeben(this)'); //Beim anklicken wird die Id des Elementes ausgeben
+        rect.setAttributeNS(null, 'onclick', 'clickWarentraeger(this)'); //Beim anklicken wird die Id des Elementes ausgeben
         document.getElementById('svgOne').appendChild(rect);
 
     }

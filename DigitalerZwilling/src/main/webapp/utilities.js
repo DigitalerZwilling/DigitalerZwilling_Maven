@@ -338,8 +338,6 @@
            case 8: websocketList = websocketList_8; break;
         }
         
-        console.log("length="+websocketList.length);
-        
         while(websocketList.length>0){
             websocketList[websocketList.length-1].close();
             websocketList.pop();
@@ -376,7 +374,7 @@
            case 4: zurueckList = zurueckList_4; backButton = backButtons[3]; break;
            case 5: zurueckList = zurueckList_5; backButton = backButtons[4]; break;
            case 6: zurueckList = zurueckList_6; backButton = backButtons[5]; break;
-           case 7: zurueckList = zurueckList_7; backButton = backButtons[6]; break;
+           case 7: return;
         }
         console.log("PUSH: Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp);
         zurueckList.push([elementTyp,elementId]);

@@ -106,7 +106,6 @@ function initEinzelansicht(documentNr){
 
         WarentraegerWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            console.log(jsonString);
             updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"artikelIDs","Warenträger");
         };
     }
@@ -259,7 +258,6 @@ function initEinzelansicht(documentNr){
         SektorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var json = JSON.parse(jsonString);
-            console.log(jsonString);
             
             for(var i=0; i<json.inhalt.length; i++){
             var vid = json.inhalt[i]['vorTransportbandIDs'];
@@ -273,7 +271,6 @@ function initEinzelansicht(documentNr){
                 for(var j=0; j<vid.length; j++){
                     if(nid[j]==id){
                         var attribute_value = jsonToSektor(json.inhalt[i]);
-                        console.log("Value="+attribute_value);
                         updateAttributLink(documentNr, ['bezeichnung'],json.inhalt[i],attribute_value,['nachTransportband'],'Sektoren');
                     }
                 }
