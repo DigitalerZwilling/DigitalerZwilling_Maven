@@ -40,10 +40,10 @@
                             //history für ZurueckButton abfragen.
                             //wenn history vorhanden, Zurück-Button anzeigen.
                             for(i=0;i<7;i++){
-                                if(zurueckList_all[i].length==0){
+                                if(zurueckList_all[i].length<=1){
                                     $(backButtons[i]).hide();
                                 }else{
-                                    console.log("History für vorhanden.");
+                                    console.log("History vorhanden.");
                                 }
                             }
 
@@ -54,22 +54,28 @@
                                 switch(idBtn){
                                     case "backBtn1":
                                             nummer = 0;
+                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                             break;	
                                     case "backBtn2":
                                             nummer = 1;	
+                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                             break;	
                                     case "backBtn3":
                                             nummer = 2;	
+                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                             break;	
                                     case "backBtn4":
                                             nummer = 3;	
+                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                             break;	
                                     case "backBtn5":
                                             nummer = 4;	
+                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                             break;	
                                     case "backBtn6":
                                             nummer = 5;	
-                                }
+                                            console.log("BackButton Nr."+nummer+" gedrückt.");
+                                }                                
                                 loadHistory(nummer);
                             });
 
@@ -99,21 +105,28 @@
                             initEinzelansicht(i+1);
                         }
 
-                        function loadHistory(ListNummer){
-                            var lastElement = zurueckList_all[ListNummer].length-1;
-                            var elementTypeBack;
-                            var elementIdBack;
-                            if(zurueckList_all[ListNummer].length==1){
-                                elementTypeBack = zurueckList_all[ListNummer][lastElement][0];
-                                zurueckList_all[ListNummer].pop();
-                                $(backButtons[ListNummer]).hide();
-                                reloadTabelle(elementTypeBack,ListNummer);
-                            }else{
-                                elementTypeBack = zurueckList_all[ListNummer][lastElement][0];
-                                elementIdBack = zurueckList_all[ListNummer][lastElement][1];
-                                zurueckList_all[ListNummer].pop();
-                                reloadEinzelansicht(elementTypeBack,elementIdBack,ListNummer);
-                            }
+                        function loadHistory(nummer){
+                           var nrAusgabe = nummer+1;
+                           console.log("loadHistory ListNr.:"+nummer);
+                           var lastElement = zurueckList_all[nummer].length-1;
+                           var laenge = zurueckList_all[nummer].length;
+                           console.log("Länge des ZurückArrays:" + laenge);
+                           console.log(zurueckList_all);
+                           if(zurueckList_all[nummer].length==1){
+                               console.log("BUTZ der Button verschwindet.");
+                               $(backButtons[nummer]).hide();    
+                           }
+                           localStorage.setItem("elementType_"+nrAusgabe, zurueckList_all[(nummer)][lastElement-1][0]);
+                           localStorage.setItem("elementId_"+nrAusgabe, zurueckList_all[(nummer)][lastElement-1][1]);
+                           console.log(zurueckList_all[nummer][lastElement][0] + "&" + zurueckList_all[nummer][lastElement][1] + "werden aus Array gepoppt.");
+                           zurueckList_all[nummer].pop();
+                           zurueckList_all[nummer].length = laenge-1;
+                           console.log("Neue Länge des ZurückArrays:" + zurueckList_all[nummer].length);
+                           
+                           if(zurueckList_all[nummer][lastElement-1][1]==null){
+                            loadDiv(nummer+1);                               
+                           }else
+                            initEinzelansicht(nummer+1);  
                         }
     
                         function loadViaDropdown(idBtn){
@@ -122,6 +135,7 @@
                             switch(idBtn){
                                 case "dd-btn1":
                                     nummer = 1;
+                                    
                                     break;
                                 case "dd-btn2":
                                     nummer = 2;
@@ -140,10 +154,13 @@
                             }
                             $(".dropdown"+nummer+" li a").click(function(){
                                     $val = $(this).html();
+                                    
                                     console.log("lösche elemID_"+nummer);
                                     localStorage.removeItem('elementId_'+nummer);
                                     localStorage.setItem('elementType_'+nummer,$val);
                                             $(".dd-btn"+nummer).html($val+$caret);
+                                            //zurueckList_all[nummer-1][0]=null;
+                                            addZurueckList(nummer, null, localStorage.getItem('elementType_'+nummer));
                                             loadDiv(nummer);
                             }); 
                         }

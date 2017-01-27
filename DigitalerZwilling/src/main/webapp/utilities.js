@@ -35,6 +35,7 @@
 
             attributes.appendChild(zeile);
                   
+<<<<<<< HEAD
             link.onclick = function() {
                         var elementId = $(this).attr("elementId");
                         var elementTyp = $(this).attr("elementType");
@@ -42,6 +43,16 @@
                         closeWebsockets(documentNr);
                         localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));
                         localStorage.setItem("elementType_"+documentNr,$(this).attr("elementType"));
+=======
+            link.onclick = function() {  
+                var elementId = $(this).attr("elementId");
+                var elementTyp = $(this).attr("elementType");
+                addZurueckList(documentNr, elementId, elementTyp);
+                console.log("!!!!!!!!!!!!!!!!!!!!!!!!!! ADD ZURÜCKLIST Einzelansicht");
+                closeWebsockets(documentNr);
+                localStorage.setItem("elementId_"+documentNr,elementId);
+                localStorage.setItem("elementType_"+documentNr,elementTyp);
+>>>>>>> refs/remotes/origin/Tabellenansicht_mit_Nextbuttonexperiment
 
                         var div = document.getElementById(divName+documentNr);
                         var childs = div.childNodes;
@@ -50,8 +61,13 @@
                             div.removeChild(childs[i]);
                         }
 
+<<<<<<< HEAD
                         initEinzelansicht(documentNr);
                     }
+=======
+                initEinzelansicht(documentNr);
+            }
+>>>>>>> refs/remotes/origin/Tabellenansicht_mit_Nextbuttonexperiment
         }
     }
         
@@ -114,8 +130,16 @@
                     link.setAttribute("elementType",type);
                     link.onclick = function() {
                         var elementId = $(this).attr("elementId");
+<<<<<<< HEAD
                         var elementTyp = $(this).attr("elementType");
                         addZurueckList(documentNr, elementId, elementTyp);
+=======
+                        console.log("ELEM-ID: "+ elementId);
+                        var elementTyp = $(this).attr("elementType");
+                        console.log("ELEM-Type: "+ elementTyp);
+                        addZurueckList(documentNr, elementId, elementTyp);
+                        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!! ADD ZURÜCKLIST Einzelansicht");
+>>>>>>> refs/remotes/origin/Tabellenansicht_mit_Nextbuttonexperiment
                         closeWebsockets(documentNr);
                         localStorage.setItem("elementId_"+documentNr,elementId);
                         localStorage.setItem("elementType_"+documentNr,elementTyp);
@@ -170,9 +194,9 @@
                 }
             }else{
                  for(var j=0; j<ids.length; j++){
-                     console.log(ids[j]);
+                     //console.log(ids[j]);
                     if(ids[j]==id){
-                        console.log("ok");
+                        //console.log("ok");
                         addLine(documentNr, json.inhalt[i],childAttributes,parent, type);
                     }
                 }
@@ -357,15 +381,19 @@
     function addZurueckList(documentId, elementId, elementTyp){
         console.log("Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp);
         var zurueckList = [];
+        var backButton;
         switch (documentId) {
-           case 1: zurueckList = zurueckList_1; break;
-           case 2: zurueckList = zurueckList_2; break;
-           case 3: zurueckList = zurueckList_3; break;
-           case 4: zurueckList = zurueckList_4; break;
-           case 5: zurueckList = zurueckList_5; break;
-           case 6: zurueckList = zurueckList_6; break;
-           case 7: zurueckList = zurueckList_7; break;
+           case 1: zurueckList = zurueckList_1; backButton = backButtons[0]; break;
+           case 2: zurueckList = zurueckList_2; backButton = backButtons[1]; break;
+           case 3: zurueckList = zurueckList_3; backButton = backButtons[2]; break;
+           case 4: zurueckList = zurueckList_4; backButton = backButtons[3]; break;
+           case 5: zurueckList = zurueckList_5; backButton = backButtons[4]; break;
+           case 6: zurueckList = zurueckList_6; backButton = backButtons[5]; break;
+           case 7: zurueckList = zurueckList_7; backButton = backButtons[6]; break;
         }
-        
+        console.log("PUSH: Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp);
         zurueckList.push([elementTyp,elementId]);
+        if(zurueckList.length>=2){
+            $(backButton).show();
+        }
     }

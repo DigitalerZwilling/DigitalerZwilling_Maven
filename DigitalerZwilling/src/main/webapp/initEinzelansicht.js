@@ -2,11 +2,15 @@ var host = "ws://localhost:8080/DigitalerZwilling/";
 var divName = "einzelansicht";
 
 function initEinzelansicht(documentNr){
+    console.log("INIT:" + documentNr);
+    console.log("ElementTyp initEInzelansicht: " + localStorage.getItem("elementType_"+documentNr));
+    console.log("ElementId initEInzelansicht: " + localStorage.getItem("elementId_"+documentNr));
         var div = document.getElementById(divName+documentNr);
         var childs = div.childNodes;
 
         for(var i=0; i<childs.length; i++){
             div.removeChild(childs[i]);
+            console.log("remove Childs");
         }
         
         var table = document.createElement("table");
@@ -29,7 +33,10 @@ function initEinzelansicht(documentNr){
         
         var elementId = localStorage.getItem('elementId_'+documentNr);
         var elementType =  localStorage.getItem('elementType_'+documentNr);
+<<<<<<< HEAD
       
+=======
+>>>>>>> refs/remotes/origin/Tabellenansicht_mit_Nextbuttonexperiment
         
         switch (elementType) {
             case 'Artikel':
