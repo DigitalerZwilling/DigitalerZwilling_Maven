@@ -37,7 +37,7 @@ public class SensorCache extends Cache{
             
             for(int i=0;i<id.size();i++){
                 String ourTime=zeitstempel.get(i).replace(' ', 'T');
-                Sensor sensor = (Sensor) (state==true?elements[0].get(Long.parseLong(id.get(i))):elements[0].get(Long.parseLong(id.get(i))));
+                Sensor sensor = (Sensor) (state==true?elements[0].get(Long.parseLong(id.get(i))):elements[1].get(Long.parseLong(id.get(i))));
                 sensor.setStoerung((int)Long.parseLong(stoerung.get(i)));
                 sensor.setUser_Parameter(userParameter.get(i));
                 sensor.setZeitstempel(LocalDateTime.parse(ourTime));

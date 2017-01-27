@@ -38,7 +38,7 @@ public class HubQuerPodestCache extends Cache{
             List<String> zeitstempel = rsMap.get("ZEITSTEMPEL");
             
             for(int i = 0; i<id.size();i++){
-                HubQuerPodest huQu = (HubQuerPodest) (state==true?elements[0].get(Long.parseLong(id.get(i))):elements[0].get(Long.parseLong(id.get(i))));
+                HubQuerPodest huQu = (HubQuerPodest) (state==true?elements[0].get(Long.parseLong(id.get(i))):elements[1].get(Long.parseLong(id.get(i))));
                 
                 String ourTime=zeitstempel.get(i).replace(' ', 'T');
                 huQu.setZeitstempel(LocalDateTime.parse(ourTime));

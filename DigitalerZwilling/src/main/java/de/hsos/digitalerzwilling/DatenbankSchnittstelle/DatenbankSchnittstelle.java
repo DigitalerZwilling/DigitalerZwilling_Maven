@@ -6,25 +6,23 @@
 package de.hsos.digitalerzwilling.DatenbankSchnittstelle;
 
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
-import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DB_Exception;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
-import de.hsos.digitalerzwilling.Websockets.ExceptionEventHandlerScope;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
 
 /**
  *
@@ -33,56 +31,105 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class DatenbankSchnittstelle {
 
-    private Connection data;        // Datenbank Verbindung
-    
-    private Long SPS_Heartbeat_Deadline_ms=1000*60*2l;
-    
-    /*@Inject
-    @DB_Exception
-    Event<Exception> exceptionEvent;*/
-    @Inject private ExceptionEventHandlerScope evs;
-    
-    private Long letzterZeitstempel;
-    
+    protected Connection data;                                                        // Datenbank Verbindung
     //-----------------------------------------------------------------------------
+    
+    private static final String pathToConfig = "./DZConfig.cfg";
+    
+    private String DbUrl = "";
+    private String DbCd = "";
+    private String DbUser = "";
+    private String DbPw = "";
 
     public DatenbankSchnittstelle() throws DBNotFoundException{
-         //String DbUrl = "jdbc:derby://localhost:1527/db_DigitalerZwilling";
-        String DbUrl = "jdbc:mysql://131.173.117.48:3306/df_16115";
-         //String DbCd = "org.apache.derby.jdbc.ClientDriver";
-         String DbCd = "com.mysql.jdbc.Driver";
-        //String DbUser = "db_user";
-        //String DbPw = "SB0222";
-        String DbUser = "root";
-        String DbPw = "Didpw4df";
+        if(!connect(pathToConfig)){
+            throw new DBNotFoundException("DB error...");
+        }            
         
-        try {
-            Class.forName(DbCd).newInstance();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            this.data = DriverManager.getConnection(DbUrl, DbUser, DbPw);
-        } catch (SQLException ex) {
-            Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
-            evs.datenbankFehlerStatus(Boolean.TRUE);
-            throw new DBNotFoundException(ex.getMessage());
-            //throw new Exception("Fehler: Datenbankverbindung auf "+ this._DbURL+" nicht möglich");
-        }
+
     }
     
-    public DatenbankSchnittstelle(String DbUrl, String DbCd, String DbUser, String DbPw) throws DBNotFoundException {
+    public boolean connect(String pathToConfigFile) throws DBNotFoundException{
+        File dbConfig = new File(pathToConfigFile);
+        if (!dbConfig.exists()) {
+            try {
+                dbConfig.createNewFile();
+            } catch (IOException ex) {
+                throw new DBNotFoundException("Config file not found (" + pathToConfigFile + ") and can not be create...");
+            }
+            throw new DBNotFoundException("Config file not found (" + pathToConfigFile + ")...");
+        } else {
+            FileReader dbCReader = null;
+            BufferedReader bufferedReader = null;
+            try {
+                dbCReader = new FileReader(dbConfig);
+                bufferedReader = new BufferedReader(dbCReader);
+                String input;
+                while ((input = bufferedReader.readLine()) != null) { // Liest Config Datei Zeile für Zeile aus und übernimmt die Werte.
+
+                    String line[] = input.split("=");
+                    if (line.length > 1) {
+                        if (line[0].compareToIgnoreCase("DbUrl") == 0) {
+                            DbUrl = line[1];
+                        } else if (line[0].compareToIgnoreCase("DbCd") == 0) {
+                            DbCd = line[1];
+                        } else if (line[0].compareToIgnoreCase("DbUser") == 0) {
+                            DbUser = line[1];
+                        } else if (line[0].compareToIgnoreCase("DbPw") == 0) {
+                            DbPw = line[1];
+                        }
+                    } else {
+                        throw new DBNotFoundException("Error in config file...");
+                    }
+                }
+
+                if (!connect(DbUrl, DbCd, DbUser, DbPw)) // Oeffnet eine Verbindung mit Werten aus der Config Datei.
+                {
+                    throw new DBNotFoundException("DB error...");
+                }
+
+            } catch (FileNotFoundException ex) {
+                throw new DBNotFoundException("Config file not found...");
+            } catch (IOException ex) {
+                throw new DBNotFoundException("Error in file stream...");
+            } finally {
+                try {
+
+                    if (bufferedReader != null) {
+                        bufferedReader.close();
+                    }
+                    if (dbCReader != null) {
+                        dbCReader.close();
+                    }
+
+                } catch (IOException ex) {
+                    throw new DBNotFoundException("Error in file stream...");
+                }
+            }
+        }
+        
+        return data != null;
+    }
+    
+    public boolean connect(String DbUrl, String DbCd, String DbUser, String DbPw) throws DBNotFoundException {
         try {
             Class.forName(DbCd).newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DBNotFoundException("Driver not found ("+DbCd+")...");
         }
         try {
+            if(data != null){
+                data.close();
+                data = null;
+            }
             this.data = DriverManager.getConnection(DbUrl, DbUser, DbPw);
+            if(data==null)
+                return false;
+            else
+                return data.isValid(10);
         } catch (SQLException ex) {
-            Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
-            evs.datenbankFehlerStatus(Boolean.TRUE);
-            throw new DBNotFoundException(ex.getMessage());
+            //Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DBNotFoundException("DB not found ("+DbUrl+")...");
             //throw new Exception("Fehler: Datenbankverbindung auf "+ this._DbURL+" nicht möglich");
         }
     }
@@ -99,13 +146,13 @@ public class DatenbankSchnittstelle {
      * @throws de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException
      */
     public Map<String, List<String>> datenbankAnfrage(String sqlStatement) throws DBNotFoundException, QueryException {
-        Map<String, List<String>> rsMap = new HashMap<>();
-        if (data == null) {
-            evs.datenbankFehlerStatus(Boolean.TRUE);
-            throw new DBNotFoundException();
-        } else {
-            try {
-                this.timeTrial();
+        try {
+            Map<String, List<String>> rsMap = new HashMap<>();
+            
+            if (data == null || !data.isValid(5)) {
+                connect(DbUrl, DbCd, DbUser, DbPw);
+                //throw new DBNotFoundException("DB error...");
+            } else {
                 Statement stmt = this.data.createStatement();
                 ResultSet rs = stmt.executeQuery(sqlStatement);
                 //----------------------------------------------------
@@ -117,35 +164,16 @@ public class DatenbankSchnittstelle {
                 while (rs.next()) {
                     for (int i = 1; i <= columnCount; i++) {
                         rsMap.get(rsmd.getColumnName(i).toUpperCase()).add(rs.getString(i));
+                        
                     }
                 }
                 //------------------------------------------------------
                 rs.close();
                 stmt.close();
-                evs.datenbankFehlerStatus(Boolean.FALSE);
-            } catch (SQLException ex) {
-                Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
-                evs.datenbankFehlerStatus(Boolean.TRUE);
-                throw new QueryException(ex.getMessage());
             }
+            return rsMap;
+        } catch (SQLException ex) {
+            throw new QueryException(ex.getMessage());
         }
-        return rsMap;
     }
-    
-    public void timeTrial() throws SQLException{
-        Long now=new java.util.Date().getTime();
-        Statement stmt = this.data.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT ZEITSTEMPEL FROM HEARTBEAT LIMIT 1");
-        rs.next();
-        if (rs.getTimestamp("ZEITSTEMPEL").getTime()+this.SPS_Heartbeat_Deadline_ms<now){
-            this.evs.spsFehlerStatus(Boolean.TRUE);
-        }
-        else{
-            this.evs.spsFehlerStatus(Boolean.FALSE);
-        }
-        rs.close();
-        stmt.close();
-    }
-           
-    
 }
