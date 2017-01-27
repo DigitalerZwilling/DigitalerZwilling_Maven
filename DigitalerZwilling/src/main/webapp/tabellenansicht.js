@@ -7,19 +7,19 @@
 
 
 function loadDiv(documentNr){
-    console.log("DokuNr: " + documentNr);
+    //console.log("DokuNr: " + documentNr);
     var div = document.getElementById("einzelansicht"+documentNr);
     var childs = div.childNodes;
 
-    for(var i=0; i<childs.length; i++){
-        div.removeChild(childs[i]);
+    while(div.childNodes.length >0){
+            div.removeChild(div.childNodes[0]);
     }
  
      closeWebsockets(documentNr);
      console.log("In tabellenansicht.js");
 
   var typ = localStorage.getItem('elementType_'+documentNr);
-  console.log("Type="+typ);
+  //console.log("Type="+typ);
 
   switch (typ) {
             case 'Artikel':
@@ -107,7 +107,7 @@ function loadDiv(documentNr){
                                     
                 sensorSocket.onopen = function() {
                     sensorSocket.send("LIST");
-                    console.log("HIER");
+                  
                 };
                 
                 sensorSocket.onmessage = function(event) {
@@ -191,7 +191,7 @@ function loadDiv(documentNr){
        
         
        // console.log("++++++++++++++++++++++++++++++");
-        console.log("ErzeugeTabelle vom Typ: " + typ + ", Websocket: " + websocket);
+       // console.log("ErzeugeTabelle vom Typ: " + typ + ", Websocket: " + websocket);
         var liste = JSON.parse(listeJSON);
         var spaltennamen = getSpaltenname(typ); //Ermittelt die benötigten Spaltnamen
 
@@ -494,7 +494,7 @@ function loadDiv(documentNr){
                             break;
                         case "Stoerung":
                             mycurrent_cell.setAttribute('id', typ+"Stoerung_"+liste.inhalt[j].id  + "_" + documentNr);
-                            console.log("My current_cell: " + mycurrent_cell.id);
+                            //console.log("My current_cell: " + mycurrent_cell.id);
                             currenttext = document.createTextNode(liste.inhalt[j].stoerung);
                             break;
                         case "Gelenkstellung":

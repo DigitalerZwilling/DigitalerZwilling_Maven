@@ -40,7 +40,7 @@
                 var elementId = $(this).attr("elementId");
                 var elementTyp = $(this).attr("elementType");
                 addZurueckList(documentNr, elementId, elementTyp);
-                console.log("!!!!!!!!!!!!!!!!!!!!!!!!!! ADD ZURÜCKLIST Einzelansicht");
+              
                 closeWebsockets(documentNr);
                 localStorage.setItem("elementId_"+documentNr,elementId);
                 localStorage.setItem("elementType_"+documentNr,elementTyp);

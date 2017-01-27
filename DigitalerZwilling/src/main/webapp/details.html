@@ -16,24 +16,17 @@
 
 
                         $(document).ready(function(){
-                            console.log("sollte mainContainer auf DETAILS setzen");
                             localStorage.setItem("mainContainer", "details");
                             //LocalStorage abfragen und Div 1-6 laden
                             //elementType liegt vor, wenn tabellenansicht
                             //elementType und elementId, wenn einzelansicht
                             for(i=0;i<7;i++){
                                 if(localStorage.getItem(elementTypeList[i])!=null){
-                                    console.log("Elem im Storage für Elem 1: "+ localStorage.getItem(elementTypeList[0]));
-                                    console.log("ID im Storage für Elem 1: "+ localStorage.getItem(elementIdList[0]));
                                     if(localStorage.getItem(elementIdList[i])!=null){
-                                            console.log("reload Einzelansicht for elementId_" + (i+1) + "!");
-                                            reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i);
+                                        reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i);
                                     }else{
-                                        console.log("No cached data for elementId_" + (i+1) + "!");
                                         reloadTabelle(localStorage.getItem(elementTypeList[i]),i);
                                     }
-                                }else{
-                                    console.log("No cached data for elementType_" + (i+1) + "!");
                                 }
                             } 
 
@@ -42,8 +35,6 @@
                             for(i=0;i<7;i++){
                                 if(zurueckList_all[i].length<=1){
                                     $(backButtons[i]).hide();
-                                }else{
-                                    console.log("History vorhanden.");
                                 }
                             }
 
@@ -54,27 +45,21 @@
                                 switch(idBtn){
                                     case "backBtn1":
                                             nummer = 0;
-                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                             break;	
                                     case "backBtn2":
                                             nummer = 1;	
-                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                             break;	
                                     case "backBtn3":
                                             nummer = 2;	
-                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                             break;	
                                     case "backBtn4":
                                             nummer = 3;	
-                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                             break;	
                                     case "backBtn5":
                                             nummer = 4;	
-                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                             break;	
                                     case "backBtn6":
                                             nummer = 5;	
-                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                 }                                
                                 loadHistory(nummer);
                             });
@@ -83,7 +68,6 @@
 
                             $(".btn.btn-default.dropdown-toggle").on('click', function(){
 	            		idBtn = $(this).attr('id');
-	            		console.log(idBtn);
 	            		loadViaDropdown(idBtn);
                             });
                         });
@@ -91,7 +75,6 @@
 
                         function reloadTabelle(elementType, divNumber){
                             i = divNumber;
-                            console.log("reload " + elementType + "in Div " + (i+1));
                             $val = elementType;
                             $(".dd-btn"+(i+1)).html($val+$caret);
                             loadDiv(i+1);
@@ -99,7 +82,6 @@
 
                         function reloadEinzelansicht(elementType, elementId, divNumber){
                             i = divNumber;
-                            console.log("reload " + elementType + " _____ " + elementId + " in Div " + (i+1));
                             $val = elementType;
                             $(".dd-btn"+(i+1)).html($val+$caret);
                             initEinzelansicht(i+1);
@@ -107,20 +89,15 @@
 
                         function loadHistory(nummer){
                            var nrAusgabe = nummer+1;
-                           console.log("loadHistory ListNr.:"+nummer);
                            var lastElement = zurueckList_all[nummer].length-1;
                            var laenge = zurueckList_all[nummer].length;
-                           console.log("Länge des ZurückArrays:" + laenge);
-                           console.log(zurueckList_all);
                           
                            localStorage.setItem("elementType_"+nrAusgabe, zurueckList_all[(nummer)][lastElement-1][0]);
                            localStorage.setItem("elementId_"+nrAusgabe, zurueckList_all[(nummer)][lastElement-1][1]);
-                           console.log(zurueckList_all[nummer][lastElement][0] + "&" + zurueckList_all[nummer][lastElement][1] + "werden aus Array gepoppt.");
                            zurueckList_all[nummer].pop();
-                           zurueckList_all[nummer].length = laenge-1;
-                           console.log("Neue Länge des ZurückArrays:" + zurueckList_all[nummer].length);
+                           //zurueckList_all[nummer].length = laenge-1;
                             if(zurueckList_all[nummer].length==1){
-                               console.log("BUTZ der Button verschwindet.");
+
                                $(backButtons[nummer]).hide();    
                            }
                            if(zurueckList_all[nummer][lastElement-1][1]==null){
@@ -135,7 +112,6 @@
                             switch(idBtn){
                                 case "dd-btn1":
                                     nummer = 1;
-                                    
                                     break;
                                 case "dd-btn2":
                                     nummer = 2;
@@ -155,7 +131,6 @@
                             $(".dropdown"+nummer+" li a").click(function(){
                                     $val = $(this).html();
                                     
-                                    console.log("lösche elemID_"+nummer);
                                     localStorage.removeItem('elementId_'+nummer);
                                     localStorage.setItem('elementType_'+nummer,$val);
                                             $(".dd-btn"+nummer).html($val+$caret);
@@ -211,7 +186,7 @@
                                                         <li><a href="#">Warenträger</a></li>
                                                     </ul> 
                                             </div> 	
-                                            <button id="backBtn2" type="button" class="btn btn-default">zurück</button>
+                                            <button id="backBtn2" type="button" class="btn btn-default backBtn">zurück</button>
                                             <div></br></div>
                                             <div id="einzelansicht2">Keine Komponente gewählt.</div>
                                         </div>
@@ -238,7 +213,7 @@
                                                         <li><a href="#">Warenträger</a></li>
                                                     </ul>  	
                                             </div>
-                                            <button id="backBtn3" type="button" class="btn btn-default">zurück</button>
+                                            <button id="backBtn3" type="button" class="btn btn-default backBtn">zurück</button>
                                             <div></br></div>
                                             <div id="einzelansicht3">Keine Komponente gewählt.</div>
                                         </div>
@@ -260,7 +235,7 @@
                                                         <li><a href="#">Warenträger</a></li>
                                                     </ul>  	
                                             </div>
-                                            <button id="backBtn4" type="button" class="btn btn-default">zurück</button>
+                                            <button id="backBtn4" type="button" class="btn btn-default backBtn">zurück</button>
                                             <div></br></div>
                                             <div id="einzelansicht4">Keine Komponente gewählt.</div>
                                         </div>
@@ -289,7 +264,7 @@
                                                         <li><a href="#">Warenträger</a></li>
                                                     </ul>  	
                                             </div>
-                                            <button id="backBtn5" type="button" class="btn btn-default">zurück</button>
+                                            <button id="backBtn5" type="button" class="btn btn-default backBtn">zurück</button>
                                             <div></br></div>
                                             <div id="einzelansicht5">Keine Komponente gewählt.</div>
                                         </div>
@@ -311,7 +286,7 @@
                                                         <li><a href="#">Warenträger</a></li>
                                                     </ul>  
                                             </div>	
-                                            <button id="backBtn6" type="button" class="btn btn-default">zurück</button>
+                                            <button id="backBtn6" type="button" class="btn btn-default backBtn">zurück</button>
                                             <div></br></div>
                                             <div id="einzelansicht6">Keine Komponente gewählt.</div>
                                         </div>
