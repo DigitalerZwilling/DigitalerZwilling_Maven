@@ -23,9 +23,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 /**
  *
@@ -37,8 +36,7 @@ public class DatenbankSchnittstelle {
     protected Connection data;                                                        // Datenbank Verbindung
     //-----------------------------------------------------------------------------
     
-    private static final boolean DBCONFILE = true; // Server mit Config Datei???
-    private static final String pathToConfig = "./config.cfg";
+    private static final String pathToConfig = "./DZConfig.cfg";
     
     private String DbUrl = "";
     private String DbCd = "";
@@ -46,10 +44,11 @@ public class DatenbankSchnittstelle {
     private String DbPw = "";
 
     public DatenbankSchnittstelle() throws DBNotFoundException{
-        if(!connect(this.findDBConfigFile())){
+        if(!connect(pathToConfig)){
             throw new DBNotFoundException("DB error...");
         }            
         
+
     }
     
     public boolean connect(String pathToConfigFile) throws DBNotFoundException{
@@ -64,6 +63,7 @@ public class DatenbankSchnittstelle {
                 bufferedReader = new BufferedReader(dbCReader);
                 String input;
                 while ((input = bufferedReader.readLine()) != null) { // Liest Config Datei Zeile für Zeile aus und übernimmt die Werte.
+
                     String line[] = input.split("=");
                     if (line.length > 1) {
                         if (line[0].compareToIgnoreCase("DbUrl") == 0) {
@@ -120,7 +120,10 @@ public class DatenbankSchnittstelle {
                 data = null;
             }
             this.data = DriverManager.getConnection(DbUrl, DbUser, DbPw);
-            return data != null;
+            if(data==null)
+                return false;
+            else
+                return data.isValid(10);
         } catch (SQLException ex) {
             //Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
             throw new DBNotFoundException("DB not found ("+DbUrl+")...");
@@ -171,8 +174,9 @@ public class DatenbankSchnittstelle {
         }
     }
     
+    /*
     public String findDBConfigFile() throws DBNotFoundException{
-        String dbConfigFile = "";
+        String dbConfigFile = "";System.out.println("dbConfig" + pathToConfig);
         File config = new File(pathToConfig);
         if (!config.exists()) {
             try {
@@ -227,5 +231,5 @@ public class DatenbankSchnittstelle {
         }
         
         return dbConfigFile;
-    }
+    }*/
 }
