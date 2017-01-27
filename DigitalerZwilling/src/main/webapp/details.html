@@ -13,10 +13,9 @@
                         var elementTypeList = ["elementType_1","elementType_2","elementType_3","elementType_4","elementType_5","elementType_6"];
                         var elementIdList = ["elementId_1","elementId_2","elementId_3","elementId_4","elementId_5","elementId_6"];
                         var backButtons = ["#backBtn1", "#backBtn2", "#backBtn3", "#backBtn4", "#backBtn5", "#backBtn6"];
-
+                        
 
                         $(document).ready(function(){
-                            console.log("sollte mainContainer auf DETAILS setzen");
                             localStorage.setItem("mainContainer", "details");
                             //LocalStorage abfragen und Div 1-6 laden
                             //elementType liegt vor, wenn tabellenansicht
@@ -112,17 +111,17 @@
                            var laenge = zurueckList_all[nummer].length;
                            console.log("Länge des ZurückArrays:" + laenge);
                            console.log(zurueckList_all);
-                           if(zurueckList_all[nummer].length==1){
-                               console.log("BUTZ der Button verschwindet.");
-                               $(backButtons[nummer]).hide();    
-                           }
+                           
                            localStorage.setItem("elementType_"+nrAusgabe, zurueckList_all[(nummer)][lastElement-1][0]);
                            localStorage.setItem("elementId_"+nrAusgabe, zurueckList_all[(nummer)][lastElement-1][1]);
                            console.log(zurueckList_all[nummer][lastElement][0] + "&" + zurueckList_all[nummer][lastElement][1] + "werden aus Array gepoppt.");
                            zurueckList_all[nummer].pop();
                            zurueckList_all[nummer].length = laenge-1;
                            console.log("Neue Länge des ZurückArrays:" + zurueckList_all[nummer].length);
-                           
+                           if(zurueckList_all[nummer].length==1){
+                               console.log("BUTZ der Button verschwindet.");
+                               $(backButtons[nummer]).hide();    
+                           }
                            if(zurueckList_all[nummer][lastElement-1][1]==null){
                             loadDiv(nummer+1);                               
                            }else

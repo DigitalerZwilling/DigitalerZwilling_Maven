@@ -10,7 +10,6 @@ function initEinzelansicht(documentNr){
 
         for(var i=0; i<childs.length; i++){
             div.removeChild(childs[i]);
-            console.log("remove Childs");
         }
         
         var table = document.createElement("table");
