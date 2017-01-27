@@ -29,7 +29,6 @@ function initEinzelansicht(documentNr){
         
         var elementId = localStorage.getItem('elementId_'+documentNr);
         var elementType =  localStorage.getItem('elementType_'+documentNr);
-        addZurueckList(documentNr, elementId, elementType);
         
         switch (elementType) {
             case 'Artikel':

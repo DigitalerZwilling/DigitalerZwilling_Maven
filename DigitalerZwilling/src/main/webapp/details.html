@@ -43,7 +43,7 @@
                                 if(zurueckList_all[i].length==0){
                                     $(backButtons[i]).hide();
                                 }else{
-                                    console.log("History für vorhanden.");
+                                    console.log("History vorhanden.");
                                 }
                             }
 
@@ -53,24 +53,30 @@
                                 var nummer;
                                 switch(idBtn){
                                     case "backBtn1":
-                                            nummer = 0;
+                                            nummer = 1;
+                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                             break;	
                                     case "backBtn2":
-                                            nummer = 1;	
+                                            nummer = 2;	
+                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                             break;	
                                     case "backBtn3":
-                                            nummer = 2;	
+                                            nummer = 3;	
+                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                             break;	
                                     case "backBtn4":
-                                            nummer = 3;	
+                                            nummer = 4;	
+                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                             break;	
                                     case "backBtn5":
-                                            nummer = 4;	
+                                            nummer = 5;	
+                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                             break;	
                                     case "backBtn6":
-                                            nummer = 5;	
+                                            nummer = 6;	
+                                            console.log("BackButton Nr."+nummer+" gedrückt.");
                                 }
-                                loadHistory(nummer);
+                                loadHistory(nummer-1);
                             });
 
 	            	
@@ -99,21 +105,27 @@
                             initEinzelansicht(i+1);
                         }
 
-                        function loadHistory(ListNummer){
-                            var lastElement = zurueckList_all[ListNummer].length-1;
-                            var elementTypeBack;
-                            var elementIdBack;
-                            if(zurueckList_all[ListNummer].length==1){
-                                elementTypeBack = zurueckList_all[ListNummer][lastElement][0];
-                                zurueckList_all[ListNummer].pop();
-                                $(backButtons[ListNummer]).hide();
-                                reloadTabelle(elementTypeBack,ListNummer);
-                            }else{
-                                elementTypeBack = zurueckList_all[ListNummer][lastElement][0];
-                                elementIdBack = zurueckList_all[ListNummer][lastElement][1];
-                                zurueckList_all[ListNummer].pop();
-                                reloadEinzelansicht(elementTypeBack,elementIdBack,ListNummer);
-                            }
+                        function loadHistory(listNummer){
+                           console.log("loadHistory ListNr.:"+listNummer);
+                           var lastElement = zurueckList_all[listNummer].length-1;
+                           var laenge = zurueckList_all[listNummer].length;
+                           console.log("Länge des ZurückArrays:" + laenge);
+                           console.log(zurueckList_all);
+                           if(zurueckList_all[listNummer][lastElement-1][1]==null){
+                               console.log("BUTZ");
+                               //localStorage.setItem("elementType_1", zurueckList_all[listNummer][lastElement-1][0] );
+                               localStorage.setItem("elementType_1", "Sensoren" );
+                               zurueckList_all[listNummer][lastElement].pop();
+                               loadDiv(1);
+                               
+                           }else
+                           console.log("ID nicht null" + zurueckList_all[listNummer][lastElement-1][0]);
+                                localStorage.setItem("elementType_1", zurueckList_all[listNummer][lastElement-1][0] );
+                                localStorage.setItem("elementId_1", zurueckList_all[listNummer][lastElement-1][1] );
+                                zurueckList_all[listNummer][lastElement].pop();
+                                initEinzelansicht(1);
+                                
+                           
                         }
     
                         function loadViaDropdown(idBtn){
@@ -122,6 +134,7 @@
                             switch(idBtn){
                                 case "dd-btn1":
                                     nummer = 1;
+                                    
                                     break;
                                 case "dd-btn2":
                                     nummer = 2;
@@ -140,10 +153,13 @@
                             }
                             $(".dropdown"+nummer+" li a").click(function(){
                                     $val = $(this).html();
+                                    
                                     console.log("lösche elemID_"+nummer);
                                     localStorage.removeItem('elementId_'+nummer);
                                     localStorage.setItem('elementType_'+nummer,$val);
                                             $(".dd-btn"+nummer).html($val+$caret);
+                                            //zurueckList_all[nummer-1][0]=null;
+                                            addZurueckList(nummer, null, localStorage.getItem('elementType_'+nummer));
                                             loadDiv(nummer);
                             }); 
                         }
