@@ -372,8 +372,7 @@
            case 7: zurueckList = zurueckList_7; backButton = backButtons[6]; break;
         }
         console.log("PUSH: Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp);
-        zurueckList.push(elementTyp,elementId);
-        console.log("NACH PUSH: Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp);
+        zurueckList.push([elementTyp,elementId]);
         if(zurueckList.length>=2){
             $(backButton).show();
         }
