@@ -6,6 +6,8 @@
 package de.hsos.digitalerzwilling.Websockets;
 
 import de.hsos.digitalerzwilling.Cache.Cache;
+import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
+import de.hsos.digitalerzwilling.Cache.SystemCache;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DB_Exception;
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,28 +29,21 @@ import javax.websocket.server.ServerEndpoint;
  */
 
 @ServerEndpoint("/ExceptionWebSocket")
-public class ExceptionWebSocket implements Comparable<ExceptionWebSocket>{
-    @Inject private ExceptionEventHandlerScope ExceptionHandlerScope;
-    private Session session;
-    private Long createtTime;
-    
-    private Map<String,Exception> exMap;
-    private Map<String,Long> timeMap;
+public class ExceptionWebSocket extends WebSocket{
+    @Inject private SystemCache cache;
+
     
     @OnOpen
     public void onOpen(Session session) {
-        this.createtTime=new java.util.Date().getTime();
-        System.out.println("open");
-        exMap=new HashMap<>();
-        timeMap=new HashMap<>();
-        this.session=session;
-        this.ExceptionHandlerScope.add(this);
-        //WebSocketBeanConversation=new ExceptionEventHandlerScope(session);
+        this.setId(0l);
+        this.setSession(session);
+        if (this.getRegistriert()==Boolean.FALSE){
+          this.webSocketUpdater.addWebSocket(this);
+        }
+        this.setRegistriert(Boolean.TRUE);
         
     }
-    public Long getCreatetTime(){
-        return this.createtTime;
-    }
+
     /*@PostConstruct
     public void init(){
         System.out.println("post const");
@@ -57,7 +52,11 @@ public class ExceptionWebSocket implements Comparable<ExceptionWebSocket>{
 
     @OnMessage
     public void onMessage(String message) {
-        this.send(ExceptionHandlerScope.toJson());//send();
+        try {
+           this.send(cache.getById(0l).toJson());//send();
+        } catch (ElementNotFoundException ex) {
+            Logger.getLogger(ExceptionWebSocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     /*
     public void addToMap(Exception ex){
@@ -100,7 +99,7 @@ public class ExceptionWebSocket implements Comparable<ExceptionWebSocket>{
     }*/
     public void send(String Status){
         try {
-            this.session.getBasicRemote().sendText(Status);
+            this.getSession().getBasicRemote().sendText(Status);
         } catch (IOException ex) {
             Logger.getLogger(ExceptionWebSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -109,7 +108,8 @@ public class ExceptionWebSocket implements Comparable<ExceptionWebSocket>{
 
     @OnClose
     public void onClose() {
-        this.ExceptionHandlerScope.delete(this);
+        this.setRegistriert(Boolean.FALSE);
+        this.webSocketUpdater.removeWebSocket(this);
     }
 
     @OnError
@@ -119,41 +119,20 @@ public class ExceptionWebSocket implements Comparable<ExceptionWebSocket>{
         System.out.println("Error: "+t.getMessage()+" : "+ t.getClass().getName());
     }
 
-    public Session getSession() {
-        return session;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 79 * hash + Objects.hashCode(this.session);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final ExceptionWebSocket other = (ExceptionWebSocket) obj;
-        if (!Objects.equals(this.session, other.session)) {
-            return false;
-        }
-        return true;
-    }
-
+    
     
 
+    
+/*
     @Override
     public int compareTo(ExceptionWebSocket o) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return Integer.parseInt(String.valueOf(this.createtTime-o.createtTime));
+    }
+*/
+    @Override
+    protected Cache getCache() {
+        return this.cache;
     }
     
     
