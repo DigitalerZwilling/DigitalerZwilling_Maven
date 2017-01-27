@@ -172,3 +172,8 @@ CREATE TABLE Hubquerpodest_Hubquerpodest (
 	FOREIGN KEY (id_hubquerpodest2) REFERENCES Hubquerpodest(id_hubquerpodest)
 	);
 	
+CREATE TABLE Heartbeat (
+	id_heartbeat BIGINT,
+	zeitstempel TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id)
+	);
