@@ -11,6 +11,7 @@
 		<script src="initEinzelansicht.js"></script>
 		<script src="utilities.js"></script>
 		<script src="tabellenansicht.js"></script>
+                <script src="stoerungen.js"></script>
 
 		<!-- Bootstrap -->
 		<!-- Latest compiled and minified CSS -->
@@ -50,7 +51,11 @@
     		var zurueckList_7 = new Array();
     		var zurueckList_all = [zurueckList_1, zurueckList_2, zurueckList_3, zurueckList_4, zurueckList_5, zurueckList_6, zurueckList_7];
 
-    		var i = 0;
+    		var i=0
+                var idBtn = null;
+                var elementTypeList = ["elementType_1","elementType_2","elementType_3","elementType_4","elementType_5","elementType_6"];
+                var elementIdList = ["elementId_1","elementId_2","elementId_3","elementId_4","elementId_5","elementId_6"];
+                var backButtons = ["#backBtn1", "#backBtn2", "#backBtn3", "#backBtn4", "#backBtn5", "#backBtn6"];
 
                 $(document).ready(function(){
                     //!!!!!!StoerungsZaehler muss noch getestet werden
@@ -69,8 +74,8 @@
                         if(localStorage.getItem("mainContainer")=="details"){
                             $("#mainContainer").load("uebersicht.html");
                         }else{
-                            //loadDiv(7);
-                           $("#einzelansicht7").load("stoerungen.html");
+                           initStoerung(7);
+                           //$("#einzelansicht7").load("stoerungen.html");
                         }
                     });
                 });
