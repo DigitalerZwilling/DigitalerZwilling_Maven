@@ -461,7 +461,7 @@ function loadDiv(documentNr){
                        addZurueckList(documentNr, $(this).attr("elementId") ,typ);
                        localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));
                        localStorage.setItem("elementType_"+documentNr,$(this).attr("elementType"));
-
+      
                        closeWebsockets(documentNr);
                        initEinzelansicht(documentNr);
                   

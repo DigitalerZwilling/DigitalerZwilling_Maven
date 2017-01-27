@@ -100,6 +100,9 @@
 
                                $(backButtons[nummer]).hide();    
                            }
+                           
+                           $(".dd-btn"+nrAusgabe).html(localStorage.getItem("elementType_"+ nrAusgabe) + ' <span class = "caret"></span');
+                           
                            if(zurueckList_all[nummer][lastElement-1][1]==null){
                             loadDiv(nummer+1);                               
                            }else

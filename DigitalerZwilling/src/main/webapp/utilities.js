@@ -40,7 +40,9 @@
                 var elementId = $(this).attr("elementId");
                 var elementTyp = $(this).attr("elementType");
                 addZurueckList(documentNr, elementId, elementTyp);
-              
+                
+                $(".dd-btn"+documentNr).html(elementTyp + ' <span class = "caret"></span');
+                  
                 closeWebsockets(documentNr);
                 localStorage.setItem("elementId_"+documentNr,elementId);
                 localStorage.setItem("elementType_"+documentNr,elementTyp);
@@ -115,12 +117,14 @@
                     link.setAttribute("elementId",jsonObject['id']);
                     link.setAttribute("elementType",type);
                     link.onclick = function() {
+                        
+            
                         var elementId = $(this).attr("elementId");
-                        console.log("ELEM-ID: "+ elementId);
                         var elementTyp = $(this).attr("elementType");
-                        console.log("ELEM-Type: "+ elementTyp);
                         addZurueckList(documentNr, elementId, elementTyp);
-                        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!! ADD ZURÜCKLIST Einzelansicht");
+                        
+                        $(".dd-btn"+documentNr).html(elementTyp + ' <span class = "caret"></span');
+                        
                         closeWebsockets(documentNr);
                         localStorage.setItem("elementId_"+documentNr,elementId);
                         localStorage.setItem("elementType_"+documentNr,elementTyp);
