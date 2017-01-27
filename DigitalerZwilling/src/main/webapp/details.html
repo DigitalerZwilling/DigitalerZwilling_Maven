@@ -8,363 +8,295 @@
 
 	</head>
 			<script>
-				var i=0
-				var idBtn = null;
-				var elementTypeList = ["elementType_1","elementType_2","elementType_3","elementType_4","elementType_5","elementType_6"];
-				var elementIdList = ["elementId_1","elementId_2","elementId_3","elementId_4","elementId_5","elementId_6"];
-				var backButtons = ["#backBtn1", "#backBtn2", "#backBtn3", "#backBtn4", "#backBtn5", "#backBtn6"];
+                        var i=0
+                        var idBtn = null;
+                        var elementTypeList = ["elementType_1","elementType_2","elementType_3","elementType_4","elementType_5","elementType_6"];
+                        var elementIdList = ["elementId_1","elementId_2","elementId_3","elementId_4","elementId_5","elementId_6"];
+                        var backButtons = ["#backBtn1", "#backBtn2", "#backBtn3", "#backBtn4", "#backBtn5", "#backBtn6"];
 
 
-				$(document).ready(function(){
-					console.log("sollte mainContainer auf DETAILS setzen");
-					localStorage.setItem("mainContainer", "details");
-					//LocalStorage abfragen und Div 1-6 laden
-	            	//elementType liegt vor, wenn tabellenansicht
-	            	//elementType und elementId, wenn einzelansicht
-	            	for(i=0;i<7;i++){
-	            		if(localStorage.getItem(elementTypeList[i])!=null){
-	            			if(localStorage.getItem(elementIdList[i])!=null){
-	            				reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i)
-	            			}else{
-	            				console.log("No cached data for elementId_" + (i+1) + "!")
-	            				reloadTabelle(localStorage.getItem(elementTypeList[i]),i);
-	            			}
-	            		}else{
-							console.log("No cached data for elementType_" + (i+1) + "!");
-						}
-                                                
-	            	} 
+                        $(document).ready(function(){
+                            localStorage.setItem("mainContainer", "details");
+                            //LocalStorage abfragen und Div 1-6 laden
+                            //elementType liegt vor, wenn tabellenansicht
+                            //elementType und elementId, wenn einzelansicht
+                            for(i=0;i<7;i++){
+                                if(localStorage.getItem(elementTypeList[i])!=null){
+                                    if(localStorage.getItem(elementIdList[i])!=null){
+                                        reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i);
+                                    }else{
+                                        reloadTabelle(localStorage.getItem(elementTypeList[i]),i);
+                                    }
+                                }
+                            } 
 
-	            	//history für ZurueckButton abfragen.
-	            	//wenn history vorhanden, Zurück-Button anzeigen.
-	            	for(i=0;i<7;i++){
-	            		if(zurueckList_all[i].length==0){
-	            			$(backButtons[i]).hide();
-	            		}else{
-	            			console.log("History für vorhanden.");
-	            		}
-	            	}
+                            //history für ZurueckButton abfragen.
+                            //wenn history vorhanden, Zurück-Button anzeigen.
+                            for(i=0;i<7;i++){
+                                if(zurueckList_all[i].length<=1){
+                                    $(backButtons[i]).hide();
+                                }
+                            }
 
-	            	//Zurück-Buttons, onClick
-					$(".btn.btn-default.backBtn").on('click', function(){            		
-						idBtn = $(this).attr('id');
-						switch(idBtn){
-							case "backBtn1":
-								console.log("Button1");
-								loadHistory(0);
-								break;	
-							case "backBtn2":
-								console.log("Button2");
-								loadHistory(1);	
-								break;	
-							case "backBtn3":
-								console.log("Button3");
-								loadHistory(2);	
-								break;	
-							case "backBtn4":
-								console.logt("Button4");
-								loadHistory(3);	
-								break;	
-							case "backBtn5":
-								console.log("Button5");
-								loadHistory(4);	
-								break;	
-							case "backBtn6":
-								console.log("Button6");
-								loadHistory(5);	
-						}
-					  	
-					});
+                            //Zurück-Buttons, onClick
+                            $(".btn.btn-default.backBtn").on('click', function(){            		
+                                idBtn = $(this).attr('id');
+                                var nummer;
+                                switch(idBtn){
+                                    case "backBtn1":
+                                            nummer = 0;
+                                            break;	
+                                    case "backBtn2":
+                                            nummer = 1;	
+                                            break;	
+                                    case "backBtn3":
+                                            nummer = 2;	
+                                            break;	
+                                    case "backBtn4":
+                                            nummer = 3;	
+                                            break;	
+                                    case "backBtn5":
+                                            nummer = 4;	
+                                            break;	
+                                    case "backBtn6":
+                                            nummer = 5;	
+                                }                                
+                                loadHistory(nummer);
+                            });
 
 	            	
 
-                                $(".btn.btn-default.dropdown-toggle").on('click', function(){
+                            $(".btn.btn-default.dropdown-toggle").on('click', function(){
 	            		idBtn = $(this).attr('id');
-	            		console.log(idBtn);
 	            		loadViaDropdown(idBtn);
-	            	});
-	            });
+                            });
+                        });
 
 
-				function reloadTabelle(elementType, divNumber){
+                        function reloadTabelle(elementType, divNumber){
+                            i = divNumber;
+                            $val = elementType;
+                            $(".dd-btn"+(i+1)).html($val+$caret);
+                            loadDiv(i+1);
+                        }
 
-					i = divNumber;
-					console.log("reload " + elementType + "in Div " + (i+1));
-					$val = elementType;
-					$(".dd-btn"+(i+1)).html($val+$caret);
-					loadDiv(i+1);
-					//$("#einzelansicht"+(i+1)).load("tabelle_"+(i+1)+".html", $val);
-				}
+                        function reloadEinzelansicht(elementType, elementId, divNumber){
+                            i = divNumber;
+                            $val = elementType;
+                            $(".dd-btn"+(i+1)).html($val+$caret);
+                            initEinzelansicht(i+1);
+                        }
 
-				function reloadEinzelansicht(elementType, elementId, divNumber){
-					i = divNumber;
-					console.log("reload " + elementType + " & " + elementId + " in Div " + (i+1));
-					$val = elementType;
-					$(".dd-btn"+(i+1)).html($val+$caret);
-					loadDiv(i+1);
-					//$("#einzelansicht"+(i+1)).load("einzelansicht_"+(i+1)+".html");
-				}
+                        function loadHistory(nummer){
+                           var nrAusgabe = nummer+1;
+                           var lastElement = zurueckList_all[nummer].length-1;
+                           var laenge = zurueckList_all[nummer].length;
+                          
+                           localStorage.setItem("elementType_"+nrAusgabe, zurueckList_all[(nummer)][lastElement-1][0]);
+                           localStorage.setItem("elementId_"+nrAusgabe, zurueckList_all[(nummer)][lastElement-1][1]);
+                           zurueckList_all[nummer].pop();
+                           //zurueckList_all[nummer].length = laenge-1;
+                            if(zurueckList_all[nummer].length==1){
 
-				function loadHistory(ListNummer){
-					var lastElement = zurueckList_all[ListNummer].length-1;
-					var elementTypeBack;
-					var elementIdBack;
-					if(zurueckList_all[ListNummer].length==1){
-						elementTypeBack = zurueckList_all[ListNummer][lastElement][0];
-						zurueckList_all[ListNummer].pop();
-						$(backButtons[ListNummer]).hide();
-						reloadTabelle(elementTypeBack,ListNummer);
-					}else{
-						elementTypeBack = zurueckList_all[ListNummer][lastElement][0];
-						elementIdBack = zurueckList_all[ListNummer][lastElement][1];
-						zurueckList_all[ListNummer].pop();
-						reloadEinzelansicht(elementTypeBack,elementIdBack,ListNummer);
-					}
-				}
+                               $(backButtons[nummer]).hide();    
+                           }
+                           
+                           $(".dd-btn"+nrAusgabe).html(localStorage.getItem("elementType_"+ nrAusgabe) + ' <span class = "caret"></span');
+                           
+                           if(zurueckList_all[nummer][lastElement-1][1]==null){
+                            loadDiv(nummer+1);                               
+                           }else
+                            initEinzelansicht(nummer+1);  
+                        }
+    
+                        function loadViaDropdown(idBtn){
+                            $caret = ' <span class="caret"></span>';
+                            var nummer;
+                            switch(idBtn){
+                                case "dd-btn1":
+                                    nummer = 1;
+                                    break;
+                                case "dd-btn2":
+                                    nummer = 2;
+                                    break;
+                                case "dd-btn3":
+                                    nummer = 3;
+                                    break;
+                                case "dd-btn4":
+                                    nummer = 4;
+                                    break;
+                                case "dd-btn5":
+                                    nummer = 5;
+                                    break;
+                                case "dd-btn6":
+                                    nummer = 6;
+                            }
+                            $(".dropdown"+nummer+" li a").click(function(){
+                                    $val = $(this).html();
+                                    
+                                    localStorage.removeItem('elementId_'+nummer);
+                                    localStorage.setItem('elementType_'+nummer,$val);
+                                            $(".dd-btn"+nummer).html($val+$caret);
+                                            //zurueckList_all[nummer-1][0]=null;
+                                            addZurueckList(nummer, null, localStorage.getItem('elementType_'+nummer));
+                                            loadDiv(nummer);
+                            }); 
+                        }
 
-
-
-				function loadViaDropdown(idBtn){
-	            	$caret = ' <span class="caret"></span>';
-	            	switch(idBtn){
-	            		case "dd-btn1":
-	            		$(".dropdown1 li a").click(function(){
-	            			$val = $(this).html();
-	            			localStorage.removeItem('elementId_1');
-	            			localStorage.setItem('elementType_1',$val);
-        					$(".dd-btn1").html($val+$caret);
-        					loadDiv(1);
-            				//$("#einzelansicht1").load("tabelle1.html", $val);
-            			});
-
-	            		case "dd-btn2":
-	            		$(".dropdown2 li a").click(function(){
-	            			$val = $(this).html();
-	            			localStorage.removeItem('elementId_2');
-	            			localStorage.setItem('elementType_2',$val);
-        					$(".dd-btn2").html($val+$caret);
-        					loadDiv(2);
-            				//$("#einzelansicht2").load("tabelle2.html", $val);
-            			});
-
-	            		case "dd-btn3":
-	            		$(".dropdown3 li a").click(function(){
-	            			$val = $(this).html();
-	            			localStorage.removeItem('elementId_3');
-	            			localStorage.setItem('elementType_3',$val);
-        					$(".dd-btn3").html($val+$caret);
-        					loadDiv(3);
-            				//$("#einzelansicht3").load("tabelle3.html", $val);
-            			});
-
-            			case "dd-btn4":
-	            		$(".dropdown4 li a").click(function(){
-	            			$val = $(this).html();
-	            			localStorage.removeItem('elementId_4');
-	            			localStorage.setItem('elementType_4',$val);
-        					$(".dd-btn4").html($val+$caret);
-        					loadDiv(4);
-            				//$("#einzelansicht4").load("tabelle4.html", $val);
-            			});
-
-            			case "dd-btn5":
-	            		$(".dropdown5 li a").click(function(){
-	            			$val= $(this).html();
-        					localStorage.removeItem('elementId_5');
-        					localStorage.setItem('elementType_5',$val);
-        					$(".dd-btn5").html($val+$caret);
-        					loadDiv(5);
-            				//$("#einzelansicht5").load("tabelle5.html", $val);
-            			});
-
-            			case "dd-btn6":
-	            		$(".dropdown6 li a").click(function(){
-	            			$val = $(this).html();
-	            			localStorage.removeItem('elementId_6');
-	            			localStorage.setItem('elementType_6',$val);
-        					$(".dd-btn6").html($val+$caret);
-        					loadDiv(6);
-            				//$("#einzelansicht6").load("tabelle6.html", $val);
-            			});
-
-	            	}
-	            }
-	           	
-
-	            	
 			</script>
 
-			
 
 			<div class="row" style="background-color:lightgrey; height:100%;">
 
-				<!--COL1-->
-				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="height:100%;">
-					<div class="row" style="background-color:lightgrey; height:100%;">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
-							<div class="panel panel-default" style="height:100%; overflow-y: auto;">
-							  	<div class="panel-body" id="panel1">
-							  		<div class="btn-group">
-		  								<button type="button" class="btn btn-default dropdown-toggle dd-btn1" id="dd-btn1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
-											<ul class="dropdown-menu dropdown1 scrollable-menu">
-											    <li><a href="#">Artikel</a></li>
-											    <!--<li><a href="#">Gelenk</a></li>-->
-											    <li><a href="#">Hubpositionierstationen</a></li>
-											    <li><a href="#">Hub-Quer-Stationen</a></li>
-											    <li><a href="#">Roboter</a></li>
-											    <li><a href="#">Sektoren</a></li>
-											    <li><a href="#">Sensoren</a></li>
-											    <li><a href="#">Transportbänder</a></li>
-											    <li><a href="#">Warenträger</a></li>
-											    <!--<li><a href="#">Werkzeug</a></li>-->
-											</ul>  	
-									</div>
-									<button id="backBtn1" type="button" class="btn btn-default backBtn">zurück</button>
-									<div></br></div>
-									<div id="einzelansicht1">Keine Komponente gewählt.</div>
-							  	</div>
-							</div>
-						</div>
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
-							<div class="panel panel-default" style="height:100%; overflow-y: auto;">
-							  	<div class="panel-body">
-							  		<div class="btn-group">
-								  		<button type="button" class="btn btn-default dropdown-toggle dd-btn2" id="dd-btn2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
-											<ul class="dropdown-menu dropdown2 scrollable-menu">
-											    <li><a href="#">Artikel</a></li>
-											    <!--<li><a href="#">Gelenk</a></li>-->
-											    <li><a href="#">Hubpositionierstationen</a></li>
-											    <li><a href="#">Hub-Quer-Stationen</a></li>
-											    <li><a href="#">Roboter</a></li>
-											    <li><a href="#">Sektoren</a></li>
-											    <li><a href="#">Sensoren</a></li>
-											    <li><a href="#">Transportbänder</a></li>
-											    <li><a href="#">Warenträger</a></li>
-											    <!--<li><a href="#">Werkzeug</a></li>-->
-											</ul> 
-									</div> 	
-									<button id="backBtn2" type="button" class="btn btn-default">zurück</button>
-									<div></br></div>
-									<div></br></div>
-									<div id="einzelansicht2">Keine Komponente gewählt.</div>
-							  	</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!--COL2-->
-				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="height:100%;">
-					<div class="row" style="background-color:lightgrey; height:100%;">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
-							<div class="panel panel-default" style="height:100%; overflow-y: auto;">
-							  	<div class="panel-body" id="panel3">
-							  		<div class="btn-group">
-								  		<button type="button" class="btn btn-default dropdown-toggle dd-btn3" id="dd-btn3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
-											<ul class="dropdown-menu dropdown3 scrollable-menu">
-											    <li><a href="#">Artikel</a></li>
-											    <!--<li><a href="#">Gelenk</a></li>-->
-											    <li><a href="#">Hubpositionierstationen</a></li>
-											    <li><a href="#">Hub-Quer-Stationen</a></li>
-											    <li><a href="#">Roboter</a></li>
-											    <li><a href="#">Sektoren</a></li>
-											    <li><a href="#">Sensoren</a></li>
-											    <li><a href="#">Transportbänder</a></li>
-											    <li><a href="#">Warenträger</a></li>
-											    <!--<li><a href="#">Werkzeug</a></li>-->
-											</ul>  	
-									</div>
-									<button id="backBtn3" type="button" class="btn btn-default">zurück</button>
-									<div></br></div>
-									<div></br></div>
-									<div id="einzelansicht3">Keine Komponente gewählt.</div>
-							  	</div>
-							</div>
-						</div>
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
-							<div class="panel panel-default" style="height:100%; overflow-y: auto;">
-							  	<div class="panel-body">
-							  		<div class="btn-group">
-								  		<button type="button" class="btn btn-default dropdown-toggle dd-btn4" id="dd-btn4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
-											<ul class="dropdown-menu dropdown4 scrollable-menu">
-											    <li><a href="#">Artikel</a></li>
-											    <!--<li><a href="#">Gelenk</a></li>-->
-											    <li><a href="#">Hubpositionierstationen</a></li>
-											    <li><a href="#">Hub-Quer-Stationen</a></li>
-											    <li><a href="#">Roboter</a></li>
-											    <li><a href="#">Sektoren</a></li>
-											    <li><a href="#">Sensoren</a></li>
-											    <li><a href="#">Transportbänder</a></li>
-											    <li><a href="#">Warenträger</a></li>
-											    <!--<li><a href="#">Werkzeug</a></li>-->
-											</ul>  	
-									</div>
-									<button id="backBtn4" type="button" class="btn btn-default">zurück</button>
-									<div></br></div>
-									<div></br></div>
-									<div id="einzelansicht4">Keine Komponente gewählt.</div>
-							  	</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!--END COL2-->
+                        <!--COL1-->
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="height:100%;">
+                            <div class="row" style="background-color:lightgrey; height:100%;">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
+                                    <div class="panel panel-default" style="height:100%; overflow-y: auto;">
+                                        <div class="panel-body" id="panel1">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle dd-btn1" id="dd-btn1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
+                                                    <ul class="dropdown-menu dropdown1 scrollable-menu">
+                                                        <li><a href="#">Artikel</a></li>
+                                                        <li><a href="#">Hubpositionierstationen</a></li>
+                                                        <li><a href="#">Hub-Quer-Stationen</a></li>
+                                                        <li><a href="#">Roboter</a></li>
+                                                        <li><a href="#">Sektoren</a></li>
+                                                        <li><a href="#">Sensoren</a></li>
+                                                        <li><a href="#">Transportbänder</a></li>
+                                                        <li><a href="#">Warenträger</a></li>
+                                                    </ul>  	
+                                            </div>
+                                            <button id="backBtn1" type="button" class="btn btn-default backBtn">zurück</button>
+                                            <div></br></div>
+                                            <div id="einzelansicht1">Keine Komponente gewählt.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
+                                    <div class="panel panel-default" style="height:100%; overflow-y: auto;">
+                                        <div class="panel-body">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle dd-btn2" id="dd-btn2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
+                                                    <ul class="dropdown-menu dropdown2 scrollable-menu">
+                                                        <li><a href="#">Artikel</a></li>
+                                                        <li><a href="#">Hubpositionierstationen</a></li>
+                                                        <li><a href="#">Hub-Quer-Stationen</a></li>
+                                                        <li><a href="#">Roboter</a></li>
+                                                        <li><a href="#">Sektoren</a></li>
+                                                        <li><a href="#">Sensoren</a></li>
+                                                        <li><a href="#">Transportbänder</a></li>
+                                                        <li><a href="#">Warenträger</a></li>
+                                                    </ul> 
+                                            </div> 	
+                                            <button id="backBtn2" type="button" class="btn btn-default backBtn">zurück</button>
+                                            <div></br></div>
+                                            <div id="einzelansicht2">Keine Komponente gewählt.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--COL2-->
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="height:100%;">
+                            <div class="row" style="background-color:lightgrey; height:100%;">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
+                                    <div class="panel panel-default" style="height:100%; overflow-y: auto;">
+                                        <div class="panel-body" id="panel3">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle dd-btn3" id="dd-btn3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
+                                                    <ul class="dropdown-menu dropdown3 scrollable-menu">
+                                                        <li><a href="#">Artikel</a></li>
+                                                        <li><a href="#">Hubpositionierstationen</a></li>
+                                                        <li><a href="#">Hub-Quer-Stationen</a></li>
+                                                        <li><a href="#">Roboter</a></li>
+                                                        <li><a href="#">Sektoren</a></li>
+                                                        <li><a href="#">Sensoren</a></li>
+                                                        <li><a href="#">Transportbänder</a></li>
+                                                        <li><a href="#">Warenträger</a></li>
+                                                    </ul>  	
+                                            </div>
+                                            <button id="backBtn3" type="button" class="btn btn-default backBtn">zurück</button>
+                                            <div></br></div>
+                                            <div id="einzelansicht3">Keine Komponente gewählt.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
+                                    <div class="panel panel-default" style="height:100%; overflow-y: auto;">
+                                        <div class="panel-body">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle dd-btn4" id="dd-btn4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
+                                                    <ul class="dropdown-menu dropdown4 scrollable-menu">
+                                                        <li><a href="#">Artikel</a></li>
+                                                        <li><a href="#">Hubpositionierstationen</a></li>
+                                                        <li><a href="#">Hub-Quer-Stationen</a></li>
+                                                        <li><a href="#">Roboter</a></li>
+                                                        <li><a href="#">Sektoren</a></li>
+                                                        <li><a href="#">Sensoren</a></li>
+                                                        <li><a href="#">Transportbänder</a></li>
+                                                        <li><a href="#">Warenträger</a></li>
+                                                    </ul>  	
+                                            </div>
+                                            <button id="backBtn4" type="button" class="btn btn-default backBtn">zurück</button>
+                                            <div></br></div>
+                                            <div id="einzelansicht4">Keine Komponente gewählt.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--END COL2-->
 
-				<!--COL3-->
-				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="height:100%;">
-					<div class="row" style="background-color:lightgrey; height:100%;">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
-							<div class="panel panel-default" style="height:100%; overflow-y: auto;">
-							  	<div class="panel-body">
-							  		<div class="btn-group">
-								  		<button type="button" class="btn btn-default dropdown-toggle dd-btn5" id="dd-btn5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
-											<ul class="dropdown-menu dropdown5 scrollable-menu">
-											    <li><a href="#">Artikel</a></li>
-											    <!--<li><a href="#">Gelenk</a></li>-->
-											    <li><a href="#">Hubpositionierstationen</a></li>
-											    <li><a href="#">Hub-Quer-Stationen</a></li>
-											    <li><a href="#">Roboter</a></li>
-											    <li><a href="#">Sektoren</a></li>
-											    <li><a href="#">Sensoren</a></li>
-											    <li><a href="#">Transportbänder</a></li>
-											    <li><a href="#">Warenträger</a></li>
-											    <!--<li><a href="#">Werkzeug</a></li>-->
-											</ul>  	
-									</div>
-									<button id="backBtn5" type="button" class="btn btn-default">zurück</button>
-									<div></br></div>
-									<div></br></div>
-									<div id="einzelansicht5">Keine Komponente gewählt.</div>
-							  	</div>
-							</div>
-						</div>
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
-							<div class="panel panel-default" style="height:100%; overflow-y: auto;">
-							  	<div class="panel-body">
-							  		<div class="btn-group">
-								  		<button type="button" class="btn btn-default dropdown-toggle dd-btn6" id="dd-btn6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
-											<ul class="dropdown-menu dropdown6 scrollable-menu">
-											    <li><a href="#">Artikel</a></li>
-											    <!--<li><a href="#">Gelenk</a></li>-->
-											    <li><a href="#">Hubpositionierstationen</a></li>
-											    <li><a href="#">Hub-Quer-Stationen</a></li>
-											    <li><a href="#">Roboter</a></li>
-											    <li><a href="#">Sektoren</a></li>
-											    <li><a href="#">Sensoren</a></li>
-											    <li><a href="#">Transportbänder</a></li>
-											    <li><a href="#">Warenträger</a></li>
-											    <!--<li><a href="#">Werkzeug</a></li>-->
-											</ul>  
-									</div>	
-									<button id="backBtn6" type="button" class="btn btn-default">zurück</button>
-									<div></br></div>
-									<div></br></div>
-									<div id="einzelansicht6">Keine Komponente gewählt.</div>
-							  	</div>
-							</div>
-						</div>
-					</div>
-				</div>
+                        <!--COL3-->
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="height:100%;">
+                            <div class="row" style="background-color:lightgrey; height:100%;">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
+                                    <div class="panel panel-default" style="height:100%; overflow-y: auto;">
+                                        <div class="panel-body">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle dd-btn5" id="dd-btn5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
+                                                    <ul class="dropdown-menu dropdown5 scrollable-menu">
+                                                        <li><a href="#">Artikel</a></li>
+                                                        <li><a href="#">Hubpositionierstationen</a></li>
+                                                        <li><a href="#">Hub-Quer-Stationen</a></li>
+                                                        <li><a href="#">Roboter</a></li>
+                                                        <li><a href="#">Sektoren</a></li>
+                                                        <li><a href="#">Sensoren</a></li>
+                                                        <li><a href="#">Transportbänder</a></li>
+                                                        <li><a href="#">Warenträger</a></li>
+                                                    </ul>  	
+                                            </div>
+                                            <button id="backBtn5" type="button" class="btn btn-default backBtn">zurück</button>
+                                            <div></br></div>
+                                            <div id="einzelansicht5">Keine Komponente gewählt.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
+                                    <div class="panel panel-default" style="height:100%; overflow-y: auto;">
+                                        <div class="panel-body">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle dd-btn6" id="dd-btn6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wähle Komponente <span class="caret"></span></button>
+                                                    <ul class="dropdown-menu dropdown6 scrollable-menu">
+                                                        <li><a href="#">Artikel</a></li>
+                                                        <li><a href="#">Hubpositionierstationen</a></li>
+                                                        <li><a href="#">Hub-Quer-Stationen</a></li>
+                                                        <li><a href="#">Roboter</a></li>
+                                                        <li><a href="#">Sektoren</a></li>
+                                                        <li><a href="#">Sensoren</a></li>
+                                                        <li><a href="#">Transportbänder</a></li>
+                                                        <li><a href="#">Warenträger</a></li>
+                                                    </ul>  
+                                            </div>	
+                                            <button id="backBtn6" type="button" class="btn btn-default backBtn">zurück</button>
+                                            <div></br></div>
+                                            <div id="einzelansicht6">Keine Komponente gewählt.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 			</div>
-		
 
 </html>

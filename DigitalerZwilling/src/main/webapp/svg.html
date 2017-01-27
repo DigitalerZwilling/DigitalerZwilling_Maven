@@ -2,7 +2,7 @@
     
     
     <svg id="svgOne" xmlns="http://www.w3.org/2000/svg" width=100% height=100% viewBox="0 0 9000 3000"> 
-   <!-- <rect id "Sektor1" x="0" y="10" width="50" height="50" fill="blue" onclick = "idAusgeben(this)"></rect>-->
+    <image x="0" y="0" width="9000" height="3000" xlink:href="hintergrund.svg"/>
     </svg>
         
     <script src="utilities.js"></script>
@@ -14,17 +14,13 @@
    
                 var browsersupport = ("WebSocket" in window) ? true : false;
                 var host = "ws://localhost:8080/DigitalerZwilling/";  
+                var SektorWebsocket;
+                var TransportbandWebsocket;
+                var WarentraegerWebsocket;
                 //sessionStorage.set("svgSektorWebsocket",SektorWebsocket);
                 
-   //$(document).ready(function(){
-   
-   function initSVG(){
+   $(document).ready(function(){
        
-    var SektorWebsocket;
-    var TransportbandWebsocket;
-    var WarentraegerWebsocket;
-    
-    closeWebsockets(8);
   
    if (browsersupport) {
        console.log(sessionStorage.getItem("svgSektorWebsocket"));
@@ -57,7 +53,7 @@
                 else {
                     alert("WebSocket is NOT supported by your Browser:)");
                 }
-    
+            });
    
    var j_sektoren;
    var j_baender;
@@ -122,8 +118,6 @@
             
             //updateAttributes(attribute_id,jsonString);
    };
-   
-   }
    function reload(){
        
        if(first1==11 && first2==22 && first3==33){
@@ -157,13 +151,6 @@
    SektorWebsocket.onclose = function() {
 
    };
-    
-    function uebersichtsinfosAusgeben(info){
-    	localStorage.removeItem("stoerung");
-    	localStorage.setItem("svgAnzeige", info);
-    	$elementUebersicht=info;
-    	$("#uebersichtsinfos").load("uebersichtsinfos.html", $elementUebersicht);
-    }
     
     var svgns = "http://www.w3.org/2000/svg";
     //svgns.selectAll("*").remove();
@@ -238,6 +225,15 @@
 	function idAusgeben(elmnt) {
 		console.log(elmnt.id);
                 uebersichtsinfosAusgeben(elmnt.id);
+    }
+    
+    
+    
+    function uebersichtsinfosAusgeben(info){
+    	localStorage.removeItem("stoerung");
+    	localStorage.setItem("svgAnzeige", info);
+    	$elementUebersicht=info;
+    	$("#uebersichtsinfos").load("uebersichtsinfos.html", $elementUebersicht);
     }
 	
 	function getSekByID(key) {

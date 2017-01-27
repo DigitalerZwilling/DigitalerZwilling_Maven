@@ -1,16 +1,23 @@
-var host = "ws://131.173.127.174:8080/DigitalerZwilling/";
+var host = "ws://localhost:8080/DigitalerZwilling/";
 var divName = "einzelansicht";
 
 function initEinzelansicht(documentNr){
+   
         var div = document.getElementById(divName+documentNr);
-        var childs = div.childNodes;
 
-        for(var i=0; i<childs.length; i++){
-            div.removeChild(childs[i]);
+        
+        while(div.childNodes.length >0){
+            div.removeChild(div.childNodes[0]);
         }
         
         var table = document.createElement("table");
-        table.id=documentNr+"_attributes";
+        table.setAttribute('class', "table table-striped");
+        
+        
+        table.appendChild(document.createElement("thead"));
+        var tbody = document.createElement("tbody");
+        tbody.id=documentNr+"_attributes";
+        table.appendChild(tbody);
         div.appendChild(table);
         
         var divListe = document.createElement("div");
@@ -23,41 +30,42 @@ function initEinzelansicht(documentNr){
         
         var elementId = localStorage.getItem('elementId_'+documentNr);
         var elementType =  localStorage.getItem('elementType_'+documentNr);
+
         
         switch (elementType) {
-            case 'artikel':
+            case 'Artikel':
                 initArtikel(documentNr, elementId);
                 break;
-            case "warentraeger":
+            case "Warenträger":
                 initWarentraeger(documentNr, elementId);
                 break;
-            case "transportbaender":
-                initTransportbaender(documentNr, elementId);
+            case "Transportbänder":
+                initTransportband(documentNr, elementId);
                 break;
-            case "roboter":
+            case "Roboter":
                 initRoboter(documentNr, elementId);
                 break;
-            case "sektor":
-                initSektoren(documentNr, elementId);
+            case "Sektoren":
+                initSektor(documentNr, elementId);
                 break;
-            case "sensor":
+            case "Sensoren":
                 initSensor(documentNr, elementId);
                 break;
-            case "gelenk":
-                initGelenke(documentNr, elementId);
+            case "Gelenke":
+                initGelenk(documentNr, elementId);
                 break;
-            case "werkzeug":
-                initWerkzeuge(documentNr, elementId);
+            case "Werkzeuge":
+                initWerkzeug(documentNr, elementId);
                 break;
-            case "hupo":
+            case "Hubpositionierstationen":
                 initHuPo(documentNr, elementId);
                 break;
-            case "huqu":
+            case "Hub-Quer-Stationen":
                 initHuQu(documentNr, elementId);
                 break;
             default:
              console.log("default");
-             //init(documentNr, 'artikel', 1);
+             alert("DEFAULT");
       }
     }
     
@@ -98,7 +106,8 @@ function initEinzelansicht(documentNr){
 
         WarentraegerWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"artikelIDs","warentraeger");
+            console.log(jsonString);
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"artikelIDs","Warenträger");
         };
     }
     
@@ -117,6 +126,7 @@ function initEinzelansicht(documentNr){
 
         //Tabelle Erstellen
         create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
+        createAttributLink(documentNr,['Sektor'],['sektor']);
 
         //WebSockets
         var SensorWebSocket = new WebSocket(host+"SensorWebSocket");
@@ -138,8 +148,15 @@ function initEinzelansicht(documentNr){
         };
 
         SektorWebSocket.onmessage = function(event) {
-            var jsonString = event.data;
-            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"sensorIDs","sektor");
+            var json = JSON.parse(event.data);
+            for(var i=0; i<json.inhalt.length; i++){
+            var ids = json.inhalt[i]['sensorIDs'];
+                    for(var j=0; j<ids.length; j++){
+                    if(ids[j]==id){
+                        updateAttributLink(documentNr,['sektor'],json.inhalt[i],[json.inhalt[i]['bezeichnung']],['sektor'],['Sektoren']);
+                    }
+                }
+            }
         };
     }
     
@@ -190,21 +207,21 @@ function initEinzelansicht(documentNr){
 
         ArtikelWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"warentraegerIDs","artikel");
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"warentraegerIDs","Artikel");
         };
         
         TransportbandWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(documentNr, id, list_id[1], jsonString, list_attribute[1],"warentraegerIDs"),"transportband";
+            updateList(documentNr, id, list_id[1], jsonString, list_attribute[1],"warentraegerIDs","Transportbänder");
         };
 
         SektorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(documentNr, id, list_id[2], jsonString, list_attribute[2],"warentraegerIDs","sektor");
+            updateList(documentNr, id, list_id[2], jsonString, list_attribute[2],"warentraegerIDs","Sektoren");
         };
     }
     
-    function initTransportbaender(documentNr, id){
+    function initTransportband(documentNr, id){
         //Einzelne Attribute:
         var attribute_title = ['Bezeichnung', 'Zeitstempel', 'Störung', 'User Parameter'];
         var attribute_id    = ['bezeichnung', 'zeitstempel', 'stoerung', 'user_parameter'];
@@ -242,6 +259,7 @@ function initEinzelansicht(documentNr){
         SektorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var json = JSON.parse(jsonString);
+            console.log(jsonString);
             
             for(var i=0; i<json.inhalt.length; i++){
             var vid = json.inhalt[i]['vorTransportbandIDs'];
@@ -249,13 +267,14 @@ function initEinzelansicht(documentNr){
                 for(var j=0; j<vid.length; j++){
                     if(vid[j]==id){
                         var attribute_value = jsonToSektor(json.inhalt[i]);
-                        updateAttributLink(documentNr, ['bezeichnung'],json.inhalt[i],attribute_value,['vorTransportband'],'sektor');
+                        updateAttributLink(documentNr, ['bezeichnung'],json.inhalt[i],attribute_value,['vorTransportband'],'Sektoren');
                     }
                 }
                 for(var j=0; j<vid.length; j++){
                     if(nid[j]==id){
                         var attribute_value = jsonToSektor(json.inhalt[i]);
-                        updateAttributLink(documentNr, ['bezeichnung'],json.inhalt[i],attribute_value,['nachTransportband'],'sektor');
+                        console.log("Value="+attribute_value);
+                        updateAttributLink(documentNr, ['bezeichnung'],json.inhalt[i],attribute_value,['nachTransportband'],'Sektoren');
                     }
                 }
                 
@@ -270,7 +289,7 @@ function initEinzelansicht(documentNr){
 
         WarentreagerWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"transportbandIDs","warentraeger");
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"transportbandIDs","Warenträger");
         };
     }
     
@@ -322,7 +341,7 @@ function initEinzelansicht(documentNr){
 
         SektorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"roboterIDs","sektor");
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"roboterIDs","Sektoren");
         };
 
 
@@ -353,7 +372,7 @@ function initEinzelansicht(documentNr){
         };
     }
     
-    function initSektoren(documentNr, id){
+    function initSektor(documentNr, id){
         //Einzelne Attribute:
         var attribute_title = ['Bezeichnung', 'Zeitstempel', 'Störung', 'User Parameter'];
         var attribute_id    = ['bezeichnung', 'zeitstempel', 'stoerung', 'user_parameter'];
@@ -430,65 +449,39 @@ function initEinzelansicht(documentNr){
 
         WarentraegerWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"sektorIDs","warentraeger");
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"sektorIDs","Warenträger");
         };
 
         HubpodestWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            var json = JSON.parse(jsonString);
-            var parent = document.getElementById(list_id[1]);
-            removeList(parent);
-        
-            for(var i=0; i<json.inhalt.length; i++){
-            var sid = json.inhalt[i]['sektorID'];
-                if(sid==id){
-                    addLine(documentNr, json.inhalt[i],list_attribute[1],parent,'hupo');
-                }
-            }
+            updateList(documentNr, id, list_id[1], jsonString, list_attribute[1],"sektorID","Hubpositionierstationen");
         };
 
 
         HubquerpodestWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            var json = JSON.parse(jsonString);
-            var parent = document.getElementById(list_id[2]);
-            removeList(parent);
-        
-            for(var i=0; i<json.inhalt.length; i++){
-            var sid = json.inhalt[i]['sektorID'];
-                if(sid==id){
-                    addLine(documentNr, json.inhalt[i],list_attribute[2],parent,'huqu');
-                }
-            }
+            updateList(documentNr, id, list_id[2], jsonString, list_attribute[2],"sektorID","Hub-Quer-Stationen");
         };
 
         RoboterWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(documentNr, id, list_id[3], jsonString, list_attribute[3],"sektorIDs","roboter");
+            updateList(documentNr, id, list_id[3], jsonString, list_attribute[3],"sektorIDs","Roboter");
         };
 
         SensorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            var json = JSON.parse(jsonString);
-            var parent = document.getElementById(list_id[4]);
-            removeList(parent);
-        
-            for(var i=0; i<json.inhalt.length; i++){
-            var sid = json.inhalt[i]['sektorID'];
-                if(sid==id){
-                    addLine(documentNr, json.inhalt[i],list_attribute[4],parent,'sensor');
-                }
-            }
+            
+            updateList(documentNr, id, list_id[4], jsonString, list_attribute[4],"sektorID","Sensoren");
         };
 
         TransportbandWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(documentNr, id, list_id[5], jsonString, list_attribute[5],"vorSektorID","tarnsportband");
-            updateList(documentNr, id, list_id[6], jsonString, list_attribute[6],"nachSektorID","transportband");
+            updateList(documentNr, id, list_id[5], jsonString, list_attribute[5],"vorSektorID","Transportbänder");
+            updateList(documentNr, id, list_id[6], jsonString, list_attribute[6],"nachSektorID","Transportbänder");
         };
     }
     
-    function initGelenke(documentNr, id){
+    function initGelenk(documentNr, id){
         //Einzelne Attribute:
         var attribute_title = ['Bezeichnung', 'Zeitstempel', 'Gelenkstellung', 'Typ', 'Nummer', 'User Parameter'];
         var attribute_id    = ['bezeichnung', 'zeitstempel', 'gelenkstellung', 'typ', 'nummer', 'user_parameter'];
@@ -538,7 +531,7 @@ function initEinzelansicht(documentNr){
         };
     }
     
-    function initWerkzeuge(documentNr, id){
+    function initWerkzeug(documentNr, id){
         //Einzelne Attribute:
         var attribute_title = ['Bezeichnung', 'Zeitstempel', 'Zustand', 'User Parameter'];
         var attribute_id    = ['bezeichnung', 'zeitstempel', 'zustand', 'user_parameter'];
@@ -575,7 +568,7 @@ function initEinzelansicht(documentNr){
 
         RoboterWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"werkzeugIDs","roboter");
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"werkzeugIDs","Roboter");
         };
     }
     
@@ -616,7 +609,7 @@ function initEinzelansicht(documentNr){
 
         SektorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"hubpodestIDs","sektor");
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"hubpodestIDs","Sektoren");
         };
     }
     
@@ -657,6 +650,6 @@ function initEinzelansicht(documentNr){
 
         SektorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"hubquerpodestIDs","sektor");
+            updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"hubquerpodestIDs","Sektoren");
         };
     }
