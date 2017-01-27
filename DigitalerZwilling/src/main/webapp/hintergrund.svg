@@ -1,0 +1,10 @@
+<svg width="100%" height="100%" viewBox="0 0 9000 3000"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+	 
+	 <rect id="rechteck" x="2500" y="1600"   width="500" height="150"/>
+	 <circle id="kreis" cx="4000"  cy="1400"  r="250" />
+	 <ellipse id="ellipse" cx="6000"  cy="1500"  rx="350" ry="130" />
+	 <line id="linie" x1="6500"  y1="1900" x2="8000" y2="1000" stroke="blue" stroke-width="30px"/>
+	 <polygon id="polygon" points="1000,700 1500,1900 500,1700"/>
+</svg>
