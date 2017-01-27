@@ -299,6 +299,7 @@
            case 5: websocketList = websocketList_5; break;
            case 6: websocketList = websocketList_6; break;
            case 7: websocketList = websocketList_7; break;
+           case 8: websocketList = websocketList_8; break;
         }
         
         console.log("length="+websocketList.length);
@@ -319,6 +320,7 @@
            case 5: websocketList = websocketList_5; break;
            case 6: websocketList = websocketList_6; break;
            case 7: websocketList = websocketList_7; break;
+           case 8: websocketList = websocketList_8; break;
         }
         
         for(var i=0; i< array.length; i++){

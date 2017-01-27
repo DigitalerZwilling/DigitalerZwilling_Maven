@@ -4,7 +4,9 @@
     <svg id="svgOne" xmlns="http://www.w3.org/2000/svg" width=100% height=100% viewBox="0 0 9000 3000"> 
    <!-- <rect id "Sektor1" x="0" y="10" width="50" height="50" fill="blue" onclick = "idAusgeben(this)"></rect>-->
     </svg>
-<!--
+        
+    <script src="utilities.js"></script>
+
     <script type="text/javascript">
    
    
@@ -12,12 +14,17 @@
    
                 var browsersupport = ("WebSocket" in window) ? true : false;
                 var host = "ws://localhost:8080/DigitalerZwilling/";  
-                var SektorWebsocket;
-                var TransportbandWebsocket;
-                var WarentraegerWebsocket;
                 //sessionStorage.set("svgSektorWebsocket",SektorWebsocket);
                 
-   $(document).ready(function(){
+   //$(document).ready(function(){
+   
+   function initSVG(){
+       
+    var SektorWebsocket;
+    var TransportbandWebsocket;
+    var WarentraegerWebsocket;
+    
+    closeWebsockets(8);
   
    if (browsersupport) {
        console.log(sessionStorage.getItem("svgSektorWebsocket"));
@@ -27,6 +34,8 @@
                  TransportbandWebsocket=new WebSocket(host+"TransportbandWebSocket");
                  WarentraegerWebsocket=new WebSocket(host+"WarentraegerWebSocket");
                  sessionStorage.setItem("svgSektorWebsocket",SektorWebsocket);
+                 
+                 addWebsockets(8, [SektorWebsocket,TransportbandWebsocket,WarentraegerWebsocket]);
              }
                     //Oeffnen des WebSockets und Senden einer Nachricht
                     SektorWebsocket.onopen = function() {
@@ -48,7 +57,7 @@
                 else {
                     alert("WebSocket is NOT supported by your Browser:)");
                 }
-            });
+    
    
    var j_sektoren;
    var j_baender;
@@ -98,15 +107,12 @@
             
             
    };
-   WarentraegerWebsocket.onmessage = function(event) {
-         console.log("1");
-    
+   WarentraegerWebsocket.onmessage = function(event) {    
             j_warentraeger = JSON.parse(event.data);
  
             //console.log(j_warentraeger);
             //console.log(event.data);
             if(first3===0){ 
-                console.log(event.data);
                 warentraegerErstellen();
                 first3=33;
                 
@@ -116,9 +122,11 @@
             
             //updateAttributes(attribute_id,jsonString);
    };
+   
+   }
    function reload(){
        
-       if(first1==11&&first2==22 && first3==33){
+       if(first1==11 && first2==22 && first3==33){
            first1=1;
            first2=1;
            first3=1;
@@ -637,8 +645,7 @@
 		}
 	}
         
-	</script> 
-       -->
+	</script>
     </html>
 	
 	
