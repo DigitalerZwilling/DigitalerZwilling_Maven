@@ -11,14 +11,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="utilities.js"></script>
     <script src="initEinzelansicht.js"></script>
-    <script src="stoerungen.js"></script>
+    <script src="svg.js"></script>
 
 		</head>
-  <body id="einzelansicht1">
+  <body id="uebersicht">
  
   
   <script language="javascript"> 
-      var websocketList_1 = new Array();
+      var websocketList_8 = new Array();
     $(document).ready(function(){
         var documentNr = 1;                                 //<--- HIER ÄNDERN
         
@@ -26,8 +26,7 @@
         localStorage.setItem('elementType_'+documentNr,'Artikel');
         
         console.log("Start Einzelansicht"+documentNr);
-        initStoerung(documentNr);
-        console.log("length="+websocketList_1.length);
+        initSVG();
     });
   </script>
    </body>

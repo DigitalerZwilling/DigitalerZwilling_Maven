@@ -19,24 +19,6 @@ var jsonCache;
 function initSVG() {
     var documentNr = 8;
     closeWebsockets(documentNr);
-    
-    var div = document.getElementById("uebersicht");
-    
-        var svg = document.createElement("svg");
-            svg.setAttribute('id', "svgOne");
-            svg.setAttribute('xmlns', "http://www.w3.org/2000/svg");
-            svg.setAttribute('width', "100%");
-            svg.setAttribute('height', "100%");
-            svg.setAttribute('viewBox', "0 0 9000 3000");
-            
-            /*var image = document.createElement("image");
-                image.setAttribute('x',"0");
-                image.setAttribute('y',"0");
-                image.setAttribute('width',"9000");
-                image.setAttribute('height',"3000");
-                image.setAttribute('xlink:href',"hintergrund.svg");
-            svg.appendChild(image);*/
-        div.appendChild(svg);
 
     var SektorWebsocket = new WebSocket(host + "SektorWebSocket");
     var TransportbandWebsocket = new WebSocket(host + "TransportbandWebSocket");
