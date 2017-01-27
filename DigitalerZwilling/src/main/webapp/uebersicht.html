@@ -21,7 +21,7 @@
                     //LocalStorage abfragen: Störungen aus Detailansicht heraus aufgerufen?
                     //Dann in Übersicht wechseln.
                     if(localStorage.getItem("stoerung")=="stoerungLaden"){
-                        $("#einzelansicht7").load("stoerungen.html");
+                        initStoerung(7);
                     }
 
                     //LocalStorage abfragen und ÜbersichtsDiv und beständiges Div6 laden

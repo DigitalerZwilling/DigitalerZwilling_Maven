@@ -1,6 +1,6 @@
 function initStoerung(documentNr){
     closeWebsockets(documentNr);
-    
+    var divName = "einzelansicht";
     var div = document.getElementById(divName+documentNr);
         var childs = div.childNodes;
 
