@@ -10,6 +10,7 @@ import de.hsos.digitalerzwilling.DatenKlassen.Element;
 import de.hsos.digitalerzwilling.DatenKlassen.Gelenk;
 import de.hsos.digitalerzwilling.Cache.ArtikelCache;
 import de.hsos.digitalerzwilling.Cache.Cache;
+import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
@@ -41,11 +42,11 @@ public class GelenkCache extends Cache{
             List<String> zeitstempel = rsMap.get("ZEITSTEMPEL");
             List<String> user_parameter = rsMap.get("USER_PARAMETER");
             List<String> gelenkstellung = rsMap.get("GELENKSTELLUNG");
-            
+            if(ids==null||zeitstempel==null||user_parameter==null||gelenkstellung==null) throw new QueryException();
             Gelenk gelenk;
             for (int i=0;i<ids.size();i++){
                 gelenk=(Gelenk)(state==true?elements[0].get(Long.parseLong(ids.get(i))):elements[1].get(Long.parseLong(ids.get(i))));
-                
+                if (gelenk==null) throw new ElementNotFoundException();
                 String ourTime=zeitstempel.get(i).replace(' ', 'T');
                 gelenk.setZeitstempel(LocalDateTime.parse(ourTime));
                 gelenk.setUser_Parameter(user_parameter.get(i));
@@ -57,6 +58,9 @@ public class GelenkCache extends Cache{
         } catch (QueryException ex) {
             Logger.getLogger(ArtikelCache.class.getName()).log(Level.SEVERE, null, ex);
             throw new DBErrorException("Query error");
+        } catch (ElementNotFoundException ex) {
+            Logger.getLogger(GelenkCache.class.getName()).log(Level.SEVERE, null, ex);
+            this.updateAll();
         }
     }
 

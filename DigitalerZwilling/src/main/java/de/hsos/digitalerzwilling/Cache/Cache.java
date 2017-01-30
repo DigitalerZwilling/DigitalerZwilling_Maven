@@ -69,13 +69,12 @@ public abstract class Cache {
         elements = new Map[2];
         elements[0] = new HashMap<>();
         elements[1] = new HashMap<>();
-        updater.registerCache(this);
-        
         try {
             this.updateAll();
         } catch (DBErrorException ex) {
             Logger.getLogger(Cache.class.getName()).log(Level.SEVERE, null, ex);
         }
+        updater.registerCache(this);
     }
 
     abstract public void update() throws DBErrorException;

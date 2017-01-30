@@ -1,6 +1,7 @@
 package de.hsos.digitalerzwilling.Cache;
 
 import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
+import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
 import de.hsos.digitalerzwilling.DatenKlassen.HubQuerPodest;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
@@ -36,10 +37,10 @@ public class HubQuerPodestCache extends Cache{
             List<String> mittig = rsMap.get("MITTIG");
             List<String> unten = rsMap.get("UNTEN");
             List<String> zeitstempel = rsMap.get("ZEITSTEMPEL");
-            
+            if(id==null||zeitstempel==null||userParameter==null||motor==null||mittig==null||unten==null||oben==null) throw new QueryException();
             for(int i = 0; i<id.size();i++){
                 HubQuerPodest huQu = (HubQuerPodest) (state==true?elements[0].get(Long.parseLong(id.get(i))):elements[1].get(Long.parseLong(id.get(i))));
-                
+                if (huQu==null) throw new ElementNotFoundException();
                 String ourTime=zeitstempel.get(i).replace(' ', 'T');
                 huQu.setZeitstempel(LocalDateTime.parse(ourTime));
                 huQu.setUser_Parameter(userParameter.get(i));
@@ -55,6 +56,9 @@ public class HubQuerPodestCache extends Cache{
         } catch (QueryException ex) {
             Logger.getLogger(ArtikelCache.class.getName()).log(Level.SEVERE, null, ex);
             throw new DBErrorException("Query error");
+        } catch (ElementNotFoundException ex) {
+            Logger.getLogger(HubQuerPodestCache.class.getName()).log(Level.SEVERE, null, ex);
+            this.updateAll();
         }
     }
 
