@@ -74,9 +74,9 @@ function updateStoerung(documentNr, parentNode, jsonString, typ){
     
     for(var i=0; i<json.inhalt.length; i++){
         if(json.inhalt[i].stoerung != 0){
-            stoerungsZaehler++;
-            document.getElementById("stoerungsZaehler").innerHTML = stoerungsZaehler;
             addLine(documentNr, json.inhalt[i], ['bezeichnung','stoerung'], parentNode, typ);
+            var stoerungsZaehler = parentNode.childNodes.length;
+            document.getElementById("stoerungsZaehler").innerHTML = stoerungsZaehler;
         }
     }
     
