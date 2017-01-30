@@ -364,7 +364,6 @@
     }
     
     function addZurueckList(documentId, elementId, elementTyp){
-        console.log("Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp);
         var zurueckList = [];
         var backButton;
         switch (documentId) {
@@ -377,8 +376,6 @@
            case 7: zurueckList = zurueckList_7; backButton = backButtons[7]; break;
 
         }
-        console.log("PUSH: Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp);
-        console.log(zurueckList);
         zurueckList.push([elementTyp,elementId]);
         if(zurueckList.length>=2){
             if(backButton==backButtons[5]){
@@ -480,14 +477,15 @@
     }
     
     function reloadTabelle(elementType, divNumber){
-        i = divNumber;
+        var i = divNumber;
         $val = elementType;
         $(".dd-btn"+(i+1)).html($val+$caret);
         loadDiv(i+1);
     }
 
     function reloadEinzelansicht(elementType, elementId, divNumber){
-        i = divNumber;
+       
+        var i = divNumber;
         $val = elementType;
         $(".dd-btn"+(i+1)).html($val+$caret);
         initEinzelansicht(i+1);

@@ -62,7 +62,7 @@
                             }
                             $(".dropdown"+nummer+" li a").click(function(){
                                 $val = $(this).html();
-                                localStorage.removeItem('elementId_'+nummer);
+                                localStorage.setItem('elementId_'+nummer, -1);
                                 localStorage.setItem('elementType_'+nummer,$val);
                                 $(".dd-btn"+nummer).html($val+$caret);
                                 for(var i=0; i<=zurueckList_all[nummer-1].length;i++){

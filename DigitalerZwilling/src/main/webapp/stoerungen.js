@@ -111,10 +111,11 @@ function updateStoerung(documentNr, parentNode, jsonString, typ){
         if(json.inhalt[i].stoerung != 0){
             addLine(documentNr, json.inhalt[i], ['bezeichnung','stoerung'], parentNode, typ);
             var stoerungsZaehler = parentNode.childNodes.length;
+     
             document.getElementById("stoerungsZaehler").innerHTML = stoerungsZaehler;
+            document.getElementById("stoerungsZaehlerMobil").innerHTML = stoerungsZaehler;
         }
     }
-    
 }
 
 function removeLines(parentNode, typ){

@@ -65,6 +65,7 @@
                    
                    
                     document.getElementById("stoerungsZaehler").innerHTML = 0;
+                    document.getElementById("stoerungsZaehlerMobil").innerHTML = 0;
                     $("#mainContainer").load("uebersicht.html");
         	});
 
@@ -72,10 +73,10 @@
                     $(".buttonStoerung").on("click",function() {
                         localStorage.removeItem("elementId_7");
                         localStorage.removeItem("elementType_7");
-                        console.log("schließe WebsocketList7 beim Click auf den Störungsbutton.");
-                        closeWebsockets(7);
+                        //closeWebsockets(7);
                         localStorage.setItem("stoerung", "stoerungLaden");
                         if(localStorage.getItem("mainContainer")=="details"){
+                            
                             $("#mainContainer").load("uebersicht.html");
                         }else{
 
@@ -86,7 +87,6 @@
 
                 $(function() {
                     $(".buttonDetails").on("click",function() {
-                        console.log("schließe WebsocketLists6-8 beim Click auf den Detailsbutton.");
                         for(var i = 6; i<=8;i++){
                             closeWebsockets(i);
                         }
@@ -96,7 +96,6 @@
 
                 $(function() {
                     $(".buttonUebersicht").on("click",function() {
-                        console.log("schließe WebsocketLists1-6 beim Click auf den Übersichtsbutton.");
                         for(var i = 1; i<=6;i++){
                             closeWebsockets(i);
                         }
@@ -132,7 +131,7 @@
                         <span class="icon-bar"></span>
                       </button>
                       <a class="navbar-brand">Digitaler Zwilling</a>
-                      <a href="#" class="buttonStoerung"><span class="badge hidden-lg hidden-md hidden-sm" id="iconStoerung" style="margin-top:15px">0</span></a>
+                      <a href="#" class="buttonStoerung"><span class="badge hidden-lg hidden-md hidden-sm" id="stoerungsZaehlerMobil" style="margin-top:15px">0</span></a>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->

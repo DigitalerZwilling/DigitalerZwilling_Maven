@@ -1,7 +1,6 @@
 
 
 function loadDiv(documentNr){
-    console.log("In tabellenansicht.js");
     
     //Lösche, was voher an dem Div angehangen wurde:
     var div = document.getElementById("einzelansicht"+documentNr);
