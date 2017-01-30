@@ -43,7 +43,7 @@ public class ServerSystem extends Element
     public String toJson() {
         String json = new String();
         json += '{';
-        json += "\"datenbankFehlerStatus\": " + datenbankFehlerStatus + ",";
+        json += "\"datenbankFehlerStatus\": \"" + datenbankFehlerStatus + "\",";
         json += "\"spsFehlerStatus\": \"" + spsFehlerStatus + "\"";
         json+='}';
         return json;
