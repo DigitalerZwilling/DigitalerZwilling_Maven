@@ -1,6 +1,7 @@
 package de.hsos.digitalerzwilling.Cache;
 
 import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
+import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
 import de.hsos.digitalerzwilling.DatenKlassen.Element;
 import de.hsos.digitalerzwilling.DatenKlassen.Werkzeug;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
@@ -33,11 +34,11 @@ public class WerkzeugCache extends Cache{
             List<String> zeitstempel = rsMap.get("ZEITSTEMPEL");
             List<String> user_parameter = rsMap.get("USER_PARAMETER");
             List<String> zustand = rsMap.get("ZUSTAND");
-            
+            if(ids_w==null||zeitstempel==null||user_parameter==null||zustand==null) throw new QueryException();
             Werkzeug werkzeug;
             for (int i=0;i<ids_w.size();i++){
                 werkzeug=(Werkzeug)(state==true?elements[0].get(Long.parseLong(ids_w.get(i))):elements[1].get(Long.parseLong(ids_w.get(i))));                 //andersrum als bei getById
-                
+                if (werkzeug==null) throw new ElementNotFoundException();
                 String ourTime=zeitstempel.get(i).replace(' ', 'T');
                 werkzeug.setZeitstempel(LocalDateTime.parse(ourTime));
                 werkzeug.setUser_Parameter(user_parameter.get(i));
@@ -49,6 +50,9 @@ public class WerkzeugCache extends Cache{
         } catch (QueryException ex) {
             Logger.getLogger(ArtikelCache.class.getName()).log(Level.SEVERE, null, ex);
             throw new DBErrorException("Query error");
+        } catch (ElementNotFoundException ex) {
+            Logger.getLogger(WerkzeugCache.class.getName()).log(Level.SEVERE, null, ex);
+            this.updateAll();
         }
     }
 

@@ -1,6 +1,7 @@
 package de.hsos.digitalerzwilling.Cache;
 
 import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
+import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
 import de.hsos.digitalerzwilling.DatenKlassen.Element;
 import de.hsos.digitalerzwilling.DatenKlassen.Roboter;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
@@ -39,11 +40,11 @@ public class RoboterCache extends Cache{
             List<String> y = rsMap.get("POSITION_Y");   //int
             List<String> z = rsMap.get("POSITION_Z");   //int
             List<String> ausrichtung = rsMap.get("POSITION_AUSRICHTUNG");   //int
-            
+            if(ids==null||zeitstempel==null||user_parameter==null||stoerung==null||x==null||y==null||z==null||ausrichtung==null) throw new QueryException();
             Roboter roboter;
             for (int i=0;i<ids.size();i++){
                 roboter=(Roboter)(state==true?elements[0].get(Long.parseLong(ids.get(i))):elements[1].get(Long.parseLong(ids.get(i))));
-                
+                if (roboter==null) throw new ElementNotFoundException();
                 String ourTime=zeitstempel.get(i).replace(' ', 'T');
                 roboter.setZeitstempel(LocalDateTime.parse(ourTime));
                 roboter.setStoerung(Integer.parseInt(stoerung.get(i)));
@@ -64,6 +65,9 @@ public class RoboterCache extends Cache{
         } catch (QueryException ex) {
             Logger.getLogger(ArtikelCache.class.getName()).log(Level.SEVERE, null, ex);
             throw new DBErrorException("Query error");
+        } catch (ElementNotFoundException ex) {
+            Logger.getLogger(RoboterCache.class.getName()).log(Level.SEVERE, null, ex);
+            this.updateAll();
         }
     }
 

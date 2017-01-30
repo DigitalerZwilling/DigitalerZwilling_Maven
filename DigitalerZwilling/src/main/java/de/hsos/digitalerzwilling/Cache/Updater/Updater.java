@@ -80,7 +80,7 @@ public class Updater {
     
     public void updateWebSockets(){
         websocketsGesperrt=true;
-        System.out.println("update start");
+        System.out.println("update websockets start");
         List<WebSocket> toDelete=new ArrayList<WebSocket>();
         for(WebSocket webSocket: webSockets){
             try{
@@ -94,7 +94,7 @@ public class Updater {
         for(WebSocket webSocket: toDelete){
             this.webSockets.remove(webSocket);
         }
-        System.out.println("update end");
+        System.out.println("update websockets end");
         websocketsGesperrt=false;
         for(WebSocket webSocket: toRegister){
             this.webSockets.add(webSocket);
@@ -104,6 +104,7 @@ public class Updater {
     
     public void updateCaches(){
         //test=true;
+        System.out.println("updates Caches");
         for(Cache cache: caches){
             try {
                 cache.update();
@@ -111,6 +112,7 @@ public class Updater {
                 java.util.logging.Logger.getLogger(Updater.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        System.out.println("updates Caches fertig");
         //test=false;
     }
     
@@ -124,13 +126,16 @@ public class Updater {
         
         if(!cacheUpdateThread.isRunning()){
             cacheThraed = managedThreadFactory.newThread(cacheUpdateThread);
+            
             this.cacheUpdateThread.run();
+            //cacheThraed.start();
         }
         else
             Logger.getLogger("TIMEOUT: Cache update takes to long...");
         if(!webSocketUpdateThread.isRunning()){
             webSocketThread = managedThreadFactory.newThread(webSocketUpdateThread);
             this.webSocketUpdateThread.run();
+            //webSocketThread.start();
         }
         else
             Logger.getLogger("TIMEOUT: WebSocket update takes to long...");

@@ -1,6 +1,7 @@
 package de.hsos.digitalerzwilling.Cache;
 
 import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
+import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
 import de.hsos.digitalerzwilling.DatenKlassen.Element;
 import de.hsos.digitalerzwilling.DatenKlassen.Sektor;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
@@ -32,11 +33,11 @@ public class SektorCache extends Cache{
             List<String> zeitstempel = rsMap.get("ZEITSTEMPEL");
             List<String> user_parameter = rsMap.get("USER_PARAMETER");
             List<String> stoerung = rsMap.get("STOERUNG");  //int
-            
+            if(ids==null||zeitstempel==null||user_parameter==null||stoerung==null) throw new QueryException();
             Sektor sektor;
             for (int i=0;i<ids.size();i++){
                 sektor=(Sektor)(state==true?elements[0].get(Long.parseLong(ids.get(i))):elements[1].get(Long.parseLong(ids.get(i))));
-                
+                if (sektor==null) throw new ElementNotFoundException();
                 String ourTime=zeitstempel.get(i).replace(' ', 'T');
                 sektor.setZeitstempel(LocalDateTime.parse(ourTime));
                 sektor.setStoerung(Integer.parseInt(stoerung.get(i)));
@@ -51,6 +52,9 @@ public class SektorCache extends Cache{
         } catch (QueryException ex) {
             Logger.getLogger(ArtikelCache.class.getName()).log(Level.SEVERE, null, ex);
             throw new DBErrorException("Query error");
+        } catch (ElementNotFoundException ex) {
+            Logger.getLogger(SektorCache.class.getName()).log(Level.SEVERE, null, ex);
+            this.updateAll();
         }
     }
 

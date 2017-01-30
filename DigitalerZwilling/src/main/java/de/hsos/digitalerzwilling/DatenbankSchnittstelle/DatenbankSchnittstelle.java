@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 
 /**
@@ -82,10 +84,13 @@ public class DatenbankSchnittstelle {
                         throw new DBNotFoundException("Error in config file...");
                     }
                 }
-
-                if (!connect(DbUrl, DbCd, DbUser, DbPw)) // Oeffnet eine Verbindung mit Werten aus der Config Datei.
-                {
-                    throw new DBNotFoundException("DB error...");
+                try{
+                    if (!connect(DbUrl, DbCd, DbUser, DbPw)) // Oeffnet eine Verbindung mit Werten aus der Config Datei.
+                    {
+                        throw new DBNotFoundException("DB error...");
+                    }
+                }catch(DBNotFoundException ex){
+                    Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             } catch (FileNotFoundException ex) {
@@ -129,7 +134,7 @@ public class DatenbankSchnittstelle {
                 return data.isValid(10);
         } catch (SQLException ex) {
             //Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
-            throw new DBNotFoundException("DB not found ("+DbUrl+")...");
+            throw new DBNotFoundException("DB not found ("+DbUrl+")... cause SQLException: "+ex.getMessage());
             //throw new Exception("Fehler: Datenbankverbindung auf "+ this._DbURL+" nicht möglich");
         }
     }
