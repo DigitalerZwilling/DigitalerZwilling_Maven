@@ -11,7 +11,10 @@
 		<script src="initEinzelansicht.js"></script>
 		<script src="utilities.js"></script>
 		<script src="tabellenansicht.js"></script>
+<<<<<<< HEAD
 		<script src="svg.js"></script>
+=======
+>>>>>>> refs/remotes/origin/ZsmführungNinaUndEla_Stoerungen
                 <script src="stoerungen.js"></script>
 
 		<!-- Bootstrap -->
@@ -51,13 +54,26 @@
     		var zurueckList_6 = new Array();
     		var zurueckList_7 = new Array();
     		var zurueckList_all = [zurueckList_1, zurueckList_2, zurueckList_3, zurueckList_4, zurueckList_5, zurueckList_6, zurueckList_7];
+                
+                var backButtons = ["#backBtn1", "#backBtn2", "#backBtn3", "#backBtn4", "#backBtn5", "#backBtn6_d", "#backBtn6_u", "#backBtn7"];
+                var elementTypeList = ["elementType_1","elementType_2","elementType_3","elementType_4","elementType_5","elementType_6", "elementType_7"];
+                var elementIdList = ["elementId_1","elementId_2","elementId_3","elementId_4","elementId_5","elementId_6", "elementId_7"];
 
-    		var i = 0;
+    		var i=0
+                var idBtn = null;
+                
 
                 $(document).ready(function(){
+<<<<<<< HEAD
                    
                    
                     document.getElementById("stoerungsZaehler").innerHTML = 0;
+=======
+                    //!!!!!!StoerungsZaehler muss noch getestet werden
+                    var stoerungsZaehler = "0";
+                    
+                    document.getElementById('badgeStoerung').innerHTML = stoerungsZaehler;
+>>>>>>> refs/remotes/origin/ZsmführungNinaUndEla_Stoerungen
                     $("#mainContainer").load("uebersicht.html");
         	});
 
@@ -71,7 +87,11 @@
                         if(localStorage.getItem("mainContainer")=="details"){
                             $("#mainContainer").load("uebersicht.html");
                         }else{
+<<<<<<< HEAD
                            viewStoerungen(7);//initStoerung(7);
+=======
+                           initStoerung(7);
+>>>>>>> refs/remotes/origin/ZsmführungNinaUndEla_Stoerungen
                         }
                     });
                 });
@@ -132,7 +152,11 @@
                         <ul class="nav navbar-nav">
                             <li><a href="#" class="buttonUebersicht">Übersicht <span class="sr-only">(current)</span></a></li>
                             <li><a href="#" class="buttonDetails">Details</a></li>
+<<<<<<< HEAD
                             <li><a href="#" class="buttonStoerung">Störung <span class="badge" id="stoerungsZaehler"></span></a></li>
+=======
+                            <li><a href="#" class="buttonStoerung">Störung <span class="badge" id="badgeStoerung"></span></a></li>
+>>>>>>> refs/remotes/origin/ZsmführungNinaUndEla_Stoerungen
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
