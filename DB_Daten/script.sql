@@ -1,8 +1,26 @@
 WAITFOR DELAY '00:00:10'; -- hh:mm:ss warten
+--max abstand pro TB
+--TB 13		800
+--TB 34		807
+--TB 45		1203
+--TB 56		627
+--TB 67		205
+--TB 78		878
+--TB 89		1190
+--TB 911	1680
+--TB 910	665
+--TB 1011	404
+--TB 1113	2053
+--TB 1112	715
+--TB 1213	733
+--TB 1315	2580
+--TB 1314	930
+--TB 1415	1050
+--TB 151	1190
 
 -- heatbeat alle x sekunden aktuelisieren
-MOVE_WARENTRAEGER_TO_SEKTOR(/*BIGINT-WT*/,/*BIGINT-SEK*/);
-MOVE_WARENTRAEGER_TO_TRANSPORTBAND(/*BIGINT-WT*/,/*BIGINT-TB*/);
+CALL `MOVE_WARENTRAEGER_TO_SEKTOR`('1', '5');
+CALL `MOVE_WARENTRAEGER_TO_TRANSPORTBAND`('1', '5');
 -- Sektoren stoerungen entfernen
 UPDATE Sektor
 SET stoerung = 0
