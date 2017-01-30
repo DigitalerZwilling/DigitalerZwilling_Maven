@@ -393,7 +393,6 @@
 
     function historyCheck(ansicht){
         if(ansicht==="details"){
-            alert("historyCheck for details");
             var i = 0;
             for(i=0;i<6;i++){
                 if(zurueckList_all[i].length<=1){
@@ -401,7 +400,6 @@
                 }
             }
         }else{
-            alert("historyCheck for übersicht");
             if(zurueckList_all[5].length<=1){
                 $(backButtons[6]).hide();
             }
@@ -460,7 +458,6 @@
             
         if(ansicht=="details"){
             for(var i=0;i<6;i++){
-                alert("elemID: " + localStorage.getItem(elementIdList[i]));
                 if(localStorage.getItem(elementTypeList[i])!=null){
                     if(localStorage.getItem(elementIdList[i])!=null){
                         reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i);
@@ -486,15 +483,12 @@
         i = divNumber;
         $val = elementType;
         $(".dd-btn"+(i+1)).html($val+$caret);
-        alert("BUTZZZZZZ4 i: " + i);
         loadDiv(i+1);
     }
 
     function reloadEinzelansicht(elementType, elementId, divNumber){
         i = divNumber;
         $val = elementType;
-        alert("BUTZZZZZZ5");
-        alert("ElementType:" + $val + ",i: " + i);
         $(".dd-btn"+(i+1)).html($val+$caret);
         initEinzelansicht(i+1);
     }
