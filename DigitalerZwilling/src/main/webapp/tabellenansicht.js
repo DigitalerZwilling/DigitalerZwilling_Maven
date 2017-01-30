@@ -21,7 +21,7 @@ function loadDiv(documentNr){
     switch (typ) {
         case 'Artikel':
 
-           var artikelSocket = new WebSocket(location.host+"/"+host+"ArtikelWebSocket");       
+           var artikelSocket = new WebSocket("ws://"+location.host+"/"+host+"ArtikelWebSocket");       
             artikelSocket.onopen = function() {
                 artikelSocket.send("LIST");
             };
@@ -35,7 +35,7 @@ function loadDiv(documentNr){
         break;
 
         case "Warenträger":
-            var warentraegerSocket = new WebSocket(location.host+"/"+host+"WarentraegerWebSocket");
+            var warentraegerSocket = new WebSocket("ws://"+location.host+"/"+host+"WarentraegerWebSocket");
             addWebsockets(documentNr, [warentraegerSocket]);
 
             warentraegerSocket.onopen = function() {
@@ -48,7 +48,7 @@ function loadDiv(documentNr){
             break;
 
         case "Transportbänder":
-           var transportbandSocket = new WebSocket(location.host+"/"+host+"TransportbandWebSocket");         
+           var transportbandSocket = new WebSocket("ws://"+location.host+"/"+host+"TransportbandWebSocket");         
            transportbandSocket.onopen = function() {
                 transportbandSocket.send("LIST");
             };
@@ -62,7 +62,7 @@ function loadDiv(documentNr){
             break;
 
         case "Roboter":
-            var roboterSocket = new WebSocket(location.host+"/"+host+"RoboterWebSocket");
+            var roboterSocket = new WebSocket("ws://"+location.host+"/"+host+"RoboterWebSocket");
 
             addWebsockets(documentNr, [roboterSocket]);
             roboterSocket.onopen = function() {
@@ -76,7 +76,7 @@ function loadDiv(documentNr){
             break;
 
         case "Sektoren":
-            var sektorSocket = new WebSocket(location.host+"/"+host+"SektorWebSocket");
+            var sektorSocket = new WebSocket("ws://"+location.host+"/"+host+"SektorWebSocket");
 
             addWebsockets(documentNr, [sektorSocket]);
             sektorSocket.onopen = function() {
@@ -89,7 +89,7 @@ function loadDiv(documentNr){
             };
             break;
         case "Sensoren":
-            var sensorSocket = new WebSocket(location.host+"/"+host+"SensorWebSocket");
+            var sensorSocket = new WebSocket("ws://"+location.host+"/"+host+"SensorWebSocket");
 
             addWebsockets(documentNr, [sensorSocket]);
 
@@ -104,7 +104,7 @@ function loadDiv(documentNr){
             };
             break;
         case "Gelenke":
-            var gelenkSocket = new WebSocket(location.host+"/"+host+"GelenkWebSocket");
+            var gelenkSocket = new WebSocket("ws://"+location.host+"/"+host+"GelenkWebSocket");
 
             addWebsockets(documentNr, [gelenkSocket]);
 
@@ -119,7 +119,7 @@ function loadDiv(documentNr){
             break;
 
         case "Werkzeuge":
-            var werkzeugSocket = new WebSocket(location.host+"/"+host+"WerzeugWebSocket");
+            var werkzeugSocket = new WebSocket("ws://"+location.host+"/"+host+"WerzeugWebSocket");
 
             addWebsockets(documentNr, [werkzeugSocket]);
 
@@ -133,7 +133,7 @@ function loadDiv(documentNr){
             };
             break;
         case "Hubpositionierstationen":
-            var hupoSocket = new WebSocket(location.host+"/"+host+"HubPodestWebSocket");
+            var hupoSocket = new WebSocket("ws://"+location.host+"/"+host+"HubPodestWebSocket");
 
             addWebsockets(documentNr, [hupoSocket]);
             hupoSocket.onopen = function() {
@@ -146,7 +146,7 @@ function loadDiv(documentNr){
             };
             break;
         case "Hub-Quer-Stationen":
-            var huquSocket = new WebSocket(location.host+"/"+host+"HubQuerPodestWebSocket");
+            var huquSocket = new WebSocket("ws://"+location.host+"/"+host+"HubQuerPodestWebSocket");
 
             addWebsockets(documentNr, [huquSocket]);
             huquSocket.onopen = function() {

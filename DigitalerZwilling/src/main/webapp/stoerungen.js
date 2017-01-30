@@ -34,12 +34,12 @@ function initStoerung(documentNr){
     div.appendChild(table);
     
     
-    var RoboterWebSocket = new WebSocket(host+'RoboterWebSocket');
-    var SektorWebSocket = new WebSocket(host+'SektorWebSocket');
-    var SensorWebSocket = new WebSocket(host+'SensorWebSocket');
-    var TransportbandWebSocket = new WebSocket(host+'TransportbandWebSocket');
-    var WarentraegerWebSocket = new WebSocket(host+'WarentraegerWebSocket');
-    var WerkzeugWebSocket = new WebSocket(host+'WerkzeugWebSocket');
+    var RoboterWebSocket = new WebSocket("ws://"+location.host+"/"+host+'RoboterWebSocket');
+    var SektorWebSocket = new WebSocket("ws://"+location.host+"/"+host+'SektorWebSocket');
+    var SensorWebSocket = new WebSocket("ws://"+location.host+"/"+host+'SensorWebSocket');
+    var TransportbandWebSocket = new WebSocket("ws://"+location.host+"/"+host+'TransportbandWebSocket');
+    var WarentraegerWebSocket = new WebSocket("ws://"+location.host+"/"+host+'WarentraegerWebSocket');
+    var WerkzeugWebSocket = new WebSocket("ws://"+location.host+"/"+host+'WerkzeugWebSocket');
     
     
     

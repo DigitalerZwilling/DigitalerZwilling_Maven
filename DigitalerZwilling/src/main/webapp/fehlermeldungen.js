@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var host = "ws://localhost:8080/DigitalerZwilling/";
+var host = "DigitalerZwilling/";
 var divName = "fehlermeldungen";
 
 function initfehlermeldungen() {
-    var ErrorWebSocket = new WebSocket(host+"ExceptionWebSocket");
+    var ErrorWebSocket = new WebSocket("ws://"+location.host+"/"+host+"ExceptionWebSocket");
     
     ErrorWebSocket.onmessage = function(event) {
         var jsonString = event.data;

@@ -15,14 +15,15 @@ var zoom = 0.18;
 var jsonCache;
 
 
+var host = "DigitalerZwilling/";
 
 function initSVG() {
     var documentNr = 8;
     closeWebsockets(documentNr);
 
-    var SektorWebsocket = new WebSocket(host + "SektorWebSocket");
-    var TransportbandWebsocket = new WebSocket(host + "TransportbandWebSocket");
-    var WarentraegerWebsocket = new WebSocket(host + "WarentraegerWebSocket");
+    var SektorWebsocket = new WebSocket("ws://"+location.host+"/"+host + "SektorWebSocket");
+    var TransportbandWebsocket = new WebSocket("ws://"+location.host+"/"+host + "TransportbandWebSocket");
+    var WarentraegerWebsocket = new WebSocket("ws://"+location.host+"/"+host + "WarentraegerWebSocket");
     jsonCache=["","",""];
 
     addWebsockets(documentNr, [SektorWebsocket, TransportbandWebsocket, WarentraegerWebsocket]);
