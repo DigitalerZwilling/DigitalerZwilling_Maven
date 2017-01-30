@@ -74,6 +74,8 @@ function updateStoerung(documentNr, parentNode, jsonString, typ){
     
     for(var i=0; i<json.inhalt.length; i++){
         if(json.inhalt[i].stoerung != 0){
+            stoerungsZaehler++;
+            document.getElementById("stoerungsZaehler").innerHTML = stoerungsZaehler;
             addLine(documentNr, json.inhalt[i], ['bezeichnung','stoerung'], parentNode, typ);
         }
     }
@@ -81,6 +83,7 @@ function updateStoerung(documentNr, parentNode, jsonString, typ){
 }
 
 function removeLines(parentNode, typ){
+    stoerungsZaehler = 0;
     var childs = parentNode.childNodes;
     
     for(var i=0; i<childs.length; i++){

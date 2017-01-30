@@ -341,25 +341,18 @@ function loadDiv(documentNr){
                     document.getElementById(typ + "Montagezustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].montagezustand;
                     break;
                 case "Transportbänder":
-                    document.getElementById(typ+"Stoerung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].stoerung;
-                    break;
                 case "Roboter":
-                    document.getElementById(typ +"Stoerung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].stoerung;
-                    break;
                 case "Sektoren":
                     document.getElementById(typ + "Stoerung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].stoerung;
                     break;
                 case "Sensoren":
+                case "Werkzeuge":
                     document.getElementById(typ +"Zustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].zustand;
                     break;
                 case "Gelenke":
                     document.getElementById(typ +"Stellung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].gelenkstellung;
                     break;
-                case "Werkzeuge":
-                    document.getElementById(typ +"Zustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].zustand;
-                    break;
                 case "Hubpositionierstationen":
-                   
                     var position = "";
                     if (liste.inhalt[i].oben == 1){
                         position = "\u2191";
@@ -385,12 +378,10 @@ function loadDiv(documentNr){
    
        //-------------TABELLENERZEUGUNG-----------------------------------------------------
     function createTable(typ, liste, spaltennamen, row, col, documentNr) {
-        //console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+     
         //console.log("In CreateTable mit Typ: " + typ);
-        
-        
+
         //Gibt den Spalten, die im Body erzeugt wurden die jeweiligen Namen
- 
         var myTable = document.createElement("table");
         myTable.setAttribute('class', "table table-striped");
         myTable.setAttribute('id', "tablle_"+documentNr);

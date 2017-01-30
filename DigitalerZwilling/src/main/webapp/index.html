@@ -12,6 +12,7 @@
 		<script src="utilities.js"></script>
 		<script src="tabellenansicht.js"></script>
 		<script src="svg.js"></script>
+                <script src="stoerungen.js"></script>
 
 		<!-- Bootstrap -->
 		<!-- Latest compiled and minified CSS -->
@@ -55,9 +56,6 @@
 
                 $(document).ready(function(){
                    
-                   
-                   //TEST
-                   //TEST2
                     var stoerungsZaehler = 0;
                     document.getElementById("stoerungsZaehler").innerHTML = stoerungsZaehler;
                     $("#mainContainer").load("uebersicht.html");
@@ -73,8 +71,7 @@
                         if(localStorage.getItem("mainContainer")=="details"){
                             $("#mainContainer").load("uebersicht.html");
                         }else{
-                            //loadDiv(7);
-                           $("#einzelansicht7").load("stoerungen.html");
+                           initStoerung(7);
                         }
                     });
                 });
