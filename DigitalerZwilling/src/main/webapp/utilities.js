@@ -374,11 +374,8 @@
            case 4: zurueckList = zurueckList_4; backButton = backButtons[3]; break;
            case 5: zurueckList = zurueckList_5; backButton = backButtons[4]; break;
            case 6: zurueckList = zurueckList_6; backButton = backButtons[5]; break;
-<<<<<<< HEAD
-           case 7: return;
-=======
            case 7: zurueckList = zurueckList_7; backButton = backButtons[7]; break;
->>>>>>> refs/remotes/origin/ZsmführungNinaUndEla_Stoerungen
+
         }
         console.log("PUSH: Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp);
         console.log(zurueckList);
