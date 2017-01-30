@@ -334,8 +334,8 @@
            case 4: websocketList = websocketList_4; break;
            case 5: websocketList = websocketList_5; break;
            case 6: websocketList = websocketList_6; break;
-           case 7: websocketList = websocketList_7; break;
-           case 8: websocketList = websocketList_8; break;
+           case 7: websocketList = websocketList_7; hideStoerungen(); break;
+           case 8:  websocketList = websocketList_8; break;
         }
         
         while(websocketList.length>0){
@@ -374,11 +374,123 @@
            case 4: zurueckList = zurueckList_4; backButton = backButtons[3]; break;
            case 5: zurueckList = zurueckList_5; backButton = backButtons[4]; break;
            case 6: zurueckList = zurueckList_6; backButton = backButtons[5]; break;
-           case 7: return;
+           case 7: zurueckList = zurueckList_7; backButton = backButtons[7]; break;
+
         }
         console.log("PUSH: Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp);
+        console.log(zurueckList);
         zurueckList.push([elementTyp,elementId]);
         if(zurueckList.length>=2){
-            $(backButton).show();
+            if(backButton==backButtons[5]){
+                $(backButton).show();
+                backButton=backButtons[6];
+                $(backButton).show();
+            }else{
+                $(backButton).show();
+            }
         }
     }
+
+    function historyCheck(ansicht){
+        if(ansicht==="details"){
+            var i = 0;
+            for(i=0;i<6;i++){
+                if(zurueckList_all[i].length<=1){
+                    $(backButtons[i]).hide();
+                }
+            }
+        }else{
+            if(zurueckList_all[5].length<=1){
+                $(backButtons[6]).hide();
+            }
+            if (zurueckList_all[6].length<=1){
+                $(backButtons[7]).hide();
+            }
+        }
+    }
+    
+    function historyCheckDiv(ansicht, nummer){
+        var backButton;
+        if(ansicht="details"){
+            switch (nummer){
+                case 1: backButton = backButtons[0]; break;
+                case 2: backButton = backButtons[1]; break;
+                case 3: backButton = backButtons[2]; break;
+                case 4: backButton = backButtons[3]; break;
+                case 5: backButton = backButtons[4]; break;
+                case 6: backButton = backButtons[5]; break;           
+            }  
+        }
+        if(ansicht="uebersicht"){
+            switch (nummer){
+                case 6: backButton = backButtons[6]; break;
+                case 7: backButton = backButtons[7]; break;           
+            }  
+        }
+        $(backButton).hide();
+    }
+    
+    function loadHistory(nummer, ansicht){
+        var nrAusgabe = nummer+1;
+        var lastElement = zurueckList_all[nummer].length-1;
+
+        localStorage.setItem("elementType_"+nrAusgabe, zurueckList_all[(nummer)][lastElement-1][0]);
+        localStorage.setItem("elementId_"+nrAusgabe, zurueckList_all[(nummer)][lastElement-1][1]);
+        zurueckList_all[nummer].pop();
+
+        if(zurueckList_all[5].length==1 && ansicht==="uebersicht"){
+            $(backButtons[6]).hide();         
+        }else if(zurueckList_all[5].length==1 && ansicht==="details"){
+            $(backButtons[5]).hide();    
+        }
+        if(zurueckList_all[nummer].length==1){
+            $(backButtons[nummer]).hide();            
+        }       
+            $(".dd-btn"+nrAusgabe).html(localStorage.getItem("elementType_"+ nrAusgabe) + ' <span class = "caret"></span');
+            if(zurueckList_all[nummer][lastElement-1][1]==null){
+                loadDiv(nummer+1);                               
+            }else{
+                initEinzelansicht(nummer+1);  
+            }                
+    }
+    
+    function fillDivs(ansicht){
+            
+        if(ansicht=="details"){
+            for(var i=0;i<6;i++){
+                if(localStorage.getItem(elementTypeList[i])!=null){
+                    if(localStorage.getItem(elementIdList[i])!=null){
+                        reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i);
+                    }else{
+                        reloadTabelle(localStorage.getItem(elementTypeList[i]),i);
+                    }
+                }
+            } 
+        }else if(ansicht=="uebersicht"){
+            for(var i=5;i<7;i++){
+                if(localStorage.getItem(elementTypeList[i])!=null){
+                    if(localStorage.getItem(elementIdList[i])!=null){
+                        reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i);
+                    }else{
+                        reloadTabelle(localStorage.getItem(elementTypeList[i]),i);
+                    }
+                }
+            } 
+        }
+    }
+    
+    function reloadTabelle(elementType, divNumber){
+        i = divNumber;
+        $val = elementType;
+        $(".dd-btn"+(i+1)).html($val+$caret);
+        loadDiv(i+1);
+    }
+
+    function reloadEinzelansicht(elementType, elementId, divNumber){
+        i = divNumber;
+        $val = elementType;
+        $(".dd-btn"+(i+1)).html($val+$caret);
+        initEinzelansicht(i+1);
+    }
+    
+    

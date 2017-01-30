@@ -1,7 +1,16 @@
-function initStoerung(documentNr){
+function viewStoerungen(documentNr){
     closeWebsockets(documentNr);
-    var divName = "einzelansicht";
-    var div = document.getElementById(divName+documentNr);
+    document.getElementById("stoerungen").removeAttribute("hidden");
+    document.getElementById("einzelansicht"+documentNr).setAttribute("hidden","");
+}
+
+function hideStoerungen(){
+    document.getElementById("einzelansicht7").removeAttribute("hidden");
+    document.getElementById("stoerungen").setAttribute("hidden","");
+}
+
+function initStoerung(documentNr){
+    var div = document.getElementById("stoerungen");
         var childs = div.childNodes;
 
         for(var i=0; i<childs.length; i++){
@@ -59,9 +68,36 @@ function initStoerung(documentNr){
                 WerkzeugWebSocket.send("LIST");
     };
     
+    
+    
     RoboterWebSocket.onmessage = function(event) {
         var jsonString = event.data;
         updateStoerung(documentNr, tbody, jsonString,'Roboter');
+    };
+    
+    SektorWebSocket.onmessage = function(event) {
+        var jsonString = event.data;
+        updateStoerung(documentNr, tbody, jsonString,'Sektoren');
+    };
+    
+    TransportbandWebSocket.onmessage = function(event) {
+        var jsonString = event.data;
+        updateStoerung(documentNr, tbody, jsonString,'Transportbänder');
+    };
+    
+    SensorWebSocket.onmessage = function(event) {
+        var jsonString = event.data;
+        updateStoerung(documentNr, tbody, jsonString,'Sensoren');
+    };
+    
+    WarentraegerWebSocket.onmessage = function(event) {
+        var jsonString = event.data;
+        updateStoerung(documentNr, tbody, jsonString,'Warenträger');
+    };
+    
+    WerkzeugWebSocket.onmessage = function(event) {
+        var jsonString = event.data;
+        updateStoerung(documentNr, tbody, jsonString,'Werkzeuge');
     };
 }
 
@@ -75,6 +111,8 @@ function updateStoerung(documentNr, parentNode, jsonString, typ){
     for(var i=0; i<json.inhalt.length; i++){
         if(json.inhalt[i].stoerung != 0){
             addLine(documentNr, json.inhalt[i], ['bezeichnung','stoerung'], parentNode, typ);
+            var stoerungsZaehler = parentNode.childNodes.length;
+            document.getElementById("stoerungsZaehler").innerHTML = stoerungsZaehler;
         }
     }
     

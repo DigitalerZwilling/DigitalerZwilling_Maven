@@ -12,8 +12,8 @@
 		<script src="utilities.js"></script>
 		<script src="tabellenansicht.js"></script>
 		<script src="svg.js"></script>
-                <script src="fehlermeldungen.js"></script>
-                
+    <script src="stoerungen.js"></script>
+    <script src="fehlermeldungen.js"></script>
 		<!-- Bootstrap -->
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -51,17 +51,20 @@
     		var zurueckList_6 = new Array();
     		var zurueckList_7 = new Array();
     		var zurueckList_all = [zurueckList_1, zurueckList_2, zurueckList_3, zurueckList_4, zurueckList_5, zurueckList_6, zurueckList_7];
+                
+                var backButtons = ["#backBtn1", "#backBtn2", "#backBtn3", "#backBtn4", "#backBtn5", "#backBtn6_d", "#backBtn6_u", "#backBtn7"];
+                var elementTypeList = ["elementType_1","elementType_2","elementType_3","elementType_4","elementType_5","elementType_6", "elementType_7"];
+                var elementIdList = ["elementId_1","elementId_2","elementId_3","elementId_4","elementId_5","elementId_6", "elementId_7"];
 
-    		var i = 0;
+    		var i=0
+                var idBtn = null;
+                
 
                 $(document).ready(function(){
-                    initfehlermeldungen();
+                initfehlermeldungen();
                    
                    
-                   //TEST
-                   //TEST2
-                    var stoerungsZaehler = 0;
-                    document.getElementById("stoerungsZaehler").innerHTML = stoerungsZaehler;
+                    document.getElementById("stoerungsZaehler").innerHTML = 0;
                     $("#mainContainer").load("uebersicht.html");
         	});
 
@@ -75,8 +78,8 @@
                         if(localStorage.getItem("mainContainer")=="details"){
                             $("#mainContainer").load("uebersicht.html");
                         }else{
-                            //loadDiv(7);
-                           $("#einzelansicht7").load("stoerungen.html");
+
+                           viewStoerungen(7);//initStoerung(7);
                         }
                     });
                 });
@@ -137,7 +140,9 @@
                         <ul class="nav navbar-nav">
                             <li><a href="#" class="buttonUebersicht">Übersicht <span class="sr-only">(current)</span></a></li>
                             <li><a href="#" class="buttonDetails">Details</a></li>
+
                             <li><a href="#" class="buttonStoerung">Störung <span class="badge" id="stoerungsZaehler"></span></a></li>
+
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
