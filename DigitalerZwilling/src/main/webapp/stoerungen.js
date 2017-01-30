@@ -1,9 +1,11 @@
 function viewStoerungen(documentNr){
     closeWebsockets(documentNr);
     document.getElementById("stoerungen").removeAttribute("hidden");
+    document.getElementById("einzelansicht"+documentNr).setAttribute("hidden","");
 }
 
 function hideStoerungen(){
+    document.getElementById("einzelansicht7").removeAttribute("hidden");
     document.getElementById("stoerungen").setAttribute("hidden","");
 }
 
