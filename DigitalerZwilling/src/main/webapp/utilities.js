@@ -334,8 +334,8 @@
            case 4: websocketList = websocketList_4; break;
            case 5: websocketList = websocketList_5; break;
            case 6: websocketList = websocketList_6; break;
-           case 7: websocketList = websocketList_7; break;
-           case 8: websocketList = websocketList_8; break;
+           case 7: websocketList = websocketList_7; hideStoerungen(); break;
+           case 8:  websocketList = websocketList_8; break;
         }
         
         while(websocketList.length>0){

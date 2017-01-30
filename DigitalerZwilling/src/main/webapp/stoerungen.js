@@ -1,7 +1,14 @@
-function initStoerung(documentNr){
+function viewStoerungen(documentNr){
     closeWebsockets(documentNr);
-    var divName = "einzelansicht";
-    var div = document.getElementById(divName+documentNr);
+    document.getElementById("stoerungen").removeAttribute("hidden");
+}
+
+function hideStoerungen(){
+    document.getElementById("stoerungen").setAttribute("hidden","");
+}
+
+function initStoerung(documentNr){
+    var div = document.getElementById("stoerungen");
         var childs = div.childNodes;
 
         for(var i=0; i<childs.length; i++){
@@ -59,9 +66,36 @@ function initStoerung(documentNr){
                 WerkzeugWebSocket.send("LIST");
     };
     
+    
+    
     RoboterWebSocket.onmessage = function(event) {
         var jsonString = event.data;
         updateStoerung(documentNr, tbody, jsonString,'Roboter');
+    };
+    
+    SektorWebSocket.onmessage = function(event) {
+        var jsonString = event.data;
+        updateStoerung(documentNr, tbody, jsonString,'Sektoren');
+    };
+    
+    TransportbandWebSocket.onmessage = function(event) {
+        var jsonString = event.data;
+        updateStoerung(documentNr, tbody, jsonString,'Transportbänder');
+    };
+    
+    SensorWebSocket.onmessage = function(event) {
+        var jsonString = event.data;
+        updateStoerung(documentNr, tbody, jsonString,'Sensoren');
+    };
+    
+    WarentraegerWebSocket.onmessage = function(event) {
+        var jsonString = event.data;
+        updateStoerung(documentNr, tbody, jsonString,'Warenträger');
+    };
+    
+    WerkzeugWebSocket.onmessage = function(event) {
+        var jsonString = event.data;
+        updateStoerung(documentNr, tbody, jsonString,'Werkzeuge');
     };
 }
 
@@ -83,7 +117,6 @@ function updateStoerung(documentNr, parentNode, jsonString, typ){
 }
 
 function removeLines(parentNode, typ){
-    stoerungsZaehler = 0;
     var childs = parentNode.childNodes;
     
     for(var i=0; i<childs.length; i++){
