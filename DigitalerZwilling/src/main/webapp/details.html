@@ -53,7 +53,7 @@
     
                         function loadViaDropdown(idBtn){
                             $caret = ' <span class="caret"></span>';
-                            var nummer;
+                            var nummer; var backbtn;
                             switch(idBtn){
                                 case "dd-btn1": nummer = 1; break;
                                 case "dd-btn2": nummer = 2; break;
@@ -67,6 +67,10 @@
                                 localStorage.removeItem('elementId_'+nummer);
                                 localStorage.setItem('elementType_'+nummer,$val);
                                 $(".dd-btn"+nummer).html($val+$caret);
+                                for(var i=0; i<=zurueckList_all[nummer-1].length;i++){
+                                    zurueckList_all[nummer-1].pop();
+                                    historyCheckDiv("details", nummer);
+                                }                               
                                 addZurueckList(nummer, null, localStorage.getItem('elementType_'+nummer));
                                 loadDiv(nummer);
                             }); 

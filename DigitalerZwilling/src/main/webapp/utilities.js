@@ -410,6 +410,27 @@
         }
     }
     
+    function historyCheckDiv(ansicht, nummer){
+        var backButton;
+        if(ansicht="details"){
+            switch (nummer){
+                case 1: backButton = backButtons[0]; break;
+                case 2: backButton = backButtons[1]; break;
+                case 3: backButton = backButtons[2]; break;
+                case 4: backButton = backButtons[3]; break;
+                case 5: backButton = backButtons[4]; break;
+                case 6: backButton = backButtons[5]; break;           
+            }  
+        }
+        if(ansicht="uebersicht"){
+            switch (nummer){
+                case 6: backButton = backButtons[6]; break;
+                case 7: backButton = backButtons[7]; break;           
+            }  
+        }
+        $(backButton).hide();
+    }
+    
     function loadHistory(nummer, ansicht){
         var nrAusgabe = nummer+1;
         var lastElement = zurueckList_all[nummer].length-1;
