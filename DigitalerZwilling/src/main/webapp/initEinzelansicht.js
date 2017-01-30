@@ -1,4 +1,3 @@
-var host = "ws://localhost:8080/DigitalerZwilling/";
 var divName = "einzelansicht";
 
 function initEinzelansicht(documentNr){
@@ -86,8 +85,8 @@ function initEinzelansicht(documentNr){
         create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
-        var ArtikelWebSocket = new WebSocket(host+"ArtikelWebSocket");
-        var WarentraegerWebSocket = new WebSocket(host+"WarentraegerWebSocket");
+        var ArtikelWebSocket = new WebSocket(location.host+"/"+host+"/ArtikelWebSocket");
+        var WarentraegerWebSocket = new WebSocket(location.host+"/"+host+"WarentraegerWebSocket");
         addWebsockets(documentNr,[ArtikelWebSocket, WarentraegerWebSocket]);
 
         ArtikelWebSocket.onopen = function() {
@@ -128,8 +127,8 @@ function initEinzelansicht(documentNr){
         createAttributLink(documentNr,['Sektor'],['sektor']);
 
         //WebSockets
-        var SensorWebSocket = new WebSocket(host+"SensorWebSocket");
-        var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
+        var SensorWebSocket = new WebSocket(location.host+"/"+host+"SensorWebSocket");
+        var SektorWebSocket = new WebSocket(location.host+"/"+host+"SektorWebSocket");
         addWebsockets(documentNr,[SensorWebSocket, SektorWebSocket]);
         
         SensorWebSocket.onopen = function() {
@@ -176,10 +175,10 @@ function initEinzelansicht(documentNr){
         create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
-        var WarentreagerWebSocket = new WebSocket(host+"WarentraegerWebSocket");
-        var ArtikelWebSocket = new WebSocket(host+"ArtikelWebSocket");
-        var TransportbandWebSocket = new WebSocket(host+"TransportbandWebSocket");
-        var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
+        var WarentreagerWebSocket = new WebSocket(location.host+"/"+host+"WarentraegerWebSocket");
+        var ArtikelWebSocket = new WebSocket(location.host+"/"+host+"ArtikelWebSocket");
+        var TransportbandWebSocket = new WebSocket(location.host+"/"+host+"TransportbandWebSocket");
+        var SektorWebSocket = new WebSocket(location.host+"/"+host+"SektorWebSocket");
         addWebsockets(documentNr,[WarentreagerWebSocket, ArtikelWebSocket, TransportbandWebSocket, SektorWebSocket]);
         
         WarentreagerWebSocket.onopen = function() {
@@ -238,9 +237,9 @@ function initEinzelansicht(documentNr){
         createAttributLink(documentNr, ['Sektor vorher','Sektor nachher'],['vorTransportband','nachTransportband']);
 
         //WebSockets
-        var TransportbandWebSocket = new WebSocket(host+"TransportbandWebSocket");
-        var WarentreagerWebSocket = new WebSocket(host+"WarentraegerWebSocket");
-        var SektorWebSocket = new WebSocket(host+"SektorWebSocket"); 
+        var TransportbandWebSocket = new WebSocket(location.host+"/"+host+"TransportbandWebSocket");
+        var WarentreagerWebSocket = new WebSocket(location.host+"/"+host+"WarentraegerWebSocket");
+        var SektorWebSocket = new WebSocket(location.host+"/"+host+"SektorWebSocket"); 
         addWebsockets(documentNr,[TransportbandWebSocket, WarentreagerWebSocket, SektorWebSocket]);
         
         TransportbandWebSocket.onopen = function() {
@@ -308,10 +307,10 @@ function initEinzelansicht(documentNr){
         createAttributLink(documentNr, ['Gelenk','Werkzeug'],['gelenk','werkzeug']);
 
         //WebSockets
-        var RoboterWebSocket = new WebSocket(host+"RoboterWebSocket");
-        var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
-        var GelenkWebSocket = new WebSocket(host+"GelenkWebSocket");
-        var WerkzeugWebSocket = new WebSocket(host+"WerkzeugWebSocket");
+        var RoboterWebSocket = new WebSocket(location.host+"/"+host+"RoboterWebSocket");
+        var SektorWebSocket = new WebSocket(location.host+"/"+host+"SektorWebSocket");
+        var GelenkWebSocket = new WebSocket(location.host+"/"+host+"GelenkWebSocket");
+        var WerkzeugWebSocket = new WebSocket(location.host+"/"+host+"WerkzeugWebSocket");
         addWebsockets(documentNr,[RoboterWebSocket, SektorWebSocket, GelenkWebSocket, WerkzeugWebSocket]);
         
         RoboterWebSocket.onopen = function() {
@@ -399,14 +398,14 @@ function initEinzelansicht(documentNr){
         create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
-        var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
+        var SektorWebSocket = new WebSocket(location.host+"/"+host+"SektorWebSocket");
         
-        var WarentraegerWebSocket = new WebSocket(host+"WarentraegerWebSocket");
-        var HubpodestWebSocket = new WebSocket(host+"HubPodestWebSocket");
-        var HubquerpodestWebSocket = new WebSocket(host+"HubQuerPodestWebSocket");
-        var RoboterWebSocket = new WebSocket(host+"RoboterWebSocket");
-        var SensorWebSocket = new WebSocket(host+"SensorWebSocket");
-        var TransportbandWebSocket = new WebSocket(host+"TransportbandWebSocket");
+        var WarentraegerWebSocket = new WebSocket(location.host+"/"+host+"WarentraegerWebSocket");
+        var HubpodestWebSocket = new WebSocket(location.host+"/"+host+"HubPodestWebSocket");
+        var HubquerpodestWebSocket = new WebSocket(location.host+"/"+host+"HubQuerPodestWebSocket");
+        var RoboterWebSocket = new WebSocket(location.host+"/"+host+"RoboterWebSocket");
+        var SensorWebSocket = new WebSocket(location.host+"/"+host+"SensorWebSocket");
+        var TransportbandWebSocket = new WebSocket(location.host+"/"+host+"TransportbandWebSocket");
         
         addWebsockets(documentNr,[SektorWebSocket, WarentraegerWebSocket, HubpodestWebSocket, HubquerpodestWebSocket, RoboterWebSocket, SensorWebSocket, TransportbandWebSocket]);
         
@@ -495,8 +494,8 @@ function initEinzelansicht(documentNr){
         create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
-        var GelenkWebSocket = new WebSocket(host+"GelenkWebSocket");
-        var RoboterWebSocket = new WebSocket(host+"RoboterWebSocket");
+        var GelenkWebSocket = new WebSocket(location.host+"/"+host+"GelenkWebSocket");
+        var RoboterWebSocket = new WebSocket(location.host+"/"+host+"RoboterWebSocket");
         addWebsockets(documentNr,[GelenkWebSocket, RoboterWebSocket]);
         
         GelenkWebSocket.onopen = function() {
@@ -545,8 +544,8 @@ function initEinzelansicht(documentNr){
         create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
-        var WerkzeugWebSocket = new WebSocket(host+"WerkzeugWebSocket");
-        var RoboterWebSocket = new WebSocket(host+"RoboterWebSocket");
+        var WerkzeugWebSocket = new WebSocket(location.host+"/"+host+"WerkzeugWebSocket");
+        var RoboterWebSocket = new WebSocket(location.host+"/"+host+"RoboterWebSocket");
         addWebsockets(documentNr,[WerkzeugWebSocket, RoboterWebSocket]);
         
         WerkzeugWebSocket.onopen = function() {
@@ -586,8 +585,8 @@ function initEinzelansicht(documentNr){
         create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
-        var HubpodestWebSocket = new WebSocket(host+"HubPodestWebSocket");
-        var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
+        var HubpodestWebSocket = new WebSocket(location.host+"/"+host+"HubPodestWebSocket");
+        var SektorWebSocket = new WebSocket(location.host+"/"+host+"SektorWebSocket");
         addWebsockets(documentNr,[HubpodestWebSocket, SektorWebSocket]);
         
         HubpodestWebSocket.onopen = function() {
@@ -627,8 +626,8 @@ function initEinzelansicht(documentNr){
         create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
-        var HubQuerPodestWebSocket = new WebSocket(host+"HubQuerPodestWebSocket");
-        var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
+        var HubQuerPodestWebSocket = new WebSocket(location.host+"/"+host+"HubQuerPodestWebSocket");
+        var SektorWebSocket = new WebSocket(location.host+"/"+host+"SektorWebSocket");
         addWebsockets(documentNr,[HubQuerPodestWebSocket, SektorWebSocket]);
         
         HubQuerPodestWebSocket.onopen = function() {
