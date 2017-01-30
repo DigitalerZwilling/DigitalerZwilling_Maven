@@ -2,7 +2,7 @@ WAITFOR DELAY '00:00:10'; -- hh:mm:ss warten
 
 -- heatbeat alle x sekunden aktuelisieren
 MOVE_WARENTRAEGER_TO_SEKTOR(/*BIGINT-WT*/,/*BIGINT-SEK*/);
-MOVE_WARENTRAEGER_TO_TRANSPORTBAND(/*BIGINT-WT*/,/*BIGINT-TB*/):
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(/*BIGINT-WT*/,/*BIGINT-TB*/);
 -- Sektoren stoerungen entfernen
 UPDATE Sektor
 SET stoerung = 0
@@ -24,7 +24,7 @@ UPDATE Warentraeger SET abstand_mm = 1100 WHERE id_warentraeger = 1;
 
 WAITFOR DELAY '00:00:10'; -- hh:mm:ss warten
 MOVE_WARENTRAEGER_TO_SEKTOR(1,5);
-MOVE_WARENTRAEGER_TO_TRANSPORTBAND(3,67):
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(3,67);
 --------wichtig---------------------------------------------------
 -- procedure aendern:
 	-- wenn WT auf TB gesetzt, abstand_mm immer auf 0 setzen?
@@ -32,7 +32,7 @@ MOVE_WARENTRAEGER_TO_TRANSPORTBAND(3,67):
 UPDATE Warentraeger SET abstand_mm = 1100 WHERE id_warentraeger = 1;
 MOVE_WARENTRAEGER_TO_SEKTOR(4,1);
 WAITFOR DELAY '00:00:03'; -- hh:mm:ss warten
-MOVE_WARENTRAEGER_TO_TRANSPORTBAND(4,13):
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(4,13);
 WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
 UPDATE Warentraeger SET abstand_mm = 100 WHERE id_warentraeger = 4;
 WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
@@ -42,7 +42,7 @@ MOVE_WARENTRAEGER_TO_SEKTOR(5,1);
 UPDATE Warentraeger SET abstand_mm = 300 WHERE id_warentraeger = 4;
 WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
 UPDATE Warentraeger SET abstand_mm = 400 WHERE id_warentraeger = 4;
-MOVE_WARENTRAEGER_TO_TRANSPORTBAND(5,13):
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(5,13);
 WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
 UPDATE Warentraeger SET abstand_mm = 100 WHERE id_warentraeger = 5;
 UPDATE Warentraeger SET abstand_mm = 500 WHERE id_warentraeger = 4;
@@ -67,8 +67,8 @@ WAITFOR DELAY '00:00:10'; -- hh:mm:ss warten
 
 
 
-MOVE_WARENTRAEGER_TO_TRANSPORTBAND(5,911):
-MOVE_WARENTRAEGER_TO_TRANSPORTBAND(6,910):
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(5,911);
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(6,910);
 UPDATE Warentraeger SET abstand_mm = 50 WHERE id_warentraeger = 5;
 UPDATE Warentraeger SET abstand_mm = 50 WHERE id_warentraeger = 6;
 WAITFOR DELAY '00:00:01'; -- hh:mm:ss warten
