@@ -30,21 +30,9 @@ function jsonToFehler(json){
 
 function updateSystemfehler(string){
     
-    var footer = document.getElementById("footer");
+    var footer = document.getElementById("fehlerausgabe");
     while (footer.childNodes.length>0){
         footer.removeChild(footer.childNodes[0]);
     }
-    
-    
-    var footer = document.getElementById("footer");
-        var div = document.createElement("div");
-        div.setAttribute("align","center");
-            var font = document.createElement("font");
-            font.setAttribute("color","black");
-            font.setAttribute("size","4");
-                var b = document.createElement("b");
-                b.innerHTML = string;
-            font.appendChild(b);
-        div.appendChild(font);
-    footer.appendChild(div);
+    footer.innerHTML = "&#9888; " + string;
 }
