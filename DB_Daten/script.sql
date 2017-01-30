@@ -103,15 +103,344 @@ WAITFOR DELAY '00:00:01'; -- hh:mm:ss warten
 
 
 
+-- kompletten rundlauf von WT 333
+-- Rundlauf Start
+MOVE_WARENTRAEGER_TO_SEKTOR(333,1);
+WAITFOR DELAY '00:00:04'; -- hh:mm:ss warten
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(333,13);
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
 
+UPDATE Warentraeger SET abstand_mm = 100 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 200 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 300 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 400 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 500 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 600 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 700 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 800 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 900 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1000 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
 
+MOVE_WARENTRAEGER_TO_SEKTOR(333,3);
+WAITFOR DELAY '00:00:04'; -- hh:mm:ss warten
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(333,34);
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
 
+UPDATE Warentraeger SET abstand_mm = 100 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 200 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 300 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 400 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 500 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 600 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 700 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 800 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 900 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1000 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
 
+MOVE_WARENTRAEGER_TO_SEKTOR(333,4);
+WAITFOR DELAY '00:00:04'; -- hh:mm:ss warten
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(333,45);
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
 
+UPDATE Warentraeger SET abstand_mm = 100 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 200 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 300 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 400 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 500 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 600 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 700 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 800 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 900 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1000 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
 
+MOVE_WARENTRAEGER_TO_SEKTOR(333,5);
+WAITFOR DELAY '00:00:04'; -- hh:mm:ss warten
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(333,56);
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
 
+UPDATE Warentraeger SET abstand_mm = 100 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 200 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 300 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 400 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 500 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 600 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 700 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 800 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 900 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1000 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
 
+MOVE_WARENTRAEGER_TO_SEKTOR(333,6);
+WAITFOR DELAY '00:00:04'; -- hh:mm:ss warten
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(333,67);
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
 
+UPDATE Warentraeger SET abstand_mm = 100 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 200 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 300 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 400 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 500 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 600 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 700 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 800 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 900 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1000 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+
+MOVE_WARENTRAEGER_TO_SEKTOR(333,7);
+WAITFOR DELAY '00:00:04'; -- hh:mm:ss warten
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(333,78);
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+
+UPDATE Warentraeger SET abstand_mm = 100 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 200 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 300 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 400 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 500 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 600 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 700 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 800 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 900 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1000 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+
+MOVE_WARENTRAEGER_TO_SEKTOR(333,8);
+WAITFOR DELAY '00:00:04'; -- hh:mm:ss warten
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(333,89);
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+
+UPDATE Warentraeger SET abstand_mm = 100 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 200 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 300 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 400 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 500 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 600 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 700 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 800 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 900 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1000 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+
+MOVE_WARENTRAEGER_TO_SEKTOR(333,9);
+WAITFOR DELAY '00:00:04'; -- hh:mm:ss warten
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(333,911);
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+
+UPDATE Warentraeger SET abstand_mm = 100 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 200 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 300 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 400 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 500 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 600 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 700 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 800 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 900 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1000 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1100 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1200 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1300 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1400 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1500 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+
+MOVE_WARENTRAEGER_TO_SEKTOR(333,11);
+WAITFOR DELAY '00:00:04'; -- hh:mm:ss warten
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(333,1112);
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+
+UPDATE Warentraeger SET abstand_mm = 100 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 200 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 300 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 400 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 500 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 600 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 700 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 800 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 900 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1000 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+
+MOVE_WARENTRAEGER_TO_SEKTOR(333,12);
+WAITFOR DELAY '00:00:04'; -- hh:mm:ss warten
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(333,1213);
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+
+UPDATE Warentraeger SET abstand_mm = 100 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 200 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 300 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 400 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 500 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 600 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 700 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 800 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 900 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1000 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+
+MOVE_WARENTRAEGER_TO_SEKTOR(333,13);
+WAITFOR DELAY '00:00:04'; -- hh:mm:ss warten
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(333,1315);
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+
+UPDATE Warentraeger SET abstand_mm = 100 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 200 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 300 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 400 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 500 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 600 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 700 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 800 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 900 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1000 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1100 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1200 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1300 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1400 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1500 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+
+MOVE_WARENTRAEGER_TO_SEKTOR(333,15);
+WAITFOR DELAY '00:00:04'; -- hh:mm:ss warten
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(333,151);
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+
+UPDATE Warentraeger SET abstand_mm = 100 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 200 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 300 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 400 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 500 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 600 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 700 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 800 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 900 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+UPDATE Warentraeger SET abstand_mm = 1000 WHERE id_warentraeger = 333;
+WAITFOR DELAY '00:00:02'; -- hh:mm:ss warten
+
+MOVE_WARENTRAEGER_TO_SEKTOR(333,1);
+WAITFOR DELAY '00:00:13'; -- hh:mm:ss warten
+
+-- Rundelauf Ende
 
 
 
@@ -151,7 +480,7 @@ WHERE id_artikel = 000 AND id_warentraeger = 000;
 
 -- proceduren aufrufen:
 MOVE_WARENTRAEGER_TO_SEKTOR(/*BIGINT-WT*/,/*BIGINT-SEK*/);
-MOVE_WARENTRAEGER_TO_TRANSPORTBAND(/*BIGINT-WT*/,/*BIGINT-TB*/):
+MOVE_WARENTRAEGER_TO_TRANSPORTBAND(/*BIGINT-WT*/,/*BIGINT-TB*/);
 
 
 -- funktionen zum stoerung setzen

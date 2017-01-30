@@ -43,7 +43,7 @@ BEGIN
 	DELETE FROM Transportband_Warentraeger WHERE Transportband_Warentraeger.id_warentraeger = `id_warentraeger`;
 	DELETE FROM Sektor_Warentraeger WHERE Sektor_Warentraeger.id_warentraeger = `id_warentraeger`;
 	INSERT INTO Transportband_Warentraeger(id_warentraeger, id_transportband) VALUES (`id_warentraeger`, `id_transportband`);
--- UPDATE Warentraeger SET Warentraeger.abstand_mm = 0 WHERE Warentraeger.id_warentraeger = `id_warentraeger`;
+	UPDATE Warentraeger SET Warentraeger.abstand_mm = 0 WHERE Warentraeger.id_warentraeger = `id_warentraeger`;
 END//
 DELIMITER ;
 
