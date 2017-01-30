@@ -1,39 +1,43 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 
 
 function loadDiv(documentNr){
+    
     //console.log("DokuNr: " + documentNr);
+    console.log("In tabellenansicht.js");
+    
+    //Typ der Tabelle wird aus Local Storage gelesen:
+    var typ = localStorage.getItem('elementType_'+documentNr);
+    
+    //Löschen der Daten, die schon an das Div angehängt wurden:
     var div = document.getElementById("einzelansicht"+documentNr);
     var childs = div.childNodes;
 
     while(div.childNodes.length >0){
             div.removeChild(div.childNodes[0]);
     }
- 
+    
+    //Schließen aller Websockets
      closeWebsockets(documentNr);
-     console.log("In tabellenansicht.js");
+     
 
-  var typ = localStorage.getItem('elementType_'+documentNr);
-  //console.log("Type="+typ);
+    
+
 
   switch (typ) {
             case 'Artikel':
                 
-               var artikelSocket = new WebSocket(host+"ArtikelWebSocket");       
+                var artikelSocket = new WebSocket(host+"ArtikelWebSocket");  
+               
                 artikelSocket.onopen = function() {
                     artikelSocket.send("LIST");
                 };
-            
-               addWebsockets(documentNr, [artikelSocket]);
-
+                
+                //Der WebsocketListe hinzufügen:
+                addWebsockets(documentNr, [artikelSocket]);
+                
+                //Bei Empfang von Daten die Tabelle erzeugen:
                 artikelSocket.onmessage = function(event) {
                     var received_msg = event.data;
-                   // console.log("Message"+received_msg);
                     erzeugeTabelle("Artikel", received_msg, artikelSocket, documentNr);
                 };
             break;
@@ -47,7 +51,6 @@ function loadDiv(documentNr){
                 };
                 warentraegerSocket.onmessage = function(event) {
                     var received_msg = event.data;
-                    //console.log("Message"+received_msg);
               
                     erzeugeTabelle("Warenträger", received_msg, warentraegerSocket, documentNr); 
                 };
@@ -63,7 +66,6 @@ function loadDiv(documentNr){
                
                 transportbandSocket.onmessage = function(event) {
                     var received_msg = event.data;
-                    //console.log("Message"+received_msg);
                     
                     erzeugeTabelle("Transportbänder", received_msg, transportbandSocket, documentNr);
                 };
@@ -79,7 +81,6 @@ function loadDiv(documentNr){
                 
                 roboterSocket.onmessage = function(event) {
                     var received_msg = event.data;
-                    //console.log("Message"+received_msg);
                    
                     erzeugeTabelle("Roboter", received_msg, roboterSocket, documentNr);
                 };
@@ -95,7 +96,6 @@ function loadDiv(documentNr){
                 
                 sektorSocket.onmessage = function(event) {
                     var received_msg = event.data;
-                   // console.log("Message"+received_msg);
                   
                     erzeugeTabelle("Sektoren", received_msg, sektorSocket, documentNr);
                 };
@@ -112,7 +112,6 @@ function loadDiv(documentNr){
                 
                 sensorSocket.onmessage = function(event) {
                     var received_msg = event.data;
-                    //console.log("Message"+received_msg);
                    
                    erzeugeTabelle("Sensoren", received_msg, sensorSocket, documentNr);
                 };
@@ -128,7 +127,6 @@ function loadDiv(documentNr){
                 
                 gelenkSocket.onmessage = function(event) {
                     var received_msg = event.data;
-                    //console.log("Message"+received_msg);
                     
                     erzeugeTabelle("Gelenke", received_msg, gelenkSocket, documentNr);
                 };
@@ -145,7 +143,6 @@ function loadDiv(documentNr){
                 
                 werkzeugSocket.onmessage = function(event) {
                     var received_msg = event.data;
-                    //console.log("Message"+received_msg);
                  
                     erzeugeTabelle("Werkzeuge", received_msg, werkzeugSocket, documentNr);
                 };
@@ -160,7 +157,6 @@ function loadDiv(documentNr){
                 
                 hupoSocket.onmessage = function(event) {
                     var received_msg = event.data;
-                   // console.log("Message"+received_msg);
                     
                     erzeugeTabelle("Hubpositionierstationen", received_msg, hupoSocket, documentNr);
                 };
@@ -175,7 +171,6 @@ function loadDiv(documentNr){
                 
                 huquSocket.onmessage = function(event) {
                     var received_msg = event.data;
-                   // console.log("Message"+received_msg);
                     erzeugeTabelle("Hub-Quer-Stationen", received_msg, huquSocket, documentNr);
                 };
                 break;
@@ -189,8 +184,6 @@ function loadDiv(documentNr){
     /* ------------------------------ERZEUGE TABELLE -------------------------------- */
     function erzeugeTabelle(typ, listeJSON, websocket, documentNr){
        
-        
-       // console.log("++++++++++++++++++++++++++++++");
        // console.log("ErzeugeTabelle vom Typ: " + typ + ", Websocket: " + websocket);
         var liste = JSON.parse(listeJSON);
         var spaltennamen = getSpaltenname(typ); //Ermittelt die benötigten Spaltnamen
@@ -205,49 +198,42 @@ function loadDiv(documentNr){
            case 'Artikel':
                 websocket.onmessage = function(event) {
                 var received_msg = event.data;
-                //console.log("Message"+received_msg);
                updateTabelle("Artikel", received_msg, documentNr);
             };
             break;
         case 'Warenträger':
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
-                //console.log("Message"+received_msg);
                 updateTabelle("Warenträger", received_msg, documentNr);
             };
             break;
         case 'Transportbänder':
                 websocket.onmessage = function(event) {
                 var received_msg = event.data;
-                //console.log("Message"+received_msg);
                 updateTabelle("Transportbänder", received_msg, documentNr);
             };
             break;
         case 'Roboter':
                 websocket.onmessage = function(event) {
                 var received_msg = event.data;
-                //console.log("Message"+received_msg);
                 updateTabelle("Roboter", received_msg, documentNr);
             };
             break;
         case 'Sektoren':
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
-                //console.log("Message"+received_msg);
                 updateTabelle("Sektoren", received_msg, documentNr);
             };
             break;
         case "Sensoren":
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
-                //console.log("Message"+received_msg);
                 updateTabelle("Sensoren", received_msg, documentNr);
             };
             break;
         case "Gelenke":
              websocket.onmessage = function(event) {
                 var received_msg = event.data;
-                //console.log("Message"+received_msg);
                 updateTabelle("Gelenke", received_msg, documentNr);
             };
             break;
@@ -255,7 +241,6 @@ function loadDiv(documentNr){
         case "Werkzeuge":
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
-                //console.log("Message"+received_msg);
                 updateTabelle("Werkzeuge", received_msg, documentNr);
             };
             break;
@@ -263,7 +248,6 @@ function loadDiv(documentNr){
         case "Hubpositionierstationen":
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
-             //   console.log("Message"+received_msg);
                 updateTabelle("Hubpositionierstationen", received_msg, documentNr);
             }
             break;
@@ -271,7 +255,6 @@ function loadDiv(documentNr){
         case "Hub-Quer-Stationen":
             websocket.onmessage = function(event) {
                 var received_msg = event.data;
-                //console.log("Message"+received_msg);
                 updateTabelle("Hub-Quer-Stationen", received_msg, documentNr);
             }
             break;
@@ -325,8 +308,8 @@ function loadDiv(documentNr){
     function updateTabelle(typ, listeJSON, documentNr){
        //Aktualisiert die Werte in der schon erstellten Tabelle
         
-        //console.log("update Tabelle von " + typ);
         var liste = JSON.parse(listeJSON);
+     //   var liste = JSON.parse(listeJSON).inhalt;
         var anzahlElemente = liste.inhalt.length;
         
         //Aktualisieren der Werte:
@@ -341,13 +324,9 @@ function loadDiv(documentNr){
                     document.getElementById(typ + "Montagezustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].montagezustand;
                     break;
                 case "Transportbänder":
-                    document.getElementById(typ+"Stoerung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].stoerung;
-                    break;
                 case "Roboter":
-                    document.getElementById(typ +"Stoerung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].stoerung;
-                    break;
                 case "Sektoren":
-                    document.getElementById(typ + "Stoerung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].stoerung;
+                    document.getElementById(typ+"Stoerung_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].stoerung;
                     break;
                 case "Sensoren":
                     document.getElementById(typ +"Zustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].zustand;
@@ -359,7 +338,6 @@ function loadDiv(documentNr){
                     document.getElementById(typ +"Zustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].zustand;
                     break;
                 case "Hubpositionierstationen":
-                   
                     var position = "";
                     if (liste.inhalt[i].oben == 1){
                         position = "\u2191";
@@ -370,6 +348,7 @@ function loadDiv(documentNr){
                     }
                     document.getElementById(typ+"Position_"+liste.inhalt[i].id  + "_" + documentNr).innerHTML = position;
                    break;
+                   
                 case "Hub-Quer-Stationen":
                      var zustand = getZustandHuQu(liste.inhalt[i].motor, liste.inhalt[i].oben, liste.inhalt[i].mittig, liste.inhalt[i].unten);
                     document.getElementById(typ+"Zustand_"+liste.inhalt[i].id  + "_" + documentNr).innerHTML = zustand;
