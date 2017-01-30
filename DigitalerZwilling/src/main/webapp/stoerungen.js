@@ -103,7 +103,6 @@ function initStoerung(documentNr){
 
 
 function updateStoerung(documentNr, parentNode, jsonString, typ){
-    console.log("----")
     var json = JSON.parse(jsonString);
     
     removeLines(parentNode, typ);
@@ -124,21 +123,16 @@ function removeLines(parentNode, typ){
     for(var i=0; i<childs.length; i++){
         var td = childs[i].childNodes[0];
         if(td == undefined){
-            console.log("td");
             continue;
         }
         var a = td.childNodes[0];
         if(a == undefined){ 
-            console.log("a");
             continue;
         }
         
         if(a.getAttribute("elementType")==typ){
-            console.log("Remove="+a.innerHTML);
             parentNode.removeChild(childs[i]);
             i--;
-        }else{
-            console.log("ignore");
         }
     }
 }

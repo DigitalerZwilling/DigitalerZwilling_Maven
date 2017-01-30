@@ -447,7 +447,7 @@
             $(backButtons[nummer]).hide();            
         }       
             $(".dd-btn"+nrAusgabe).html(localStorage.getItem("elementType_"+ nrAusgabe) + ' <span class = "caret"></span');
-            if(zurueckList_all[nummer][lastElement-1][1]==null){
+            if(zurueckList_all[nummer][lastElement-1][1]==-1){
                 loadDiv(nummer+1);                               
             }else{
                 initEinzelansicht(nummer+1);  
@@ -459,7 +459,7 @@
         if(ansicht=="details"){
             for(var i=0;i<6;i++){
                 if(localStorage.getItem(elementTypeList[i])!=null){
-                    if(localStorage.getItem(elementIdList[i])!=null){
+                    if(localStorage.getItem(elementIdList[i])!=-1){
                         reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i);
                     }else{
                         reloadTabelle(localStorage.getItem(elementTypeList[i]),i);
@@ -469,7 +469,7 @@
         }else if(ansicht=="uebersicht"){
             for(var i=5;i<7;i++){
                 if(localStorage.getItem(elementTypeList[i])!=null){
-                    if(localStorage.getItem(elementIdList[i])!=null){
+                    if(localStorage.getItem(elementIdList[i])!=-1){
                         reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i);
                     }else{
                         reloadTabelle(localStorage.getItem(elementTypeList[i]),i);

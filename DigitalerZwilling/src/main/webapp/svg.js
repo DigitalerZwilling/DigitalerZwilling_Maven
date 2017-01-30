@@ -101,13 +101,11 @@ function reloadSVG(){
 
 function getSekByID(j_sektoren, key) {
     //finde Sektor mit uebergebener ID
-    //console.log("Suche " + key + " in S");
     for (var i = 0; i < j_sektoren.inhalt.length; i++) {
         if (j_sektoren.inhalt[i].id == key) {
             return i;
         }
     }
-    console.log(key + " nicht gefunden in S");
     return 0;
 }
 
@@ -130,7 +128,6 @@ function getTBByID(j_baender, key) {
             return i;
         }
     }
-    console.log(key + " nicht gefunden in TB");
     return 0;
 }
 

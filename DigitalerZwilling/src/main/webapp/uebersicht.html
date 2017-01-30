@@ -72,7 +72,7 @@
                             zurueckList_all[nummer-1].pop();
                             historyCheckDiv("uebersicht", nummer);
                         }                               
-                        addZurueckList(nummer, null, localStorage.getItem('elementType_'+nummer));
+                        addZurueckList(nummer, -1, localStorage.getItem('elementType_'+nummer));
                         loadDiv(nummer);
                     }); 
                 }
