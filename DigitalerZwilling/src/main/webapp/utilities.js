@@ -80,9 +80,9 @@
             setHeader(list_header[i], table);
             
             table.appendChild(tbody);
-            div.appendChild(table)
+            div.appendChild(table);
+            //div.appendChild(document.createElement("br"));
             lists.appendChild(div);
-            lists.appendChild(document.createElement("br"));
         }
         
     }
