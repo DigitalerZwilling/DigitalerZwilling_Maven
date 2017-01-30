@@ -364,12 +364,17 @@ function loadDiv(documentNr){
         var th2 = document.createElement("th");
         th2.setAttribute('id', "spalte_" + documentNr + ".2");
         
-        var th3 = document.createElement("th");
-        th3.setAttribute('id', "spalte_" + documentNr + ".3");
-        
         tr.appendChild(th1);
         tr.appendChild(th2);
-        tr.appendChild(th3);
+        
+        if (col == 3){
+            var th3 = document.createElement("th");
+            th3.setAttribute('id', "spalte_" + documentNr + ".3");
+            tr.appendChild(th3);
+        }
+        
+       
+       
         
         thead.appendChild(tr);
         myTable.appendChild(thead);

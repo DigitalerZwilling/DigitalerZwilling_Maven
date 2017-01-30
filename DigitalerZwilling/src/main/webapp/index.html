@@ -12,8 +12,8 @@
 		<script src="utilities.js"></script>
 		<script src="tabellenansicht.js"></script>
 		<script src="svg.js"></script>
-    <script src="stoerungen.js"></script>
-    <script src="fehlermeldungen.js"></script>
+                <script src="stoerungen.js"></script>
+                <script src="fehlermeldungen.js"></script>
 		<!-- Bootstrap -->
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -67,6 +67,8 @@
                     document.getElementById("stoerungsZaehler").innerHTML = 0;
                     document.getElementById("stoerungsZaehlerMobil").innerHTML = 0;
                     $("#mainContainer").load("uebersicht.html");
+                    
+
         	});
 
                 $(function() {
@@ -90,6 +92,7 @@
                         for(var i = 6; i<=8;i++){
                             closeWebsockets(i);
                         }
+                        
                         $("#mainContainer").load("details.html");
                     });
                 });
@@ -102,6 +105,8 @@
                         $("#mainContainer").load("uebersicht.html");
                     });
                 });
+                
+                
 
                 function isBreakpoint(alias) {
                     return $('.device-' + alias).is(':visible');
