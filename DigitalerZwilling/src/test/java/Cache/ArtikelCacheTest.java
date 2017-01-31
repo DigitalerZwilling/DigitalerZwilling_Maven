@@ -19,7 +19,6 @@ import de.hsos.digitalerzwilling.Cache.ArtikelCache;
 import de.hsos.digitalerzwilling.Cache.Cache;
 import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
 import de.hsos.digitalerzwilling.DatenKlassen.Artikel;
-import de.hsos.digitalerzwilling.Websockets.ExceptionEventHandlerScope;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -41,7 +40,7 @@ public class ArtikelCacheTest extends CacheTest{
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-            .addClasses(ArtikelCache.class,Updater.class,CacheUpdateThread.class,WebSocketUpdateThread.class,DatenbankSchnittstelle.class,SelfTimer.class,ExceptionEventHandlerScope.class)
+            .addClasses(ArtikelCache.class,Updater.class,CacheUpdateThread.class,WebSocketUpdateThread.class,DatenbankSchnittstelle.class,SelfTimer.class)
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
     

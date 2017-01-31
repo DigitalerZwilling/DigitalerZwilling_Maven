@@ -18,7 +18,6 @@ import de.hsos.digitalerzwilling.DatenKlassen.Sensor;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
-import de.hsos.digitalerzwilling.Websockets.ExceptionEventHandlerScope;
 import java.util.Objects;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -42,7 +41,7 @@ public class SensorCacheTest extends CacheTest{
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-            .addClasses(SensorCache.class,Updater.class,CacheUpdateThread.class,WebSocketUpdateThread.class,DatenbankSchnittstelle.class,SelfTimer.class,ExceptionEventHandlerScope.class)
+            .addClasses(SensorCache.class,Updater.class,CacheUpdateThread.class,WebSocketUpdateThread.class,DatenbankSchnittstelle.class,SelfTimer.class)
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xmlthrows DBNotFoundException ");
     }
     

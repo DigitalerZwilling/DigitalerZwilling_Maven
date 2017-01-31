@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Tue Jan 31 12:50:49 CET 2017:
+Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): Instanz a816c00e-0159-f45c-f377-00000653ce58
+für Datenbankverzeichnis /private/var/folders/mg/5jx_gjls697g_r__md002bn00000gn/T/gfembed832427609107908556tmp/lib/databases/ejbtimer mit Class Loader sun.misc.Launcher$AppClassLoader@28d93b30
+Geladen aus file:/Users/florian/.m2/repository/org/glassfish/main/extras/glassfish-embedded-all/4.1.1/glassfish-embedded-all-4.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_111-b14
+user.dir=/Users/florian/Documents/DigitalerZwilling_Maven/DigitalerZwilling
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.12.3
+derby.system.home=null
+Datenbank-Class Loader wurde gestartet - derby.database.classpath=''
