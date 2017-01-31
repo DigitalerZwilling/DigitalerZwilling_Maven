@@ -6,6 +6,7 @@
 package de.hsos.digitalerzwilling.Cache;
 
 import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
+import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
 import de.hsos.digitalerzwilling.DatenKlassen.Artikel;
 import de.hsos.digitalerzwilling.DatenKlassen.Element;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
@@ -38,10 +39,10 @@ public class ArtikelCache extends Cache{
             List<String> zeitstempel = rsMap.get("ZEITSTEMPEL");
             List<String> user_parameter = rsMap.get("USER_PARAMETER");
             Artikel artikel;
-            
+            if(ids==null||zeitstempel==null||user_parameter==null) throw new QueryException();
             for (int i=0;i<ids.size();i++){
                 artikel=(Artikel)(state==true?elements[0].get(Long.parseLong(ids.get(i))):elements[1].get(Long.parseLong(ids.get(i))));                 //andersrum als bei getById
-                
+                if (artikel==null) throw new ElementNotFoundException();
                 String ourTime=zeitstempel.get(i).replace(' ', 'T');
                 artikel.setZeitstempel(LocalDateTime.parse(ourTime));
                 artikel.setUser_Parameter(user_parameter.get(i));
@@ -53,6 +54,9 @@ public class ArtikelCache extends Cache{
         } catch (QueryException ex) {
             Logger.getLogger(ArtikelCache.class.getName()).log(Level.SEVERE, null, ex);
             throw new DBErrorException("Query error");
+        } catch (ElementNotFoundException ex) {
+            //Logger.getLogger(ArtikelCache.class.getName()).log(Level.SEVERE, null, ex);
+            this.updateAll();
         }
     }
 

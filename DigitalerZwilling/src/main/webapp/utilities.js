@@ -35,20 +35,27 @@
 
             attributes.appendChild(zeile);
                   
-            $("#"+documentNr+"_"+id[i]).click(function() {  
+
+            link.onclick = function() {  
+                var elementId = $(this).attr("elementId");
+                var elementTyp = $(this).attr("elementType");
+                addZurueckList(documentNr, elementId, elementTyp);
+                
+                $(".dd-btn"+documentNr).html(elementTyp + ' <span class = "caret"></span');
+                  
                 closeWebsockets(documentNr);
-                localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));
-                localStorage.setItem("elementType_"+documentNr,$(this).attr("elementType"));
+                localStorage.setItem("elementId_"+documentNr,elementId);
+                localStorage.setItem("elementType_"+documentNr,elementTyp);
 
-                var div = document.getElementById(divName+documentNr);
-                var childs = div.childNodes;
+                        var div = document.getElementById(divName+documentNr);
+                        var childs = div.childNodes;
 
-                for(var i=0; i<childs.length; i++){
-                    div.removeChild(childs[i]);
-                }
+                        for(var i=0; i<childs.length; i++){
+                            div.removeChild(childs[i]);
+                        }
 
                 initEinzelansicht(documentNr);
-            });
+            }
         }
     }
         
@@ -58,18 +65,24 @@
         var lists = document.getElementById(documentNr+"_lists");
         
         for(var i=0; i<list_tilte.length; i++){
+            var div = document.createElement("div");
+            div.id = documentNr+"_div_"+list_id[i];
+            div.setAttribute("hidden","");
+            
+            
             var name = document.createTextNode(list_tilte[i]);
-            lists.appendChild(name);
+            div.appendChild(name);
             var table = document.createElement("table");
             var tbody = document.createElement("tbody");
-            tbody.id = list_id[i];          
+            tbody.id = documentNr+"_"+list_id[i];          
             table.setAttribute('class', "table table-striped");
             
             setHeader(list_header[i], table);
             
             table.appendChild(tbody);
-            lists.appendChild(table);
-            lists.appendChild(document.createElement("br"));
+            div.appendChild(table);
+            //div.appendChild(document.createElement("br"));
+            lists.appendChild(div);
         }
         
     }
@@ -77,8 +90,8 @@
     function removeList(parent){
             var childs = parent.childNodes;
             
-            while(childs.length>1){
-                parent.removeChild(childs[1]);
+            while(childs.length>0){
+                parent.removeChild(childs[0]);
             }
     }
     
@@ -104,9 +117,17 @@
                     link.setAttribute("elementId",jsonObject['id']);
                     link.setAttribute("elementType",type);
                     link.onclick = function() {
+                        
+            
+                        var elementId = $(this).attr("elementId");
+                        var elementTyp = $(this).attr("elementType");
+                        addZurueckList(documentNr, elementId, elementTyp);
+                        
+                        $(".dd-btn"+documentNr).html(elementTyp + ' <span class = "caret"></span');
+                        
                         closeWebsockets(documentNr);
-                        localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));
-                        localStorage.setItem("elementType_"+documentNr,$(this).attr("elementType"));
+                        localStorage.setItem("elementId_"+documentNr,elementId);
+                        localStorage.setItem("elementType_"+documentNr,elementTyp);
                         
                         var div = document.getElementById(divName+documentNr);
                         var childs = div.childNodes;
@@ -147,16 +168,31 @@
     
     function updateList(documentNr, id, list_id, jsonString, childAttributes, objectIDs, type){        
         var json = JSON.parse(jsonString);
-        var parent = document.getElementById(list_id);
+        var parent = document.getElementById(documentNr+"_"+list_id);
         removeList(parent);
         
         for(var i=0; i<json.inhalt.length; i++){
             var ids = json.inhalt[i][objectIDs];
-            for(var j=0; j<ids.length; j++){
-                if(ids[j]==id){
+            if (ids.length === undefined){
+                if(ids==id){
                     addLine(documentNr, json.inhalt[i],childAttributes,parent, type);
                 }
+            }else{
+                 for(var j=0; j<ids.length; j++){
+                     //console.log(ids[j]);
+                    if(ids[j]==id){
+                        //console.log("ok");
+                        addLine(documentNr, json.inhalt[i],childAttributes,parent, type);
+                    }
+                }
             }
+           
+        }
+        var div = document.getElementById(documentNr+"_div_"+list_id);
+        if(parent.childNodes.length<1){
+            //div.setAttribute("hidden","");
+        }else{
+            div.removeAttribute("hidden");
         }
     }
     
@@ -290,7 +326,7 @@
     }
     
     function closeWebsockets(documentId){
-        var websocketList;
+        var websocketList = [];
         switch (documentId) {
            case 1: websocketList = websocketList_1; break;
            case 2: websocketList = websocketList_2; break;
@@ -298,10 +334,9 @@
            case 4: websocketList = websocketList_4; break;
            case 5: websocketList = websocketList_5; break;
            case 6: websocketList = websocketList_6; break;
-           case 7: websocketList = websocketList_7; break;
+           case 7: websocketList = websocketList_7; hideStoerungen(); break;
+           case 8:  websocketList = websocketList_8; break;
         }
-        
-        console.log("length="+websocketList.length);
         
         while(websocketList.length>0){
             websocketList[websocketList.length-1].close();
@@ -310,7 +345,7 @@
     }
     
     function addWebsockets(documentId, array){
-        var websocketList;
+        var websocketList = [];
         switch (documentId) {
            case 1: websocketList = websocketList_1; break;
            case 2: websocketList = websocketList_2; break;
@@ -319,6 +354,7 @@
            case 5: websocketList = websocketList_5; break;
            case 6: websocketList = websocketList_6; break;
            case 7: websocketList = websocketList_7; break;
+           case 8: websocketList = websocketList_8; break;
         }
         
         for(var i=0; i< array.length; i++){
@@ -326,3 +362,135 @@
         }
         
     }
+    
+    function addZurueckList(documentId, elementId, elementTyp){
+        console.log("Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp);
+        var zurueckList = [];
+        var backButton;
+        switch (documentId) {
+           case 1: zurueckList = zurueckList_1; backButton = backButtons[0]; break;
+           case 2: zurueckList = zurueckList_2; backButton = backButtons[1]; break;
+           case 3: zurueckList = zurueckList_3; backButton = backButtons[2]; break;
+           case 4: zurueckList = zurueckList_4; backButton = backButtons[3]; break;
+           case 5: zurueckList = zurueckList_5; backButton = backButtons[4]; break;
+           case 6: zurueckList = zurueckList_6; backButton = backButtons[5]; break;
+           case 7: zurueckList = zurueckList_7; backButton = backButtons[7]; break;
+
+        }
+        console.log("PUSH: Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp);
+        console.log(zurueckList);
+        zurueckList.push([elementTyp,elementId]);
+        if(zurueckList.length>=2){
+            if(backButton==backButtons[5]){
+                $(backButton).show();
+                backButton=backButtons[6];
+                $(backButton).show();
+            }else{
+                $(backButton).show();
+            }
+        }
+    }
+
+    function historyCheck(ansicht){
+        if(ansicht==="details"){
+            var i = 0;
+            for(i=0;i<6;i++){
+                if(zurueckList_all[i].length<=1){
+                    $(backButtons[i]).hide();
+                }
+            }
+        }else{
+            if(zurueckList_all[5].length<=1){
+                $(backButtons[6]).hide();
+            }
+            if (zurueckList_all[6].length<=1){
+                $(backButtons[7]).hide();
+            }
+        }
+    }
+    
+    function historyCheckDiv(ansicht, nummer){
+        var backButton;
+        if(ansicht="details"){
+            switch (nummer){
+                case 1: backButton = backButtons[0]; break;
+                case 2: backButton = backButtons[1]; break;
+                case 3: backButton = backButtons[2]; break;
+                case 4: backButton = backButtons[3]; break;
+                case 5: backButton = backButtons[4]; break;
+                case 6: backButton = backButtons[5]; break;           
+            }  
+        }
+        if(ansicht="uebersicht"){
+            switch (nummer){
+                case 6: backButton = backButtons[6]; break;
+                case 7: backButton = backButtons[7]; break;           
+            }  
+        }
+        $(backButton).hide();
+    }
+    
+    function loadHistory(nummer, ansicht){
+        var nrAusgabe = nummer+1;
+        var lastElement = zurueckList_all[nummer].length-1;
+
+        localStorage.setItem("elementType_"+nrAusgabe, zurueckList_all[(nummer)][lastElement-1][0]);
+        localStorage.setItem("elementId_"+nrAusgabe, zurueckList_all[(nummer)][lastElement-1][1]);
+        zurueckList_all[nummer].pop();
+
+        if(zurueckList_all[5].length==1 && ansicht==="uebersicht"){
+            $(backButtons[6]).hide();         
+        }else if(zurueckList_all[5].length==1 && ansicht==="details"){
+            $(backButtons[5]).hide();    
+        }
+        if(zurueckList_all[nummer].length==1){
+            $(backButtons[nummer]).hide();            
+        }       
+            $(".dd-btn"+nrAusgabe).html(localStorage.getItem("elementType_"+ nrAusgabe) + ' <span class = "caret"></span');
+            if(zurueckList_all[nummer][lastElement-1][1]==null){
+                loadDiv(nummer+1);                               
+            }else{
+                initEinzelansicht(nummer+1);  
+            }                
+    }
+    
+    function fillDivs(ansicht){
+            
+        if(ansicht=="details"){
+            for(var i=0;i<6;i++){
+                if(localStorage.getItem(elementTypeList[i])!=null){
+                    if(localStorage.getItem(elementIdList[i])!=null){
+                        reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i);
+                    }else{
+                        reloadTabelle(localStorage.getItem(elementTypeList[i]),i);
+                    }
+                }
+            } 
+        }else if(ansicht=="uebersicht"){
+            for(var i=5;i<7;i++){
+                if(localStorage.getItem(elementTypeList[i])!=null){
+                    if(localStorage.getItem(elementIdList[i])!=null){
+                        reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i);
+                    }else{
+                        reloadTabelle(localStorage.getItem(elementTypeList[i]),i);
+                    }
+                }
+            } 
+        }
+    }
+    
+    function reloadTabelle(elementType, divNumber){
+        i = divNumber;
+        $val = elementType;
+        $(".dd-btn"+(i+1)).html($val+$caret);
+        loadDiv(i+1);
+    }
+
+    function reloadEinzelansicht(elementType, elementId, divNumber){
+        i = divNumber;
+        $val = elementType;
+        $(".dd-btn"+(i+1)).html($val+$caret);
+        initEinzelansicht(i+1);
+    }
+    
+    

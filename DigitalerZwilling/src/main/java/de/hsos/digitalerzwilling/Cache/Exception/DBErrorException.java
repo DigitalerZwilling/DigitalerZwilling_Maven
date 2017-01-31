@@ -16,6 +16,6 @@ public class DBErrorException extends Exception{
     }
 
     public DBErrorException() {
-        super("DBErrorException");
+        super("DBErrorExeption");
     }
 }

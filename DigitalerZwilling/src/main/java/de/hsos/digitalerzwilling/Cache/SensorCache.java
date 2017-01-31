@@ -1,6 +1,7 @@
 package de.hsos.digitalerzwilling.Cache;
 
 import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
+import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
 import de.hsos.digitalerzwilling.DatenKlassen.Sensor;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
@@ -26,6 +27,7 @@ public class SensorCache extends Cache{
 
     @Override
     public void update() throws DBErrorException {
+        System.out.print("UPDATE---------------");
         try {
             Map<String,List<String>> rsMap = this.datenbankSchnittstelle.datenbankAnfrage("SELECT id_sensor,stoerung,zustand,user_parameter,zeitstempel from Sensor");
             
@@ -34,10 +36,11 @@ public class SensorCache extends Cache{
             List<String> zustand = rsMap.get("ZUSTAND");
             List<String> userParameter = rsMap.get("USER_PARAMETER");
             List<String> zeitstempel = rsMap.get("ZEITSTEMPEL");
-            
+            if(id==null||zeitstempel==null||userParameter==null||zustand==null||stoerung==null) throw new QueryException();
             for(int i=0;i<id.size();i++){
                 String ourTime=zeitstempel.get(i).replace(' ', 'T');
-                Sensor sensor = (Sensor) (state==true?elements[0].get(Long.parseLong(id.get(i))):elements[0].get(Long.parseLong(id.get(i))));
+                Sensor sensor = (Sensor) (state==true?elements[0].get(Long.parseLong(id.get(i))):elements[1].get(Long.parseLong(id.get(i))));
+                if (sensor==null) throw new ElementNotFoundException();
                 sensor.setStoerung((int)Long.parseLong(stoerung.get(i)));
                 sensor.setUser_Parameter(userParameter.get(i));
                 sensor.setZeitstempel(LocalDateTime.parse(ourTime));
@@ -49,6 +52,9 @@ public class SensorCache extends Cache{
         } catch (QueryException ex) {
             Logger.getLogger(ArtikelCache.class.getName()).log(Level.SEVERE, null, ex);
             throw new DBErrorException("Query error");
+        } catch (ElementNotFoundException ex) {
+            Logger.getLogger(SensorCache.class.getName()).log(Level.SEVERE, null, ex);
+            this.updateAll();
         }
     }
 

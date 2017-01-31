@@ -1,6 +1,7 @@
 package de.hsos.digitalerzwilling.Cache;
 
 import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
+import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
 import de.hsos.digitalerzwilling.DatenKlassen.Element;
 import de.hsos.digitalerzwilling.DatenKlassen.Warentraeger;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
@@ -37,11 +38,11 @@ public class WarentraegerCache extends Cache{
             List<String> abstand_mm = rsMap.get("ABSTAND_MM");
             List<String> montagezustand = rsMap.get("MONTAGEZUSTAND");
             List<String> RFID_inhalt = rsMap.get("RFID_INHALT");
-            
+            if(ids==null||zeitstempel==null||user_parameter==null||abstand_mm==null||montagezustand==null||RFID_inhalt==null) throw new QueryException();
             Warentraeger warentraeger;
             for (int i=0;i<ids.size();i++){
                 warentraeger = (Warentraeger)(state==true ? elements[0].get(Long.parseLong(ids.get(i))) : elements[1].get(Long.parseLong(ids.get(i))));
-                
+                if (warentraeger==null) throw new ElementNotFoundException();
                 String ourTime=zeitstempel.get(i).replace(' ', 'T');
                 warentraeger.setZeitstempel(LocalDateTime.parse(ourTime));
                 warentraeger.setStoerung(Integer.parseInt(stoerung.get(i)));
@@ -59,6 +60,9 @@ public class WarentraegerCache extends Cache{
         } catch (QueryException ex) {
             Logger.getLogger(ArtikelCache.class.getName()).log(Level.SEVERE, null, ex);
             throw new DBErrorException("Query error");
+        } catch (ElementNotFoundException ex) {
+            Logger.getLogger(WarentraegerCache.class.getName()).log(Level.SEVERE, null, ex);
+            this.updateAll();
         }
     }
 

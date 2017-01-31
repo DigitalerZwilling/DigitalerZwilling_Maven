@@ -23,9 +23,10 @@ and open the template in the editor.
         
         <script type="text/javascript">
             var browsersupport = ("WebSocket" in window) ? true : false;
-            var host = "ws://131.173.127.175:8080/DigitalerZwilling/";
-            var websocket=new WebSocket(host+"ExceptionWebSocket");
-            var websocket2=new WebSocket(host+"SensorWebSocket");
+            var host = "ws://localhost/DigitalerZwilling/";
+            //var host=location.host;
+            var websocket=new WebSocket("ws://localhost:8080/DigitalerZwilling/ExceptionWebSocket");
+            var websocket2=new WebSocket("ws://localhost:8080/DigitalerZwilling/SensorWebSocket");
             function init(){
   
    if (browsersupport) {
@@ -49,7 +50,7 @@ and open the template in the editor.
              websocket.onmessage = function(event) {
 
     console.log(event.data);
-                alert(event.data);
+                //alert(event.data);
  
             //console.log(j_warentraeger);
             //console.log(event.data);

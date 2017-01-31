@@ -1,6 +1,7 @@
 package de.hsos.digitalerzwilling.Cache;
 
 import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
+import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
 import de.hsos.digitalerzwilling.DatenKlassen.Element;
 import de.hsos.digitalerzwilling.DatenKlassen.Transportband;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
@@ -33,11 +34,11 @@ public class TransportbandCache extends Cache{
             List<String> user_parameter = rsMap.get("USER_PARAMETER");
             List<String> stoerung = rsMap.get("STOERUNG");
             List<String> geschwindigkeit = rsMap.get("GESCHWINDIGKEIT");
-            
+            if(ids==null||zeitstempel==null||user_parameter==null||stoerung==null||geschwindigkeit==null) throw new QueryException();
             Transportband transportband;
             for (int i=0;i<ids.size();i++){
                 transportband = (Transportband)(state==true?elements[0].get(Long.parseLong(ids.get(i))):elements[1].get(Long.parseLong(ids.get(i))));
-                
+                if (transportband==null) throw new ElementNotFoundException();
                 String ourTime = zeitstempel.get(i).replace(' ', 'T');
                 transportband.setZeitstempel(LocalDateTime.parse(ourTime));
                 transportband.setStoerung(Integer.parseInt(stoerung.get(i)));
@@ -51,6 +52,10 @@ public class TransportbandCache extends Cache{
         } catch (QueryException ex) {
             Logger.getLogger(ArtikelCache.class.getName()).log(Level.SEVERE, null, ex);
             throw new DBErrorException("Query error");
+        } catch (ElementNotFoundException ex) {
+            Logger.getLogger(TransportbandCache.class.getName()).log(Level.SEVERE, null, ex);
+            this.updateAll();
+            
         }
         
     }

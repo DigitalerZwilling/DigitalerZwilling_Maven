@@ -48,8 +48,7 @@ public abstract class Cache {
     }
     
     public Element getById(Long id) throws ElementNotFoundException{
-        if(!(state==true?elements[1]:elements[0]).containsKey(id))
-            throw new ElementNotFoundException("Can not find ID="+id+"...");
+        if(!(state==true?elements[1]:elements[0]).containsKey(id)) throw new ElementNotFoundException();
         
         return state==true?elements[1].get(id):elements[0].get(id);
     }
@@ -70,13 +69,12 @@ public abstract class Cache {
         elements = new Map[2];
         elements[0] = new HashMap<>();
         elements[1] = new HashMap<>();
-        updater.registerCache(this);
-        
         try {
             this.updateAll();
         } catch (DBErrorException ex) {
             Logger.getLogger(Cache.class.getName()).log(Level.SEVERE, null, ex);
         }
+        updater.registerCache(this);
     }
 
     abstract public void update() throws DBErrorException;

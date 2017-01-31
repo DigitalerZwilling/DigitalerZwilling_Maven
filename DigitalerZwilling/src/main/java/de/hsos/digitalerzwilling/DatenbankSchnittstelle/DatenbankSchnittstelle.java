@@ -7,12 +7,10 @@ package de.hsos.digitalerzwilling.DatenbankSchnittstelle;
 
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
-import de.hsos.digitalerzwilling.Websockets.ExceptionEventHandlerScope;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,7 +25,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 /**
  *
@@ -39,22 +36,15 @@ public class DatenbankSchnittstelle {
     protected Connection data;                                                        // Datenbank Verbindung
     //-----------------------------------------------------------------------------
     
-    private static final String pathToConfig = "./config.cfg";
+    private static final String pathToConfig = "./DZConfig.cfg";
     
     private String DbUrl = "";
     private String DbCd = "";
     private String DbUser = "";
     private String DbPw = "";
-    
-    private Long SPS_Heartbeat_Deadline_ms=1000*60*2l;
-    
-    @Inject
-    private ExceptionEventHandlerScope evs;
-    
-    private Long letzterZeitstempel;
 
     public DatenbankSchnittstelle() throws DBNotFoundException{
-        if(!connect("./DZConfig.cfg")){
+        if(!connect(pathToConfig)){
             throw new DBNotFoundException("DB error...");
         }            
         
@@ -64,6 +54,11 @@ public class DatenbankSchnittstelle {
     public boolean connect(String pathToConfigFile) throws DBNotFoundException{
         File dbConfig = new File(pathToConfigFile);
         if (!dbConfig.exists()) {
+            try {
+                dbConfig.createNewFile();
+            } catch (IOException ex) {
+                throw new DBNotFoundException("Config file not found (" + pathToConfigFile + ") and can not be create...");
+            }
             throw new DBNotFoundException("Config file not found (" + pathToConfigFile + ")...");
         } else {
             FileReader dbCReader = null;
@@ -89,10 +84,13 @@ public class DatenbankSchnittstelle {
                         throw new DBNotFoundException("Error in config file...");
                     }
                 }
-
-                if (!connect(DbUrl, DbCd, DbUser, DbPw)) // Oeffnet eine Verbindung mit Werten aus der Config Datei.
-                {
-                    throw new DBNotFoundException("DB error...");
+                try{
+                    if (!connect(DbUrl, DbCd, DbUser, DbPw)) // Oeffnet eine Verbindung mit Werten aus der Config Datei.
+                    {
+                        throw new DBNotFoundException("DB error...");
+                    }
+                }catch(DBNotFoundException ex){
+                    Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             } catch (FileNotFoundException ex) {
@@ -130,10 +128,13 @@ public class DatenbankSchnittstelle {
                 data = null;
             }
             this.data = DriverManager.getConnection(DbUrl, DbUser, DbPw);
-            return data != null;
+            if(data==null)
+                return false;
+            else
+                return data.isValid(10);
         } catch (SQLException ex) {
             //Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
-            throw new DBNotFoundException("DB not found ("+DbUrl+")...");
+            throw new DBNotFoundException("DB not found ("+DbUrl+")... cause SQLException: "+ex.getMessage());
             //throw new Exception("Fehler: Datenbankverbindung auf "+ this._DbURL+" nicht möglich");
         }
     }
@@ -180,77 +181,4 @@ public class DatenbankSchnittstelle {
             throw new QueryException(ex.getMessage());
         }
     }
-    
-    public void timeTrial() throws SQLException{
-        Long now=new java.util.Date().getTime();
-        Statement stmt = this.data.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT ZEITSTEMPEL FROM HEARTBEAT LIMIT 1");
-        rs.next();
-        if (rs.getTimestamp("ZEITSTEMPEL").getTime()+this.SPS_Heartbeat_Deadline_ms<now){
-            this.evs.spsFehlerStatus(Boolean.TRUE);
-        }
-        else{
-            this.evs.spsFehlerStatus(Boolean.FALSE);
-        }
-        rs.close();
-        stmt.close();
-    }
-    /*
-    public String findDBConfigFile() throws DBNotFoundException{
-        String dbConfigFile = "";System.out.println("dbConfig" + pathToConfig);
-        File config = new File(pathToConfig);
-        if (!config.exists()) {
-            try {
-                config.createNewFile();
-                try (FileWriter fw = new FileWriter(config)) {
-                    fw.append("dbConfigFile=./CONFIGFILE.cfg");
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            throw new DBNotFoundException("Config file not found (" + pathToConfig + ")...");
-        } else {
-            FileReader cReader = null;
-            BufferedReader bufferedReader = null;
-            try {
-                cReader = new FileReader(config);
-                bufferedReader = new BufferedReader(cReader);
-                String input;
-                while ((input = bufferedReader.readLine()) != null) { // Liest Config Datei Zeile für Zeile aus und übernimmt die Werte.
-                    String line[] = input.split("=");
-                    if (line.length > 1) {
-                        if (line[0].compareToIgnoreCase("dbConfigFile") == 0) {
-                            dbConfigFile = line[1];
-                        }
-                    } else {
-                        throw new DBNotFoundException("Error in config file...");
-                    }
-                }
-
-            } catch (FileNotFoundException ex) {
-                throw new DBNotFoundException("Config file not found...");
-            } catch (IOException ex) {
-                throw new DBNotFoundException("Error in file stream...");
-            } finally {
-                try {
-
-                    if (bufferedReader != null) {
-                        bufferedReader.close();
-                    }
-                    if (cReader != null) {
-                        cReader.close();
-                    }
-
-                } catch (IOException ex) {
-                    throw new DBNotFoundException("Error in file stream...");
-                }
-            }
-        }
-        
-        if(dbConfigFile == null){
-            throw new DBNotFoundException("Can not find entry for dbConfig...");
-        }
-        
-        return dbConfigFile;
-    }*/
 }
