@@ -10,6 +10,9 @@ function hideStoerungen(){
 }
 
 function initStoerung(documentNr){
+    if(websocketsStoerungErstellt == true) return;
+    websocketsStoerungErstellt = true;
+    
     var div = document.getElementById("stoerungen");
         var childs = div.childNodes;
 
