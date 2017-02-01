@@ -1,19 +1,8 @@
-function viewStoerungen(documentNr){
-    console.log("lade Stoerung in Fenster "+documentNr);
-    closeWebsockets(documentNr);
-    document.getElementById("stoerungen").removeAttribute("hidden");
-    document.getElementById("einzelansicht"+documentNr).setAttribute("hidden","");
-}
-
-function hideStoerungen(){
-    document.getElementById("einzelansicht7").removeAttribute("hidden");
-    document.getElementById("stoerungen").setAttribute("hidden","");
-}
-
 function initStoerung(documentNr){
-    console.log("init Stoerung in Fenster "+documentNr);
+    console.log("   -> lade Stoerung in Fenster "+documentNr);
+    closeWebsockets(documentNr);
     
-    var div = document.getElementById("stoerungen");
+    var div = document.getElementById(divName + documentNr);
         var childs = div.childNodes;
 
         for(var i=0; i<childs.length; i++){
@@ -32,10 +21,13 @@ function initStoerung(documentNr){
                 tr_head.appendChild(th2);
             thead.appendChild(tr_head);
             var tbody = document.createElement("tbody");
+            tbody.id = "storung_tbody";
         table.appendChild(thead);
         table.appendChild(tbody);
     div.appendChild(table);
-    
+}
+
+function initStoerungsZaehler(documentNr){
     if(websocketsStoerungErstellt == true) return;
     websocketsStoerungErstellt = true;
     
@@ -77,50 +69,62 @@ function initStoerung(documentNr){
     
     RoboterWebSocket.onmessage = function(event) {
         var jsonString = event.data;
-        updateStoerung(documentNr, tbody, jsonString,'Roboter');
+        var parent = document.getElementById("storung_tbody");
+        stoerungsZaehler[0] = updateStoerung(documentNr, parent, jsonString,'Roboter');
+        updateStoerungszaehler();
     };
     
     SektorWebSocket.onmessage = function(event) {
         var jsonString = event.data;
-        updateStoerung(documentNr, tbody, jsonString,'Sektoren');
+        var parent = document.getElementById("storung_tbody");
+        stoerungsZaehler[1] = updateStoerung(documentNr, parent, jsonString,'Sektoren');
+        updateStoerungszaehler();
     };
     
     TransportbandWebSocket.onmessage = function(event) {
         var jsonString = event.data;
-        updateStoerung(documentNr, tbody, jsonString,'Transportbänder');
+        var parent = document.getElementById("storung_tbody");
+        stoerungsZaehler[2] = updateStoerung(documentNr, parent, jsonString,'Transportbänder');
+        updateStoerungszaehler();
     };
     
     SensorWebSocket.onmessage = function(event) {
         var jsonString = event.data;
-        updateStoerung(documentNr, tbody, jsonString,'Sensoren');
+        var parent = document.getElementById("storung_tbody");
+        stoerungsZaehler[3] = updateStoerung(documentNr, parent, jsonString,'Sensoren');
+        updateStoerungszaehler();
     };
     
     WarentraegerWebSocket.onmessage = function(event) {
         var jsonString = event.data;
-        updateStoerung(documentNr, tbody, jsonString,'Warenträger');
+        var parent = document.getElementById("storung_tbody");
+        stoerungsZaehler[4] = updateStoerung(documentNr, parent, jsonString,'Warenträger');
+        updateStoerungszaehler();
     };
     
     WerkzeugWebSocket.onmessage = function(event) {
         var jsonString = event.data;
-        updateStoerung(documentNr, tbody, jsonString,'Werkzeuge');
+        var parent = document.getElementById("storung_tbody");
+        stoerungsZaehler[5] = updateStoerung(documentNr, parent, jsonString,'Werkzeuge');
+        updateStoerungszaehler();
     };
 }
 
-
 function updateStoerung(documentNr, parentNode, jsonString, typ){
     var json = JSON.parse(jsonString);
+    var cnt = 0;
     
-    removeLines(parentNode, typ);
+    if(parentNode != null) removeLines(parentNode, typ);
     
     for(var i=0; i<json.inhalt.length; i++){
         if(json.inhalt[i].stoerung != 0){
-            addLine(documentNr, json.inhalt[i], ['bezeichnung','stoerung'], parentNode, typ);
-            var stoerungsZaehler = parentNode.childNodes.length;
-     
-            document.getElementById("stoerungsZaehler").innerHTML = stoerungsZaehler;
-            document.getElementById("stoerungsZaehlerMobil").innerHTML = stoerungsZaehler;
+            if(parentNode != null){
+                addLine(documentNr, json.inhalt[i], ['bezeichnung','stoerung'], parentNode, typ);
+            }
+            cnt++;
         }
     }
+    return cnt;
 }
 
 function removeLines(parentNode, typ){
@@ -141,4 +145,15 @@ function removeLines(parentNode, typ){
             i--;
         }
     }
+}
+
+function updateStoerungszaehler(){
+    var cnt =0;
+    
+    for(var i=0; i<6; i++){
+        cnt += stoerungsZaehler[i];
+    }
+    
+    document.getElementById("stoerungsZaehler").innerHTML = cnt;
+    document.getElementById("stoerungsZaehlerMobil").innerHTML = cnt;
 }

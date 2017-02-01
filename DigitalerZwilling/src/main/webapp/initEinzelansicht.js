@@ -4,7 +4,7 @@ function initEinzelansicht(documentNr){
         var elementId = localStorage.getItem('elementId_'+documentNr);
         var elementType = localStorage.getItem('elementType_'+documentNr);
     
-        console.log("lade Einzelansicht in Fenster " + documentNr + ": " + elementType + " " + elementId); //Ausgabe für Anwendertest
+        console.log("   -> lade Einzelansicht in Fenster " + documentNr + ": " + elementType + " " + elementId); //Ausgabe für Anwendertest
    
         var div = document.getElementById(divName+documentNr);
 
@@ -63,7 +63,7 @@ function initEinzelansicht(documentNr){
                 initHuQu(documentNr, elementId);
                 break;
             default:
-             console.log("Einzelansicht in Fenster "+documentNr+": DEFAULT");
+             console.log("         Einzelansicht in Fenster "+documentNr+": DEFAULT");
       }
     }
     

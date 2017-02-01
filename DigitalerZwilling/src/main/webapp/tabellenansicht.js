@@ -6,7 +6,7 @@ function loadDiv(documentNr){
     var typ = localStorage.getItem('elementType_'+documentNr);
   
   
-    console.log("lade Tabellenansicht in Fenster " + documentNr + ": " + typ); //Ausgabe für Anwendertest
+    console.log("   -> lade Tabellenansicht in Fenster " + documentNr + ": " + typ); //Ausgabe für Anwendertest
     
     
     //Lösche, was voher an dem Div angehangen wurde:
@@ -341,7 +341,7 @@ function loadDiv(documentNr){
                     document.getElementById(typ+"Zustand_"+liste.inhalt[i].id  + "_" + documentNr).innerHTML = zustand;
                     break;
                 default:
-                console.log("Default");                 
+                console.log("     Tabellenansicht in Fenster "+documentNr+": Default");                 
            } 
         }
     }
@@ -422,7 +422,7 @@ function loadDiv(documentNr){
                     //Wenn eine Bezeichnung angeklickt wird:
                     currenttext.onclick = function() {
                         
-                       console.log("Fenster " + documentNr + ": " + typ + " "+ $(this).attr("elementId")); //Ausgabe für Anwendertest
+                       console.log("<> Fenster " + documentNr + ": " + typ + " "+ $(this).attr("elementId")); //Ausgabe für Anwendertest
                         
                        addZurueckList(documentNr, $(this).attr("elementId") ,typ);
                        localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));
@@ -487,7 +487,7 @@ function loadDiv(documentNr){
                             currenttext = document.createTextNode(zustand);
                             break;
                         default:
-                    console.log("Default Tabellenansicht.js");    
+                    console.log("     Tabellenansicht in Fenster "+documentNr + ": Default");    
                    }
                    
                 } 
