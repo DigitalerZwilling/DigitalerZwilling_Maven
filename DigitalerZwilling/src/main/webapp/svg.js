@@ -158,6 +158,11 @@ function clickWarentraeger(warentraeger){
     
     localStorage.setItem('elementId_'+documentNr,id);
     localStorage.setItem('elementType_'+documentNr,type);
+    for(var i=0; i<=zurueckList_all[documentNr-1].length;i++){
+        zurueckList_all[documentNr-1].pop();
+        historyCheckDiv("uebersicht", documentNr);
+    }
+    addZurueckList(documentNr, id, type);
     initEinzelansicht(documentNr);
 }
 
