@@ -34,5 +34,5 @@ function updateSystemfehler(string){
     while (footer.childNodes.length>0){
         footer.removeChild(footer.childNodes[0]);
     }
-    footer.innerHTML = "&#9888; " + string;
+    footer.innerHTML = "&#10006; " + string;
 }
