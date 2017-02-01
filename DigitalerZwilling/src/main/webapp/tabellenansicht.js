@@ -1,7 +1,13 @@
 
 
 function loadDiv(documentNr){
-    console.log("In tabellenansicht.js");
+    
+    //Lädt den Typen der Tabelle aus dem Local Storage:
+    var typ = localStorage.getItem('elementType_'+documentNr);
+  
+  
+    console.log("   -> lade Tabellenansicht in Fenster " + documentNr + ": " + typ); //Ausgabe für Anwendertest
+    
     
     //Lösche, was voher an dem Div angehangen wurde:
     var div = document.getElementById("einzelansicht"+documentNr);
@@ -14,14 +20,12 @@ function loadDiv(documentNr){
     //Schließe alle Websockets:
     closeWebsockets(documentNr);
      
-    //Lädt den Typen der Tabelle aus dem Local Storage:
-    var typ = localStorage.getItem('elementType_'+documentNr);
-  
+    
 
     switch (typ) {
         case 'Artikel':
 
-           var artikelSocket = new WebSocket(host+"ArtikelWebSocket");       
+           var artikelSocket = new WebSocket("ws://"+location.host+"/"+host+"ArtikelWebSocket");       
             artikelSocket.onopen = function() {
                 artikelSocket.send("LIST");
             };
@@ -35,7 +39,7 @@ function loadDiv(documentNr){
         break;
 
         case "Warenträger":
-            var warentraegerSocket = new WebSocket(host+"WarentraegerWebSocket");
+            var warentraegerSocket = new WebSocket("ws://"+location.host+"/"+host+"WarentraegerWebSocket");
             addWebsockets(documentNr, [warentraegerSocket]);
 
             warentraegerSocket.onopen = function() {
@@ -48,7 +52,7 @@ function loadDiv(documentNr){
             break;
 
         case "Transportbänder":
-           var transportbandSocket = new WebSocket(host+"TransportbandWebSocket");         
+           var transportbandSocket = new WebSocket("ws://"+location.host+"/"+host+"TransportbandWebSocket");         
            transportbandSocket.onopen = function() {
                 transportbandSocket.send("LIST");
             };
@@ -62,7 +66,7 @@ function loadDiv(documentNr){
             break;
 
         case "Roboter":
-            var roboterSocket = new WebSocket(host+"RoboterWebSocket");
+            var roboterSocket = new WebSocket("ws://"+location.host+"/"+host+"RoboterWebSocket");
 
             addWebsockets(documentNr, [roboterSocket]);
             roboterSocket.onopen = function() {
@@ -76,7 +80,7 @@ function loadDiv(documentNr){
             break;
 
         case "Sektoren":
-            var sektorSocket = new WebSocket(host+"SektorWebSocket");
+            var sektorSocket = new WebSocket("ws://"+location.host+"/"+host+"SektorWebSocket");
 
             addWebsockets(documentNr, [sektorSocket]);
             sektorSocket.onopen = function() {
@@ -89,7 +93,7 @@ function loadDiv(documentNr){
             };
             break;
         case "Sensoren":
-            var sensorSocket = new WebSocket(host+"SensorWebSocket");
+            var sensorSocket = new WebSocket("ws://"+location.host+"/"+host+"SensorWebSocket");
 
             addWebsockets(documentNr, [sensorSocket]);
 
@@ -104,7 +108,7 @@ function loadDiv(documentNr){
             };
             break;
         case "Gelenke":
-            var gelenkSocket = new WebSocket(host+"GelenkWebSocket");
+            var gelenkSocket = new WebSocket("ws://"+location.host+"/"+host+"GelenkWebSocket");
 
             addWebsockets(documentNr, [gelenkSocket]);
 
@@ -119,7 +123,7 @@ function loadDiv(documentNr){
             break;
 
         case "Werkzeuge":
-            var werkzeugSocket = new WebSocket(host+"WerzeugWebSocket");
+            var werkzeugSocket = new WebSocket("ws://"+location.host+"/"+host+"WerzeugWebSocket");
 
             addWebsockets(documentNr, [werkzeugSocket]);
 
@@ -133,7 +137,7 @@ function loadDiv(documentNr){
             };
             break;
         case "Hubpositionierstationen":
-            var hupoSocket = new WebSocket(host+"HubPodestWebSocket");
+            var hupoSocket = new WebSocket("ws://"+location.host+"/"+host+"HubPodestWebSocket");
 
             addWebsockets(documentNr, [hupoSocket]);
             hupoSocket.onopen = function() {
@@ -146,7 +150,7 @@ function loadDiv(documentNr){
             };
             break;
         case "Hub-Quer-Stationen":
-            var huquSocket = new WebSocket(host+"HubQuerPodestWebSocket");
+            var huquSocket = new WebSocket("ws://"+location.host+"/"+host+"HubQuerPodestWebSocket");
 
             addWebsockets(documentNr, [huquSocket]);
             huquSocket.onopen = function() {
@@ -337,7 +341,7 @@ function loadDiv(documentNr){
                     document.getElementById(typ+"Zustand_"+liste.inhalt[i].id  + "_" + documentNr).innerHTML = zustand;
                     break;
                 default:
-                console.log("Default");                 
+                console.log("     Tabellenansicht in Fenster "+documentNr+": Default");                 
            } 
         }
     }
@@ -365,12 +369,17 @@ function loadDiv(documentNr){
         var th2 = document.createElement("th");
         th2.setAttribute('id', "spalte_" + documentNr + ".2");
         
-        var th3 = document.createElement("th");
-        th3.setAttribute('id', "spalte_" + documentNr + ".3");
-        
         tr.appendChild(th1);
         tr.appendChild(th2);
-        tr.appendChild(th3);
+        
+        if (col == 3){
+            var th3 = document.createElement("th");
+            th3.setAttribute('id', "spalte_" + documentNr + ".3");
+            tr.appendChild(th3);
+        }
+        
+       
+       
         
         thead.appendChild(tr);
         myTable.appendChild(thead);
@@ -412,6 +421,9 @@ function loadDiv(documentNr){
                     
                     //Wenn eine Bezeichnung angeklickt wird:
                     currenttext.onclick = function() {
+                        
+                       console.log("<> Fenster " + documentNr + ": " + typ + " "+ $(this).attr("elementId")); //Ausgabe für Anwendertest
+                        
                        addZurueckList(documentNr, $(this).attr("elementId") ,typ);
                        localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));
                        localStorage.setItem("elementType_"+documentNr,$(this).attr("elementType"));
@@ -475,7 +487,7 @@ function loadDiv(documentNr){
                             currenttext = document.createTextNode(zustand);
                             break;
                         default:
-                    console.log("Default Tabellenansicht.js");    
+                    console.log("     Tabellenansicht in Fenster "+documentNr + ": Default");    
                    }
                    
                 } 

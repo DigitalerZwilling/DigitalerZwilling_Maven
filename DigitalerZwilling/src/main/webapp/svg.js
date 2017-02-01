@@ -15,14 +15,16 @@ var zoom = 0.18;
 var jsonCache;
 
 
+var host = "DigitalerZwilling/";
 
 function initSVG() {
+    console.log("   -> lade SVG");
     var documentNr = 8;
     closeWebsockets(documentNr);
 
-    var SektorWebsocket = new WebSocket(host + "SektorWebSocket");
-    var TransportbandWebsocket = new WebSocket(host + "TransportbandWebSocket");
-    var WarentraegerWebsocket = new WebSocket(host + "WarentraegerWebSocket");
+    var SektorWebsocket = new WebSocket("ws://"+location.host+"/"+host + "SektorWebSocket");
+    var TransportbandWebsocket = new WebSocket("ws://"+location.host+"/"+host + "TransportbandWebSocket");
+    var WarentraegerWebsocket = new WebSocket("ws://"+location.host+"/"+host + "WarentraegerWebSocket");
     jsonCache=["","",""];
 
     addWebsockets(documentNr, [SektorWebsocket, TransportbandWebsocket, WarentraegerWebsocket]);
@@ -67,14 +69,14 @@ function createSVG(){
             var j_sektoren = JSON.parse(event.data);
 
             jsonCache[0] = j_sektoren;
-            //reloadSVG();
+            reloadSVG();
         };
         
         websocketList_8[1].onmessage = function(event) {
             var j_baender = JSON.parse(event.data);
             
             jsonCache[1] = j_baender;
-            //reloadSVG();
+            reloadSVG();
                 
         };
         
@@ -82,7 +84,7 @@ function createSVG(){
             var j_warentraeger = JSON.parse(event.data);
             
             jsonCache[2] = j_warentraeger;
-            //reloadSVG();
+            reloadSVG();
                 
         };
         
@@ -93,20 +95,20 @@ function createSVG(){
 }
 
 function reloadSVG(){
+    //if(){
         sektorenAendern(jsonCache[0]);
 	transportbaenderAendern(jsonCache[1]);
 	warentraegerAendern(jsonCache[0], jsonCache[1], jsonCache[2]);
+    //}
 }
 
 function getSekByID(j_sektoren, key) {
     //finde Sektor mit uebergebener ID
-    //console.log("Suche " + key + " in S");
     for (var i = 0; i < j_sektoren.inhalt.length; i++) {
         if (j_sektoren.inhalt[i].id == key) {
             return i;
         }
     }
-    console.log(key + " nicht gefunden in S");
     return 0;
 }
 
@@ -129,7 +131,6 @@ function getTBByID(j_baender, key) {
             return i;
         }
     }
-    console.log(key + " nicht gefunden in TB");
     return 0;
 }
 
@@ -137,6 +138,7 @@ function clickSektoren(sektor){
     var id = sektor.getAttributeNS(null,'elementId');
     var type='Sektoren';
     var documentNr = 7;
+    console.log("<> SVG: " + type+ " "+id);
     
     localStorage.setItem('elementId_'+documentNr,id);
     localStorage.setItem('elementType_'+documentNr,type);
@@ -147,6 +149,7 @@ function clickTransportbaender(transportband){
     var id = transportband.getAttributeNS(null,'elementId');
     var type='Transportbänder';
     var documentNr = 7;
+    console.log("<> SVG: " + type+ " "+id);
     
     localStorage.setItem('elementId_'+documentNr,id);
     localStorage.setItem('elementType_'+documentNr,type);
@@ -157,6 +160,7 @@ function clickWarentraeger(warentraeger){
     var id = warentraeger.getAttributeNS(null,'elementId');
     var type='Warenträger';
     var documentNr = 7;
+    console.log("<> SVG: " + type+ " "+id);
     
     localStorage.setItem('elementId_'+documentNr,id);
     localStorage.setItem('elementType_'+documentNr,type);
@@ -437,51 +441,51 @@ function warentraegerAendern(j_sektoren, j_baender, j_warentraeger) {
 
         if ((j_warentraeger.inhalt[i].transportbandIDs.length === 1) && (j_warentraeger.inhalt[i].sektorIDs.length === 0)) {
             //WT liegt auf einem TB und in keinem Sektor
-            switch (j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].ausrichtung) {
+            switch (j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].ausrichtung) {
                 //ausrichtung des Sektors finden, welcher vor dem TB liegt
                 case 90: //"Ausgang" des Sektors nach rechts
                     //Reihe (innen/mitte/aussen) des TB bestimmen, WT plazieren
-                    if (j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == -1) {
-                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height - WT_height / 2 - baender_thick / 2);
-                    } else if (j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == 1) {
-                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y - WT_height / 2 + baender_thick / 2);
+                    if (j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == -1) {
+                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height - WT_height / 2 - baender_thick / 2);
+                    } else if (j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == 1) {
+                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y - WT_height / 2 + baender_thick / 2);
                     } else {
-                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height / 2 - WT_height / 2);
+                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height / 2 - WT_height / 2);
                     }
-                    rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width + j_warentraeger.inhalt[i].abstand_mm);
+                    rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width + j_warentraeger.inhalt[i].abstand_mm);
                     break;
                 case 180: //"Ausgang" des Sektors nach unten
                     //Reihe (innen/mitte/aussen) des TB bestimmen, WT plazieren
-                    if (j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == -1) {
-                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x - WT_width / 2 + baender_thick / 2);
-                    } else if (j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == 1) {
-                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width - WT_width / 2 - baender_thick / 2);
+                    if (j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == -1) {
+                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x - WT_width / 2 + baender_thick / 2);
+                    } else if (j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == 1) {
+                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width - WT_width / 2 - baender_thick / 2);
                     } else {
-                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width / 2 - WT_width / 2);
+                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width / 2 - WT_width / 2);
                     }
-                    rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height + j_warentraeger.inhalt[i].abstand_mm);
+                    rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height + j_warentraeger.inhalt[i].abstand_mm);
                     break;
                 case 270: //"Ausgang" des Sektors nach links
                     //Reihe (innen/mitte/aussen) des TB bestimmen, WT plazieren
-                    if (j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == -1) {
-                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y - WT_height / 2 + baender_thick / 2);
-                    } else if (j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == 1) {
-                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height - WT_height / 2 - baender_thick / 2);
+                    if (j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == -1) {
+                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y - WT_height / 2 + baender_thick / 2);
+                    } else if (j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == 1) {
+                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height - WT_height / 2 - baender_thick / 2);
                     } else {
-                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height / 2 - WT_height / 2);
+                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height / 2 - WT_height / 2);
                     }
-                    rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x - WT_width - j_warentraeger.inhalt[i].abstand_mm);
+                    rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x - WT_width - j_warentraeger.inhalt[i].abstand_mm);
                     break;
                 case 0: //"Ausgang" des Sektors nach oben
                     //Reihe (innen/mitte/aussen) des TB bestimmen, WT plazieren
-                    if (j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == -1) {
-                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width - WT_width / 2 + baender_thick / 2);
-                    } else if (j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == 1) {
-                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x - WT_width / 2 - baender_thick / 2);
+                    if (j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == -1) {
+                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width - WT_width / 2 + baender_thick / 2);
+                    } else if (j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == 1) {
+                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x - WT_width / 2 - baender_thick / 2);
                     } else {
-                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width / 2 - WT_width / 2);
+                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width / 2 - WT_width / 2);
                     }
-                    rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_baender.inhalt[getTBByID(j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y - WT_height - j_warentraeger.inhalt[i].abstand_mm);
+                    rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y - WT_height - j_warentraeger.inhalt[i].abstand_mm);
                     break;
                 default:
                     console.log("Sektor " + j_sektoren.inhalt[id_vor - 1].id + " falsche ausrichtung.");
@@ -490,8 +494,8 @@ function warentraegerAendern(j_sektoren, j_baender, j_warentraeger) {
             //WT liegt in einem Sektor und auf keinem TB
 
 
-            rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_warentraeger.inhalt[i].sektorIDs[0])].x + sektor_width / 2 - WT_width / 2);
-            rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_warentraeger.inhalt[i].sektorIDs[0])].y + sektor_height / 2 - WT_height / 2);
+            rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_warentraeger.inhalt[i].sektorIDs[0])].x + sektor_width / 2 - WT_width / 2);
+            rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_warentraeger.inhalt[i].sektorIDs[0])].y + sektor_height / 2 - WT_height / 2);
 
         } else {
             //WT liegt auf einem TB und in einem Sektor -- Fehler
@@ -505,7 +509,7 @@ function warentraegerAendern(j_sektoren, j_baender, j_warentraeger) {
             rect.setAttributeNS(null, 'fill', stoerung_fill);
         else
             rect.setAttributeNS(null, 'fill', WT_fill);
-        rect.setAttributeNS(null, 'onclick', 'idAusgeben(this)'); //Beim anklicken wird die Id des Elementes ausgeben
+        //rect.setAttributeNS(null, 'onclick', 'idAusgeben(this)'); //Beim anklicken wird die Id des Elementes ausgeben
         document.getElementById('svgOne').appendChild(rect);
 
     }

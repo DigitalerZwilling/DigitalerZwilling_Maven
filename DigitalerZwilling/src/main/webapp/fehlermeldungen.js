@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var host = "ws://localhost:8080/DigitalerZwilling/";
-var divName = "fehlermeldungen";
+var host = "DigitalerZwilling/";
 
 function initfehlermeldungen() {
-    var ErrorWebSocket = new WebSocket(host+"ExceptionWebSocket");
+    console.log("   -> lade Fehlermeldungen");
+    var ErrorWebSocket = new WebSocket("ws://"+location.host+"/"+host+"ExceptionWebSocket");
     
     ErrorWebSocket.onmessage = function(event) {
         var jsonString = event.data;
@@ -30,21 +30,9 @@ function jsonToFehler(json){
 
 function updateSystemfehler(string){
     
-    var footer = document.getElementById("footer");
+    var footer = document.getElementById("fehlerausgabe");
     while (footer.childNodes.length>0){
         footer.removeChild(footer.childNodes[0]);
     }
-    
-    
-    var footer = document.getElementById("footer");
-        var div = document.createElement("div");
-        div.setAttribute("align","center");
-            var font = document.createElement("font");
-            font.setAttribute("color","black");
-            font.setAttribute("size","4");
-                var b = document.createElement("b");
-                b.innerHTML = string;
-            font.appendChild(b);
-        div.appendChild(font);
-    footer.appendChild(div);
+    footer.innerHTML = "&#10006; " + string;
 }

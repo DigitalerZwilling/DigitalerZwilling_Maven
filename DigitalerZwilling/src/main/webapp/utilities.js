@@ -39,6 +39,8 @@
             link.onclick = function() {  
                 var elementId = $(this).attr("elementId");
                 var elementTyp = $(this).attr("elementType");
+                console.log("<> Fenster "+documentNr+": "+elementTyp+" "+elementId);
+                
                 addZurueckList(documentNr, elementId, elementTyp);
                 
                 $(".dd-btn"+documentNr).html(elementTyp + ' <span class = "caret"></span');
@@ -117,10 +119,10 @@
                     link.setAttribute("elementId",jsonObject['id']);
                     link.setAttribute("elementType",type);
                     link.onclick = function() {
-                        
-            
                         var elementId = $(this).attr("elementId");
                         var elementTyp = $(this).attr("elementType");
+                        console.log("<> Fenster "+documentNr+": "+elementTyp+" "+elementId);
+                        
                         addZurueckList(documentNr, elementId, elementTyp);
                         
                         $(".dd-btn"+documentNr).html(elementTyp + ' <span class = "caret"></span');
@@ -334,7 +336,7 @@
            case 4: websocketList = websocketList_4; break;
            case 5: websocketList = websocketList_5; break;
            case 6: websocketList = websocketList_6; break;
-           case 7: websocketList = websocketList_7; hideStoerungen(); break;
+           case 7: websocketList = websocketList_7; break;
            case 8:  websocketList = websocketList_8; break;
         }
         
@@ -364,7 +366,6 @@
     }
     
     function addZurueckList(documentId, elementId, elementTyp){
-        console.log("Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp);
         var zurueckList = [];
         var backButton;
         switch (documentId) {
@@ -377,8 +378,6 @@
            case 7: zurueckList = zurueckList_7; backButton = backButtons[7]; break;
 
         }
-        console.log("PUSH: Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp);
-        console.log(zurueckList);
         zurueckList.push([elementTyp,elementId]);
         if(zurueckList.length>=2){
             if(backButton==backButtons[5]){
@@ -447,7 +446,7 @@
             $(backButtons[nummer]).hide();            
         }       
             $(".dd-btn"+nrAusgabe).html(localStorage.getItem("elementType_"+ nrAusgabe) + ' <span class = "caret"></span');
-            if(zurueckList_all[nummer][lastElement-1][1]==null){
+            if(zurueckList_all[nummer][lastElement-1][1]==-1){
                 loadDiv(nummer+1);                               
             }else{
                 initEinzelansicht(nummer+1);  
@@ -459,7 +458,7 @@
         if(ansicht=="details"){
             for(var i=0;i<6;i++){
                 if(localStorage.getItem(elementTypeList[i])!=null){
-                    if(localStorage.getItem(elementIdList[i])!=null){
+                    if(localStorage.getItem(elementIdList[i])!=-1){
                         reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i);
                     }else{
                         reloadTabelle(localStorage.getItem(elementTypeList[i]),i);
@@ -469,7 +468,7 @@
         }else if(ansicht=="uebersicht"){
             for(var i=5;i<7;i++){
                 if(localStorage.getItem(elementTypeList[i])!=null){
-                    if(localStorage.getItem(elementIdList[i])!=null){
+                    if(localStorage.getItem(elementIdList[i])!=-1){
                         reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i);
                     }else{
                         reloadTabelle(localStorage.getItem(elementTypeList[i]),i);
@@ -480,17 +479,31 @@
     }
     
     function reloadTabelle(elementType, divNumber){
-        i = divNumber;
+        var i = divNumber;
         $val = elementType;
         $(".dd-btn"+(i+1)).html($val+$caret);
         loadDiv(i+1);
     }
 
     function reloadEinzelansicht(elementType, elementId, divNumber){
-        i = divNumber;
+       
+        var i = divNumber;
         $val = elementType;
         $(".dd-btn"+(i+1)).html($val+$caret);
         initEinzelansicht(i+1);
+    }
+    
+    function getLocalStorage(){
+        console.log("------------------------------");
+        console.log("LocalStorage:");
+        
+        for(var i=1; i<7; i++){
+            var id = localStorage.getItem("elementId_"+i);
+            var type = localStorage.getItem("elementType_"+i);
+            
+            console.log("Fenster "+i+": "+type+" "+id);
+        }
+        console.log("------------------------------");
     }
     
     
