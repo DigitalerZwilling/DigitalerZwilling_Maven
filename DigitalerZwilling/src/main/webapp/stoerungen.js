@@ -3,10 +3,9 @@ function initStoerung(documentNr){
     closeWebsockets(documentNr);
     
     var div = document.getElementById(divName + documentNr);
-        var childs = div.childNodes;
 
-        for(var i=0; i<childs.length; i++){
-            div.removeChild(childs[i]);
+        while(div.childNodes.length >0){
+            div.removeChild(div.childNodes[0]);
         }
         
         var table = document.createElement("table");

@@ -76,6 +76,7 @@
 
                 $(function() {
                     $(".buttonStoerung").on("click",function() {
+                        var nummer = 7;
                         console.log("<> stoerung");
                         for(var i = 1; i<=6;i++){
                             closeWebsockets(i);
@@ -88,7 +89,13 @@
                             
                             $("#mainContainer").load("uebersicht.html");
                         }else{
-
+                           localStorage.setItem('elementId_'+nummer, -1);
+                            localStorage.setItem('elementType_'+nummer,"stoerungsliste");
+                            for(var i=0; i<=zurueckList_all[nummer-1].length;i++){
+                                zurueckList_all[nummer-1].pop();
+                                historyCheckDiv("details", nummer);
+                            }                               
+                            addZurueckList(nummer, -1, localStorage.getItem('elementType_'+nummer));
                            initStoerung(7);
                         }
                     });

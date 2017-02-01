@@ -450,7 +450,11 @@
         }       
             $(".dd-btn"+nrAusgabe).html(localStorage.getItem("elementType_"+ nrAusgabe) + ' <span class = "caret"></span');
             if(zurueckList_all[nummer][lastElement-1][1]==-1){
-                loadDiv(nummer+1);                               
+                if (zurueckList_all[nummer] == zurueckList_all[6]){
+                    initStoerung(7);
+                }else{
+                    loadDiv(nummer+1);   
+                }
             }else{
                 initEinzelansicht(nummer+1);  
             }                
@@ -474,6 +478,9 @@
                     if(localStorage.getItem(elementIdList[i])!=-1){
                         reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i);
                     }else{
+                        if (i==6){
+                            return;
+                        }
                         reloadTabelle(localStorage.getItem(elementTypeList[i]),i);
                     }
                 }
