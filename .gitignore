@@ -1,2 +1,5 @@
 /DigitalerZwilling/target/
 DigitalerZwilling/derby.log
+*.cfg
+DigitalerZwilling/DZConfig.cfg
+*.log
