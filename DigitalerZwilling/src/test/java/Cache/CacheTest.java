@@ -12,7 +12,10 @@ import de.hsos.digitalerzwilling.DatenKlassen.Element;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Inject;
+import javax.validation.constraints.AssertTrue;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -35,15 +38,18 @@ public abstract class CacheTest {
     @Test
     public void testGetById(){
         System.out.println("testGetByID");
-        for(Long i=new Long(0);i<= Long.MAX_VALUE;i++){
-            try {
-                getCache().getById(i);
-            } catch (ElementNotFoundException ex) {
-                Assert.assertTrue("Elmenet not Found", true);
-                return;
-            }
+        try {
+            Assert.assertTrue("Element found", getCache().getById(4242L).getId()==4242);
+        } catch (ElementNotFoundException ex) {
+            Assert.assertTrue("Element not found", true);
         }
-        Assert.assertTrue("Elemnet not Found", false);
+        try {
+            getCache().getById(4250L);
+            Assert.assertTrue("Not existing element found??????", false);
+        } catch (ElementNotFoundException ex) {
+            Assert.assertTrue("Not existing element not found", true);
+        }
+        
     }
     
     @Test
