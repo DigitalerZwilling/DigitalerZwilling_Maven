@@ -389,8 +389,6 @@
     }
 
     function historyCheck(ansicht){
-        console.log("historyCheck");
-        console.log("zurueckList_all[6].length: "+zurueckList_all[6].length);
         if(ansicht==="details"){
             var i = 0;
             for(i=0;i<6;i++){
@@ -399,12 +397,10 @@
                 }
             }
         }else{
-            console.log("historyCheck else");
             if(zurueckList_all[5].length<=1){
                 $(backButtons[6]).hide();
             }
             if (zurueckList_all[6].length<=1){
-                console.log("$(backButtons[7]).hide();")
                 $(backButtons[7]).hide();
             }
         }
@@ -432,6 +428,7 @@
     }
     
     function loadHistory(nummer, ansicht){
+        console.log("zurueckList_all[nummer][lastElement-1][1]: " + zurueckList_all[nummer][lastElement-1][1]);
         var nrAusgabe = nummer+1;
         var lastElement = zurueckList_all[nummer].length-1;
 
@@ -444,13 +441,19 @@
         }else if(zurueckList_all[5].length==1 && ansicht==="details"){
             $(backButtons[5]).hide();    
         }
-        if(zurueckList_all[nummer].length<=1){
-            console.log("loadHistory, nummer.hide: " + nummer);
+        if(zurueckList_all[6].length==1 && ansicht==="uebersicht"){
+            $(backButtons[7]).hide();         
+        }
+        if(zurueckList_all[nummer].length==1){
             $(backButtons[nummer]).hide();            
         }       
             $(".dd-btn"+nrAusgabe).html(localStorage.getItem("elementType_"+ nrAusgabe) + ' <span class = "caret"></span');
             if(zurueckList_all[nummer][lastElement-1][1]==-1){
-                loadDiv(nummer+1);                               
+                if(zurueckList_all[nummer]== zurueckList_all[7]){
+                    viewStoerungen(7);
+                }else {
+                    loadDiv(nummer+1);
+                }                               
             }else{
                 initEinzelansicht(nummer+1);  
             }                
