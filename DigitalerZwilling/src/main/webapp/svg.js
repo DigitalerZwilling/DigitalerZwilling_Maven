@@ -18,6 +18,7 @@ var jsonCache;
 var host = "DigitalerZwilling/";
 
 function initSVG() {
+    console.log("   -> lade SVG");
     var documentNr = 8;
     closeWebsockets(documentNr);
 
@@ -137,6 +138,7 @@ function clickSektoren(sektor){
     var id = sektor.getAttributeNS(null,'elementId');
     var type='Sektoren';
     var documentNr = 7;
+    console.log("<> SVG: " + type+ " "+id);
     
     localStorage.setItem('elementId_'+documentNr,id);
     localStorage.setItem('elementType_'+documentNr,type);
@@ -147,6 +149,7 @@ function clickTransportbaender(transportband){
     var id = transportband.getAttributeNS(null,'elementId');
     var type='Transportbänder';
     var documentNr = 7;
+    console.log("<> SVG: " + type+ " "+id);
     
     localStorage.setItem('elementId_'+documentNr,id);
     localStorage.setItem('elementType_'+documentNr,type);
@@ -157,6 +160,7 @@ function clickWarentraeger(warentraeger){
     var id = warentraeger.getAttributeNS(null,'elementId');
     var type='Warenträger';
     var documentNr = 7;
+    console.log("<> SVG: " + type+ " "+id);
     
     localStorage.setItem('elementId_'+documentNr,id);
     localStorage.setItem('elementType_'+documentNr,type);
