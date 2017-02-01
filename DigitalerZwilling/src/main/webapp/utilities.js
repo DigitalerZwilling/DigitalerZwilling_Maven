@@ -403,7 +403,7 @@
             if(zurueckList_all[5].length<=1){
                 $(backButtons[6]).hide();
             }
-            if (zurueckList_all[6].length<=1){
+            if (zurueckList_all[6].length<=0){
                 console.log("$(backButtons[7]).hide();")
                 $(backButtons[7]).hide();
             }
