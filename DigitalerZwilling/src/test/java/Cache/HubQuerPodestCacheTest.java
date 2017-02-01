@@ -85,30 +85,30 @@ public class HubQuerPodestCacheTest extends CacheTest{
 
     @Override
     public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
-        assertTrue("CacheTestHubPodest1", cache.getById(new Long(4242)).getBezeichnung().equals("CacheTestHubQuerPodest1"));
-        assertTrue("CacheTestHubPodest2", cache.getById(new Long(4243)).getBezeichnung().equals("CacheTestHubQuerPodest2"));
-        assertTrue("CacheTestHubPodest3", cache.getById(new Long(4244)).getBezeichnung().equals("CacheTestHubQuerPodest3"));
+        assertTrue("CacheTestHubPodest1", cache.getById(4242L).getBezeichnung().equals("CacheTestHubQuerPodest1"));
+        assertTrue("CacheTestHubPodest2", cache.getById(4243L).getBezeichnung().equals("CacheTestHubQuerPodest2"));
+        assertTrue("CacheTestHubPodest3", cache.getById(4244L).getBezeichnung().equals("CacheTestHubQuerPodest3"));
         
-        assertTrue("CacheTestHubPodest1 -> Sektor", Objects.equals(((HubQuerPodest)cache.getById(new Long(4242))).getId_Sektor(), new Long(4242)));
-        assertTrue("CacheTestHubPodest2 -> Sektor", Objects.equals(((HubQuerPodest)cache.getById(new Long(4243))).getId_Sektor(), new Long(4243)));
-        assertTrue("CacheTestHubPodest3 -> Sektor", Objects.equals(((HubQuerPodest)cache.getById(new Long(4244))).getId_Sektor(), new Long(4244)));
+        assertTrue("CacheTestHubPodest1 -> Sektor", Objects.equals(((HubQuerPodest)cache.getById(4242L)).getId_Sektor(), 4242L));
+        assertTrue("CacheTestHubPodest2 -> Sektor", Objects.equals(((HubQuerPodest)cache.getById(4243L)).getId_Sektor(), 4243L));
+        assertTrue("CacheTestHubPodest3 -> Sektor", Objects.equals(((HubQuerPodest)cache.getById(4244L)).getId_Sektor(), 4244L));
         
-        assertTrue("GroupID", !((HubQuerPodest)cache.getById(new Long(4242))).getGruppenIDs().isEmpty());
+        assertTrue("GroupID", !((HubQuerPodest)cache.getById(4242L)).getGruppenIDs().isEmpty());
         
-        assertTrue("CacheTestHubQuerPodest1 -> Zustand", ((HubQuerPodest)cache.getById(new Long(4242))).isMotor() == true  &&
-                                                         ((HubQuerPodest)cache.getById(new Long(4242))).isOben()  == true  &&
-                                                         ((HubQuerPodest)cache.getById(new Long(4242))).isMittig()== false &&
-                                                         ((HubQuerPodest)cache.getById(new Long(4242))).isUnten() == false);
+        assertTrue("CacheTestHubQuerPodest1 -> Zustand", ((HubQuerPodest)cache.getById(4242L)).isMotor() == true  &&
+                                                         ((HubQuerPodest)cache.getById(4242L)).isOben()  == true  &&
+                                                         ((HubQuerPodest)cache.getById(4242L)).isMittig()== false &&
+                                                         ((HubQuerPodest)cache.getById(4242L)).isUnten() == false);
         
-        assertTrue("CacheTestHubQuerPodest1 -> Zustand", ((HubQuerPodest)cache.getById(new Long(4243))).isMotor() == true  &&
-                                                         ((HubQuerPodest)cache.getById(new Long(4243))).isOben()  == false &&
-                                                         ((HubQuerPodest)cache.getById(new Long(4243))).isMittig()== true  &&
-                                                         ((HubQuerPodest)cache.getById(new Long(4243))).isUnten() == false);
+        assertTrue("CacheTestHubQuerPodest1 -> Zustand", ((HubQuerPodest)cache.getById(4243L)).isMotor() == true  &&
+                                                         ((HubQuerPodest)cache.getById(4243L)).isOben()  == false &&
+                                                         ((HubQuerPodest)cache.getById(4243L)).isMittig()== true  &&
+                                                         ((HubQuerPodest)cache.getById(4243L)).isUnten() == false);
         
-        assertTrue("CacheTestHubQuerPodest1 -> Zustand", ((HubQuerPodest)cache.getById(new Long(4244))).isMotor() == true  &&
-                                                         ((HubQuerPodest)cache.getById(new Long(4244))).isOben()  == false &&
-                                                         ((HubQuerPodest)cache.getById(new Long(4244))).isMittig()== false &&
-                                                         ((HubQuerPodest)cache.getById(new Long(4244))).isUnten() == true);
+        assertTrue("CacheTestHubQuerPodest1 -> Zustand", ((HubQuerPodest)cache.getById(4244L)).isMotor() == true  &&
+                                                         ((HubQuerPodest)cache.getById(4244L)).isOben()  == false &&
+                                                         ((HubQuerPodest)cache.getById(4244L)).isMittig()== false &&
+                                                         ((HubQuerPodest)cache.getById(4244L)).isUnten() == true);
         
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
         datenbankTestInsert.datenbankUpdate("UPDATE HUBQUERPODEST SET MOTOR=0,OBEN=0,MITTIG=1,UNTEN=0 WHERE ID_HUBQUERPODEST=4242");
@@ -118,20 +118,20 @@ public class HubQuerPodestCacheTest extends CacheTest{
         
         cache.update();
         
-        assertTrue("CacheTestHubQuerPodest1 -> Zustand(Update)", ((HubQuerPodest)cache.getById(new Long(4242))).isMotor() == false  &&
-                                                                 ((HubQuerPodest)cache.getById(new Long(4242))).isOben()  == false  &&
-                                                                 ((HubQuerPodest)cache.getById(new Long(4242))).isMittig()== true   &&
-                                                                 ((HubQuerPodest)cache.getById(new Long(4242))).isUnten() == false);
+        assertTrue("CacheTestHubQuerPodest1 -> Zustand(Update)", ((HubQuerPodest)cache.getById(4242L)).isMotor() == false  &&
+                                                                 ((HubQuerPodest)cache.getById(4242L)).isOben()  == false  &&
+                                                                 ((HubQuerPodest)cache.getById(4242L)).isMittig()== true   &&
+                                                                 ((HubQuerPodest)cache.getById(4242L)).isUnten() == false);
         
-        assertTrue("CacheTestHubQuerPodest1 -> Zustand(Update)", ((HubQuerPodest)cache.getById(new Long(4243))).isMotor() == false  &&
-                                                                 ((HubQuerPodest)cache.getById(new Long(4243))).isOben()  == false  &&
-                                                                 ((HubQuerPodest)cache.getById(new Long(4243))).isMittig()== false  &&
-                                                                 ((HubQuerPodest)cache.getById(new Long(4243))).isUnten() == true);
+        assertTrue("CacheTestHubQuerPodest1 -> Zustand(Update)", ((HubQuerPodest)cache.getById(4243L)).isMotor() == false  &&
+                                                                 ((HubQuerPodest)cache.getById(4243L)).isOben()  == false  &&
+                                                                 ((HubQuerPodest)cache.getById(4243L)).isMittig()== false  &&
+                                                                 ((HubQuerPodest)cache.getById(4243L)).isUnten() == true);
         
-        assertTrue("CacheTestHubQuerPodest1 -> Zustand(Update)", ((HubQuerPodest)cache.getById(new Long(4244))).isMotor() == false  &&
-                                                                 ((HubQuerPodest)cache.getById(new Long(4244))).isOben()  == true   &&
-                                                                 ((HubQuerPodest)cache.getById(new Long(4244))).isMittig()== false  &&
-                                                                 ((HubQuerPodest)cache.getById(new Long(4244))).isUnten() == false);
+        assertTrue("CacheTestHubQuerPodest1 -> Zustand(Update)", ((HubQuerPodest)cache.getById(4244L)).isMotor() == false  &&
+                                                                 ((HubQuerPodest)cache.getById(4244L)).isOben()  == true   &&
+                                                                 ((HubQuerPodest)cache.getById(4244L)).isMittig()== false  &&
+                                                                 ((HubQuerPodest)cache.getById(4244L)).isUnten() == false);
     }
 
     @Override

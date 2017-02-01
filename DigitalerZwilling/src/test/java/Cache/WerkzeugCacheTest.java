@@ -78,13 +78,13 @@ public class WerkzeugCacheTest extends CacheTest{
 
     @Override
     public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
-        assertTrue("WerkzeugCachetest1", cache.getById(new Long(4242)).getBezeichnung().equalsIgnoreCase("CacheTestWerkzeug1"));
+        assertTrue("WerkzeugCachetest1", cache.getById(4242L).getBezeichnung().equalsIgnoreCase("CacheTestWerkzeug1"));
         assertTrue("WerkzeugCachetest2", cache.getById(new Long(4243)).getBezeichnung().equalsIgnoreCase("CacheTestWerkzeug2"));
         
-        assertTrue("RoboterID1", Objects.equals(((Werkzeug)cache.getById(new Long(4242))).getRoboterID(), new Long(4242)));
+        assertTrue("RoboterID1", Objects.equals(((Werkzeug)cache.getById(4242L)).getRoboterID(), 4242L));
         assertTrue("RoboterID2", ((Werkzeug)cache.getById(new Long(4243))).getRoboterID() == null);
         
-        assertTrue("Zustand1", ((Werkzeug)cache.getById(new Long(4242))).getZustand() == 1);
+        assertTrue("Zustand1", ((Werkzeug)cache.getById(4242L)).getZustand() == 1);
         assertTrue("Zustand2", ((Werkzeug)cache.getById(new Long(4243))).getZustand() == 1);
         
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
@@ -94,8 +94,8 @@ public class WerkzeugCacheTest extends CacheTest{
         
         cache.update();
         
-        assertTrue("Zustand1->Update", ((Werkzeug)cache.getById(new Long(4242))).getZustand() == 0);
-        assertTrue("Zustand2->Update", ((Werkzeug)cache.getById(new Long(4242))).getZustand() == 0);
+        assertTrue("Zustand1->Update", ((Werkzeug)cache.getById(4242L)).getZustand() == 0);
+        assertTrue("Zustand2->Update", ((Werkzeug)cache.getById(4242L)).getZustand() == 0);
         
     }
 

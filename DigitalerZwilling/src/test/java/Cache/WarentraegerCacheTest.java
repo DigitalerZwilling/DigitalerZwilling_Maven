@@ -87,17 +87,17 @@ public class WarentraegerCacheTest extends CacheTest{
 
     @Override
     public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
-        assertTrue("WarentraegerCachetest1", cache.getById(new Long(4242)).getBezeichnung().equalsIgnoreCase("CacheTestWarentraeger1"));
+        assertTrue("WarentraegerCachetest1", cache.getById(4242L).getBezeichnung().equalsIgnoreCase("CacheTestWarentraeger1"));
         
-        assertTrue("Stoerung",       ((Warentraeger)cache.getById(new Long(4242))).getStoerung()==0);
-        assertTrue("Montage",        ((Warentraeger)cache.getById(new Long(4242))).getMontagezustand()==100);
-        assertTrue("RFID",           ((Warentraeger)cache.getById(new Long(4242))).getrFID_inhalt().equalsIgnoreCase("FOOBAR"));
-        assertTrue("Abstand",        ((Warentraeger)cache.getById(new Long(4242))).getAbstand_mm()==42);
-        assertTrue("TransportID",   !((Warentraeger)cache.getById(new Long(4242))).getTransportbandIDs().isEmpty());
-        if(!((Warentraeger)cache.getById(new Long(4242))).getTransportbandIDs().isEmpty()){
-            assertTrue("TransportID",((Warentraeger)cache.getById(new Long(4242))).getTransportbandIDs().get(0)==4242);
+        assertTrue("Stoerung",       ((Warentraeger)cache.getById(4242L)).getStoerung()==0);
+        assertTrue("Montage",        ((Warentraeger)cache.getById(4242L)).getMontagezustand()==100);
+        assertTrue("RFID",           ((Warentraeger)cache.getById(4242L)).getrFID_inhalt().equalsIgnoreCase("FOOBAR"));
+        assertTrue("Abstand",        ((Warentraeger)cache.getById(4242L)).getAbstand_mm()==42);
+        assertTrue("TransportID",   !((Warentraeger)cache.getById(4242L)).getTransportbandIDs().isEmpty());
+        if(!((Warentraeger)cache.getById(4242L)).getTransportbandIDs().isEmpty()){
+            assertTrue("TransportID",((Warentraeger)cache.getById(4242L)).getTransportbandIDs().get(0)==4242);
         }
-        assertTrue("SektorID",       ((Warentraeger)cache.getById(new Long(4242))).getSektorIDs().isEmpty());
+        assertTrue("SektorID",       ((Warentraeger)cache.getById(4242L)).getSektorIDs().isEmpty());
         
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
         datenbankTestInsert.datenbankUpdate("UPDATE WARENTRAEGER SET STOERUNG=1,MONTAGEZUSTAND=99,ABSTAND_MM=84 WHERE ID_WARENTRAEGER=4242");
@@ -107,13 +107,13 @@ public class WarentraegerCacheTest extends CacheTest{
         
         cache.update();
         
-        assertTrue("Stoerung",       ((Warentraeger)cache.getById(new Long(4242))).getStoerung()==1);
-        assertTrue("Montage",        ((Warentraeger)cache.getById(new Long(4242))).getMontagezustand()==99);
-        assertTrue("Abstand",        ((Warentraeger)cache.getById(new Long(4242))).getAbstand_mm()==84);
-        assertTrue("TransportID",    ((Warentraeger)cache.getById(new Long(4242))).getTransportbandIDs().isEmpty());
-        assertTrue("SektorID",      !((Warentraeger)cache.getById(new Long(4242))).getSektorIDs().isEmpty());
-        if(!((Warentraeger)cache.getById(new Long(4242))).getTransportbandIDs().isEmpty()){
-            assertTrue("SektorID",   ((Warentraeger)cache.getById(new Long(4242))).getSektorIDs().get(0)==4242);
+        assertTrue("Stoerung",       ((Warentraeger)cache.getById(4242L)).getStoerung()==1);
+        assertTrue("Montage",        ((Warentraeger)cache.getById(4242L)).getMontagezustand()==99);
+        assertTrue("Abstand",        ((Warentraeger)cache.getById(4242L)).getAbstand_mm()==84);
+        assertTrue("TransportID",    ((Warentraeger)cache.getById(4242L)).getTransportbandIDs().isEmpty());
+        assertTrue("SektorID",      !((Warentraeger)cache.getById(4242L)).getSektorIDs().isEmpty());
+        if(!((Warentraeger)cache.getById(4242L)).getTransportbandIDs().isEmpty()){
+            assertTrue("SektorID",   ((Warentraeger)cache.getById(4242L)).getSektorIDs().get(0)==4242);
         }
     }
 

@@ -98,12 +98,12 @@ public class ArtikelCacheTest extends CacheTest{
         datenbankTestInsert.datenbankUpdate("UPDATE ARTIKEL SET BEZEICHNUNG='CacheTestArtikel12' WHERE BEZEICHNUNG LIKE 'CacheTestArtikel1'");
         datenbankTestInsert.datenbankUpdate("UPDATE ARTIKEL SET BEZEICHNUNG='CacheTestArtikel22' WHERE BEZEICHNUNG LIKE 'CacheTestArtikel2'");
         
-        if(((Artikel)cache.getById(new Long(4242))).getId_Warentraeger().size()<=0){
+        if(((Artikel)cache.getById(4242L)).getId_Warentraeger().size()<=0){
             assertTrue("Warentraeger nicht gefunden.",false);
             return;
         }
         
-        if(((Artikel)cache.getById(new Long(4243))).getId_Warentraeger().size()>0){
+        if(((Artikel)cache.getById(4243L)).getId_Warentraeger().size()>0){
             assertTrue("Fehlerhafter Warentraeger eintrag.",false);
             return;
         }
@@ -125,12 +125,12 @@ public class ArtikelCacheTest extends CacheTest{
                 found2 = false;
         }
         assertTrue(found1 & found2);
-        if(((Artikel)cache.getById(new Long(4242))).getId_Warentraeger()==null){
+        if(((Artikel)cache.getById(4242L)).getId_Warentraeger()==null){
             assertTrue("Warentraeger nicht gefunden.",false);
             return;
         }
         
-        if(((Artikel)cache.getById(new Long(4242))).getId_Warentraeger()==null){
+        if(((Artikel)cache.getById(4242L)).getId_Warentraeger()==null){
             assertTrue("Fehlerhafter Warentraeger eintrag.",false);
             return;
         }

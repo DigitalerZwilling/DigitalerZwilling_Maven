@@ -73,11 +73,11 @@ public class SensorCacheTest extends CacheTest{
 
     @Override
     public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
-        assertTrue("GroupID", ((Sensor)cache.getById(new Long(4242))).getBezeichnung().equalsIgnoreCase("CacheTestSensor1"));
-        assertTrue("GroupID", ((Sensor)cache.getById(new Long(4242))).getStoerung()==0);
-        assertTrue("GroupID", !((Sensor)cache.getById(new Long(4242))).isZustand());
-        assertTrue("GroupID", ((Sensor)cache.getById(new Long(4242))).getPhy_adresse().equalsIgnoreCase("1234"));
-        assertTrue("GroupID", Objects.equals(((Sensor)cache.getById(new Long(4242))).getSektorID(), new Long(4242)));
+        assertTrue("GroupID", ((Sensor)cache.getById(4242L)).getBezeichnung().equalsIgnoreCase("CacheTestSensor1"));
+        assertTrue("GroupID", ((Sensor)cache.getById(4242L)).getStoerung()==0);
+        assertTrue("GroupID", !((Sensor)cache.getById(4242L)).isZustand());
+        assertTrue("GroupID", ((Sensor)cache.getById(4242L)).getPhy_adresse().equalsIgnoreCase("1234"));
+        assertTrue("GroupID", Objects.equals(((Sensor)cache.getById(4242L)).getSektorID(), 4242L));
         
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
         datenbankTestInsert.datenbankUpdate("UPDATE SENSOR SET ZUSTAND=1,STOERUNG=1 WHERE ID_WERKZEUG=4242");
@@ -85,8 +85,8 @@ public class SensorCacheTest extends CacheTest{
         
         cache.update();
         
-        assertTrue("GroupID", ((Sensor)cache.getById(new Long(4242))).getStoerung()==1);
-        assertTrue("GroupID", ((Sensor)cache.getById(new Long(4242))).isZustand());
+        assertTrue("GroupID", ((Sensor)cache.getById(4242L)).getStoerung()==1);
+        assertTrue("GroupID", ((Sensor)cache.getById(4242L)).isZustand());
         
     }
 

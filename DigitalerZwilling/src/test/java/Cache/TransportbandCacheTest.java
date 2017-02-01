@@ -80,16 +80,16 @@ public class TransportbandCacheTest extends CacheTest{
 
     @Override
     public void testUpdate() throws ElementNotFoundException, DBErrorException, DBNotFoundException, QueryException {
-        assertTrue("Bezeichnung", cache.getById(new Long(4242)).getBezeichnung().equalsIgnoreCase("CacheTestTransportband1"));
-        assertTrue("Laenge"     , ((Transportband)cache.getById(new Long(4242))).getLaenge()   == 100);
-        assertTrue("Reihe"      , ((Transportband)cache.getById(new Long(4242))).getReihe()    == 1);
-        assertTrue("Stoerung"   , ((Transportband)cache.getById(new Long(4242))).getStoerung() == 0);
-        assertTrue("Geschwindigkeit", ((Transportband)cache.getById(new Long(4242))).getGeschwindigkeit() == 2);
-        assertTrue("vorSektor"  , Objects.equals(((Transportband)cache.getById(new Long(4242))).getVorSektorID() , new Long(4242)));
-        assertTrue("nachSektor" , Objects.equals(((Transportband)cache.getById(new Long(4242))).getNachSektorID(), new Long(4243)));
-        assertTrue("WarentraegerID", !((Transportband)cache.getById(new Long(4242))).getWarentraegerIDs().isEmpty());
-        if(!((Transportband)cache.getById(new Long(4242))).getWarentraegerIDs().isEmpty()){
-            assertTrue("WarentaegerID", Objects.equals(((Transportband)cache.getById(new Long(4242))).getWarentraegerIDs().get(0), new Long(4242)));
+        assertTrue("Bezeichnung", cache.getById(4242L).getBezeichnung().equalsIgnoreCase("CacheTestTransportband1"));
+        assertTrue("Laenge"     , ((Transportband)cache.getById(4242L)).getLaenge()   == 100);
+        assertTrue("Reihe"      , ((Transportband)cache.getById(4242L)).getReihe()    == 1);
+        assertTrue("Stoerung"   , ((Transportband)cache.getById(4242L)).getStoerung() == 0);
+        assertTrue("Geschwindigkeit", ((Transportband)cache.getById(4242L)).getGeschwindigkeit() == 2);
+        assertTrue("vorSektor"  , Objects.equals(((Transportband)cache.getById(4242L)).getVorSektorID() , 4242L));
+        assertTrue("nachSektor" , Objects.equals(((Transportband)cache.getById(4242L)).getNachSektorID(), 4243L));
+        assertTrue("WarentraegerID", !((Transportband)cache.getById(4242L)).getWarentraegerIDs().isEmpty());
+        if(!((Transportband)cache.getById(4242L)).getWarentraegerIDs().isEmpty()){
+            assertTrue("WarentaegerID", Objects.equals(((Transportband)cache.getById(4242L)).getWarentraegerIDs().get(0), 4242L));
         }
         
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
@@ -99,8 +99,8 @@ public class TransportbandCacheTest extends CacheTest{
         
         cache.update();
         
-        assertTrue("Stoerung<-Update"      , ((Transportband)cache.getById(new Long(4242))).getStoerung() == 1);
-        assertTrue("WarentraegerID<-Update", ((Transportband)cache.getById(new Long(4242))).getWarentraegerIDs().isEmpty());
+        assertTrue("Stoerung<-Update"      , ((Transportband)cache.getById(4242L)).getStoerung() == 1);
+        assertTrue("WarentraegerID<-Update", ((Transportband)cache.getById(4242L)).getWarentraegerIDs().isEmpty());
         
         
     }
