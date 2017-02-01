@@ -54,7 +54,7 @@ public class SensorCacheTest extends CacheTest{
         datenbankSchnittstelle.connect("./testdbConfig.cfg");
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
         datenbankTestInsert.datenbankUpdate("INSERT INTO SEKTOR (ID_SEKTOR,BEZEICHNUNG,STOERUNG,POSITION_X,POSITION_Y,POSITION_Z,POSITION_AUSRICHTUNG) VALUES (4242,'CacheTestSektor1',0,0,0,0,0)");
-        datenbankTestInsert.datenbankUpdate("INSERT INTO SENSOR (ID_SENSOR,BEZEICHNUNG,STOERUNG,ZUSTAND,PHY_ADRESSE,ID_SEKTOR) VALUES (4242,'CacheTestSensor1',0,0,'1234',4242");
+        datenbankTestInsert.datenbankUpdate("INSERT INTO SENSOR (ID_SENSOR,BEZEICHNUNG,STOERUNG,ZUSTAND,PHY_ADRESSE,ID_SEKTOR) VALUES (4242,'CacheTestSensor1',0,0,'1234',4242)");
         datenbankTestInsert.close();
     }
     
@@ -73,20 +73,20 @@ public class SensorCacheTest extends CacheTest{
 
     @Override
     public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
-        assertTrue("GroupID", ((Sensor)cache.getById(4242L)).getBezeichnung().equalsIgnoreCase("CacheTestSensor1"));
-        assertTrue("GroupID", ((Sensor)cache.getById(4242L)).getStoerung()==0);
-        assertTrue("GroupID", !((Sensor)cache.getById(4242L)).isZustand());
-        assertTrue("GroupID", ((Sensor)cache.getById(4242L)).getPhy_adresse().equalsIgnoreCase("1234"));
-        assertTrue("GroupID", Objects.equals(((Sensor)cache.getById(4242L)).getSektorID(), 4242L));
+        assertTrue("Bezeichnung", ((Sensor)cache.getById(4242L)).getBezeichnung().equalsIgnoreCase("CacheTestSensor1"));
+        assertTrue("Stoerung", ((Sensor)cache.getById(4242L)).getStoerung()==0);
+        assertTrue("Zustand", !((Sensor)cache.getById(4242L)).isZustand());
+        assertTrue("Adresse", ((Sensor)cache.getById(4242L)).getPhy_adresse().equalsIgnoreCase("1234"));
+        assertTrue("SektorID", Objects.equals(((Sensor)cache.getById(4242L)).getSektorID(), 4242L));
         
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
-        datenbankTestInsert.datenbankUpdate("UPDATE SENSOR SET ZUSTAND=1,STOERUNG=1 WHERE ID_WERKZEUG=4242");
+        datenbankTestInsert.datenbankUpdate("UPDATE SENSOR SET ZUSTAND=1,STOERUNG=1 WHERE ID_SENSOR=4242");
         datenbankTestInsert.close();
         
         cache.update();
         
-        assertTrue("GroupID", ((Sensor)cache.getById(4242L)).getStoerung()==1);
-        assertTrue("GroupID", ((Sensor)cache.getById(4242L)).isZustand());
+        assertTrue("Stoerung (Update)", ((Sensor)cache.getById(4242L)).getStoerung()==1);
+        assertTrue("Zustand(Update)", ((Sensor)cache.getById(4242L)).isZustand());
         
     }
 
