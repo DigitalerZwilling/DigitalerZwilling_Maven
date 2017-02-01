@@ -442,6 +442,9 @@
         }else if(zurueckList_all[5].length==1 && ansicht==="details"){
             $(backButtons[5]).hide();    
         }
+        if(zurueckList_all[6].length==1 && ansicht==="uebersicht"){
+            $(backButtons[7]).hide();         
+        }
         if(zurueckList_all[nummer].length==1){
             $(backButtons[nummer]).hide();            
         }       
