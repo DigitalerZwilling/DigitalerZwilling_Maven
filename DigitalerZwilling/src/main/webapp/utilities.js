@@ -449,7 +449,9 @@
         }       
             $(".dd-btn"+nrAusgabe).html(localStorage.getItem("elementType_"+ nrAusgabe) + ' <span class = "caret"></span');
             if(zurueckList_all[nummer][lastElement-1][1]==-1){
+                console.log("BUTZ1");
                 if(zurueckList_all[nummer]== zurueckList_all[7]){
+                    console.log("BUTZ2");
                     viewStoerungen(7);
                 }else {
                     loadDiv(nummer+1);
