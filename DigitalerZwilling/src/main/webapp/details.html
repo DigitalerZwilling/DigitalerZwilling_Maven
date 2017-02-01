@@ -30,6 +30,7 @@
                             //Zurück-Buttons, onClick
                             $(".btn.btn-default.backBtn").on('click', function(){            		
                                 idBtn = $(this).attr('id');
+                                
                                 var nummer;
                                 switch(idBtn){
                                     case "backBtn1": nummer = 0; break;	
@@ -38,7 +39,8 @@
                                     case "backBtn4": nummer = 3; break;	
                                     case "backBtn5": nummer = 4; break;	
                                     case "backBtn6_d": nummer = 5;	
-                                }                                
+                                }   
+                                console.log("Fenster "+(nummer+1)+": zurueck");
                                 loadHistory(nummer, "details");
                             });
 
@@ -62,6 +64,7 @@
                             }
                             $(".dropdown"+nummer+" li a").click(function(){
                                 $val = $(this).html();
+                                console.log("Fenster "+(nummer)+": Dropdown "+$val);
                                 localStorage.setItem('elementId_'+nummer, -1);
                                 localStorage.setItem('elementType_'+nummer,$val);
                                 $(".dd-btn"+nummer).html($val+$caret);

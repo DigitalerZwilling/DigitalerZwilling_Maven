@@ -68,14 +68,14 @@ function createSVG(){
             var j_sektoren = JSON.parse(event.data);
 
             jsonCache[0] = j_sektoren;
-            //reloadSVG();
+            reloadSVG();
         };
         
         websocketList_8[1].onmessage = function(event) {
             var j_baender = JSON.parse(event.data);
             
             jsonCache[1] = j_baender;
-            //reloadSVG();
+            reloadSVG();
                 
         };
         
@@ -83,7 +83,7 @@ function createSVG(){
             var j_warentraeger = JSON.parse(event.data);
             
             jsonCache[2] = j_warentraeger;
-            //reloadSVG();
+            reloadSVG();
                 
         };
         

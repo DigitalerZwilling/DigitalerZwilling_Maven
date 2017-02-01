@@ -39,6 +39,8 @@
             link.onclick = function() {  
                 var elementId = $(this).attr("elementId");
                 var elementTyp = $(this).attr("elementType");
+                console.log("Fenster "+documentNr+": "+elementTyp+" "+elementId);
+                
                 addZurueckList(documentNr, elementId, elementTyp);
                 
                 $(".dd-btn"+documentNr).html(elementTyp + ' <span class = "caret"></span');
@@ -117,10 +119,10 @@
                     link.setAttribute("elementId",jsonObject['id']);
                     link.setAttribute("elementType",type);
                     link.onclick = function() {
-                        
-            
                         var elementId = $(this).attr("elementId");
                         var elementTyp = $(this).attr("elementType");
+                        console.log("Fenster "+documentNr+": "+elementTyp+" "+elementId);
+                        
                         addZurueckList(documentNr, elementId, elementTyp);
                         
                         $(".dd-btn"+documentNr).html(elementTyp + ' <span class = "caret"></span');
@@ -489,6 +491,19 @@
         $val = elementType;
         $(".dd-btn"+(i+1)).html($val+$caret);
         initEinzelansicht(i+1);
+    }
+    
+    function getLocalStorage(){
+        console.log("------------------------------");
+        console.log("LocalStorage:");
+        
+        for(var i=1; i<7; i++){
+            var id = localStorage.getItem("elementId_"+i);
+            var type = localStorage.getItem("elementType_"+i);
+            
+            console.log("Fenster "+i+": "+type+" "+id);
+        }
+        console.log("------------------------------");
     }
     
     

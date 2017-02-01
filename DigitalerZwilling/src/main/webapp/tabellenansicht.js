@@ -422,7 +422,7 @@ function loadDiv(documentNr){
                     //Wenn eine Bezeichnung angeklickt wird:
                     currenttext.onclick = function() {
                         
-                       console.log("Fenster " + documentNr + ": " + typ + " "+ liste.inhalt[j].id); //Ausgabe für Anwendertest
+                       console.log("Fenster " + documentNr + ": " + typ + " "+ $(this).attr("elementId")); //Ausgabe für Anwendertest
                         
                        addZurueckList(documentNr, $(this).attr("elementId") ,typ);
                        localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));

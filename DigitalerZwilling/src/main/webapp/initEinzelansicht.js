@@ -1,6 +1,10 @@
 var divName = "einzelansicht";
 
 function initEinzelansicht(documentNr){
+        var elementId = localStorage.getItem('elementId_'+documentNr);
+        var elementType = localStorage.getItem('elementType_'+documentNr);
+    
+        console.log("lade Einzelansicht in Fenster " + documentNr + ": " + elementType + " " + elementId); //Ausgabe für Anwendertest
    
         var div = document.getElementById(divName+documentNr);
 
@@ -25,10 +29,6 @@ function initEinzelansicht(documentNr){
     
     
         closeWebsockets(documentNr);
-    
-        
-        var elementId = localStorage.getItem('elementId_'+documentNr);
-        var elementType =  localStorage.getItem('elementType_'+documentNr);
 
         
         switch (elementType) {
@@ -63,8 +63,7 @@ function initEinzelansicht(documentNr){
                 initHuQu(documentNr, elementId);
                 break;
             default:
-             console.log("default");
-             alert("DEFAULT");
+             console.log("Einzelansicht in Fenster "+documentNr+": DEFAULT");
       }
     }
     

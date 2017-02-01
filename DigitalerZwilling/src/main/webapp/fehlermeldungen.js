@@ -7,6 +7,7 @@ var host = "DigitalerZwilling/";
 var divName = "fehlermeldungen";
 
 function initfehlermeldungen() {
+    console.log("lade Fehlermeldungen");
     var ErrorWebSocket = new WebSocket("ws://"+location.host+"/"+host+"ExceptionWebSocket");
     
     ErrorWebSocket.onmessage = function(event) {

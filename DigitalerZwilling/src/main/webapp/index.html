@@ -62,8 +62,8 @@
                 
 
                 $(document).ready(function(){
-                initfehlermeldungen();
-                   
+                    initfehlermeldungen();
+                    getLocalStorage();
                    
                     document.getElementById("stoerungsZaehler").innerHTML = 0;
                     document.getElementById("stoerungsZaehlerMobil").innerHTML = 0;
@@ -74,6 +74,10 @@
 
                 $(function() {
                     $(".buttonStoerung").on("click",function() {
+                        console.log("stoerung");
+                        for(var i = 6; i<=8;i++){
+                            closeWebsockets(i);
+                        }
                         localStorage.removeItem("elementId_7");
                         localStorage.removeItem("elementType_7");
                         //closeWebsockets(7);
@@ -90,6 +94,7 @@
 
                 $(function() {
                     $(".buttonDetails").on("click",function() {
+                        console.log("details");
                         for(var i = 6; i<=8;i++){
                             closeWebsockets(i);
                         }
@@ -100,6 +105,7 @@
 
                 $(function() {
                     $(".buttonUebersicht").on("click",function() {
+                        console.log("uebersicht");
                         for(var i = 1; i<=6;i++){
                             closeWebsockets(i);
                         }

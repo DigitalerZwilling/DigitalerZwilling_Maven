@@ -1,4 +1,5 @@
 function viewStoerungen(documentNr){
+    console.log("lade Stoerung in Fenster "+documentNr);
     closeWebsockets(documentNr);
     document.getElementById("stoerungen").removeAttribute("hidden");
     document.getElementById("einzelansicht"+documentNr).setAttribute("hidden","");
@@ -10,7 +11,7 @@ function hideStoerungen(){
 }
 
 function initStoerung(documentNr){
-    
+    console.log("init Stoerung in Fenster "+documentNr);
     
     var div = document.getElementById("stoerungen");
         var childs = div.childNodes;
