@@ -10,8 +10,7 @@ function hideStoerungen(){
 }
 
 function initStoerung(documentNr){
-    if(websocketsStoerungErstellt == true) return;
-    websocketsStoerungErstellt = true;
+    
     
     var div = document.getElementById("stoerungen");
         var childs = div.childNodes;
@@ -36,6 +35,8 @@ function initStoerung(documentNr){
         table.appendChild(tbody);
     div.appendChild(table);
     
+    if(websocketsStoerungErstellt == true) return;
+    websocketsStoerungErstellt = true;
     
     var RoboterWebSocket = new WebSocket("ws://"+location.host+"/"+host+'RoboterWebSocket');
     var SektorWebSocket = new WebSocket("ws://"+location.host+"/"+host+'SektorWebSocket');
