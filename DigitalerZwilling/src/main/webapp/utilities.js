@@ -192,7 +192,7 @@
         }
         var div = document.getElementById(documentNr+"_div_"+list_id);
         if(parent.childNodes.length<1){
-            //div.setAttribute("hidden","");
+            div.setAttribute("hidden","");
         }else{
             div.removeAttribute("hidden");
         }

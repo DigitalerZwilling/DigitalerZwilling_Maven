@@ -393,7 +393,7 @@ function warentraegerErstellen(j_sektoren, j_baender, j_warentraeger) {
             rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_warentraeger.inhalt[i].sektorIDs[0])].y + sektor_height / 2 - WT_height / 2);
 
             var count = coutWTinSek(j_warentraeger, j_warentraeger.inhalt[i].sektorIDs[0]);
-            if (count > 1) {
+            if (count > 1 && j_warentraeger.inhalt[i].sektorIDs[0]==2) {
                 var rect2 = document.getElementById("svgOne").getElementById('Sektor_2_Attrappe');
                 document.getElementById('svgOne').appendChild(rect2);
             }
@@ -519,7 +519,7 @@ function warentraegerAendern(j_sektoren, j_baender, j_warentraeger) {
             rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_warentraeger.inhalt[i].sektorIDs[0])].y + sektor_height / 2 - WT_height / 2);
             
             var count = coutWTinSek(j_warentraeger, j_warentraeger.inhalt[i].sektorIDs[0]);
-            if (count > 1) {
+            if (count > 1&& j_warentraeger.inhalt[i].sektorIDs[0]==2) {
                 var rect2 = document.getElementById("svgOne").getElementById('Sektor_2_Attrappe');
                 document.getElementById('svgOne').appendChild(rect2);
             }
