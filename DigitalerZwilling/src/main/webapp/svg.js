@@ -163,6 +163,7 @@ function clickWarentraeger(warentraeger){
         historyCheckDiv("uebersicht", documentNr);
     }
     addZurueckList(documentNr, id, type);
+    console.log("BEI CLICK auf SVG --> zurueckList_all[6].length: "+zurueckList_all[6].length);
     initEinzelansicht(documentNr);
 }
 

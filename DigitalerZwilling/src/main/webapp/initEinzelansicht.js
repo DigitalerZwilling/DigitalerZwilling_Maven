@@ -1,6 +1,7 @@
 var divName = "einzelansicht";
 
 function initEinzelansicht(documentNr){
+        console.log("initEinzelansicht --> zurueckList_all[6].length: "+zurueckList_all[6].length);
    
         var div = document.getElementById(divName+documentNr);
 
