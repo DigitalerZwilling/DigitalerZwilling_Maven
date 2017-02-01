@@ -65,6 +65,21 @@ function initSVG() {
 function createSVG(){
     if(jsonCache[0] != "" && jsonCache[1]!="" && jsonCache[2]!=""){
         
+    var rect2 = document.createElementNS(svgns, 'rect');
+    rect2.setAttributeNS(null, 'id', 'Sektor_2_Attrappe');
+    rect2.setAttributeNS(null, 'x', jsonCache[0].inhalt[getSekByID(jsonCache[0], 2)].x + sektor_width / 2.5);
+    rect2.setAttributeNS(null, 'y', jsonCache[0].inhalt[getSekByID(jsonCache[0], 2)].y + sektor_height / 2.5);
+    rect2.setAttributeNS(null, 'height', WT_height);
+    rect2.setAttributeNS(null, 'width', WT_width);
+    //if (j_warentraeger.inhalt[i].stoerung != 0)
+    //rect2.setAttributeNS(null, 'fill', stoerung_fill);
+    //else 
+    rect2.setAttributeNS(null, 'fill', WT_fill);
+    rect2.setAttributeNS(null, 'stroke-width', '5');
+    rect2.setAttributeNS(null, 'stroke', 'black');
+    //rect2.setAttributeNS(null, 'onclick', 'idAusgeben(this)'); //Beim anklicken wird die Id des Elementes ausgeben
+    document.getElementById('svgOne').appendChild(rect2);
+        
         websocketList_8[0].onmessage = function(event) {
             var j_sektoren = JSON.parse(event.data);
 
@@ -186,6 +201,10 @@ function clickWarentraeger(warentraeger){
 
 
 function sektorenErstellen(j_sektoren) {
+    
+
+
+                
     for (var i = 0; i < j_sektoren.inhalt.length; i++) {
         //Sektoren erstellen
         var rect = document.createElementNS(svgns, 'rect');
@@ -375,18 +394,7 @@ function warentraegerErstellen(j_sektoren, j_baender, j_warentraeger) {
 
             var count = coutWTinSek(j_warentraeger, j_warentraeger.inhalt[i].sektorIDs[0]);
             if (count > 1) {
-                var rect2 = document.createElementNS(svgns, 'rect');
-                rect2.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren, j_warentraeger.inhalt[i].sektorIDs[0])].x + sektor_width / 2.5);
-                rect2.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_warentraeger.inhalt[i].sektorIDs[0])].y + sektor_height / 2.5);
-                rect2.setAttributeNS(null, 'height', WT_height);
-                rect2.setAttributeNS(null, 'width', WT_width);
-                //if (j_warentraeger.inhalt[i].stoerung != 0)
-                //rect2.setAttributeNS(null, 'fill', stoerung_fill);
-                //else 
-                rect2.setAttributeNS(null, 'fill', WT_fill);
-                rect2.setAttributeNS(null, 'stroke-width', '5');
-                rect2.setAttributeNS(null, 'stroke', 'black');
-                //rect2.setAttributeNS(null, 'onclick', 'idAusgeben(this)'); //Beim anklicken wird die Id des Elementes ausgeben
+                var rect2 = document.getElementById("svgOne").getElementById('Sektor_2_Attrappe');
                 document.getElementById('svgOne').appendChild(rect2);
             }
         } else {
@@ -453,7 +461,7 @@ function warentraegerAendern(j_sektoren, j_baender, j_warentraeger) {
         //console.log(document.getElementById("svgOne").getElementById("Warentraeger" + j_warentraeger.inhalt[i].id));
         //rect = document.createElementNS(svgns, 'rect');
         var rect = document.getElementById("svgOne").getElementById("Warentraeger" + j_warentraeger.inhalt[i].id);
-
+        
         if ((j_warentraeger.inhalt[i].transportbandIDs.length === 1) && (j_warentraeger.inhalt[i].sektorIDs.length === 0)) {
             //WT liegt auf einem TB und in keinem Sektor
             switch (j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].ausrichtung) {
@@ -507,11 +515,14 @@ function warentraegerAendern(j_sektoren, j_baender, j_warentraeger) {
             }
         } else if ((j_warentraeger.inhalt[i].transportbandIDs.length == 0) && (j_warentraeger.inhalt[i].sektorIDs.length == 1)) {
             //WT liegt in einem Sektor und auf keinem TB
-
-
             rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_warentraeger.inhalt[i].sektorIDs[0])].x + sektor_width / 2 - WT_width / 2);
             rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_warentraeger.inhalt[i].sektorIDs[0])].y + sektor_height / 2 - WT_height / 2);
-
+            
+            var count = coutWTinSek(j_warentraeger, j_warentraeger.inhalt[i].sektorIDs[0]);
+            if (count > 1) {
+                var rect2 = document.getElementById("svgOne").getElementById('Sektor_2_Attrappe');
+                document.getElementById('svgOne').appendChild(rect2);
+            }
         } else {
             //WT liegt auf einem TB und in einem Sektor -- Fehler
             console.log("WT" + j_warentraeger.inhalt[i].id + " hat falsche Zuordnung.");
