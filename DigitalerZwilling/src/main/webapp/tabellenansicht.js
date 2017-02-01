@@ -2,6 +2,13 @@
 
 function loadDiv(documentNr){
     
+    //Lädt den Typen der Tabelle aus dem Local Storage:
+    var typ = localStorage.getItem('elementType_'+documentNr);
+  
+  
+    console.log("lade Tabellenansicht in Fenster " + documentNr + ": " + typ); //Ausgabe für Anwendertest
+    
+    
     //Lösche, was voher an dem Div angehangen wurde:
     var div = document.getElementById("einzelansicht"+documentNr);
     var childs = div.childNodes;
@@ -13,9 +20,7 @@ function loadDiv(documentNr){
     //Schließe alle Websockets:
     closeWebsockets(documentNr);
      
-    //Lädt den Typen der Tabelle aus dem Local Storage:
-    var typ = localStorage.getItem('elementType_'+documentNr);
-  
+    
 
     switch (typ) {
         case 'Artikel':
@@ -416,6 +421,9 @@ function loadDiv(documentNr){
                     
                     //Wenn eine Bezeichnung angeklickt wird:
                     currenttext.onclick = function() {
+                        
+                       console.log("Fenster " + documentNr + ": " + typ + " "+ liste.inhalt[j].id); //Ausgabe für Anwendertest
+                        
                        addZurueckList(documentNr, $(this).attr("elementId") ,typ);
                        localStorage.setItem("elementId_"+documentNr,$(this).attr("elementId"));
                        localStorage.setItem("elementType_"+documentNr,$(this).attr("elementType"));
