@@ -19,6 +19,8 @@ import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -47,6 +49,9 @@ public class WerkzeugCacheTest extends CacheTest{
     
     @Inject
     WerkzeugCache cache;
+    
+    @Inject
+    Updater updater;
 
     @Before
     public void setUp() throws DBNotFoundException, QueryException {
@@ -78,6 +83,7 @@ public class WerkzeugCacheTest extends CacheTest{
 
     @Override
     public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
+        updater.setUpdate(false);
         assertTrue("WerkzeugCachetest1", cache.getById(4242L).getBezeichnung().equalsIgnoreCase("CacheTestWerkzeug1"));
         assertTrue("WerkzeugCachetest2", cache.getById(new Long(4243)).getBezeichnung().equalsIgnoreCase("CacheTestWerkzeug2"));
         
@@ -92,11 +98,20 @@ public class WerkzeugCacheTest extends CacheTest{
         datenbankTestInsert.datenbankUpdate("UPDATE WERKZEUG SET ZUSTAND=0 WHERE ID_WERKZEUG=4243");
         datenbankTestInsert.close();
         
+        System.out.println("test1");
+        
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(WerkzeugCacheTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("test2");
+        
         cache.update();
         
         assertTrue("Zustand1->Update", ((Werkzeug)cache.getById(4242L)).getZustand() == 0);
         assertTrue("Zustand2->Update", ((Werkzeug)cache.getById(4242L)).getZustand() == 0);
-        
+        updater.setUpdate(true);
     }
 
     @Override

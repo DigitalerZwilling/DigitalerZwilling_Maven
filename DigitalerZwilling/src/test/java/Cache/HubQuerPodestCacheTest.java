@@ -116,7 +116,11 @@ public class HubQuerPodestCacheTest extends CacheTest{
         datenbankTestInsert.datenbankUpdate("UPDATE HUBQUERPODEST SET MOTOR=0,OBEN=1,MITTIG=0,UNTEN=0 WHERE ID_HUBQUERPODEST=4244");
         datenbankTestInsert.close();
         
-        cache.update();
+        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
+        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
+        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
+        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
+        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
         
         assertTrue("CacheTestHubQuerPodest1 -> Zustand(Update)", ((HubQuerPodest)cache.getById(4242L)).isMotor() == false  &&
                                                                  ((HubQuerPodest)cache.getById(4242L)).isOben()  == false  &&

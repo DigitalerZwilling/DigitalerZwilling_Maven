@@ -7,6 +7,7 @@ package Cache;
 
 import DatenbankTestInsert.DatenbankTestInsert;
 import de.hsos.digitalerzwilling.Cache.Cache;
+import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
 import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
 import de.hsos.digitalerzwilling.Cache.SektorCache;
 import de.hsos.digitalerzwilling.Cache.Updater.CacheUpdateThread;
@@ -17,6 +18,8 @@ import de.hsos.digitalerzwilling.DatenKlassen.Sektor;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -45,6 +48,9 @@ public class SektorCacheTest extends CacheTest{
     
     @Inject
     SektorCache cache;
+    
+    @Inject
+    Updater updater;
     
     @Before
     public void setUp() throws DBNotFoundException, QueryException {
@@ -90,20 +96,43 @@ public class SektorCacheTest extends CacheTest{
     }
 
     @Override
-    public void testUpdate() throws ElementNotFoundException {
-        assertTrue("Ausrichtung", ((Sektor) cache.getById(4242L)).getBezeichnung().equalsIgnoreCase("CacheTestSektor1"));
-        assertTrue("Ausrichtung", ((Sektor) cache.getById(4242L)).getAusrichtung()==45);
-        assertTrue("Ausrichtung", ((Sektor) cache.getById(4242L)).getHubpodestIDs());
-        assertTrue("Ausrichtung", ((Sektor) cache.getById(4242L)).getHubquerpodestIDs());
-        assertTrue("Ausrichtung", ((Sektor) cache.getById(4242L)).getNachTransportbandIDs());
-        assertTrue("Ausrichtung", ((Sektor) cache.getById(4242L)).getRoboterIDs());
-        assertTrue("Ausrichtung", ((Sektor) cache.getById(4242L)).getSensorIDs());
-        assertTrue("Ausrichtung", ((Sektor) cache.getById(4242L)).getSensorIDs());
-        assertTrue("Ausrichtung", ((Sektor) cache.getById(4242L)).getVorTransportbandIDs());
-        assertTrue("Ausrichtung", ((Sektor) cache.getById(4242L)).getWarentraegerIDs());
-        assertTrue("Ausrichtung", ((Sektor) cache.getById(4242L)).getX()==10);
-        assertTrue("Ausrichtung", ((Sektor) cache.getById(4242L)).getY()==20);
-        assertTrue("Ausrichtung", ((Sektor) cache.getById(4242L)).getZ()==30);
+    public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
+        updater.setUpdate(false);
+        assertTrue("Ausrichtung",    ((Sektor) cache.getById(4242L)).getBezeichnung().equalsIgnoreCase("CacheTestSektor1"));
+        assertTrue("Ausrichtung",    ((Sektor) cache.getById(4242L)).getAusrichtung()==45);
+        assertTrue("HubPodest",     !((Sektor) cache.getById(4242L)).getHubpodestIDs().isEmpty() && ((Sektor) cache.getById(4242L)).getHubpodestIDs().get(0) == 4242);
+        assertTrue("HubQuerPodest", !((Sektor) cache.getById(4242L)).getHubquerpodestIDs().isEmpty() && ((Sektor) cache.getById(4242L)).getHubquerpodestIDs().get(0) == 4242);
+        assertTrue("NachTransport", !((Sektor) cache.getById(4242L)).getNachTransportbandIDs().isEmpty() && ((Sektor) cache.getById(4242L)).getNachTransportbandIDs().get(0) == 4242);
+        assertTrue("Roboter",       !((Sektor) cache.getById(4242L)).getRoboterIDs().isEmpty() && ((Sektor) cache.getById(4242L)).getRoboterIDs().get(0) == 4242);
+        assertTrue("Sensor",        !((Sektor) cache.getById(4242L)).getSensorIDs().isEmpty() && ((Sektor) cache.getById(4242L)).getSensorIDs().get(0) == 4242);
+        assertTrue("VorTransport",  !((Sektor) cache.getById(4242L)).getVorTransportbandIDs().isEmpty() && ((Sektor) cache.getById(4242L)).getVorTransportbandIDs().get(0) == 4243);
+        assertTrue("Warentraeger",  !((Sektor) cache.getById(4242L)).getWarentraegerIDs().isEmpty() && ((Sektor) cache.getById(4242L)).getWarentraegerIDs().get(0) == 4242);
+        assertTrue("Stoerung",       ((Sektor) cache.getById(4242L)).getStoerung() == 0);
+        assertTrue("X",              ((Sektor) cache.getById(4242L)).getX()==10);
+        assertTrue("Y",              ((Sektor) cache.getById(4242L)).getY()==20);
+        assertTrue("Z",              ((Sektor) cache.getById(4242L)).getZ()==30);
+        
+        DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
+        datenbankTestInsert.datenbankUpdate("UPDATE SEKTOR SET STOERUNG = 1 WHERE ID_SEKTOR = 4242");
+        datenbankTestInsert.close();
+        
+        System.out.println("test1");
+        try {
+            Thread.sleep(20000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(WerkzeugCacheTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("test2");
+        
+        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
+        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
+        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
+        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
+        
+        
+        
+        assertTrue("Stoerung (Update)", ((Sektor) cache.getById(4242L)).getStoerung() == 1);
+        updater.setUpdate(true);
     }
 
     @Override

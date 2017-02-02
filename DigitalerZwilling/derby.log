@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Wed Feb 01 16:29:48 CET 2017:
-Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): Instanz a816c00e-0159-fa4b-c9ef-000007d48ac8
-für Datenbankverzeichnis C:\Users\User\AppData\Local\Temp\gfembed2742598794484813469tmp\lib\databases\ejbtimer mit Class Loader sun.misc.Launcher$AppClassLoader@4aa298b7
-Geladen aus file:/C:/Users/User/.m2/repository/org/glassfish/main/extras/glassfish-embedded-all/4.1.1/glassfish-embedded-all-4.1.1.jar
+Thu Feb 02 22:51:25 CET 2017:
+Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): Instanz a816c00e-015a-00cf-8adb-0000066ddef8
+fÃ¼r Datenbankverzeichnis /private/var/folders/mg/5jx_gjls697g_r__md002bn00000gn/T/gfembed8378141134430673873tmp/lib/databases/ejbtimer mit Class Loader sun.misc.Launcher$AppClassLoader@28d93b30
+Geladen aus file:/Users/florian/.m2/repository/org/glassfish/main/extras/glassfish-embedded-all/4.1.1/glassfish-embedded-all-4.1.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_112-b15
-user.dir=C:\Users\User\Documents\GitHub\DigitalerZwilling_Maven\DigitalerZwilling
-os.name=Windows 7
-os.arch=amd64
-os.version=6.1
+java.runtime.version=1.8.0_111-b14
+user.dir=/Users/florian/Documents/DigitalerZwilling_Maven/DigitalerZwilling
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.12.3
 derby.system.home=null
 Datenbank-Class Loader wurde gestartet - derby.database.classpath=''
