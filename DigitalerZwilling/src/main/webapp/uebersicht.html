@@ -17,7 +17,6 @@
                     //SVG laden
                     //$("#uebersicht").load("svg.html");
                     initSVG();
-                    initStoerung(7);
 
                     //LocalStorage-Item 'mainContainer' auf den Wert 'uebersicht' setzen
                     localStorage.setItem("mainContainer", "uebersicht");
@@ -28,7 +27,7 @@
                     //LocalStorage abfragen: Störungen aus Detailansicht heraus aufgerufen?
                     //Dann in Übersicht wechseln.
                     if(localStorage.getItem("stoerung")=="stoerungLaden"){
-                        viewStoerungen(7);//initStoerung(7);
+                        initStoerung(7);
                     }
 
                     //LocalStorage abfragen und ÜbersichtsDiv und beständiges Div6 laden
@@ -52,7 +51,8 @@
                         switch(idBtn){
                             case "backBtn6_u": nummer = 5; break;	
                             case "backBtn7": nummer = 6;	
-                        }                                
+                        }
+                        console.log("<> Fenster "+(nummer+1)+": zurueck");                                
                         loadHistory(nummer, "uebersicht");
                     });
                 }
@@ -65,14 +65,15 @@
                     }
                     $(".dropdown"+nummer+" li a").click(function(){
                         $val = $(this).html();
-                        localStorage.removeItem('elementId_'+nummer);
+                        console.log("<> Fenster "+(nummer)+": Dropdown "+$val);
+                        localStorage.setItem('elementId_'+nummer, -1);
                         localStorage.setItem('elementType_'+nummer,$val);
                         $(".dd-btn"+nummer).html($val+$caret);
                         for(var i=0; i<=zurueckList_all[nummer-1].length;i++){
                             zurueckList_all[nummer-1].pop();
                             historyCheckDiv("uebersicht", nummer);
                         }                               
-                        addZurueckList(nummer, null, localStorage.getItem('elementType_'+nummer));
+                        addZurueckList(nummer, -1, localStorage.getItem('elementType_'+nummer));
                         loadDiv(nummer);
                     }); 
                 }
@@ -103,9 +104,6 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelUebersichtsInfos"> 
                                 <div class="panel panel-default" style="height:100%; overflow-y: auto;">
                                     <div class="panel-body">
-
-                                        <div id="stoerungen" hidden></div>
-
                                         <button id="backBtn7" type="button" class="btn btn-default backBtn">zurück</button>
                                         <div></br></div>
 

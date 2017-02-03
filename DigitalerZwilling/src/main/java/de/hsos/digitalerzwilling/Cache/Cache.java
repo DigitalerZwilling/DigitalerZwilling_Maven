@@ -4,6 +4,7 @@ import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
 import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
 import de.hsos.digitalerzwilling.Cache.Updater.Updater;
 import de.hsos.digitalerzwilling.DatenKlassen.Element;
+import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,8 @@ public abstract class Cache {
     
     @Inject
     private Updater updater;
+    
+    @Inject protected DatenbankSchnittstelle datenbankschnittstelle;
 
     public Map<Long, Element>[] getElements() {
         return elements;
@@ -44,6 +47,7 @@ public abstract class Cache {
     }
     
     public void toggleState() {
+        this.datenbankschnittstelle.commitAndBegin();
         state = !state;
     }
     

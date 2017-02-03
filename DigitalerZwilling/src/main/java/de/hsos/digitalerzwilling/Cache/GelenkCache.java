@@ -8,10 +8,7 @@ package de.hsos.digitalerzwilling.Cache;
 import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
 import de.hsos.digitalerzwilling.DatenKlassen.Element;
 import de.hsos.digitalerzwilling.DatenKlassen.Gelenk;
-import de.hsos.digitalerzwilling.Cache.ArtikelCache;
-import de.hsos.digitalerzwilling.Cache.Cache;
 import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
-import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
 import java.time.LocalDateTime;
@@ -21,7 +18,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 /**
  *
@@ -31,7 +27,7 @@ import javax.inject.Inject;
 //in bearbeitung
 @ApplicationScoped
 public class GelenkCache extends Cache{
-    @Inject private DatenbankSchnittstelle datenbankschnittstelle;
+   
     
     @Override
     public void update() throws DBErrorException {

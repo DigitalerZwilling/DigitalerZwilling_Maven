@@ -5,7 +5,9 @@
         for(var i=0; i<attribute.length; i++){
             var zeile = document.createElement("tr");
             var name = document.createElement("td");
+            name.setAttribute('class',"table-row-name");
             name.innerHTML = attribute[i];
+                        
             zeile.appendChild(name);
 
             var value = document.createElement("td");
@@ -24,6 +26,7 @@
         for(var i=0; i<attribute.length; i++){
             var zeile = document.createElement("tr");
             var name = document.createElement("td");
+            name.setAttribute('class',"table-row-name");
             name.innerHTML = attribute[i];
             zeile.appendChild(name);
 
@@ -39,6 +42,8 @@
             link.onclick = function() {  
                 var elementId = $(this).attr("elementId");
                 var elementTyp = $(this).attr("elementType");
+                console.log("<> Fenster "+documentNr+": "+elementTyp+" "+elementId);
+                
                 addZurueckList(documentNr, elementId, elementTyp);
                 
                 $(".dd-btn"+documentNr).html(elementTyp + ' <span class = "caret"></span');
@@ -68,14 +73,18 @@
             var div = document.createElement("div");
             div.id = documentNr+"_div_"+list_id[i];
             div.setAttribute("hidden","");
+
             
-            
+            var paragraph = document.createElement("p");
+            paragraph.setAttribute('class',"table-headline");
             var name = document.createTextNode(list_tilte[i]);
-            div.appendChild(name);
+            paragraph.appendChild(name);
+            
+            div.appendChild(paragraph);
             var table = document.createElement("table");
             var tbody = document.createElement("tbody");
             tbody.id = documentNr+"_"+list_id[i];          
-            table.setAttribute('class', "table table-striped");
+            table.setAttribute('class', "table table-striped table-tabellenansicht");
             
             setHeader(list_header[i], table);
             
@@ -117,10 +126,10 @@
                     link.setAttribute("elementId",jsonObject['id']);
                     link.setAttribute("elementType",type);
                     link.onclick = function() {
-                        
-            
                         var elementId = $(this).attr("elementId");
                         var elementTyp = $(this).attr("elementType");
+                        console.log("<> Fenster "+documentNr+": "+elementTyp+" "+elementId);
+                        
                         addZurueckList(documentNr, elementId, elementTyp);
                         
                         $(".dd-btn"+documentNr).html(elementTyp + ' <span class = "caret"></span');
@@ -150,9 +159,13 @@
     
    
     
-    function updateAttributes(documentNr, attribute_id, attribute_value, element_id){
+    function updateAttributes(documentNr, attribute_id, attribute_value, element_id, number){
         for(var i=0; i<attribute_id.length; i++){
+            //console.log("i: " + i + "attribute_id: " + attribute_id + ", attribute_value: "+ attribute_value);
             var element = document.getElementById(documentNr+"_"+element_id[i]);
+            if(i==0 && number==1){
+                element.setAttribute('class',"headliner");
+            }
             element.innerHTML = attribute_value[i]; //json[attribute_id[i]];
         }
     }
@@ -190,7 +203,7 @@
         }
         var div = document.getElementById(documentNr+"_div_"+list_id);
         if(parent.childNodes.length<1){
-            //div.setAttribute("hidden","");
+            div.setAttribute("hidden","");
         }else{
             div.removeAttribute("hidden");
         }
@@ -334,7 +347,7 @@
            case 4: websocketList = websocketList_4; break;
            case 5: websocketList = websocketList_5; break;
            case 6: websocketList = websocketList_6; break;
-           case 7: websocketList = websocketList_7; hideStoerungen(); break;
+           case 7: websocketList = websocketList_7; break;
            case 8:  websocketList = websocketList_8; break;
         }
         
@@ -364,7 +377,6 @@
     }
     
     function addZurueckList(documentId, elementId, elementTyp){
-        console.log("Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp);
         var zurueckList = [];
         var backButton;
         switch (documentId) {
@@ -377,8 +389,6 @@
            case 7: zurueckList = zurueckList_7; backButton = backButtons[7]; break;
 
         }
-        console.log("PUSH: Fenster"+documentId+': ElementID='+elementId+", ElementTyp="+elementTyp);
-        console.log(zurueckList);
         zurueckList.push([elementTyp,elementId]);
         if(zurueckList.length>=2){
             if(backButton==backButtons[5]){
@@ -443,12 +453,19 @@
         }else if(zurueckList_all[5].length==1 && ansicht==="details"){
             $(backButtons[5]).hide();    
         }
+        if(zurueckList_all[6].length==1 && ansicht==="uebersicht"){
+            $(backButtons[7]).hide();         
+        }
         if(zurueckList_all[nummer].length==1){
             $(backButtons[nummer]).hide();            
         }       
             $(".dd-btn"+nrAusgabe).html(localStorage.getItem("elementType_"+ nrAusgabe) + ' <span class = "caret"></span');
-            if(zurueckList_all[nummer][lastElement-1][1]==null){
-                loadDiv(nummer+1);                               
+            if(zurueckList_all[nummer][lastElement-1][1]==-1){
+                if (zurueckList_all[nummer] == zurueckList_all[6]){
+                    initStoerung(7);
+                }else{
+                    loadDiv(nummer+1);   
+                }
             }else{
                 initEinzelansicht(nummer+1);  
             }                
@@ -459,7 +476,7 @@
         if(ansicht=="details"){
             for(var i=0;i<6;i++){
                 if(localStorage.getItem(elementTypeList[i])!=null){
-                    if(localStorage.getItem(elementIdList[i])!=null){
+                    if(localStorage.getItem(elementIdList[i])!=-1){
                         reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i);
                     }else{
                         reloadTabelle(localStorage.getItem(elementTypeList[i]),i);
@@ -469,9 +486,12 @@
         }else if(ansicht=="uebersicht"){
             for(var i=5;i<7;i++){
                 if(localStorage.getItem(elementTypeList[i])!=null){
-                    if(localStorage.getItem(elementIdList[i])!=null){
+                    if(localStorage.getItem(elementIdList[i])!=-1){
                         reloadEinzelansicht(localStorage.getItem(elementTypeList[i]),localStorage.getItem(elementIdList[i]),i);
                     }else{
+                        if (i==6){
+                            return;
+                        }
                         reloadTabelle(localStorage.getItem(elementTypeList[i]),i);
                     }
                 }
@@ -480,17 +500,31 @@
     }
     
     function reloadTabelle(elementType, divNumber){
-        i = divNumber;
+        var i = divNumber;
         $val = elementType;
         $(".dd-btn"+(i+1)).html($val+$caret);
         loadDiv(i+1);
     }
 
     function reloadEinzelansicht(elementType, elementId, divNumber){
-        i = divNumber;
+       
+        var i = divNumber;
         $val = elementType;
         $(".dd-btn"+(i+1)).html($val+$caret);
         initEinzelansicht(i+1);
+    }
+    
+    function getLocalStorage(){
+        console.log("------------------------------");
+        console.log("LocalStorage:");
+        
+        for(var i=1; i<7; i++){
+            var id = localStorage.getItem("elementId_"+i);
+            var type = localStorage.getItem("elementType_"+i);
+            
+            console.log("Fenster "+i+": "+type+" "+id);
+        }
+        console.log("------------------------------");
     }
     
     

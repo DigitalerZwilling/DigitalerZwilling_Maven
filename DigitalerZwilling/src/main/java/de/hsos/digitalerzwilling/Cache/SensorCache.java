@@ -3,7 +3,6 @@ package de.hsos.digitalerzwilling.Cache;
 import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
 import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
 import de.hsos.digitalerzwilling.DatenKlassen.Sensor;
-import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
 import java.time.LocalDateTime;
@@ -13,7 +12,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+
 
 /**
  *
@@ -22,14 +21,13 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class SensorCache extends Cache{
     
-    @Inject
-    DatenbankSchnittstelle datenbankSchnittstelle;
+    
 
     @Override
     public void update() throws DBErrorException {
         System.out.print("UPDATE---------------");
         try {
-            Map<String,List<String>> rsMap = this.datenbankSchnittstelle.datenbankAnfrage("SELECT id_sensor,stoerung,zustand,user_parameter,zeitstempel from Sensor");
+            Map<String,List<String>> rsMap = this.datenbankschnittstelle.datenbankAnfrage("SELECT id_sensor,stoerung,zustand,user_parameter,zeitstempel from Sensor");
             
             List<String> id = rsMap.get("ID_SENSOR");
             List<String> stoerung = rsMap.get("STOERUNG");
@@ -64,7 +62,7 @@ public class SensorCache extends Cache{
             elements[0] = new HashMap<>();
             elements[1] = new HashMap<>();
             
-            Map<String,List<String>> rsMap = this.datenbankSchnittstelle.datenbankAnfrage("SELECT id_sensor"+
+            Map<String,List<String>> rsMap = this.datenbankschnittstelle.datenbankAnfrage("SELECT id_sensor"+
                     ",stoerung,zustand,user_parameter,zeitstempel,bezeichnung,id_sektor,phy_adresse from Sensor");
             
             List<String> id = rsMap.get("ID_SENSOR");

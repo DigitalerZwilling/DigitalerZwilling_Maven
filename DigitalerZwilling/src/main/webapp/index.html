@@ -12,8 +12,8 @@
 		<script src="utilities.js"></script>
 		<script src="tabellenansicht.js"></script>
 		<script src="svg.js"></script>
-    <script src="stoerungen.js"></script>
-    <script src="fehlermeldungen.js"></script>
+                <script src="stoerungen.js"></script>
+                <script src="fehlermeldungen.js"></script>
 		<!-- Bootstrap -->
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -30,7 +30,7 @@
 
 
                 //Host bekanntmachen
-                var host = "ws://localhost:8080/DigitalerZwilling/";
+                var host = "DigitalerZwilling/";
 
     		//Listen für Websockets
     		var websocketList_1 = new Array();
@@ -58,51 +58,71 @@
 
     		var i=0
                 var idBtn = null;
+                var websocketsStoerungErstellt;
+                var stoerungsZaehler = [0,0,0,0,0,0];
                 
 
                 $(document).ready(function(){
-                initfehlermeldungen();
-                   
+                    initfehlermeldungen();
+                    initStoerungsZaehler(7);
+                    getLocalStorage();
                    
                     document.getElementById("stoerungsZaehler").innerHTML = 0;
+                    document.getElementById("stoerungsZaehlerMobil").innerHTML = 0;
                     $("#mainContainer").load("uebersicht.html");
+                    
+
         	});
 
                 $(function() {
                     $(".buttonStoerung").on("click",function() {
+                        var nummer = 7;
+                        console.log("<> stoerung");
+                        for(var i = 1; i<=6;i++){
+                            closeWebsockets(i);
+                        }
                         localStorage.removeItem("elementId_7");
                         localStorage.removeItem("elementType_7");
-                        console.log("schließe WebsocketList7 beim Click auf den Störungsbutton.");
-                        closeWebsockets(7);
+                        //closeWebsockets(7);
                         localStorage.setItem("stoerung", "stoerungLaden");
                         if(localStorage.getItem("mainContainer")=="details"){
+                            
                             $("#mainContainer").load("uebersicht.html");
                         }else{
-
-                           viewStoerungen(7);//initStoerung(7);
+                           localStorage.setItem('elementId_'+nummer, -1);
+                            localStorage.setItem('elementType_'+nummer,"stoerungsliste");
+                            for(var i=0; i<=zurueckList_all[nummer-1].length;i++){
+                                zurueckList_all[nummer-1].pop();
+                                historyCheckDiv("details", nummer);
+                            }                               
+                            addZurueckList(nummer, -1, localStorage.getItem('elementType_'+nummer));
+                           initStoerung(7);
                         }
                     });
                 });
 
                 $(function() {
                     $(".buttonDetails").on("click",function() {
-                        console.log("schließe WebsocketLists6-8 beim Click auf den Detailsbutton.");
+                        console.log("<> details");
                         for(var i = 6; i<=8;i++){
                             closeWebsockets(i);
                         }
+                        
                         $("#mainContainer").load("details.html");
                     });
                 });
 
                 $(function() {
                     $(".buttonUebersicht").on("click",function() {
-                        console.log("schließe WebsocketLists1-6 beim Click auf den Übersichtsbutton.");
+                        console.log("<> uebersicht");
                         for(var i = 1; i<=6;i++){
                             closeWebsockets(i);
                         }
                         $("#mainContainer").load("uebersicht.html");
                     });
                 });
+                
+                
 
                 function isBreakpoint(alias) {
                     return $('.device-' + alias).is(':visible');
@@ -132,16 +152,16 @@
                         <span class="icon-bar"></span>
                       </button>
                       <a class="navbar-brand">Digitaler Zwilling</a>
-                      <a href="#" class="buttonStoerung"><span class="badge hidden-lg hidden-md hidden-sm" id="iconStoerung" style="margin-top:15px">0</span></a>
+                      <a href="#" class="buttonStoerung"><span class="badge hidden-lg hidden-md hidden-sm" id="stoerungsZaehlerMobil" style="margin-top:15px">0</span></a>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
                         <ul class="nav navbar-nav">
-                            <li><a href="#" class="buttonUebersicht">Übersicht <span class="sr-only">(current)</span></a></li>
-                            <li><a href="#" class="buttonDetails">Details</a></li>
+                            <li><a data-toggle="collapse" data-target=".in" href="#" class="buttonUebersicht">Übersicht <span class="sr-only">(current)</span></a></li>
+                            <li><a data-toggle="collapse" data-target=".in" href="#" class="buttonDetails">Details</a></li>
 
-                            <li><a href="#" class="buttonStoerung">Störung <span class="badge" id="stoerungsZaehler"></span></a></li>
+                            <li><a data-toggle="collapse" data-target=".in" href="#" class="buttonStoerung">Störungen <span class="badge" id="stoerungsZaehler"></span></a></li>
 
                         </ul>
                     </div><!-- /.navbar-collapse -->
@@ -158,7 +178,8 @@
         <div class="device-lg visible-lg"></div>
 
         <!--FOOTER-->
-        <footer id="footer">
+        <footer>
+            <div id ="fehlerausgabe"> </div>
         </footer>
 
 	</body>

@@ -1,17 +1,26 @@
-var host = "ws://localhost:8080/DigitalerZwilling/";
 var divName = "einzelansicht";
 
 function initEinzelansicht(documentNr){
+        var elementId = localStorage.getItem('elementId_'+documentNr);
+        var elementType = localStorage.getItem('elementType_'+documentNr);
+    
+        console.log("   -> lade Einzelansicht in Fenster " + documentNr + ": " + elementType + " " + elementId); //Ausgabe für Anwendertest
    
         var div = document.getElementById(divName+documentNr);
-
         
         while(div.childNodes.length >0){
             div.removeChild(div.childNodes[0]);
         }
+        if(documentNr==7){
+            var headlineTyp = document.createTextNode(elementType);
+            var paragraph = document.createElement("p");
+            paragraph.setAttribute('class',"category");
+            paragraph.appendChild(headlineTyp);
+            div.appendChild(paragraph);
+        }
         
         var table = document.createElement("table");
-        table.setAttribute('class', "table table-striped");
+        table.setAttribute('class', "table table-striped table-einzelansicht");
         
         
         table.appendChild(document.createElement("thead"));
@@ -26,10 +35,6 @@ function initEinzelansicht(documentNr){
     
     
         closeWebsockets(documentNr);
-    
-        
-        var elementId = localStorage.getItem('elementId_'+documentNr);
-        var elementType =  localStorage.getItem('elementType_'+documentNr);
 
         
         switch (elementType) {
@@ -64,8 +69,7 @@ function initEinzelansicht(documentNr){
                 initHuQu(documentNr, elementId);
                 break;
             default:
-             console.log("default");
-             alert("DEFAULT");
+             console.log("         Einzelansicht in Fenster "+documentNr+": DEFAULT");
       }
     }
     
@@ -75,8 +79,8 @@ function initEinzelansicht(documentNr){
         var attribute_id    = ['bezeichnung', 'zeitstempel', 'user_parameter'];
 
         //Einzelne Tabellen:
-        var list_title = ['Wartenträger' ];
-        var list_id    = ['wartentraeger'];
+        var list_title = ['Warenträger' ];
+        var list_id    = ['warentraeger'];
 
         //Eigenschaften der Tabellen
         var list_header     = [['Bezeichnung', 'Zeitstempel']];
@@ -86,8 +90,8 @@ function initEinzelansicht(documentNr){
         create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
-        var ArtikelWebSocket = new WebSocket(host+"ArtikelWebSocket");
-        var WarentraegerWebSocket = new WebSocket(host+"WarentraegerWebSocket");
+        var ArtikelWebSocket = new WebSocket("ws://"+location.host+"/"+host+"ArtikelWebSocket");
+        var WarentraegerWebSocket = new WebSocket("ws://"+location.host+"/"+host+"WarentraegerWebSocket");
         addWebsockets(documentNr,[ArtikelWebSocket, WarentraegerWebSocket]);
 
         ArtikelWebSocket.onopen = function() {
@@ -101,7 +105,7 @@ function initEinzelansicht(documentNr){
         ArtikelWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToArtikel(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id, 1);
         };
 
         WarentraegerWebSocket.onmessage = function(event) {
@@ -116,7 +120,7 @@ function initEinzelansicht(documentNr){
         var attribute_id    = ['bezeichnung', 'zeitstempel', 'stoerung', 'zustand', 'phy_adresse', 'user_parameter'];
 
         //Einzelne Tabellen:
-        var list_title = ['Sektoren' ];
+        var list_title = ['Sektor' ];
         var list_id    = ['sektoren'];
 
         //Eigenschaften der Tabellen
@@ -128,8 +132,8 @@ function initEinzelansicht(documentNr){
         createAttributLink(documentNr,['Sektor'],['sektor']);
 
         //WebSockets
-        var SensorWebSocket = new WebSocket(host+"SensorWebSocket");
-        var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
+        var SensorWebSocket = new WebSocket("ws://"+location.host+"/"+host+"SensorWebSocket");
+        var SektorWebSocket = new WebSocket("ws://"+location.host+"/"+host+"SektorWebSocket");
         addWebsockets(documentNr,[SensorWebSocket, SektorWebSocket]);
         
         SensorWebSocket.onopen = function() {
@@ -143,7 +147,7 @@ function initEinzelansicht(documentNr){
         SensorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToSensor(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id, 1);
         };
 
         SektorWebSocket.onmessage = function(event) {
@@ -165,7 +169,7 @@ function initEinzelansicht(documentNr){
         var attribute_id    = ['bezeichnung', 'zeitstempel', 'zustand', 'stoerung', 'user_parameter'];
 
         //Einzelne Tabellen:
-        var list_title = ['Artikel', 'Transportband', 'Sektoren'];
+        var list_title = ['Artikel', 'Transportband', 'Sektor'];
         var list_id    = ['artikel', 'transportband', 'sektoren'];
 
         //Eigenschaften der Tabellen
@@ -176,10 +180,10 @@ function initEinzelansicht(documentNr){
         create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
-        var WarentreagerWebSocket = new WebSocket(host+"WarentraegerWebSocket");
-        var ArtikelWebSocket = new WebSocket(host+"ArtikelWebSocket");
-        var TransportbandWebSocket = new WebSocket(host+"TransportbandWebSocket");
-        var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
+        var WarentreagerWebSocket = new WebSocket("ws://"+location.host+"/"+host+"WarentraegerWebSocket");
+        var ArtikelWebSocket = new WebSocket("ws://"+location.host+"/"+host+"ArtikelWebSocket");
+        var TransportbandWebSocket = new WebSocket("ws://"+location.host+"/"+host+"TransportbandWebSocket");
+        var SektorWebSocket = new WebSocket("ws://"+location.host+"/"+host+"SektorWebSocket");
         addWebsockets(documentNr,[WarentreagerWebSocket, ArtikelWebSocket, TransportbandWebSocket, SektorWebSocket]);
         
         WarentreagerWebSocket.onopen = function() {
@@ -201,7 +205,7 @@ function initEinzelansicht(documentNr){
         WarentreagerWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToWarentraeger(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id,1);
         };
 
         ArtikelWebSocket.onmessage = function(event) {
@@ -238,9 +242,9 @@ function initEinzelansicht(documentNr){
         createAttributLink(documentNr, ['Sektor vorher','Sektor nachher'],['vorTransportband','nachTransportband']);
 
         //WebSockets
-        var TransportbandWebSocket = new WebSocket(host+"TransportbandWebSocket");
-        var WarentreagerWebSocket = new WebSocket(host+"WarentraegerWebSocket");
-        var SektorWebSocket = new WebSocket(host+"SektorWebSocket"); 
+        var TransportbandWebSocket = new WebSocket("ws://"+location.host+"/"+host+"TransportbandWebSocket");
+        var WarentreagerWebSocket = new WebSocket("ws://"+location.host+"/"+host+"WarentraegerWebSocket");
+        var SektorWebSocket = new WebSocket("ws://"+location.host+"/"+host+"SektorWebSocket"); 
         addWebsockets(documentNr,[TransportbandWebSocket, WarentreagerWebSocket, SektorWebSocket]);
         
         TransportbandWebSocket.onopen = function() {
@@ -281,7 +285,7 @@ function initEinzelansicht(documentNr){
         TransportbandWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToTransportband(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id, 1);
         };
 
         WarentreagerWebSocket.onmessage = function(event) {
@@ -308,10 +312,10 @@ function initEinzelansicht(documentNr){
         createAttributLink(documentNr, ['Gelenk','Werkzeug'],['gelenk','werkzeug']);
 
         //WebSockets
-        var RoboterWebSocket = new WebSocket(host+"RoboterWebSocket");
-        var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
-        var GelenkWebSocket = new WebSocket(host+"GelenkWebSocket");
-        var WerkzeugWebSocket = new WebSocket(host+"WerkzeugWebSocket");
+        var RoboterWebSocket = new WebSocket("ws://"+location.host+"/"+host+"RoboterWebSocket");
+        var SektorWebSocket = new WebSocket("ws://"+location.host+"/"+host+"SektorWebSocket");
+        var GelenkWebSocket = new WebSocket("ws://"+location.host+"/"+host+"GelenkWebSocket");
+        var WerkzeugWebSocket = new WebSocket("ws://"+location.host+"/"+host+"WerkzeugWebSocket");
         addWebsockets(documentNr,[RoboterWebSocket, SektorWebSocket, GelenkWebSocket, WerkzeugWebSocket]);
         
         RoboterWebSocket.onopen = function() {
@@ -333,7 +337,7 @@ function initEinzelansicht(documentNr){
         RoboterWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToRoboter(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id, 1);
         };
 
         SektorWebSocket.onmessage = function(event) {
@@ -350,7 +354,7 @@ function initEinzelansicht(documentNr){
             var rid = json.inhalt[i]['roboterID'];
                 if(rid==id){
                         var attribute_value = jsonToGelenk(json.inhalt[i]);
-                        updateAttributes(documentNr, ['bezeichnung'],attribute_value,['gelenk']);
+                        updateAttributes(documentNr, ['bezeichnung'],attribute_value,['gelenk'],0);
                 }
             }
         };
@@ -363,7 +367,7 @@ function initEinzelansicht(documentNr){
             var wid = json.inhalt[i]['roboterID'];
                 if(wid==id){
                         var attribute_value = jsonToWerkzeug(json.inhalt[i]);
-                        updateAttributes(documentNr, ['bezeichnung'],attribute_value,['werkzeug']);
+                        updateAttributes(documentNr, ['bezeichnung'],attribute_value,['werkzeug'],0);
                 }
             }
         };
@@ -375,7 +379,7 @@ function initEinzelansicht(documentNr){
         var attribute_id    = ['bezeichnung', 'zeitstempel', 'stoerung', 'user_parameter'];
 
         //Einzelne Tabellen:
-        var list_title = ['Warenträger','Hubpodest','Hubquerpodest','Roboter','Sensor','Transportband vorher','Tansportband nachher'];
+        var list_title = ['Warenträger','Hubpositionierstation','Hub-Quer-Stationen','Roboter','Sensoren','Transportband vorher','Tansportband nachher'];
         var list_id    = ['warentraeger','hubpodest','hubquerpodest','roboter','sensor','nachTransportband','vorTransportband'];
 
         //Eigenschaften der Tabellen
@@ -399,14 +403,14 @@ function initEinzelansicht(documentNr){
         create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
-        var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
+        var SektorWebSocket = new WebSocket("ws://"+location.host+"/"+host+"SektorWebSocket");
         
-        var WarentraegerWebSocket = new WebSocket(host+"WarentraegerWebSocket");
-        var HubpodestWebSocket = new WebSocket(host+"HubPodestWebSocket");
-        var HubquerpodestWebSocket = new WebSocket(host+"HubQuerPodestWebSocket");
-        var RoboterWebSocket = new WebSocket(host+"RoboterWebSocket");
-        var SensorWebSocket = new WebSocket(host+"SensorWebSocket");
-        var TransportbandWebSocket = new WebSocket(host+"TransportbandWebSocket");
+        var WarentraegerWebSocket = new WebSocket("ws://"+location.host+"/"+host+"WarentraegerWebSocket");
+        var HubpodestWebSocket = new WebSocket("ws://"+location.host+"/"+host+"HubPodestWebSocket");
+        var HubquerpodestWebSocket = new WebSocket("ws://"+location.host+"/"+host+"HubQuerPodestWebSocket");
+        var RoboterWebSocket = new WebSocket("ws://"+location.host+"/"+host+"RoboterWebSocket");
+        var SensorWebSocket = new WebSocket("ws://"+location.host+"/"+host+"SensorWebSocket");
+        var TransportbandWebSocket = new WebSocket("ws://"+location.host+"/"+host+"TransportbandWebSocket");
         
         addWebsockets(documentNr,[SektorWebSocket, WarentraegerWebSocket, HubpodestWebSocket, HubquerpodestWebSocket, RoboterWebSocket, SensorWebSocket, TransportbandWebSocket]);
         
@@ -441,7 +445,7 @@ function initEinzelansicht(documentNr){
         SektorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToSektor(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id,1);
         };
 
         WarentraegerWebSocket.onmessage = function(event) {
@@ -495,8 +499,8 @@ function initEinzelansicht(documentNr){
         create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
-        var GelenkWebSocket = new WebSocket(host+"GelenkWebSocket");
-        var RoboterWebSocket = new WebSocket(host+"RoboterWebSocket");
+        var GelenkWebSocket = new WebSocket("ws://"+location.host+"/"+host+"GelenkWebSocket");
+        var RoboterWebSocket = new WebSocket("ws://"+location.host+"/"+host+"RoboterWebSocket");
         addWebsockets(documentNr,[GelenkWebSocket, RoboterWebSocket]);
         
         GelenkWebSocket.onopen = function() {
@@ -510,7 +514,7 @@ function initEinzelansicht(documentNr){
         GelenkWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToGelenk(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value, attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value, attribute_id,1);
         };
 
         RoboterWebSocket.onmessage = function(event) {
@@ -545,8 +549,8 @@ function initEinzelansicht(documentNr){
         create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
-        var WerkzeugWebSocket = new WebSocket(host+"WerkzeugWebSocket");
-        var RoboterWebSocket = new WebSocket(host+"RoboterWebSocket");
+        var WerkzeugWebSocket = new WebSocket("ws://"+location.host+"/"+host+"WerkzeugWebSocket");
+        var RoboterWebSocket = new WebSocket("ws://"+location.host+"/"+host+"RoboterWebSocket");
         addWebsockets(documentNr,[WerkzeugWebSocket, RoboterWebSocket]);
         
         WerkzeugWebSocket.onopen = function() {
@@ -560,7 +564,7 @@ function initEinzelansicht(documentNr){
         WerkzeugWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToWerkzeug(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id,1);
         };
 
         RoboterWebSocket.onmessage = function(event) {
@@ -586,8 +590,8 @@ function initEinzelansicht(documentNr){
         create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
-        var HubpodestWebSocket = new WebSocket(host+"HubPodestWebSocket");
-        var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
+        var HubpodestWebSocket = new WebSocket("ws://"+location.host+"/"+host+"HubPodestWebSocket");
+        var SektorWebSocket = new WebSocket("ws://"+location.host+"/"+host+"SektorWebSocket");
         addWebsockets(documentNr,[HubpodestWebSocket, SektorWebSocket]);
         
         HubpodestWebSocket.onopen = function() {
@@ -601,7 +605,7 @@ function initEinzelansicht(documentNr){
         HubpodestWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToHuPo(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id,1);
         };
 
         SektorWebSocket.onmessage = function(event) {
@@ -627,8 +631,8 @@ function initEinzelansicht(documentNr){
         create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
 
         //WebSockets
-        var HubQuerPodestWebSocket = new WebSocket(host+"HubQuerPodestWebSocket");
-        var SektorWebSocket = new WebSocket(host+"SektorWebSocket");
+        var HubQuerPodestWebSocket = new WebSocket("ws://"+location.host+"/"+host+"HubQuerPodestWebSocket");
+        var SektorWebSocket = new WebSocket("ws://"+location.host+"/"+host+"SektorWebSocket");
         addWebsockets(documentNr,[HubQuerPodestWebSocket, SektorWebSocket]);
         
         HubQuerPodestWebSocket.onopen = function() {
@@ -642,7 +646,7 @@ function initEinzelansicht(documentNr){
         HubQuerPodestWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToHuQu(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id,1);
         };
 
         SektorWebSocket.onmessage = function(event) {

@@ -94,12 +94,17 @@ header {
 
 footer {
     position: absolute;
+    padding:10px;
+    font-size:12pt;
+    font-weight: bold;
+    color:yellow;
     left: 0;
     right: 0;
     bottom: 0;
     background-color: #00ccff;
     height: 40px;
 }
+
 
 .panel {
     margin:0;
@@ -136,6 +141,24 @@ footer {
     padding-left:5px;
     padding-right:5px;
 }
+
+.table-einzelansicht{
+    font-size: 9pt;
+}
+
+.table-tabellenansicht{
+    font-size: 9pt;
+}
+    
+.table-row-name{
+    font-weight:bold;
+}
+
+.headliner{
+    font-weight:bold;
+    color:#00ccff;
+}
+
 /* sm */
 @media (min-width: 768px) {
 
@@ -161,6 +184,23 @@ footer {
         padding-bottom:10px;
         padding-left:5px;
         padding-right:5px;
+    }
+    
+    .table-einzelansicht{
+        font-size: 10pt;
+    }
+    
+    .table-tabellenansicht{
+        font-size:10pt;
+    }
+    
+    .table-row-name{
+        font-weight:bold;
+    }
+    
+    .headliner{
+        font-weight:bold;
+        color:#00ccff;
     }
 }
 /* md */
@@ -188,6 +228,23 @@ footer {
         padding-bottom:10px;
         padding-left:5px;
         padding-right:5px;
+    }
+    
+    .table-einzelansicht{
+        font-size: 9pt;
+    }
+    
+    .table-tabellenansicht{
+        font-size: 9pt;
+    }
+    
+    .table-row-name{
+        font-weight:bold;
+    }
+    
+    .headliner{
+        font-weight:bold;
+        color:#00ccff;
     }
 }
 /* lg */
@@ -217,4 +274,35 @@ footer {
         padding-left:5px;
         padding-right:5px;
     }
+    
+    .table-einzelansicht{
+        font-size: 10pt;
+    }
+    
+    .table-tabellenansicht{
+        font-size: 10pt;
+    }
+    
+    .table-headline{
+        color:white;
+        background-color:#00ccff;
+        padding-left: 5px;
+        font-weight:bold;
+    }
+    
+    .table-row-name{
+        font-weight:bold;
+    }
+    
+    .headliner{
+        font-weight:bold;
+        color:#00ccff;
+    }
+    
+    .category{
+        font-weight:bold;
+        padding-left:5px;
+    }
+    
+    
 }

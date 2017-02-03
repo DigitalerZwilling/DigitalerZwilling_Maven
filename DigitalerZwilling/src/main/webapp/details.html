@@ -30,6 +30,7 @@
                             //Zurück-Buttons, onClick
                             $(".btn.btn-default.backBtn").on('click', function(){            		
                                 idBtn = $(this).attr('id');
+                                
                                 var nummer;
                                 switch(idBtn){
                                     case "backBtn1": nummer = 0; break;	
@@ -38,7 +39,8 @@
                                     case "backBtn4": nummer = 3; break;	
                                     case "backBtn5": nummer = 4; break;	
                                     case "backBtn6_d": nummer = 5;	
-                                }                                
+                                }   
+                                console.log("<> Fenster "+(nummer+1)+": zurueck");
                                 loadHistory(nummer, "details");
                             });
 
@@ -62,14 +64,15 @@
                             }
                             $(".dropdown"+nummer+" li a").click(function(){
                                 $val = $(this).html();
-                                localStorage.removeItem('elementId_'+nummer);
+                                console.log("<> Fenster "+(nummer)+": Dropdown "+$val);
+                                localStorage.setItem('elementId_'+nummer, -1);
                                 localStorage.setItem('elementType_'+nummer,$val);
                                 $(".dd-btn"+nummer).html($val+$caret);
                                 for(var i=0; i<=zurueckList_all[nummer-1].length;i++){
                                     zurueckList_all[nummer-1].pop();
                                     historyCheckDiv("details", nummer);
                                 }                               
-                                addZurueckList(nummer, null, localStorage.getItem('elementType_'+nummer));
+                                addZurueckList(nummer, -1, localStorage.getItem('elementType_'+nummer));
                                 loadDiv(nummer);
                             }); 
                         }
@@ -80,7 +83,7 @@
 			<div class="row" style="background-color:lightgrey; height:100%;">
 
                         <!--COL1-->
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="height:100%;">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="height:100%;">
                             <div class="row" style="background-color:lightgrey; height:100%;">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
                                     <div class="panel panel-default" style="height:100%; overflow-y: auto;">
@@ -129,7 +132,7 @@
                             </div>
                         </div>
                         <!--COL2-->
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="height:100%;">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="height:100%;">
                             <div class="row" style="background-color:lightgrey; height:100%;">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
                                     <div class="panel panel-default" style="height:100%; overflow-y: auto;">
@@ -180,7 +183,7 @@
                         <!--END COL2-->
 
                         <!--COL3-->
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="height:100%;">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="height:100%;">
                             <div class="row" style="background-color:lightgrey; height:100%;">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panelEinzelansicht">
                                     <div class="panel panel-default" style="height:100%; overflow-y: auto;">
