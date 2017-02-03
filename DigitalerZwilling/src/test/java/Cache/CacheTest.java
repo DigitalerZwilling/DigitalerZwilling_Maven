@@ -8,14 +8,12 @@ package Cache;
 import de.hsos.digitalerzwilling.Cache.Cache;
 import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
 import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
+import de.hsos.digitalerzwilling.Cache.Updater.Updater;
 import de.hsos.digitalerzwilling.DatenKlassen.Element;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Inject;
-import javax.validation.constraints.AssertTrue;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -29,11 +27,14 @@ public abstract class CacheTest {
     @Inject
     DatenbankSchnittstelle datenbankSchnittstelle;
     
+    @Inject
+    Updater updater;
+    
     @Test
     abstract public void testUpdate() throws DBNotFoundException, QueryException, DBErrorException, ElementNotFoundException;
     
     @Test
-    abstract public void testUpdateAll() throws DBNotFoundException, QueryException;
+    abstract public void testUpdateAll() throws ElementNotFoundException, DBNotFoundException, QueryException;
     
     @Test
     public void testGetById(){

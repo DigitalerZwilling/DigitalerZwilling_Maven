@@ -26,10 +26,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 
@@ -85,6 +82,38 @@ public class HubQuerPodestCacheTest extends CacheTest{
 
     @Override
     public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
+        updater.setUpdate(false);
+        
+        DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
+        datenbankTestInsert.datenbankUpdate("UPDATE HUBQUERPODEST SET MOTOR=0,OBEN=0,MITTIG=1,UNTEN=0 WHERE ID_HUBQUERPODEST=4242");
+        datenbankTestInsert.datenbankUpdate("UPDATE HUBQUERPODEST SET MOTOR=0,OBEN=0,MITTIG=0,UNTEN=1 WHERE ID_HUBQUERPODEST=4243");
+        datenbankTestInsert.datenbankUpdate("UPDATE HUBQUERPODEST SET MOTOR=0,OBEN=1,MITTIG=0,UNTEN=0 WHERE ID_HUBQUERPODEST=4244");
+        datenbankTestInsert.close();
+        
+        cache.toggleState();
+        cache.update();
+        cache.toggleState();
+        
+        assertTrue("CacheTestHubQuerPodest1 -> Zustand(Update)", ((HubQuerPodest)cache.getById(4242L)).isMotor() == false  &&
+                                                                 ((HubQuerPodest)cache.getById(4242L)).isOben()  == false  &&
+                                                                 ((HubQuerPodest)cache.getById(4242L)).isMittig()== true   &&
+                                                                 ((HubQuerPodest)cache.getById(4242L)).isUnten() == false);
+        
+        assertTrue("CacheTestHubQuerPodest2 -> Zustand(Update)", ((HubQuerPodest)cache.getById(4243L)).isMotor() == false  &&
+                                                                 ((HubQuerPodest)cache.getById(4243L)).isOben()  == false  &&
+                                                                 ((HubQuerPodest)cache.getById(4243L)).isMittig()== false  &&
+                                                                 ((HubQuerPodest)cache.getById(4243L)).isUnten() == true);
+        
+        assertTrue("CacheTestHubQuerPodest3 -> Zustand(Update)", ((HubQuerPodest)cache.getById(4244L)).isMotor() == false  &&
+                                                                 ((HubQuerPodest)cache.getById(4244L)).isOben()  == true   &&
+                                                                 ((HubQuerPodest)cache.getById(4244L)).isMittig()== false  &&
+                                                                 ((HubQuerPodest)cache.getById(4244L)).isUnten() == false);
+        
+        updater.setUpdate(true);
+    }
+
+    @Override
+    public void testUpdateAll() throws ElementNotFoundException {
         assertTrue("CacheTestHubPodest1", cache.getById(4242L).getBezeichnung().equals("CacheTestHubQuerPodest1"));
         assertTrue("CacheTestHubPodest2", cache.getById(4243L).getBezeichnung().equals("CacheTestHubQuerPodest2"));
         assertTrue("CacheTestHubPodest3", cache.getById(4244L).getBezeichnung().equals("CacheTestHubQuerPodest3"));
@@ -109,38 +138,6 @@ public class HubQuerPodestCacheTest extends CacheTest{
                                                          ((HubQuerPodest)cache.getById(4244L)).isOben()  == false &&
                                                          ((HubQuerPodest)cache.getById(4244L)).isMittig()== false &&
                                                          ((HubQuerPodest)cache.getById(4244L)).isUnten() == true);
-        
-        DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
-        datenbankTestInsert.datenbankUpdate("UPDATE HUBQUERPODEST SET MOTOR=0,OBEN=0,MITTIG=1,UNTEN=0 WHERE ID_HUBQUERPODEST=4242");
-        datenbankTestInsert.datenbankUpdate("UPDATE HUBQUERPODEST SET MOTOR=0,OBEN=0,MITTIG=0,UNTEN=1 WHERE ID_HUBQUERPODEST=4243");
-        datenbankTestInsert.datenbankUpdate("UPDATE HUBQUERPODEST SET MOTOR=0,OBEN=1,MITTIG=0,UNTEN=0 WHERE ID_HUBQUERPODEST=4244");
-        datenbankTestInsert.close();
-        
-        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
-        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
-        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
-        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
-        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
-        
-        assertTrue("CacheTestHubQuerPodest1 -> Zustand(Update)", ((HubQuerPodest)cache.getById(4242L)).isMotor() == false  &&
-                                                                 ((HubQuerPodest)cache.getById(4242L)).isOben()  == false  &&
-                                                                 ((HubQuerPodest)cache.getById(4242L)).isMittig()== true   &&
-                                                                 ((HubQuerPodest)cache.getById(4242L)).isUnten() == false);
-        
-        assertTrue("CacheTestHubQuerPodest2 -> Zustand(Update)", ((HubQuerPodest)cache.getById(4243L)).isMotor() == false  &&
-                                                                 ((HubQuerPodest)cache.getById(4243L)).isOben()  == false  &&
-                                                                 ((HubQuerPodest)cache.getById(4243L)).isMittig()== false  &&
-                                                                 ((HubQuerPodest)cache.getById(4243L)).isUnten() == true);
-        
-        assertTrue("CacheTestHubQuerPodest3 -> Zustand(Update)", ((HubQuerPodest)cache.getById(4244L)).isMotor() == false  &&
-                                                                 ((HubQuerPodest)cache.getById(4244L)).isOben()  == true   &&
-                                                                 ((HubQuerPodest)cache.getById(4244L)).isMittig()== false  &&
-                                                                 ((HubQuerPodest)cache.getById(4244L)).isUnten() == false);
-    }
-
-    @Override
-    public void testUpdateAll() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

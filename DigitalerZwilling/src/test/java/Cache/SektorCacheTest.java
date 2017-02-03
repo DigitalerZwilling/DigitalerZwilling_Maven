@@ -18,8 +18,6 @@ import de.hsos.digitalerzwilling.DatenKlassen.Sektor;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -27,7 +25,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.After;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -48,9 +45,6 @@ public class SektorCacheTest extends CacheTest{
     
     @Inject
     SektorCache cache;
-    
-    @Inject
-    Updater updater;
     
     @Before
     public void setUp() throws DBNotFoundException, QueryException {
@@ -98,6 +92,22 @@ public class SektorCacheTest extends CacheTest{
     @Override
     public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
         updater.setUpdate(false);
+        
+        
+        DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
+        datenbankTestInsert.datenbankUpdate("UPDATE SEKTOR SET STOERUNG = 1 WHERE ID_SEKTOR = 4242");
+        datenbankTestInsert.close();
+        
+        cache.toggleState();
+        cache.update();  
+        cache.toggleState();
+        
+        assertTrue("Stoerung (Update)", ((Sektor) cache.getById(4242L)).getStoerung() == 1);
+        updater.setUpdate(true);
+    }
+
+    @Override
+    public void testUpdateAll() throws ElementNotFoundException {
         assertTrue("Ausrichtung",    ((Sektor) cache.getById(4242L)).getBezeichnung().equalsIgnoreCase("CacheTestSektor1"));
         assertTrue("Ausrichtung",    ((Sektor) cache.getById(4242L)).getAusrichtung()==45);
         assertTrue("HubPodest",     !((Sektor) cache.getById(4242L)).getHubpodestIDs().isEmpty() && ((Sektor) cache.getById(4242L)).getHubpodestIDs().get(0) == 4242);
@@ -111,33 +121,6 @@ public class SektorCacheTest extends CacheTest{
         assertTrue("X",              ((Sektor) cache.getById(4242L)).getX()==10);
         assertTrue("Y",              ((Sektor) cache.getById(4242L)).getY()==20);
         assertTrue("Z",              ((Sektor) cache.getById(4242L)).getZ()==30);
-        
-        DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
-        datenbankTestInsert.datenbankUpdate("UPDATE SEKTOR SET STOERUNG = 1 WHERE ID_SEKTOR = 4242");
-        datenbankTestInsert.close();
-        
-        System.out.println("test1");
-        try {
-            Thread.sleep(20000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(WerkzeugCacheTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println("test2");
-        
-        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
-        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
-        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
-        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
-        
-        
-        
-        assertTrue("Stoerung (Update)", ((Sektor) cache.getById(4242L)).getStoerung() == 1);
-        updater.setUpdate(true);
-    }
-
-    @Override
-    public void testUpdateAll() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

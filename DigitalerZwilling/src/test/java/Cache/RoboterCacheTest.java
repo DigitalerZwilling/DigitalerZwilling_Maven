@@ -25,7 +25,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.After;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -87,17 +86,7 @@ public class RoboterCacheTest extends CacheTest{
 
     @Override
     public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
-        assertTrue("Bezeichnung", cache.getById(4242L).getBezeichnung().equalsIgnoreCase("CacheTestRoboter1"));
-        assertTrue("Ausrichtung", ((Roboter) cache.getById(4242L)).getAusrichtung()==4);
-        assertTrue("GelenkIDs",   !((Roboter) cache.getById(4242L)).getId_Gelenke().isEmpty());
-        assertTrue("SektorIDs",   !((Roboter) cache.getById(4242L)).getId_Sektor().isEmpty() 
-                                   && ((Roboter) cache.getById(4242L)).getId_Sektor().get(0)==4242);
-        assertTrue("WerkzeugIDs", !((Roboter) cache.getById(4242L)).getId_Werkzeug().isEmpty()
-                                   && ((Roboter) cache.getById(4242L)).getId_Werkzeug().get(0)==4242);
-        assertTrue("Stoerung",    ((Roboter) cache.getById(4242L)).getStoerung()==0);
-        assertTrue("X_Pos",       ((Roboter) cache.getById(4242L)).getX()==1);
-        assertTrue("Y_Pos",       ((Roboter) cache.getById(4242L)).getY()==2);
-        assertTrue("Z_Pos",       ((Roboter) cache.getById(4242L)).getZ()==3);
+        updater.setUpdate(false);
         
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
         datenbankTestInsert.datenbankUpdate("UPDATE ROBOTER SET POSITION_AUSRICHTUNG = 5, STOERUNG = 1, POSITION_X = 2,"
@@ -108,10 +97,9 @@ public class RoboterCacheTest extends CacheTest{
         datenbankTestInsert.datenbankUpdate("INSERT INTO ROBOTER_WERKZEUG(ID_WERKZEUG,ID_ROBOTER) VALUES (4243,4242)");
         datenbankTestInsert.close();
         
-        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
-        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
-        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
-        cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();cache.update();
+        cache.toggleState();
+        cache.update();
+        cache.toggleState();
         
         assertTrue("Bezeichnung", cache.getById(4242L).getBezeichnung().equalsIgnoreCase("CacheTestRoboter1"));
         assertTrue("GelenkIDs",   !((Roboter) cache.getById(4242L)).getId_Gelenke().isEmpty());
@@ -124,10 +112,22 @@ public class RoboterCacheTest extends CacheTest{
         assertTrue("Y_Pos",       ((Roboter) cache.getById(4242L)).getY()==3);
         assertTrue("Z_Pos",       ((Roboter) cache.getById(4242L)).getZ()==4);
         assertTrue("Ausrichtung", ((Roboter) cache.getById(4242L)).getAusrichtung()==5);
+        
+        updater.setUpdate(true);
     }
 
     @Override
-    public void testUpdateAll() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void testUpdateAll() throws ElementNotFoundException {
+        assertTrue("Bezeichnung", cache.getById(4242L).getBezeichnung().equalsIgnoreCase("CacheTestRoboter1"));
+        assertTrue("Ausrichtung", ((Roboter) cache.getById(4242L)).getAusrichtung()==4);
+        assertTrue("GelenkIDs",   !((Roboter) cache.getById(4242L)).getId_Gelenke().isEmpty());
+        assertTrue("SektorIDs",   !((Roboter) cache.getById(4242L)).getId_Sektor().isEmpty() 
+                                   && ((Roboter) cache.getById(4242L)).getId_Sektor().get(0)==4242);
+        assertTrue("WerkzeugIDs", !((Roboter) cache.getById(4242L)).getId_Werkzeug().isEmpty()
+                                   && ((Roboter) cache.getById(4242L)).getId_Werkzeug().get(0)==4242);
+        assertTrue("Stoerung",    ((Roboter) cache.getById(4242L)).getStoerung()==0);
+        assertTrue("X_Pos",       ((Roboter) cache.getById(4242L)).getX()==1);
+        assertTrue("Y_Pos",       ((Roboter) cache.getById(4242L)).getY()==2);
+        assertTrue("Z_Pos",       ((Roboter) cache.getById(4242L)).getZ()==3);
     }
 }

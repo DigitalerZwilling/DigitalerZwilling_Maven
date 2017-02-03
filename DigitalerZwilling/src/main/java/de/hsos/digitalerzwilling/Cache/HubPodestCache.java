@@ -40,9 +40,11 @@ public class HubPodestCache extends Cache{
                 if (hubpodest==null) throw new ElementNotFoundException();
                 String outTime=zeitstempel.get(i).replace(' ', 'T');
                 hubpodest.setZeitstempel(LocalDateTime.parse(outTime));
-                hubpodest.setOben(Boolean.getBoolean(oben.get(i)));
-                hubpodest.setUnten(Boolean.getBoolean(unten.get(i)));
+                hubpodest.setOben(!oben.get(i).equalsIgnoreCase("0"));
+                hubpodest.setUnten(!unten.get(i).equalsIgnoreCase("0"));
                 hubpodest.setUser_Parameter(user_parameter.get(i));
+                /*hubpodest.setOben(Boolean.getBoolean(oben.get(i)));
+                hubpodest.setUnten(Boolean.getBoolean(unten.get(i)));*/
             }
         } catch (DBNotFoundException ex) {
             Logger.getLogger(ArtikelCache.class.getName()).log(Level.SEVERE, null, ex);

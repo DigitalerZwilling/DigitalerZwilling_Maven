@@ -26,7 +26,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.After;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -80,6 +79,25 @@ public class TransportbandCacheTest extends CacheTest{
 
     @Override
     public void testUpdate() throws ElementNotFoundException, DBErrorException, DBNotFoundException, QueryException {
+        updater.setUpdate(false);
+        
+        DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
+        datenbankTestInsert.datenbankUpdate("UPDATE TRANSPORTBAND SET STOERUNG=1,GESCHWINDIGKEIT=0 WHERE ID_TRANSPORTBAND = 4242");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM TRANSPORTBAND_WARENTRAEGER WHERE ID_TRANSPORTBAND = 4242");
+        datenbankTestInsert.close();
+        
+        cache.toggleState();
+        cache.update();
+        cache.toggleState();
+        
+        assertTrue("Stoerung<-Update"      , ((Transportband)cache.getById(4242L)).getStoerung() == 1);
+        assertTrue("WarentraegerID<-Update", ((Transportband)cache.getById(4242L)).getWarentraegerIDs().isEmpty());
+        
+        updater.setUpdate(true);
+    }
+
+    @Override
+    public void testUpdateAll() throws ElementNotFoundException {
         assertTrue("Bezeichnung", cache.getById(4242L).getBezeichnung().equalsIgnoreCase("CacheTestTransportband1"));
         assertTrue("Laenge"     , ((Transportband)cache.getById(4242L)).getLaenge()   == 100);
         assertTrue("Reihe"      , ((Transportband)cache.getById(4242L)).getReihe()    == 1);
@@ -91,22 +109,5 @@ public class TransportbandCacheTest extends CacheTest{
         if(!((Transportband)cache.getById(4242L)).getWarentraegerIDs().isEmpty()){
             assertTrue("WarentaegerID", Objects.equals(((Transportband)cache.getById(4242L)).getWarentraegerIDs().get(0), 4242L));
         }
-        
-        DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
-        datenbankTestInsert.datenbankUpdate("UPDATE TRANSPORTBAND SET STOERUNG=1,GESCHWINDIGKEIT=0 WHERE ID_TRANSPORTBAND = 4242");
-        datenbankTestInsert.datenbankUpdate("DELETE FROM TRANSPORTBAND_WARENTRAEGER WHERE ID_TRANSPORTBAND = 4242");
-        datenbankTestInsert.close();
-        
-        cache.update();
-        
-        assertTrue("Stoerung<-Update"      , ((Transportband)cache.getById(4242L)).getStoerung() == 1);
-        assertTrue("WarentraegerID<-Update", ((Transportband)cache.getById(4242L)).getWarentraegerIDs().isEmpty());
-        
-        
-    }
-
-    @Override
-    public void testUpdateAll() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

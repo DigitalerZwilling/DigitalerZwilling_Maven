@@ -18,8 +18,6 @@ import de.hsos.digitalerzwilling.DatenKlassen.Gelenk;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -27,10 +25,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 
@@ -80,50 +75,44 @@ public class GelenkCacheTest extends CacheTest{
 
     @Override
     public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
-        try {
-            assertTrue("Bezeichnung",cache.getById(4242L).getBezeichnung().equalsIgnoreCase("CacheTestGELENK1"));
-            assertTrue("Bezeichnung",cache.getById(4243L).getBezeichnung().equalsIgnoreCase("CacheTestGELENK2"));
-            assertTrue("Bezeichnung",cache.getById(4244L).getBezeichnung().equalsIgnoreCase("CacheTestGELENK3"));
-            
-            assertTrue("Typ",((Gelenk)cache.getById(4242L)).getTyp().equalsIgnoreCase("Typ1"));
-            assertTrue("Typ",((Gelenk)cache.getById(4243L)).getTyp().equalsIgnoreCase("Typ2"));
-            assertTrue("Typ",((Gelenk)cache.getById(4244L)).getTyp().equalsIgnoreCase("Typ3"));
-            
-            assertTrue("Typ",((Gelenk)cache.getById(4242L)).getNummer()==2);
-            assertTrue("Typ",((Gelenk)cache.getById(4243L)).getNummer()==3);
-            assertTrue("Typ",((Gelenk)cache.getById(4244L)).getNummer()==4);
-            
-            assertTrue("Typ",((Gelenk)cache.getById(4242L)).getGelenkstellung()==0);
-            assertTrue("Typ",((Gelenk)cache.getById(4243L)).getGelenkstellung()==90);
-            assertTrue("Typ",((Gelenk)cache.getById(4244L)).getGelenkstellung()==180);
-            
-            DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
-            datenbankTestInsert.datenbankUpdate("UPDATE GELENK SET GELENKSTELLUNG=1 WHERE ID_GELENK=4242");
-            datenbankTestInsert.datenbankUpdate("UPDATE GELENK SET GELENKSTELLUNG=91 WHERE ID_GELENK=4243");
-            datenbankTestInsert.datenbankUpdate("UPDATE GELENK SET GELENKSTELLUNG=181 WHERE ID_GELENK=4244");
-            datenbankTestInsert.close();
-            
-            Thread.sleep(500);
-            Thread.sleep(500);
-            Thread.sleep(500);
-            Thread.sleep(500);
-            Thread.sleep(500);
-            Thread.sleep(500);
-            //cache.update(); //Nicht gut...
-            
-            System.out.println(((Gelenk)cache.getById(4243L)).getGelenkstellung());
-            
-            assertTrue("Typ",((Gelenk)cache.getById(4242L)).getGelenkstellung()==1);
-            assertTrue("Typ",((Gelenk)cache.getById(4243L)).getGelenkstellung()==91);
-            assertTrue("Typ",((Gelenk)cache.getById(4244L)).getGelenkstellung()==181);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(GelenkCacheTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        updater.setUpdate(false);
+
+        DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
+        datenbankTestInsert.datenbankUpdate("UPDATE GELENK SET GELENKSTELLUNG=1 WHERE ID_GELENK=4242");
+        datenbankTestInsert.datenbankUpdate("UPDATE GELENK SET GELENKSTELLUNG=91 WHERE ID_GELENK=4243");
+        datenbankTestInsert.datenbankUpdate("UPDATE GELENK SET GELENKSTELLUNG=181 WHERE ID_GELENK=4244");
+        datenbankTestInsert.close();
+
+        cache.toggleState();
+        cache.update();
+        cache.toggleState();
+
+        System.out.println(((Gelenk) cache.getById(4243L)).getGelenkstellung());
+
+        assertTrue("Typ", ((Gelenk) cache.getById(4242L)).getGelenkstellung() == 1);
+        assertTrue("Typ", ((Gelenk) cache.getById(4243L)).getGelenkstellung() == 91);
+        assertTrue("Typ", ((Gelenk) cache.getById(4244L)).getGelenkstellung() == 181);
+        updater.setUpdate(true);
     }
 
     @Override
-    public void testUpdateAll() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void testUpdateAll() throws ElementNotFoundException {
+        assertTrue("Bezeichnung1", cache.getById(4242L).getBezeichnung().equalsIgnoreCase("CacheTestGELENK1"));
+        assertTrue("Bezeichnung2", cache.getById(4243L).getBezeichnung().equalsIgnoreCase("CacheTestGELENK2"));
+        assertTrue("Bezeichnung3", cache.getById(4244L).getBezeichnung().equalsIgnoreCase("CacheTestGELENK3"));
+
+        assertTrue("Typ1", ((Gelenk) cache.getById(4242L)).getTyp().equalsIgnoreCase("Typ1"));
+        assertTrue("Typ2", ((Gelenk) cache.getById(4243L)).getTyp().equalsIgnoreCase("Typ2"));
+        assertTrue("Typ3", ((Gelenk) cache.getById(4244L)).getTyp().equalsIgnoreCase("Typ3"));
+
+        assertTrue("Nummer1", ((Gelenk) cache.getById(4242L)).getNummer() == 2);
+        assertTrue("Nummer2", ((Gelenk) cache.getById(4243L)).getNummer() == 3);
+        assertTrue("Nummer3", ((Gelenk) cache.getById(4244L)).getNummer() == 4);
+
+        assertTrue("Gelenkstellung1", ((Gelenk) cache.getById(4242L)).getGelenkstellung() == 0);
+        assertTrue("Gelenkstellung2", ((Gelenk) cache.getById(4243L)).getGelenkstellung() == 90);
+        assertTrue("Gelenkstellung3", ((Gelenk) cache.getById(4244L)).getGelenkstellung() == 180);
     }
     
 }

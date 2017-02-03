@@ -26,7 +26,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.After;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -73,25 +72,28 @@ public class SensorCacheTest extends CacheTest{
 
     @Override
     public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
-        assertTrue("Bezeichnung", ((Sensor)cache.getById(4242L)).getBezeichnung().equalsIgnoreCase("CacheTestSensor1"));
-        assertTrue("Stoerung", ((Sensor)cache.getById(4242L)).getStoerung()==0);
-        assertTrue("Zustand", !((Sensor)cache.getById(4242L)).isZustand());
-        assertTrue("Adresse", ((Sensor)cache.getById(4242L)).getPhy_adresse().equalsIgnoreCase("1234"));
-        assertTrue("SektorID", Objects.equals(((Sensor)cache.getById(4242L)).getSektorID(), 4242L));
+        updater.setUpdate(false);
         
         DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
         datenbankTestInsert.datenbankUpdate("UPDATE SENSOR SET ZUSTAND=1,STOERUNG=1 WHERE ID_SENSOR=4242");
         datenbankTestInsert.close();
         
+        cache.toggleState();
         cache.update();
+        cache.toggleState();
         
         assertTrue("Stoerung (Update)", ((Sensor)cache.getById(4242L)).getStoerung()==1);
         assertTrue("Zustand(Update)", ((Sensor)cache.getById(4242L)).isZustand());
         
+        updater.setUpdate(true);
     }
 
     @Override
-    public void testUpdateAll() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void testUpdateAll() throws ElementNotFoundException {
+        assertTrue("Bezeichnung", ((Sensor)cache.getById(4242L)).getBezeichnung().equalsIgnoreCase("CacheTestSensor1"));
+        assertTrue("Stoerung", ((Sensor)cache.getById(4242L)).getStoerung()==0);
+        assertTrue("Zustand", !((Sensor)cache.getById(4242L)).isZustand());
+        assertTrue("Adresse", ((Sensor)cache.getById(4242L)).getPhy_adresse().equalsIgnoreCase("1234"));
+        assertTrue("SektorID", Objects.equals(((Sensor)cache.getById(4242L)).getSektorID(), 4242L));
     }
 }

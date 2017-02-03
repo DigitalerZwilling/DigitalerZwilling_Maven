@@ -19,6 +19,8 @@ import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -26,7 +28,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.After;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -81,6 +82,35 @@ public class HubPodestCacheTest extends CacheTest{
 
     @Override
     public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
+        updater.setUpdate(false);
+        DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
+        datenbankTestInsert.datenbankUpdate("UPDATE HUBPODEST SET OBEN=0,UNTEN=1 WHERE ID_HUBPODEST=4242");
+        datenbankTestInsert.datenbankUpdate("UPDATE HUBPODEST SET OBEN=1,UNTEN=0 WHERE ID_HUBPODEST=4243");
+        datenbankTestInsert.datenbankUpdate("UPDATE HUBPODEST SET OBEN=0,UNTEN=0 WHERE ID_HUBPODEST=4244");
+        datenbankTestInsert.close();
+        
+        cache.toggleState();
+        cache.update();
+        cache.toggleState();
+        
+        assertTrue("CacheTestHubPodest1 -> Zustand(Update)", ((HubPodest)cache.getById(4242L)).isOben() == false &&
+                                                             ((HubPodest)cache.getById(4242L)).isUnten()== true );
+        assertTrue("CacheTestHubPodest2 -> Zustand(Update)", ((HubPodest)cache.getById(4243L)).isOben() == true &&
+                                                             ((HubPodest)cache.getById(4243L)).isUnten()== false );
+        assertTrue("CacheTestHubPodest3 -> Zustand(Update)", ((HubPodest)cache.getById(4244L)).isOben() == false &&
+                                                             ((HubPodest)cache.getById(4244L)).isUnten()== false );
+        updater.setUpdate(true);
+    }
+
+    @Override
+    public void testUpdateAll() throws ElementNotFoundException {
+        cache.toggleState();
+        try {
+            cache.update();
+        } catch (DBErrorException ex) {
+            Logger.getLogger(HubPodestCacheTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        cache.toggleState();
         assertTrue("CacheTestHubPodest1", cache.getById(4242L).getBezeichnung().equals("CacheTestHubPodest1"));
         assertTrue("CacheTestHubPodest2", cache.getById(4243L).getBezeichnung().equals("CacheTestHubPodest2"));
         assertTrue("CacheTestHubPodest3", cache.getById(4244L).getBezeichnung().equals("CacheTestHubPodest3"));
@@ -89,33 +119,11 @@ public class HubPodestCacheTest extends CacheTest{
         assertTrue("CacheTestHubPodest1 -> Sektor", Objects.equals(((HubPodest)cache.getById(4243L)).getId_sektor(), 4243L));
         assertTrue("CacheTestHubPodest1 -> Sektor", Objects.equals(((HubPodest)cache.getById(4244L)).getId_sektor(), 4244L));
         
-        System.out.println(((HubPodest)cache.getById(4242L)).isOben()+ " "+((HubPodest)cache.getById(4242L)).isUnten());
-        
         assertTrue("CacheTestHubPodest1 -> Zustand", ((HubPodest)cache.getById(4242L)).isOben() == true &&
                                                      ((HubPodest)cache.getById(4242L)).isUnten()== false );
         assertTrue("CacheTestHubPodest2 -> Zustand", ((HubPodest)cache.getById(4243L)).isOben() == false &&
                                                      ((HubPodest)cache.getById(4243L)).isUnten()== true );
         assertTrue("CacheTestHubPodest3 -> Zustand", ((HubPodest)cache.getById(4244L)).isOben() == true &&
                                                      ((HubPodest)cache.getById(4244L)).isUnten()== false );
-        
-        DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
-        datenbankTestInsert.datenbankUpdate("UPDATE HUBPODEST SET OBEN=0,UNTEN=1 WHERE ID_HUBPODEST=4242");
-        datenbankTestInsert.datenbankUpdate("UPDATE HUBPODEST SET OBEN=1,UNTEN=0 WHERE ID_HUBPODEST=4243");
-        datenbankTestInsert.datenbankUpdate("UPDATE HUBPODEST SET OBEN=0,UNTEN=0 WHERE ID_HUBPODEST=4244");
-        datenbankTestInsert.close();
-        
-        cache.update();
-        
-        assertTrue("CacheTestHubPodest1 -> Zustand(Update)", ((HubPodest)cache.getById(4242L)).isOben() == false &&
-                                                             ((HubPodest)cache.getById(4242L)).isUnten()== true );
-        assertTrue("CacheTestHubPodest2 -> Zustand(Update)", ((HubPodest)cache.getById(4243L)).isOben() == true &&
-                                                             ((HubPodest)cache.getById(4243L)).isUnten()== false );
-        assertTrue("CacheTestHubPodest3 -> Zustand(Update)", ((HubPodest)cache.getById(4244L)).isOben() == false &&
-                                                             ((HubPodest)cache.getById(4244L)).isUnten()== false );
-    }
-
-    @Override
-    public void testUpdateAll() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -18,7 +18,6 @@ import de.hsos.digitalerzwilling.DatenKlassen.Warentraeger;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
-import java.util.Objects;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -26,7 +25,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.After;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -87,6 +85,33 @@ public class WarentraegerCacheTest extends CacheTest{
 
     @Override
     public void testUpdate() throws ElementNotFoundException, DBNotFoundException, QueryException, DBErrorException {
+        updater.setUpdate(false);
+        
+        DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
+        datenbankTestInsert.datenbankUpdate("UPDATE WARENTRAEGER SET STOERUNG=1,MONTAGEZUSTAND=99,ABSTAND_MM=84 WHERE ID_WARENTRAEGER=4242");
+        datenbankTestInsert.datenbankUpdate("DELETE FROM TRANSPORTBAND_WARENTRAEGER WHERE ID_WARENTRAEGER=4242");
+        datenbankTestInsert.datenbankUpdate("INSERT INTO SEKTOR_WARENTRAEGER (ID_SEKTOR,ID_WARENTRAEGER) VALUES (4242,4242)");
+        datenbankTestInsert.close();
+        
+        cache.toggleState();
+        cache.update();
+        cache.toggleState();
+        
+        assertTrue("Stoerung",       ((Warentraeger)cache.getById(4242L)).getStoerung()==1);
+        assertTrue("Montage",        ((Warentraeger)cache.getById(4242L)).getMontagezustand()==99);
+        assertTrue("Abstand",        ((Warentraeger)cache.getById(4242L)).getAbstand_mm()==84);
+        assertTrue("TransportID",    ((Warentraeger)cache.getById(4242L)).getTransportbandIDs().isEmpty());
+        assertTrue("SektorID",      !((Warentraeger)cache.getById(4242L)).getSektorIDs().isEmpty());
+        if(!((Warentraeger)cache.getById(4242L)).getTransportbandIDs().isEmpty()){
+            assertTrue("SektorID",   ((Warentraeger)cache.getById(4242L)).getSektorIDs().get(0)==4242);
+        }
+        
+        updater.setUpdate(true);
+    }
+
+    @Override
+    public void testUpdateAll() throws ElementNotFoundException {
+        
         assertTrue("WarentraegerCachetest1", cache.getById(4242L).getBezeichnung().equalsIgnoreCase("CacheTestWarentraeger1"));
         
         assertTrue("Stoerung",       ((Warentraeger)cache.getById(4242L)).getStoerung()==0);
@@ -98,27 +123,5 @@ public class WarentraegerCacheTest extends CacheTest{
             assertTrue("TransportID",((Warentraeger)cache.getById(4242L)).getTransportbandIDs().get(0)==4242);
         }
         assertTrue("SektorID",       ((Warentraeger)cache.getById(4242L)).getSektorIDs().isEmpty());
-        
-        DatenbankTestInsert datenbankTestInsert = new DatenbankTestInsert();
-        datenbankTestInsert.datenbankUpdate("UPDATE WARENTRAEGER SET STOERUNG=1,MONTAGEZUSTAND=99,ABSTAND_MM=84 WHERE ID_WARENTRAEGER=4242");
-        datenbankTestInsert.datenbankUpdate("DELETE FROM TRANSPORTBAND_WARENTRAEGER WHERE ID_WARENTRAEGER=4242");
-        datenbankTestInsert.datenbankUpdate("INSERT INTO SEKTOR_WARENTRAEGER (ID_SEKTOR,ID_WARENTRAEGER) VALUES (4242,4242)");
-        datenbankTestInsert.close();
-        
-        cache.update();
-        
-        assertTrue("Stoerung",       ((Warentraeger)cache.getById(4242L)).getStoerung()==1);
-        assertTrue("Montage",        ((Warentraeger)cache.getById(4242L)).getMontagezustand()==99);
-        assertTrue("Abstand",        ((Warentraeger)cache.getById(4242L)).getAbstand_mm()==84);
-        assertTrue("TransportID",    ((Warentraeger)cache.getById(4242L)).getTransportbandIDs().isEmpty());
-        assertTrue("SektorID",      !((Warentraeger)cache.getById(4242L)).getSektorIDs().isEmpty());
-        if(!((Warentraeger)cache.getById(4242L)).getTransportbandIDs().isEmpty()){
-            assertTrue("SektorID",   ((Warentraeger)cache.getById(4242L)).getSektorIDs().get(0)==4242);
-        }
-    }
-
-    @Override
-    public void testUpdateAll() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
