@@ -26,6 +26,7 @@
         for(var i=0; i<attribute.length; i++){
             var zeile = document.createElement("tr");
             var name = document.createElement("td");
+            name.setAttribute('class',"table-row-name");
             name.innerHTML = attribute[i];
             zeile.appendChild(name);
 
@@ -158,10 +159,11 @@
     
    
     
-    function updateAttributes(documentNr, attribute_id, attribute_value, element_id){
+    function updateAttributes(documentNr, attribute_id, attribute_value, element_id, number){
         for(var i=0; i<attribute_id.length; i++){
+            //console.log("i: " + i + "attribute_id: " + attribute_id + ", attribute_value: "+ attribute_value);
             var element = document.getElementById(documentNr+"_"+element_id[i]);
-            if(i==0){
+            if(i==0 && number==1){
                 element.setAttribute('class',"headliner");
             }
             element.innerHTML = attribute_value[i]; //json[attribute_id[i]];

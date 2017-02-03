@@ -99,7 +99,7 @@ function initEinzelansicht(documentNr){
         ArtikelWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToArtikel(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id, 1);
         };
 
         WarentraegerWebSocket.onmessage = function(event) {
@@ -141,7 +141,7 @@ function initEinzelansicht(documentNr){
         SensorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToSensor(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id, 1);
         };
 
         SektorWebSocket.onmessage = function(event) {
@@ -199,7 +199,7 @@ function initEinzelansicht(documentNr){
         WarentreagerWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToWarentraeger(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id,1);
         };
 
         ArtikelWebSocket.onmessage = function(event) {
@@ -279,7 +279,7 @@ function initEinzelansicht(documentNr){
         TransportbandWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToTransportband(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id, 1);
         };
 
         WarentreagerWebSocket.onmessage = function(event) {
@@ -331,7 +331,7 @@ function initEinzelansicht(documentNr){
         RoboterWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToRoboter(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id, 1);
         };
 
         SektorWebSocket.onmessage = function(event) {
@@ -348,7 +348,7 @@ function initEinzelansicht(documentNr){
             var rid = json.inhalt[i]['roboterID'];
                 if(rid==id){
                         var attribute_value = jsonToGelenk(json.inhalt[i]);
-                        updateAttributes(documentNr, ['bezeichnung'],attribute_value,['gelenk']);
+                        updateAttributes(documentNr, ['bezeichnung'],attribute_value,['gelenk'],0);
                 }
             }
         };
@@ -361,7 +361,7 @@ function initEinzelansicht(documentNr){
             var wid = json.inhalt[i]['roboterID'];
                 if(wid==id){
                         var attribute_value = jsonToWerkzeug(json.inhalt[i]);
-                        updateAttributes(documentNr, ['bezeichnung'],attribute_value,['werkzeug']);
+                        updateAttributes(documentNr, ['bezeichnung'],attribute_value,['werkzeug'],0);
                 }
             }
         };
@@ -439,7 +439,7 @@ function initEinzelansicht(documentNr){
         SektorWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToSektor(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id,1);
         };
 
         WarentraegerWebSocket.onmessage = function(event) {
@@ -508,7 +508,7 @@ function initEinzelansicht(documentNr){
         GelenkWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToGelenk(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value, attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value, attribute_id,1);
         };
 
         RoboterWebSocket.onmessage = function(event) {
@@ -558,7 +558,7 @@ function initEinzelansicht(documentNr){
         WerkzeugWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToWerkzeug(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id,1);
         };
 
         RoboterWebSocket.onmessage = function(event) {
@@ -599,7 +599,7 @@ function initEinzelansicht(documentNr){
         HubpodestWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToHuPo(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id,1);
         };
 
         SektorWebSocket.onmessage = function(event) {
@@ -640,7 +640,7 @@ function initEinzelansicht(documentNr){
         HubQuerPodestWebSocket.onmessage = function(event) {
             var jsonString = event.data;
             var attribute_value = jsonToHuQu(JSON.parse(jsonString));
-            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id);
+            updateAttributes(documentNr, attribute_id,attribute_value,attribute_id,1);
         };
 
         SektorWebSocket.onmessage = function(event) {
