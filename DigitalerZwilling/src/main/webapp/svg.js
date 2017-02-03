@@ -22,10 +22,10 @@ function initSVG() {
     var documentNr = 8;
     closeWebsockets(documentNr);
 
-    var SektorWebsocket = new WebSocket("ws://"+location.host+"/"+host + "SektorWebSocket");
-    var TransportbandWebsocket = new WebSocket("ws://"+location.host+"/"+host + "TransportbandWebSocket");
-    var WarentraegerWebsocket = new WebSocket("ws://"+location.host+"/"+host + "WarentraegerWebSocket");
-    jsonCache=["","",""];
+    var SektorWebsocket = new WebSocket("ws://" + location.host + "/" + host + "SektorWebSocket");
+    var TransportbandWebsocket = new WebSocket("ws://" + location.host + "/" + host + "TransportbandWebSocket");
+    var WarentraegerWebsocket = new WebSocket("ws://" + location.host + "/" + host + "WarentraegerWebSocket");
+    jsonCache = ["", "", ""];
 
     addWebsockets(documentNr, [SektorWebsocket, TransportbandWebsocket, WarentraegerWebsocket]);
 
@@ -40,80 +40,80 @@ function initSVG() {
     WarentraegerWebsocket.onopen = function () {
         WarentraegerWebsocket.send("LIST");
     };
-    
-    SektorWebsocket.onmessage = function(event) {
-       var j_sektoren = JSON.parse(event.data);
-       
-       jsonCache[0] = j_sektoren;
-       createSVG();
-   };
-   TransportbandWebsocket.onmessage = function(event) {
-            var j_baender = JSON.parse(event.data);
-            
-            jsonCache[1] = j_baender;
-            createSVG();
-                
-   };
-   
-   WarentraegerWebsocket.onmessage = function(event) {    
-            var j_warentraeger = JSON.parse(event.data);
-            
-            jsonCache[2] = j_warentraeger;
-            createSVG();
-   };
+
+    SektorWebsocket.onmessage = function (event) {
+        var j_sektoren = JSON.parse(event.data);
+
+        jsonCache[0] = j_sektoren;
+        createSVG();
+    };
+    TransportbandWebsocket.onmessage = function (event) {
+        var j_baender = JSON.parse(event.data);
+
+        jsonCache[1] = j_baender;
+        createSVG();
+
+    };
+
+    WarentraegerWebsocket.onmessage = function (event) {
+        var j_warentraeger = JSON.parse(event.data);
+
+        jsonCache[2] = j_warentraeger;
+        createSVG();
+    };
 }
-function createSVG(){
-    if(jsonCache[0] != "" && jsonCache[1]!="" && jsonCache[2]!=""){
-        
-    var rect2 = document.createElementNS(svgns, 'rect');
-    rect2.setAttributeNS(null, 'id', 'Sektor_2_Attrappe');
-    rect2.setAttributeNS(null, 'x', jsonCache[0].inhalt[getSekByID(jsonCache[0], 2)].x + sektor_width / 2.5);
-    rect2.setAttributeNS(null, 'y', jsonCache[0].inhalt[getSekByID(jsonCache[0], 2)].y + sektor_height / 2.5);
-    rect2.setAttributeNS(null, 'height', WT_height);
-    rect2.setAttributeNS(null, 'width', WT_width);
-    //if (j_warentraeger.inhalt[i].stoerung != 0)
-    //rect2.setAttributeNS(null, 'fill', stoerung_fill);
-    //else 
-    rect2.setAttributeNS(null, 'fill', WT_fill);
-    rect2.setAttributeNS(null, 'stroke-width', '5');
-    rect2.setAttributeNS(null, 'stroke', 'black');
-    //rect2.setAttributeNS(null, 'onclick', 'idAusgeben(this)'); //Beim anklicken wird die Id des Elementes ausgeben
-    document.getElementById('svgOne').appendChild(rect2);
-        
-        websocketList_8[0].onmessage = function(event) {
+function createSVG() {
+    if (jsonCache[0] != "" && jsonCache[1] != "" && jsonCache[2] != "") {
+
+        var rect2 = document.createElementNS(svgns, 'rect');
+        rect2.setAttributeNS(null, 'id', 'Sektor_2_Attrappe');
+        rect2.setAttributeNS(null, 'x', jsonCache[0].inhalt[getSekByID(jsonCache[0], 2)].x + sektor_width / 2.5);
+        rect2.setAttributeNS(null, 'y', jsonCache[0].inhalt[getSekByID(jsonCache[0], 2)].y + sektor_height / 2.5);
+        rect2.setAttributeNS(null, 'height', WT_height);
+        rect2.setAttributeNS(null, 'width', WT_width);
+        //if (j_warentraeger.inhalt[i].stoerung != 0)
+        //rect2.setAttributeNS(null, 'fill', stoerung_fill);
+        //else 
+        rect2.setAttributeNS(null, 'fill', WT_fill);
+        rect2.setAttributeNS(null, 'stroke-width', '5');
+        rect2.setAttributeNS(null, 'stroke', 'black');
+        //rect2.setAttributeNS(null, 'onclick', 'idAusgeben(this)'); //Beim anklicken wird die Id des Elementes ausgeben
+        document.getElementById('svgOne').appendChild(rect2);
+
+        websocketList_8[0].onmessage = function (event) {
             var j_sektoren = JSON.parse(event.data);
 
             jsonCache[0] = j_sektoren;
             reloadSVG();
         };
-        
-        websocketList_8[1].onmessage = function(event) {
+
+        websocketList_8[1].onmessage = function (event) {
             var j_baender = JSON.parse(event.data);
-            
+
             jsonCache[1] = j_baender;
             reloadSVG();
-                
+
         };
-        
-        websocketList_8[2].onmessage = function(event) {
+
+        websocketList_8[2].onmessage = function (event) {
             var j_warentraeger = JSON.parse(event.data);
-            
+
             jsonCache[2] = j_warentraeger;
             reloadSVG();
-                
+
         };
-        
+
         sektorenErstellen(jsonCache[0]);
         transportbaenderErstellen(jsonCache[0], jsonCache[1]);
         warentraegerErstellen(jsonCache[0], jsonCache[1], jsonCache[2]);
     }
 }
 
-function reloadSVG(){
+function reloadSVG() {
     //if(){
-        sektorenAendern(jsonCache[0]);
-	transportbaenderAendern(jsonCache[1]);
-	warentraegerAendern(jsonCache[0], jsonCache[1], jsonCache[2]);
+    sektorenAendern(jsonCache[0]);
+    transportbaenderAendern(jsonCache[1]);
+    warentraegerAendern(jsonCache[0], jsonCache[1], jsonCache[2]);
     //}
 }
 
@@ -149,48 +149,48 @@ function getTBByID(j_baender, key) {
     return 0;
 }
 
-function clickSektoren(sektor){
-    var id = sektor.getAttributeNS(null,'elementId');
-    var type='Sektoren';
+function clickSektoren(sektor) {
+    var id = sektor.getAttributeNS(null, 'elementId');
+    var type = 'Sektoren';
     var documentNr = 7;
-    console.log("<> SVG: " + type+ " "+id);
-    
-    localStorage.setItem('elementId_'+documentNr,id);
-    localStorage.setItem('elementType_'+documentNr,type);
-    for(var i=0; i<=zurueckList_all[documentNr-1].length;i++){
-        zurueckList_all[documentNr-1].pop();
+    console.log("<> SVG: " + type + " " + id);
+
+    localStorage.setItem('elementId_' + documentNr, id);
+    localStorage.setItem('elementType_' + documentNr, type);
+    for (var i = 0; i <= zurueckList_all[documentNr - 1].length; i++) {
+        zurueckList_all[documentNr - 1].pop();
         historyCheckDiv("uebersicht", documentNr);
     }
     addZurueckList(documentNr, id, type);
     initEinzelansicht(documentNr);
 }
 
-function clickTransportbaender(transportband){
-    var id = transportband.getAttributeNS(null,'elementId');
-    var type='Transportbänder';
+function clickTransportbaender(transportband) {
+    var id = transportband.getAttributeNS(null, 'elementId');
+    var type = 'Transportbänder';
     var documentNr = 7;
-    console.log("<> SVG: " + type+ " "+id);
-    
-    localStorage.setItem('elementId_'+documentNr,id);
-    localStorage.setItem('elementType_'+documentNr,type);
-    for(var i=0; i<=zurueckList_all[documentNr-1].length;i++){
-        zurueckList_all[documentNr-1].pop();
+    console.log("<> SVG: " + type + " " + id);
+
+    localStorage.setItem('elementId_' + documentNr, id);
+    localStorage.setItem('elementType_' + documentNr, type);
+    for (var i = 0; i <= zurueckList_all[documentNr - 1].length; i++) {
+        zurueckList_all[documentNr - 1].pop();
         historyCheckDiv("uebersicht", documentNr);
     }
     addZurueckList(documentNr, id, type);
     initEinzelansicht(documentNr);
 }
 
-function clickWarentraeger(warentraeger){
-    var id = warentraeger.getAttributeNS(null,'elementId');
-    var type='Warenträger';
+function clickWarentraeger(warentraeger) {
+    var id = warentraeger.getAttributeNS(null, 'elementId');
+    var type = 'Warenträger';
     var documentNr = 7;
-    console.log("<> SVG: " + type+ " "+id);
-    
-    localStorage.setItem('elementId_'+documentNr,id);
-    localStorage.setItem('elementType_'+documentNr,type);
-    for(var i=0; i<=zurueckList_all[documentNr-1].length;i++){
-        zurueckList_all[documentNr-1].pop();
+    console.log("<> SVG: " + type + " " + id);
+
+    localStorage.setItem('elementId_' + documentNr, id);
+    localStorage.setItem('elementType_' + documentNr, type);
+    for (var i = 0; i <= zurueckList_all[documentNr - 1].length; i++) {
+        zurueckList_all[documentNr - 1].pop();
         historyCheckDiv("uebersicht", documentNr);
     }
     addZurueckList(documentNr, id, type);
@@ -201,10 +201,6 @@ function clickWarentraeger(warentraeger){
 
 
 function sektorenErstellen(j_sektoren) {
-    
-
-
-                
     for (var i = 0; i < j_sektoren.inhalt.length; i++) {
         //Sektoren erstellen
         var rect = document.createElementNS(svgns, 'rect');
@@ -223,7 +219,7 @@ function sektorenErstellen(j_sektoren) {
         rect.setAttributeNS(null, 'stroke', 'black');
         rect.setAttributeNS(null, 'onclick', 'clickSektoren(this)'); //Beim anklicken wird die Id des Elementes ausgeben
         document.getElementById('svgOne').appendChild(rect);
-        
+
         //zugehöriges Label erstellen
         var text = document.createElementNS(svgns, 'text');
         text.setAttributeNS(null, 'id', 'Text' + j_sektoren.inhalt[i].id);
@@ -242,7 +238,7 @@ function sektorenErstellen(j_sektoren) {
 }
 
 function transportbaenderErstellen(j_sektoren, j_baender) {
-    
+
     var id_vor = 0;
     var id_nach = 0;
     for (var i = 0; i < j_baender.inhalt.length; i++) {
@@ -327,6 +323,12 @@ function transportbaenderErstellen(j_sektoren, j_baender) {
 }
 
 function warentraegerErstellen(j_sektoren, j_baender, j_warentraeger) {
+    var doppelSektor = 2;
+    var count = coutWTinSek(j_warentraeger, doppelSektor);
+    if (count > 1) {
+        var rect2 = document.getElementById("svgOne").getElementById('Sektor_2_Attrappe');
+        document.getElementById('svgOne').appendChild(rect2);
+    }
     for (var i = 0; i < j_warentraeger.inhalt.length; i++) {
         //console.log(document.getElementById("svgOne").getElementById("Warentraeger" + j_warentraeger.inhalt[i].id));
         var rect = document.createElementNS(svgns, 'rect');
@@ -393,10 +395,6 @@ function warentraegerErstellen(j_sektoren, j_baender, j_warentraeger) {
             rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_warentraeger.inhalt[i].sektorIDs[0])].y + sektor_height / 2 - WT_height / 2);
 
             var count = coutWTinSek(j_warentraeger, j_warentraeger.inhalt[i].sektorIDs[0]);
-            if (count > 1 && j_warentraeger.inhalt[i].sektorIDs[0]==2) {
-                var rect2 = document.getElementById("svgOne").getElementById('Sektor_2_Attrappe');
-                document.getElementById('svgOne').appendChild(rect2);
-            }
         } else {
             //WT liegt auf einem TB und in einem Sektor -- Fehler
             console.log("WT" + j_warentraeger.inhalt[i].id + " hat falsche Zuordnung.");
@@ -457,72 +455,73 @@ function transportbaenderAendern(j_baender) {
 }
 
 function warentraegerAendern(j_sektoren, j_baender, j_warentraeger) {
+    var doppelSektor = 2;
+    var count = coutWTinSek(j_warentraeger, doppelSektor);
+    if (count > 1) {
+        var rect2 = document.getElementById("svgOne").getElementById('Sektor_2_Attrappe');
+        document.getElementById('svgOne').appendChild(rect2);
+    }
     for (var i = 0; i < j_warentraeger.inhalt.length; i++) {
         //console.log(document.getElementById("svgOne").getElementById("Warentraeger" + j_warentraeger.inhalt[i].id));
         //rect = document.createElementNS(svgns, 'rect');
         var rect = document.getElementById("svgOne").getElementById("Warentraeger" + j_warentraeger.inhalt[i].id);
-        
+
         if ((j_warentraeger.inhalt[i].transportbandIDs.length === 1) && (j_warentraeger.inhalt[i].sektorIDs.length === 0)) {
             //WT liegt auf einem TB und in keinem Sektor
-            switch (j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].ausrichtung) {
+            switch (j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].ausrichtung) {
                 //ausrichtung des Sektors finden, welcher vor dem TB liegt
                 case 90: //"Ausgang" des Sektors nach rechts
                     //Reihe (innen/mitte/aussen) des TB bestimmen, WT plazieren
-                    if (j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == -1) {
-                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height - WT_height / 2 - baender_thick / 2);
-                    } else if (j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == 1) {
-                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y - WT_height / 2 + baender_thick / 2);
+                    if (j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == -1) {
+                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height - WT_height / 2 - baender_thick / 2);
+                    } else if (j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == 1) {
+                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y - WT_height / 2 + baender_thick / 2);
                     } else {
-                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height / 2 - WT_height / 2);
+                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height / 2 - WT_height / 2);
                     }
-                    rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width + j_warentraeger.inhalt[i].abstand_mm);
+                    rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width + j_warentraeger.inhalt[i].abstand_mm);
                     break;
                 case 180: //"Ausgang" des Sektors nach unten
                     //Reihe (innen/mitte/aussen) des TB bestimmen, WT plazieren
-                    if (j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == -1) {
-                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x - WT_width / 2 + baender_thick / 2);
-                    } else if (j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == 1) {
-                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width - WT_width / 2 - baender_thick / 2);
+                    if (j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == -1) {
+                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x - WT_width / 2 + baender_thick / 2);
+                    } else if (j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == 1) {
+                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width - WT_width / 2 - baender_thick / 2);
                     } else {
-                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width / 2 - WT_width / 2);
+                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width / 2 - WT_width / 2);
                     }
-                    rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height + j_warentraeger.inhalt[i].abstand_mm);
+                    rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height + j_warentraeger.inhalt[i].abstand_mm);
                     break;
                 case 270: //"Ausgang" des Sektors nach links
                     //Reihe (innen/mitte/aussen) des TB bestimmen, WT plazieren
-                    if (j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == -1) {
-                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y - WT_height / 2 + baender_thick / 2);
-                    } else if (j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == 1) {
-                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height - WT_height / 2 - baender_thick / 2);
+                    if (j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == -1) {
+                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y - WT_height / 2 + baender_thick / 2);
+                    } else if (j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == 1) {
+                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height - WT_height / 2 - baender_thick / 2);
                     } else {
-                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height / 2 - WT_height / 2);
+                        rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y + sektor_height / 2 - WT_height / 2);
                     }
-                    rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x - WT_width - j_warentraeger.inhalt[i].abstand_mm);
+                    rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x - WT_width - j_warentraeger.inhalt[i].abstand_mm);
                     break;
                 case 0: //"Ausgang" des Sektors nach oben
                     //Reihe (innen/mitte/aussen) des TB bestimmen, WT plazieren
-                    if (j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == -1) {
-                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width - WT_width / 2 + baender_thick / 2);
-                    } else if (j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == 1) {
-                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x - WT_width / 2 - baender_thick / 2);
+                    if (j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == -1) {
+                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width - WT_width / 2 + baender_thick / 2);
+                    } else if (j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].reihe == 1) {
+                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x - WT_width / 2 - baender_thick / 2);
                     } else {
-                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width / 2 - WT_width / 2);
+                        rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].x + sektor_width / 2 - WT_width / 2);
                     }
-                    rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_baender.inhalt[getTBByID(j_baender,j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y - WT_height - j_warentraeger.inhalt[i].abstand_mm);
+                    rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y - WT_height - j_warentraeger.inhalt[i].abstand_mm);
                     break;
                 default:
                     console.log("Sektor " + j_sektoren.inhalt[id_vor - 1].id + " falsche ausrichtung.");
             }
         } else if ((j_warentraeger.inhalt[i].transportbandIDs.length == 0) && (j_warentraeger.inhalt[i].sektorIDs.length == 1)) {
             //WT liegt in einem Sektor und auf keinem TB
-            rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren,j_warentraeger.inhalt[i].sektorIDs[0])].x + sektor_width / 2 - WT_width / 2);
-            rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren,j_warentraeger.inhalt[i].sektorIDs[0])].y + sektor_height / 2 - WT_height / 2);
-            
-            var count = coutWTinSek(j_warentraeger, j_warentraeger.inhalt[i].sektorIDs[0]);
-            if (count > 1&& j_warentraeger.inhalt[i].sektorIDs[0]==2) {
-                var rect2 = document.getElementById("svgOne").getElementById('Sektor_2_Attrappe');
-                document.getElementById('svgOne').appendChild(rect2);
-            }
+            rect.setAttributeNS(null, 'x', j_sektoren.inhalt[getSekByID(j_sektoren, j_warentraeger.inhalt[i].sektorIDs[0])].x + sektor_width / 2 - WT_width / 2);
+            rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_warentraeger.inhalt[i].sektorIDs[0])].y + sektor_height / 2 - WT_height / 2);
+
         } else {
             //WT liegt auf einem TB und in einem Sektor -- Fehler
             console.log("WT" + j_warentraeger.inhalt[i].id + " hat falsche Zuordnung.");
