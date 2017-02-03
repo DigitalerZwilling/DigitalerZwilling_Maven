@@ -124,10 +124,9 @@ CREATE TABLE Hubquerpodest (
 	);
 	
 CREATE TABLE Artikel_Warentraeger (
-	id BIGINT AUTO_INCREMENT,
 	id_artikel BIGINT,
 	id_warentraeger BIGINT,
-	PRIMARY KEY (id),
+	PRIMARY KEY (id_artikel, id_warentraeger),
 	FOREIGN KEY (id_artikel) REFERENCES Artikel(id_artikel),
 	FOREIGN KEY (id_warentraeger) REFERENCES Warentraeger(id_warentraeger)
 	);
@@ -172,3 +171,8 @@ CREATE TABLE Hubquerpodest_Hubquerpodest (
 	FOREIGN KEY (id_hubquerpodest2) REFERENCES Hubquerpodest(id_hubquerpodest)
 	);
 	
+CREATE TABLE Heartbeat (
+	id_heartbeat BIGINT,
+	zeitstempel TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (id_heartbeat)
+	);
