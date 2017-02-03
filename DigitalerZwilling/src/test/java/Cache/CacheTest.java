@@ -54,13 +54,6 @@ public abstract class CacheTest {
     }
     
     @Test
-    public void testGetAll(){
-        for(Element element : getCache().getAll()){
-            
-        }
-    }
-    
-    @Test
     public void testAutoUpdate() throws InterruptedException{
         System.out.println("testAutoUpdate");
         boolean state = getCache().isState();

@@ -181,4 +181,11 @@ public class DatenbankSchnittstelle {
             throw new QueryException(ex.getMessage());
         }
     }
+    public void close() throws QueryException{
+        try {
+            data.close();
+        } catch (SQLException ex) {
+            throw new QueryException(ex.getMessage());
+        }
+    }
 }
