@@ -1459,3 +1459,5 @@ INSERT INTO Sensor (
 		'10.10 E',
 		15
 	);
+	
+COMMIT;

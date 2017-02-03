@@ -373,3 +373,5 @@ INSERT INTO Transportband (
 		15,
 		1
 	);
+	
+COMMIT;

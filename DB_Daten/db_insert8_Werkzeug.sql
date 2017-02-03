@@ -25,3 +25,5 @@ INSERT INTO Werkzeug (
 		0,
 		5
 	);
+	
+COMMIT;

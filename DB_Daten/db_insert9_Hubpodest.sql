@@ -109,3 +109,5 @@ INSERT INTO Hubpodest (
 		0,
 		14
 	);
+	
+COMMIT;

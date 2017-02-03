@@ -56,3 +56,5 @@ BEGIN
 	INSERT INTO Sektor_Warentraeger(id_warentraeger, id_sektor) VALUES (`id_warentraeger`, `id_sektor`);
 END//
 DELIMITER ;
+	
+COMMIT;

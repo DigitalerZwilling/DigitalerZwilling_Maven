@@ -281,3 +281,5 @@ INSERT INTO Hubquerpodest (
 		0,
 		15
 	);
+	
+COMMIT;

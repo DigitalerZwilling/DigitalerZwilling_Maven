@@ -297,3 +297,5 @@ INSERT INTO Sektor(
 		0,
 		0
 	);
+	
+COMMIT;

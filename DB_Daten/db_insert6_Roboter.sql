@@ -139,3 +139,5 @@ INSERT INTO Roboter (
 		0,
 		0	
 	);
+	
+COMMIT;

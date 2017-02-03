@@ -33,3 +33,5 @@ INSERT INTO Gelenk (
 		0,
 		3
 	);
+	
+COMMIT;

@@ -51,3 +51,5 @@ INSERT INTO Warentraeger(
 		'',
 		0
 	);
+	
+COMMIT;

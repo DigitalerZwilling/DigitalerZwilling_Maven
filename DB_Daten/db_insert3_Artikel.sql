@@ -17,3 +17,5 @@ INSERT INTO Artikel (
 		'Klemmenmontage',
 		''
 	);
+	
+COMMIT;

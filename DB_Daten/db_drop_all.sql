@@ -22,3 +22,5 @@ DROP TABLE Transportband;
 DROP TABLE Artikel;
 DROP TABLE Warentraeger;
 DROP TABLE Sektor;
+	
+COMMIT;
