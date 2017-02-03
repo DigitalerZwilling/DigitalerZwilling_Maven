@@ -40,8 +40,9 @@ public class HubPodestCache extends Cache{
                 if (hubpodest==null) throw new ElementNotFoundException();
                 String outTime=zeitstempel.get(i).replace(' ', 'T');
                 hubpodest.setZeitstempel(LocalDateTime.parse(outTime));
-                hubpodest.setOben(Boolean.getBoolean(oben.get(i)));
-                hubpodest.setUnten(Boolean.getBoolean(unten.get(i)));
+                
+                hubpodest.setOben(Long.parseLong(oben.get(i))!=0);
+                hubpodest.setUnten(Long.parseLong(unten.get(i))!=0);
                 hubpodest.setUser_Parameter(user_parameter.get(i));
             }
         } catch (DBNotFoundException ex) {
@@ -75,9 +76,8 @@ public class HubPodestCache extends Cache{
             HubPodest hupo1,hupo2;
             for (int i=0;i<ids.size();i++){
                 String ourTime=zeitstempel.get(i).replace(' ', 'T');
-                
-                hupo1=new HubPodest(Boolean.getBoolean(oben.get(i)),Boolean.getBoolean(unten.get(i)),Long.parseLong(sektor.get(i)),Long.parseLong(ids.get(i)),bezeichnung.get(i),user_parameter.get(i),LocalDateTime.parse(ourTime));
-                hupo2=new HubPodest(Boolean.getBoolean(oben.get(i)),Boolean.getBoolean(unten.get(i)),Long.parseLong(sektor.get(i)),Long.parseLong(ids.get(i)),bezeichnung.get(i),user_parameter.get(i),LocalDateTime.parse(ourTime));
+                hupo1=new HubPodest((Long.parseLong(oben.get(i))!=0),(Long.parseLong(unten.get(i))!=0),Long.parseLong(sektor.get(i)),Long.parseLong(ids.get(i)),bezeichnung.get(i),user_parameter.get(i),LocalDateTime.parse(ourTime));
+                hupo2=new HubPodest((Long.parseLong(oben.get(i))!=0), (Long.parseLong(unten.get(i))!=0),Long.parseLong(sektor.get(i)),Long.parseLong(ids.get(i)),bezeichnung.get(i),user_parameter.get(i),LocalDateTime.parse(ourTime));
                 
                 allHuPo1.put(hupo1.getId(),(hupo1));
                 allHuPo2.put(hupo2.getId(),(hupo2));
