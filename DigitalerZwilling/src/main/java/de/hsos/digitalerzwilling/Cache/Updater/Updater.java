@@ -27,6 +27,15 @@ import javax.inject.Inject;
  */
 @ApplicationScoped
 public class Updater {
+    private boolean update = true;
+
+    public boolean isUpdate() {
+        return update;
+    }
+
+    public void setUpdate(boolean update) {
+        this.update = update;
+    }
     private final List<Cache> caches;
     private final List<WebSocket> webSockets;
     
@@ -118,6 +127,9 @@ public class Updater {
     
     //@Timeout
     public void updateAll(Timer timer){
+        if(update==false)
+            return;
+        
         System.out.println(this.webSockets.size());
         for(Cache cache: caches){
             cache.toggleState();
