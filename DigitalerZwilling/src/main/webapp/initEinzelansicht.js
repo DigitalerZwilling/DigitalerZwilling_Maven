@@ -7,10 +7,16 @@ function initEinzelansicht(documentNr){
         console.log("   -> lade Einzelansicht in Fenster " + documentNr + ": " + elementType + " " + elementId); //Ausgabe für Anwendertest
    
         var div = document.getElementById(divName+documentNr);
-
         
         while(div.childNodes.length >0){
             div.removeChild(div.childNodes[0]);
+        }
+        if(documentNr==7){
+            var headlineTyp = document.createTextNode(elementType);
+            var paragraph = document.createElement("p");
+            paragraph.setAttribute('class',"category");
+            paragraph.appendChild(headlineTyp);
+            div.appendChild(paragraph);
         }
         
         var table = document.createElement("table");

@@ -299,5 +299,10 @@ footer {
         color:#00ccff;
     }
     
+    .category{
+        font-weight:bold;
+        padding-left:5px;
+    }
+    
     
 }
