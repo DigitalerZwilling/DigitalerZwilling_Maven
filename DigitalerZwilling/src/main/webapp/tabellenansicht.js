@@ -34,7 +34,7 @@ function loadDiv(documentNr){
 
             artikelSocket.onmessage = function(event) {
                 var received_msg = event.data;
-                erzeugeTabelle("Artikel", received_msg, artikelSocket, documentNr);
+                init("Artikel", received_msg, artikelSocket, documentNr);
             };
         break;
 
@@ -47,7 +47,7 @@ function loadDiv(documentNr){
             };
             warentraegerSocket.onmessage = function(event) {
                 var received_msg = event.data;
-                erzeugeTabelle("Warenträger", received_msg, warentraegerSocket, documentNr); 
+                init("Warenträger", received_msg, warentraegerSocket, documentNr); 
             };
             break;
 
@@ -61,7 +61,7 @@ function loadDiv(documentNr){
 
             transportbandSocket.onmessage = function(event) {
                 var received_msg = event.data;
-                erzeugeTabelle("Transportbänder", received_msg, transportbandSocket, documentNr);
+                init("Transportbänder", received_msg, transportbandSocket, documentNr);
             };
             break;
 
@@ -75,7 +75,7 @@ function loadDiv(documentNr){
 
             roboterSocket.onmessage = function(event) {
                 var received_msg = event.data;
-                erzeugeTabelle("Roboter", received_msg, roboterSocket, documentNr);
+                init("Roboter", received_msg, roboterSocket, documentNr);
             };
             break;
 
@@ -89,7 +89,7 @@ function loadDiv(documentNr){
 
             sektorSocket.onmessage = function(event) {
                 var received_msg = event.data;
-                erzeugeTabelle("Sektoren", received_msg, sektorSocket, documentNr);
+                init("Sektoren", received_msg, sektorSocket, documentNr);
             };
             break;
         case "Sensoren":
@@ -104,7 +104,7 @@ function loadDiv(documentNr){
 
             sensorSocket.onmessage = function(event) {
                 var received_msg = event.data;
-                erzeugeTabelle("Sensoren", received_msg, sensorSocket, documentNr);
+                init("Sensoren", received_msg, sensorSocket, documentNr);
             };
             break;
         case "Gelenke":
@@ -118,7 +118,7 @@ function loadDiv(documentNr){
 
             gelenkSocket.onmessage = function(event) {
                 var received_msg = event.data;
-                erzeugeTabelle("Gelenke", received_msg, gelenkSocket, documentNr);
+                init("Gelenke", received_msg, gelenkSocket, documentNr);
             };
             break;
 
@@ -133,7 +133,7 @@ function loadDiv(documentNr){
 
             werkzeugSocket.onmessage = function(event) {
                 var received_msg = event.data;
-                erzeugeTabelle("Werkzeuge", received_msg, werkzeugSocket, documentNr);
+                init("Werkzeuge", received_msg, werkzeugSocket, documentNr);
             };
             break;
         case "Hubpositionierstationen":
@@ -146,7 +146,7 @@ function loadDiv(documentNr){
 
             hupoSocket.onmessage = function(event) {
                 var received_msg = event.data;
-                erzeugeTabelle("Hubpositionierstationen", received_msg, hupoSocket, documentNr);
+                init("Hubpositionierstationen", received_msg, hupoSocket, documentNr);
             };
             break;
         case "Hub-Quer-Stationen":
@@ -159,7 +159,7 @@ function loadDiv(documentNr){
 
             huquSocket.onmessage = function(event) {
                 var received_msg = event.data;
-                erzeugeTabelle("Hub-Quer-Stationen", received_msg, huquSocket, documentNr);
+                init("Hub-Quer-Stationen", received_msg, huquSocket, documentNr);
             };
             break;
         default:
@@ -170,7 +170,7 @@ function loadDiv(documentNr){
 
 
     /* ------------------------------ERZEUGE TABELLE -------------------------------- */
-    function erzeugeTabelle(typ, listeJSON, websocket, documentNr){
+    function init(typ, listeJSON, websocket, documentNr){
 
         var liste = JSON.parse(listeJSON);
         var spaltennamen = getSpaltenname(typ); //Ermittelt die benötigten Spaltnamen
