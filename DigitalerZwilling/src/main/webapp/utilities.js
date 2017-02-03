@@ -5,7 +5,9 @@
         for(var i=0; i<attribute.length; i++){
             var zeile = document.createElement("tr");
             var name = document.createElement("td");
+            name.setAttribute('class',"table-row-name");
             name.innerHTML = attribute[i];
+                        
             zeile.appendChild(name);
 
             var value = document.createElement("td");
@@ -70,14 +72,18 @@
             var div = document.createElement("div");
             div.id = documentNr+"_div_"+list_id[i];
             div.setAttribute("hidden","");
+
             
-            
+            var paragraph = document.createElement("p");
+            paragraph.setAttribute('class',"table-headline");
             var name = document.createTextNode(list_tilte[i]);
-            div.appendChild(name);
+            paragraph.appendChild(name);
+            
+            div.appendChild(paragraph);
             var table = document.createElement("table");
             var tbody = document.createElement("tbody");
             tbody.id = documentNr+"_"+list_id[i];          
-            table.setAttribute('class', "table table-striped");
+            table.setAttribute('class', "table table-striped table-tabellenansicht");
             
             setHeader(list_header[i], table);
             
@@ -155,6 +161,9 @@
     function updateAttributes(documentNr, attribute_id, attribute_value, element_id){
         for(var i=0; i<attribute_id.length; i++){
             var element = document.getElementById(documentNr+"_"+element_id[i]);
+            if(i==0){
+                element.setAttribute('class',"headliner");
+            }
             element.innerHTML = attribute_value[i]; //json[attribute_id[i]];
         }
     }

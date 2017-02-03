@@ -14,7 +14,7 @@ function initEinzelansicht(documentNr){
         }
         
         var table = document.createElement("table");
-        table.setAttribute('class', "table table-striped");
+        table.setAttribute('class', "table table-striped table-einzelansicht");
         
         
         table.appendChild(document.createElement("thead"));
@@ -73,8 +73,8 @@ function initEinzelansicht(documentNr){
         var attribute_id    = ['bezeichnung', 'zeitstempel', 'user_parameter'];
 
         //Einzelne Tabellen:
-        var list_title = ['Wartenträger' ];
-        var list_id    = ['wartentraeger'];
+        var list_title = ['Warenträger' ];
+        var list_id    = ['warentraeger'];
 
         //Eigenschaften der Tabellen
         var list_header     = [['Bezeichnung', 'Zeitstempel']];
@@ -114,7 +114,7 @@ function initEinzelansicht(documentNr){
         var attribute_id    = ['bezeichnung', 'zeitstempel', 'stoerung', 'zustand', 'phy_adresse', 'user_parameter'];
 
         //Einzelne Tabellen:
-        var list_title = ['Sektoren' ];
+        var list_title = ['Sektor' ];
         var list_id    = ['sektoren'];
 
         //Eigenschaften der Tabellen
@@ -163,7 +163,7 @@ function initEinzelansicht(documentNr){
         var attribute_id    = ['bezeichnung', 'zeitstempel', 'zustand', 'stoerung', 'user_parameter'];
 
         //Einzelne Tabellen:
-        var list_title = ['Artikel', 'Transportband', 'Sektoren'];
+        var list_title = ['Artikel', 'Transportband', 'Sektor'];
         var list_id    = ['artikel', 'transportband', 'sektoren'];
 
         //Eigenschaften der Tabellen
@@ -373,7 +373,7 @@ function initEinzelansicht(documentNr){
         var attribute_id    = ['bezeichnung', 'zeitstempel', 'stoerung', 'user_parameter'];
 
         //Einzelne Tabellen:
-        var list_title = ['Warenträger','Hubpodest','Hubquerpodest','Roboter','Sensor','Transportband vorher','Tansportband nachher'];
+        var list_title = ['Warenträger','Hubpositionierstation','Hub-Quer-Stationen','Roboter','Sensoren','Transportband vorher','Tansportband nachher'];
         var list_id    = ['warentraeger','hubpodest','hubquerpodest','roboter','sensor','nachTransportband','vorTransportband'];
 
         //Eigenschaften der Tabellen

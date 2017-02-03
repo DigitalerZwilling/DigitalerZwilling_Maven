@@ -353,7 +353,7 @@ function loadDiv(documentNr){
     function createTable(typ, liste, spaltennamen, row, col, documentNr) {
         
         var myTable = document.createElement("table");
-        myTable.setAttribute('class', "table table-striped");
+        myTable.setAttribute('class', "table table-striped table-tabellenansicht");
         myTable.setAttribute('id', "tablle_"+documentNr);
         
         //Table Header erstellen
