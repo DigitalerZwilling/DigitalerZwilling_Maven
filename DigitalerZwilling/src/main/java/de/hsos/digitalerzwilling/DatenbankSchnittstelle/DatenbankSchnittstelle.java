@@ -131,6 +131,7 @@ public class DatenbankSchnittstelle {
             if(data==null)
                 return false;
             else
+                this.data.setAutoCommit(false);
                 return data.isValid(10);
         } catch (SQLException ex) {
             //Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
@@ -179,6 +180,21 @@ public class DatenbankSchnittstelle {
             return rsMap;
         } catch (SQLException ex) {
             throw new QueryException(ex.getMessage());
+        }
+    }
+    
+    public void commitAndBegin(){
+        try {
+            if(this.data.getAutoCommit()==false){
+                Statement stmt = this.data.createStatement();
+                stmt.execute("COMMIT");
+                stmt.execute("BEGIN");
+                stmt.close();
+            }else{
+                Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.INFO, "AUTO_COMMIT der Datenbank ist aktiviert");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatenbankSchnittstelle.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

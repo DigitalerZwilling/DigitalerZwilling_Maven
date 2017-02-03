@@ -7,7 +7,6 @@ package de.hsos.digitalerzwilling.Cache;
 
 import de.hsos.digitalerzwilling.Cache.Exception.DBErrorException;
 import de.hsos.digitalerzwilling.Cache.Exception.ElementNotFoundException;
-import de.hsos.digitalerzwilling.DatenbankSchnittstelle.DatenbankSchnittstelle;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.DBNotFoundException;
 import de.hsos.digitalerzwilling.DatenbankSchnittstelle.Exception.QueryException;
 import de.hsos.digitalerzwilling.DatenKlassen.ServerSystem;
@@ -18,7 +17,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 /**
  *
@@ -27,8 +25,7 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class SystemCache extends Cache{
     
-    @Inject
-    DatenbankSchnittstelle datenbankSchnittstelle;
+    
     
     final private Long SPS_Heartbeat_Deadline_ms=1000*60*1l;        //Timeout eine Minute
     private LocalDateTime lastTime=null;
@@ -40,7 +37,7 @@ public class SystemCache extends Cache{
             ServerSystem system=(ServerSystem) (state==true?elements[0].get(0l):elements[1].get(0l));
             if(system==null) throw new ElementNotFoundException();
             try {
-                Map<String,List<String>> rsMap = datenbankSchnittstelle.datenbankAnfrage("SELECT ZEITSTEMPEL FROM HEARTBEAT LIMIT 1");
+                Map<String,List<String>> rsMap = datenbankschnittstelle.datenbankAnfrage("SELECT ZEITSTEMPEL FROM HEARTBEAT LIMIT 1");
                 List<String> zeitstempel = rsMap.get("ZEITSTEMPEL");
                 if(zeitstempel==null) throw new QueryException();
                 
@@ -82,7 +79,7 @@ public class SystemCache extends Cache{
             elements[0] = new HashMap<>();
             elements[1] = new HashMap<>();
             
-            Map<String,List<String>> rsMap = datenbankSchnittstelle.datenbankAnfrage("SELECT ZEITSTEMPEL FROM HEARTBEAT LIMIT 1");
+            Map<String,List<String>> rsMap = datenbankschnittstelle.datenbankAnfrage("SELECT ZEITSTEMPEL FROM HEARTBEAT LIMIT 1");
             List<String> zeitstempel = rsMap.get("ZEITSTEMPEL");
             
             
