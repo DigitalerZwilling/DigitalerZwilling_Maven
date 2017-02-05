@@ -316,7 +316,7 @@ function transportbaenderErstellen(j_sektoren, j_baender) {
                 rect.setAttributeNS(null, 'height', j_sektoren.inhalt[getSekByID(j_sektoren, id_vor)].y - (j_sektoren.inhalt[getSekByID(j_sektoren, id_nach)].y + sektor_height));
                 break;
             default:
-                console.log("Sektor " + j_sektoren.inhalt[getSekByID(j_sektoren, id_vor)].id + " falsche Ausrichtung.");
+                //console.log("Sektor " + j_sektoren.inhalt[getSekByID(j_sektoren, id_vor)].id + " falsche Ausrichtung.");
         }
         document.getElementById('svgOne').appendChild(rect);
     }
@@ -384,7 +384,7 @@ function warentraegerErstellen(j_sektoren, j_baender, j_warentraeger) {
                     rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y - WT_height - j_warentraeger.inhalt[i].abstand_mm);
                     break;
                 default:
-                    console.log("Sektor falsche ausrichtung.");
+                    //console.log("Sektor falsche ausrichtung.");
             }
         } else if ((j_warentraeger.inhalt[i].transportbandIDs.length == 0) && (j_warentraeger.inhalt[i].sektorIDs.length == 1)) {
             //WT liegt in einem Sektor und auf keinem TB
@@ -397,7 +397,7 @@ function warentraegerErstellen(j_sektoren, j_baender, j_warentraeger) {
             var count = coutWTinSek(j_warentraeger, j_warentraeger.inhalt[i].sektorIDs[0]);
         } else {
             //WT liegt auf einem TB und in einem Sektor -- Fehler
-            console.log("WT" + j_warentraeger.inhalt[i].id + " hat falsche Zuordnung.");
+            //console.log("WT" + j_warentraeger.inhalt[i].id + " hat falsche Zuordnung.");
         }
         rect.setAttributeNS(null, 'height', WT_height);
         rect.setAttributeNS(null, 'width', WT_width);
@@ -515,7 +515,7 @@ function warentraegerAendern(j_sektoren, j_baender, j_warentraeger) {
                     rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y - WT_height - j_warentraeger.inhalt[i].abstand_mm);
                     break;
                 default:
-                    console.log("Sektor " + j_sektoren.inhalt[id_vor - 1].id + " falsche ausrichtung.");
+                    //console.log("Sektor " + j_sektoren.inhalt[id_vor - 1].id + " falsche ausrichtung.");
             }
         } else if ((j_warentraeger.inhalt[i].transportbandIDs.length == 0) && (j_warentraeger.inhalt[i].sektorIDs.length == 1)) {
             //WT liegt in einem Sektor und auf keinem TB
@@ -524,7 +524,7 @@ function warentraegerAendern(j_sektoren, j_baender, j_warentraeger) {
 
         } else {
             //WT liegt auf einem TB und in einem Sektor -- Fehler
-            console.log("WT" + j_warentraeger.inhalt[i].id + " hat falsche Zuordnung.");
+            //console.log("WT" + j_warentraeger.inhalt[i].id + " hat falsche Zuordnung.");
         }
         rect.setAttributeNS(null, 'height', WT_height);
         rect.setAttributeNS(null, 'width', WT_width);
