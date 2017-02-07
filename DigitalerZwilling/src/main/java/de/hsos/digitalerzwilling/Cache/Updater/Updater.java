@@ -85,7 +85,8 @@ public class Updater {
         for(WebSocket webSocket: webSockets){
             try{
             if(webSocket==null) toDelete.add(webSocket);
-            else webSocket.update();
+            else if(webSocket.getSession().isOpen())webSocket.update();
+            else toDelete.add(webSocket);
             }catch (IllegalStateException ex){
             toDelete.add(webSocket);
             java.util.logging.Logger.getLogger(Updater.class.getName()).log(Level.SEVERE, null, ex);

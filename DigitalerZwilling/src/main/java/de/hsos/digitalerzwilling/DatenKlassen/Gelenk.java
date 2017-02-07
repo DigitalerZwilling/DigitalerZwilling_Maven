@@ -6,6 +6,7 @@
 package de.hsos.digitalerzwilling.DatenKlassen;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -66,7 +67,7 @@ public class Gelenk extends Element{
         json += "\"bezeichnung\": \"" + bezeichnung + "\",";
         json += "\"user_Parameter\": \"" + user_Parameter + "\",";
         json += "\"bezeichnung\": \"" + bezeichnung + "\",\n";
-        json += "\"zeitstempel\": \"" + zeitstempel.toString() + "\",";
+        json += "\"zeitstempel\": \"" + zeitstempel.format(DateTimeFormatter.ISO_DATE)+" "+zeitstempel.format(DateTimeFormatter.ISO_TIME) + "\",";
         json += "\"typ\": \"" + typ + "\",";
         json += "\"nummer\": " + nummer + ",";
         json += "\"gelenkstellung\": " + gelenkstellung + ",";

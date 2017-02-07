@@ -7,6 +7,7 @@ package de.hsos.digitalerzwilling.DatenKlassen;
 
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -143,7 +144,7 @@ public class Sektor extends Element{
         json += "\"id\": " + id + ",";
         json += "\"bezeichnung\": \"" + bezeichnung + "\",";
         json += "\"user_Parameter\": \"" + user_Parameter + "\",";
-        json += "\"zeitstempel\": \"" + zeitstempel.toString() + "\",";
+        json += "\"zeitstempel\": \"" + zeitstempel.format(DateTimeFormatter.ISO_DATE)+" "+zeitstempel.format(DateTimeFormatter.ISO_TIME) + "\",";
         json += "\"stoerung\": " + stoerung + ",";
         json += "\"x\": " + x + ",";
         json += "\"y\": " + y + ",";

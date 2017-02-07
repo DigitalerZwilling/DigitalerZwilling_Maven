@@ -6,6 +6,7 @@
 package de.hsos.digitalerzwilling.DatenKlassen;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 
@@ -61,7 +62,7 @@ public class HubPodest extends Element{
         json += "\"bezeichnung\": \"" + bezeichnung + "\",";
         json += "\"user_Parameter\": \"" + user_Parameter + "\",";
         json += "\"bezeichnung\": \"" + bezeichnung + "\",";
-        json += "\"zeitstempel\": \"" + zeitstempel.toString() + "\",";
+        json += "\"zeitstempel\": \"" + zeitstempel.format(DateTimeFormatter.ISO_DATE)+" "+zeitstempel.format(DateTimeFormatter.ISO_TIME) + "\",";
         json += "\"oben\": " + oben + ",";
         json += "\"unten\": " + unten + ",";
         json += "\"sektorID\": " + sektorID;
