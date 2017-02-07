@@ -35,7 +35,6 @@ function initStoerungsZaehler(documentNr){
     var SensorWebSocket = new WebSocket("ws://"+location.host+"/"+host+'SensorWebSocket');
     var TransportbandWebSocket = new WebSocket("ws://"+location.host+"/"+host+'TransportbandWebSocket');
     var WarentraegerWebSocket = new WebSocket("ws://"+location.host+"/"+host+'WarentraegerWebSocket');
-    var WerkzeugWebSocket = new WebSocket("ws://"+location.host+"/"+host+'WerkzeugWebSocket');
     
     
     
@@ -58,10 +57,6 @@ function initStoerungsZaehler(documentNr){
     
     WarentraegerWebSocket.onopen = function() {
                 WarentraegerWebSocket.send("LIST");
-    };
-    
-    WerkzeugWebSocket.onopen = function() {
-                WerkzeugWebSocket.send("LIST");
     };
     
     
@@ -98,13 +93,6 @@ function initStoerungsZaehler(documentNr){
         var jsonString = event.data;
         var parent = document.getElementById("storung_tbody");
         stoerungsZaehler[4] = updateStoerung(documentNr, parent, jsonString,'Warenträger');
-        updateStoerungszaehler();
-    };
-    
-    WerkzeugWebSocket.onmessage = function(event) {
-        var jsonString = event.data;
-        var parent = document.getElementById("storung_tbody");
-        stoerungsZaehler[5] = updateStoerung(documentNr, parent, jsonString,'Werkzeuge');
         updateStoerungszaehler();
     };
 }
@@ -149,7 +137,7 @@ function removeLines(parentNode, typ){
 function updateStoerungszaehler(){
     var cnt =0;
     
-    for(var i=0; i<6; i++){
+    for(var i=0; i<5; i++){
         cnt += stoerungsZaehler[i];
     }
     

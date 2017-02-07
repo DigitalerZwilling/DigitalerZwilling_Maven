@@ -1,9 +1,11 @@
 INSERT INTO Heartbeat(
 		id_heartbeat, 
-		zeitstempel
+		zeitstempel,
+		dummy
 	) VALUES (
 		1,
-		'1970-01-01 00:00:00.001'
+		'2000-01-01 00:00:01',
+		0
 	);
 	
 COMMIT;

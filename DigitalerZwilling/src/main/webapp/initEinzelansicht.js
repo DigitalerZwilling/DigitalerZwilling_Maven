@@ -300,16 +300,16 @@ function initEinzelansicht(documentNr){
         var attribute_id    = ['bezeichnung', 'zeitstempel', 'stoerung', 'user_parameter'];
 
         //Einzelne Tabellen:
-        var list_title = ['Sektoren'];
-        var list_id    = ['sektoren'];
+        var list_title = ['Sektoren','Gelenke'];
+        var list_id    = ['sektoren','gelenke'];
 
         //Eigenschaften der Tabellen
-        var list_header     = [['Bezeichnung', 'Zeitstempel','Störung']];
-        var list_attribute = [['bezeichnung', 'zeitstempel','stoerung']];
+        var list_header     = [['Bezeichnung', 'Zeitstempel','Störung'],['Bezeichnung', 'Zeitstempel','Gelenkstellung']];
+        var list_attribute = [['bezeichnung', 'zeitstempel','stoerung'],['bezeichnung', 'zeitstempel','gelenkstellung']];
 
         //Tabelle Erstellen
         create(documentNr, attribute_title, attribute_id, list_title, list_id, list_header);
-        createAttributLink(documentNr, ['Gelenk','Werkzeug'],['gelenk','werkzeug']);
+        createAttributLink(documentNr, ['Werkzeug'],['werkzeug']);
 
         //WebSockets
         var RoboterWebSocket = new WebSocket("ws://"+location.host+"/"+host+"RoboterWebSocket");
@@ -348,15 +348,7 @@ function initEinzelansicht(documentNr){
 
         GelenkWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            var json = JSON.parse(jsonString);
-            
-            for(var i=0; i<json.inhalt.length; i++){
-            var rid = json.inhalt[i]['roboterID'];
-                if(rid==id){
-                        var attribute_value = jsonToGelenk(json.inhalt[i]);
-                        updateAttributes(documentNr, ['bezeichnung'],attribute_value,['gelenk'],0);
-                }
-            }
+            updateList(documentNr, id, list_id[1], jsonString, list_attribute[1],"roboterID","Gelenke");
         };
 
         WerkzeugWebSocket.onmessage = function(event) {
@@ -367,7 +359,7 @@ function initEinzelansicht(documentNr){
             var wid = json.inhalt[i]['roboterID'];
                 if(wid==id){
                         var attribute_value = jsonToWerkzeug(json.inhalt[i]);
-                        updateAttributes(documentNr, ['bezeichnung'],attribute_value,['werkzeug'],0);
+                        updateAttributLink(documentNr, ['bezeichnung'],json.inhalt[i], attribute_value,['werkzeug'],'Werkzeuge');
                 }
             }
         };
@@ -519,16 +511,7 @@ function initEinzelansicht(documentNr){
 
         RoboterWebSocket.onmessage = function(event) {
             var jsonString = event.data;
-            var json = JSON.parse(jsonString);
-            var parent = document.getElementById(list_id[0]);
-            removeList(parent);
-        
-            for(var i=0; i<json.inhalt.length; i++){
-            var sid = json.inhalt[i]['gelenkID'];
-                if(sid==id){
-                    addLine(documentNr, json.inhalt[i],list_attribute[0],parent);
-                }
-            }
+             updateList(documentNr, id, list_id[0], jsonString, list_attribute[0],"gelenkeIDs","Gelenke");
         };
     }
     

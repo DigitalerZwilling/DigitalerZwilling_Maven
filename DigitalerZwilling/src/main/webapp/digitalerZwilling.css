@@ -149,7 +149,14 @@ footer {
 .table-tabellenansicht{
     font-size: 9pt;
 }
-    
+
+.table-headline{
+        color:white;
+        background-color:#00ccff;
+        padding-left: 5px;
+        font-weight:bold;
+    }
+
 .table-row-name{
     font-weight:bold;
 }
@@ -158,6 +165,10 @@ footer {
     font-weight:bold;
     color:#00ccff;
 }
+.category{
+        font-weight:bold;
+        padding-left:5px;
+    }
 
 /* sm */
 @media (min-width: 768px) {
@@ -194,6 +205,13 @@ footer {
         font-size:10pt;
     }
     
+    .table-headline{
+        color:white;
+        background-color:#00ccff;
+        padding-left: 5px;
+        font-weight:bold;
+    }
+    
     .table-row-name{
         font-weight:bold;
     }
@@ -201,6 +219,11 @@ footer {
     .headliner{
         font-weight:bold;
         color:#00ccff;
+    }
+    
+    .category{
+        font-weight:bold;
+        padding-left:5px;
     }
 }
 /* md */
@@ -238,6 +261,13 @@ footer {
         font-size: 9pt;
     }
     
+    .table-headline{
+        color:white;
+        background-color:#00ccff;
+        padding-left: 5px;
+        font-weight:bold;
+    }
+    
     .table-row-name{
         font-weight:bold;
     }
@@ -245,6 +275,11 @@ footer {
     .headliner{
         font-weight:bold;
         color:#00ccff;
+    }
+    
+    .category{
+        font-weight:bold;
+        padding-left:5px;
     }
 }
 /* lg */
