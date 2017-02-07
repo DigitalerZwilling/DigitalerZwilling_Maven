@@ -25,7 +25,7 @@ INSERT INTO Gelenk (
 		gelenkstellung,
 		id_roboter
 	) VALUES (
-		1,
+		2,
 		'Beispiel Gelenk2',
 		'',
 		'Translationsgelenk',

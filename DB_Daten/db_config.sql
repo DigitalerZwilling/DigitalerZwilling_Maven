@@ -43,8 +43,8 @@ CREATE TABLE Transportband (
 	stoerung INT NOT NULL,
 	laenge INT NOT NULL,
 	geschwindigkeit INT NOT NULL,
-	id_sektor_vor BIGINT,
-	id_sektor_nach BIGINT,
+	id_sektor_vor BIGINT NOT NULL,
+	id_sektor_nach BIGINT NOT NULL,
 	PRIMARY KEY (id_transportband),
 	FOREIGN KEY (id_sektor_vor) REFERENCES Sektor(id_sektor),
 	FOREIGN KEY (id_sektor_nach) REFERENCES Sektor(id_sektor)
@@ -58,7 +58,7 @@ CREATE TABLE Sensor (
 	stoerung INT NOT NULL,
 	zustand INT NOT NULL,
 	phy_adresse CHAR(10) NOT NULL,
-	id_sektor BIGINT,
+	id_sektor BIGINT NOT NULL,
 	PRIMARY KEY (id_sensor),
 	FOREIGN KEY (id_sektor) REFERENCES Sektor(id_sektor)
 	);
@@ -84,7 +84,7 @@ CREATE TABLE Gelenk (
 	typ VARCHAR(100) NOT NULL,
 	nummer INT NOT NULL,
 	gelenkstellung INT NOT NULL,
-	id_roboter BIGINT,
+	id_roboter BIGINT NOT NULL,
 	PRIMARY KEY (id_gelenk),
 	FOREIGN KEY (id_roboter) REFERENCES Roboter(id_roboter)
 	);
@@ -95,9 +95,7 @@ CREATE TABLE Werkzeug (
 	zeitstempel TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	user_parameter LONGTEXT NOT NULL,
 	zustand INT NOT NULL,
-	id_roboter BIGINT,
-	PRIMARY KEY (id_werkzeug),
-	FOREIGN KEY (id_roboter) REFERENCES Roboter(id_roboter)
+	PRIMARY KEY (id_werkzeug)
 	);
 	
 CREATE TABLE Hubpodest (
@@ -107,7 +105,7 @@ CREATE TABLE Hubpodest (
 	user_parameter LONGTEXT NOT NULL,
 	oben INT NOT NULL,
 	unten INT NOT NULL,
-	id_sektor BIGINT,
+	id_sektor BIGINT NOT NULL,
 	PRIMARY KEY (id_hubpodest),
 	FOREIGN KEY (id_sektor) REFERENCES Sektor(id_sektor)
 	);
@@ -121,7 +119,7 @@ CREATE TABLE Hubquerpodest (
 	oben INT NOT NULL,
 	mittig INT NOT NULL,
 	unten INT NOT NULL,
-	id_sektor BIGINT,
+	id_sektor BIGINT NOT NULL,
 	PRIMARY KEY (id_hubquerpodest),
 	FOREIGN KEY (id_sektor) REFERENCES Sektor(id_sektor)
 	);
