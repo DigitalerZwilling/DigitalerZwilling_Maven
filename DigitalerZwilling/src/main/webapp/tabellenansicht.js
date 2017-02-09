@@ -511,11 +511,11 @@ function loadDiv(documentNr){
                                motorzustand = "aus";
                            }
                             if (oben){
-                                zustandHuQu = motorzustand+ " - Oben";
+                                zustandHuQu = motorzustand+ " - \u2191";
                             }else if (mittig){
-                                zustandHuQu = motorzustand+ " - Mittig";
+                                zustandHuQu = motorzustand+ " - \u2194";
                             }else if (unten){
-                                zustandHuQu = motorzustand+ " - Unten"; 
+                                zustandHuQu = motorzustand+ " - \u2193"; 
                             }
                             else{
                                 zustandHuQu = motorzustand+ " - X "; 
