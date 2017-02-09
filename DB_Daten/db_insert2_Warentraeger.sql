@@ -69,7 +69,11 @@ INSERT INTO Warentraeger(
 		'',
 		0
 	);
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> refs/remotes/origin/master
 INSERT INTO Warentraeger(
 		id_warentraeger,
 		bezeichnung,
@@ -123,7 +127,11 @@ INSERT INTO Warentraeger(
 		'',
 		0
 	);
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> refs/remotes/origin/master
 INSERT INTO Warentraeger(
 		id_warentraeger,
 		bezeichnung,
@@ -177,7 +185,11 @@ INSERT INTO Warentraeger(
 		'',
 		0
 	);
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> refs/remotes/origin/master
 INSERT INTO Warentraeger(
 		id_warentraeger,
 		bezeichnung,
@@ -213,5 +225,10 @@ INSERT INTO Warentraeger(
 		'',
 		0
 	);
+<<<<<<< HEAD
 	
 COMMIT;
+=======
+
+COMMIT;
+>>>>>>> refs/remotes/origin/master
