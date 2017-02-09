@@ -281,7 +281,7 @@ function loadDiv(documentNr){
                  spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Zustand'];
                 return spaltennamen;
             case "Hubpositionierstationen":
-                spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Position'];
+                spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Zustand'];
                 return spaltennamen;
             case "Hub-Quer-Stationen":
                 spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Zustand'];
