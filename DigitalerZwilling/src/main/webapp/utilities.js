@@ -321,18 +321,18 @@
         var userParameter = jsonObject.user_Parameter;
         var zustand="X";
         
-        if(oben==="1" && mittig==="0"&& unten==="0"){
-            zustand = "&uarr;";
-        }else if(oben==="0" && mittig==="1" && unten==="0"){
-            zustand = "&mdash;";
-        }else if(oben==="0" && mittig==="0" && unten==="1"){
-            zustand = "darr;";
+        if(oben=="1" && mittig=="0"&& unten=="0"){
+            zustand = "\u2191";
+        }else if(oben=="0" && mittig=="1" && unten=="0"){
+            zustand = "\u2194";
+        }else if(oben=="0" && mittig=="0" && unten=="1"){
+            zustand = "\u2193";
         }
         
-        if(motor === "1"){
-            zustand = "ein " + zustand;
+        if(motor == "1"){
+            zustand = "ein - " + zustand;
         }else{
-            zustand = "aus " + zustand;
+            zustand = "aus - " + zustand;
         }
         
         return [bezeichnung, zeitstempel, zustand, userParameter];
