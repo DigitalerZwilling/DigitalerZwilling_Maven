@@ -37,7 +37,7 @@ public class SystemCache extends Cache{
             ServerSystem system=(ServerSystem) (state==true?elements[0].get(0l):elements[1].get(0l));
             if(system==null) throw new ElementNotFoundException();
             try {
-                Map<String,List<String>> rsMap = datenbankschnittstelle.datenbankAnfrage("SELECT ZEITSTEMPEL FROM HEARTBEAT LIMIT 1");
+                Map<String,List<String>> rsMap = datenbankschnittstelle.datenbankAnfrage("SELECT ZEITSTEMPEL FROM Heartbeat LIMIT 1");
                 List<String> zeitstempel = rsMap.get("ZEITSTEMPEL");
                 if(zeitstempel==null) throw new QueryException();
                 
@@ -79,7 +79,7 @@ public class SystemCache extends Cache{
             elements[0] = new HashMap<>();
             elements[1] = new HashMap<>();
             
-            Map<String,List<String>> rsMap = datenbankschnittstelle.datenbankAnfrage("SELECT ZEITSTEMPEL FROM HEARTBEAT LIMIT 1");
+            Map<String,List<String>> rsMap = datenbankschnittstelle.datenbankAnfrage("SELECT ZEITSTEMPEL FROM Heartbeat LIMIT 1");
             List<String> zeitstempel = rsMap.get("ZEITSTEMPEL");
             
             
@@ -99,10 +99,14 @@ public class SystemCache extends Cache{
             elements[1].put(0l, new ServerSystem(0l,"SYSTEM","",LocalDateTime.parse("2007-12-03T10:15:30")));
             this.lastTime=LocalDateTime.parse("2007-12-03T10:15:30");
             this.lastTimeInServerTimeMS=new java.util.Date().getTime();
-            Logger.getLogger(SensorCache.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SystemCache.class.getName()).log(Level.SEVERE, null, ex);
             throw new DBErrorException("DB not found");
         } catch (QueryException ex) {
-            Logger.getLogger(SensorCache.class.getName()).log(Level.SEVERE, null, ex);
+            elements[0].put(0l, new ServerSystem(0l,"SYSTEM","",LocalDateTime.parse("2007-12-03T10:15:30")));
+            elements[1].put(0l, new ServerSystem(0l,"SYSTEM","",LocalDateTime.parse("2007-12-03T10:15:30")));
+            this.lastTime=LocalDateTime.parse("2007-12-03T10:15:30");
+            this.lastTimeInServerTimeMS=new java.util.Date().getTime();
+            Logger.getLogger(SystemCache.class.getName()).log(Level.SEVERE, null, ex);
             throw new DBErrorException("Query error");
         }
     }
