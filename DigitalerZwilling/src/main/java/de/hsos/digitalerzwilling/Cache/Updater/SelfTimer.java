@@ -32,7 +32,7 @@ public class SelfTimer {
     
     public void createTimer(int Startwert, int Intervall, String info){
         //timerS.
-        System.out.println("imstimerS!!!!!!!!!!!!!!!!!!!!!");
+        //System.out.println("imstimerS!!!!!!!!!!!!!!!!!!!!!");
         Timer timer = timerS.createTimer(Startwert, Intervall, info);
     }
     public void cancelTimer(String info){

@@ -26,7 +26,7 @@ public class HubPodestCache extends Cache{
     @Override
     public void update() throws DBErrorException {
         try {
-            Map<String,List<String>> rsMap= this.datenbankschnittstelle.datenbankAnfrage("SELECT id_hubpodest,oben,unten,zeitstempel,user_parameter from hubpodest");
+            Map<String,List<String>> rsMap= this.datenbankschnittstelle.datenbankAnfrage("SELECT id_hubpodest,oben,unten,zeitstempel,user_parameter from Hubpodest");
             List<String> ids = rsMap.get("ID_HUBPODEST");
             List<String> zeitstempel = rsMap.get("ZEITSTEMPEL");
             List<String> user_parameter = rsMap.get("USER_PARAMETER");
@@ -63,7 +63,7 @@ public class HubPodestCache extends Cache{
             Map<Long,Element> allHuPo1=new HashMap<>();
             Map<Long,Element> allHuPo2=new HashMap<>();
             
-            Map<String,List<String>> rsMap= this.datenbankschnittstelle.datenbankAnfrage("SELECT id_hubpodest,bezeichnung,oben,unten,id_sektor,zeitstempel,user_parameter from hubpodest");
+            Map<String,List<String>> rsMap= this.datenbankschnittstelle.datenbankAnfrage("SELECT id_hubpodest,bezeichnung,oben,unten,id_sektor,zeitstempel,user_parameter from Hubpodest");
             List<String> ids = rsMap.get("ID_HUBPODEST");
             List<String> bezeichnung = rsMap.get("BEZEICHNUNG");
             List<String> zeitstempel = rsMap.get("ZEITSTEMPEL");
