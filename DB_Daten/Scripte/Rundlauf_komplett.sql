@@ -1,6 +1,53 @@
 -- Kompletten Rundlauf von WT 333
 -- Rundlauf Start
 
+UPDATE Sektor SET stoerung = 0 WHERE id_sektor = 1;
+UPDATE Sektor SET stoerung = 0 WHERE id_sektor = 2;
+UPDATE Sektor SET stoerung = 0 WHERE id_sektor = 3;
+UPDATE Sektor SET stoerung = 0 WHERE id_sektor = 4;
+UPDATE Sektor SET stoerung = 0 WHERE id_sektor = 5;
+UPDATE Sektor SET stoerung = 0 WHERE id_sektor = 6;
+UPDATE Sektor SET stoerung = 0 WHERE id_sektor = 7;
+UPDATE Sektor SET stoerung = 0 WHERE id_sektor = 8;
+UPDATE Sektor SET stoerung = 0 WHERE id_sektor = 9;
+UPDATE Sektor SET stoerung = 0 WHERE id_sektor = 10;
+UPDATE Sektor SET stoerung = 0 WHERE id_sektor = 11;
+UPDATE Sektor SET stoerung = 0 WHERE id_sektor = 12;
+UPDATE Sektor SET stoerung = 0 WHERE id_sektor = 13;
+UPDATE Sektor SET stoerung = 0 WHERE id_sektor = 14;
+UPDATE Sektor SET stoerung = 0 WHERE id_sektor = 15;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 13;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 34;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 45;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 56;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 67;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 78;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 89;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 910;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 911;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 1011;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 1112;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 1113;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 1213;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 1314;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 1315;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 1415;
+UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 151;
+UPDATE Warentraeger SET stoerung = 0 WHERE id_warentraeger = 1;
+UPDATE Warentraeger SET stoerung = 0 WHERE id_warentraeger = 2;
+UPDATE Warentraeger SET stoerung = 0 WHERE id_warentraeger = 3;
+UPDATE Warentraeger SET stoerung = 0 WHERE id_warentraeger = 4;
+UPDATE Warentraeger SET stoerung = 0 WHERE id_warentraeger = 5;
+UPDATE Warentraeger SET stoerung = 0 WHERE id_warentraeger = 6;
+UPDATE Warentraeger SET stoerung = 0 WHERE id_warentraeger = 7;
+UPDATE Warentraeger SET stoerung = 0 WHERE id_warentraeger = 8;
+UPDATE Warentraeger SET stoerung = 0 WHERE id_warentraeger = 9;
+UPDATE Warentraeger SET stoerung = 0 WHERE id_warentraeger = 10;
+UPDATE Warentraeger SET stoerung = 0 WHERE id_warentraeger = 11;
+UPDATE Warentraeger SET stoerung = 0 WHERE id_warentraeger = 12;
+DELETE FROM sektor_warentraeger;
+DELETE FROM transportband_warentraeger;
+
 CALL `MOVE_WARENTRAEGER_TO_SEKTOR`('1', '1');
 DO SLEEP(2); 
 UPDATE heartbeat SET zeitstempel=CURRENT_TIMESTAMP WHERE id_heartbeat=1;
