@@ -47,6 +47,11 @@ UPDATE Warentraeger SET stoerung = 0 WHERE id_warentraeger = 11;
 UPDATE Warentraeger SET stoerung = 0 WHERE id_warentraeger = 12;
 DELETE FROM sektor_warentraeger;
 DELETE FROM transportband_warentraeger;
+UPDATE Warentraeger SET montagezustand = 0 WHERE id_warentraeger = 1;
+UPDATE Warentraeger SET montagezustand = 0 WHERE id_warentraeger = 2;
+UPDATE Warentraeger SET montagezustand = 0 WHERE id_warentraeger = 3;
+UPDATE Warentraeger SET montagezustand = 0 WHERE id_warentraeger = 4;
+UPDATE Warentraeger SET montagezustand = 0 WHERE id_warentraeger = 5;
 CALL `MOVE_WARENTRAEGER_TO_TRANSPORTBAND`('1', '34');
 CALL `MOVE_WARENTRAEGER_TO_TRANSPORTBAND`('2', '56');
 CALL `MOVE_WARENTRAEGER_TO_TRANSPORTBAND`('3', '89');
@@ -289,6 +294,7 @@ UPDATE Warentraeger SET montagezustand = 49 WHERE id_warentraeger = 5;
 
 DO SLEEP(1);
 UPDATE Heartbeat SET zeitstempel=CURRENT_TIMESTAMP WHERE id_Heartbeat=1;
+UPDATE Warentraeger SET montagezustand = 9 WHERE id_warentraeger = 2;
 UPDATE Warentraeger SET abstand_mm = 160 WHERE id_warentraeger = 3;
 UPDATE Warentraeger SET abstand_mm = 1440 WHERE id_warentraeger = 4;
 UPDATE Warentraeger SET montagezustand = 52 WHERE id_warentraeger = 5;
@@ -309,6 +315,7 @@ UPDATE Warentraeger SET montagezustand = 58 WHERE id_warentraeger = 5;
 DO SLEEP(1);
 UPDATE Heartbeat SET zeitstempel=CURRENT_TIMESTAMP WHERE id_Heartbeat=1;
 UPDATE Warentraeger SET abstand_mm = 102 WHERE id_warentraeger = 1;
+UPDATE Warentraeger SET montagezustand = 18 WHERE id_warentraeger = 2;
 UPDATE Warentraeger SET abstand_mm = 280 WHERE id_warentraeger = 3;
 UPDATE Warentraeger SET montagezustand = 61 WHERE id_warentraeger = 5;
 
@@ -325,6 +332,7 @@ UPDATE Warentraeger SET montagezustand = 67 WHERE id_warentraeger = 5;
 
 DO SLEEP(1);
 UPDATE Heartbeat SET zeitstempel=CURRENT_TIMESTAMP WHERE id_Heartbeat=1;
+UPDATE Warentraeger SET montagezustand = 27 WHERE id_warentraeger = 2;
 UPDATE Warentraeger SET abstand_mm = 404 WHERE id_warentraeger = 3;
 UPDATE Warentraeger SET montagezustand = 70 WHERE id_warentraeger = 5;
 
@@ -339,6 +347,7 @@ UPDATE Warentraeger SET montagezustand = 76 WHERE id_warentraeger = 5;
 
 DO SLEEP(1);
 UPDATE Heartbeat SET zeitstempel=CURRENT_TIMESTAMP WHERE id_Heartbeat=1;
+CALL `MOVE_WARENTRAEGER_TO_TRANSPORTBAND`('2', '78');
 UPDATE Warentraeger SET montagezustand = 79 WHERE id_warentraeger = 5;
 
 DO SLEEP(1);
@@ -348,27 +357,34 @@ UPDATE Warentraeger SET montagezustand = 82 WHERE id_warentraeger = 5;
 
 DO SLEEP(1);
 UPDATE Heartbeat SET zeitstempel=CURRENT_TIMESTAMP WHERE id_Heartbeat=1;
+CALL `MOVE_WARENTRAEGER_TO_SEKTOR`('1', '7');
+UPDATE Warentraeger SET abstand_mm = 100 WHERE id_warentraeger = 2;
 UPDATE Warentraeger SET montagezustand = 85 WHERE id_warentraeger = 5;
 
 DO SLEEP(1);
 UPDATE Heartbeat SET zeitstempel=CURRENT_TIMESTAMP WHERE id_Heartbeat=1;
+UPDATE Warentraeger SET stoerung = 99 WHERE id_warentraeger=1;
+UPDATE Warentraeger SET abstand_mm = 200 WHERE id_warentraeger = 2;
 UPDATE Warentraeger SET abstand_mm = 100 WHERE id_warentraeger = 3;
 UPDATE Warentraeger SET montagezustand = 88 WHERE id_warentraeger = 5;
 
 DO SLEEP(1);
 UPDATE Heartbeat SET zeitstempel=CURRENT_TIMESTAMP WHERE id_Heartbeat=1;
+UPDATE Warentraeger SET abstand_mm = 300 WHERE id_warentraeger = 2;
 UPDATE Warentraeger SET abstand_mm = 200 WHERE id_warentraeger = 3;
 UPDATE Transportband SET stoerung = 0 WHERE id_transportband = 911;
 UPDATE Warentraeger SET montagezustand = 91 WHERE id_warentraeger = 5;
 
 DO SLEEP(1);
 UPDATE Heartbeat SET zeitstempel=CURRENT_TIMESTAMP WHERE id_Heartbeat=1;
+UPDATE Warentraeger SET abstand_mm = 400 WHERE id_warentraeger = 2;
 UPDATE Warentraeger SET abstand_mm = 300 WHERE id_warentraeger = 3;
 UPDATE Warentraeger SET abstand_mm = 1520 WHERE id_warentraeger = 4;
 UPDATE Warentraeger SET montagezustand = 94 WHERE id_warentraeger = 5;
 
 DO SLEEP(1);
 UPDATE Heartbeat SET zeitstempel=CURRENT_TIMESTAMP WHERE id_Heartbeat=1;
+UPDATE Warentraeger SET stoerung = 99 WHERE id_warentraeger = 2;
 UPDATE Warentraeger SET abstand_mm = 400 WHERE id_warentraeger = 3;
 UPDATE Warentraeger SET abstand_mm = 1560 WHERE id_warentraeger = 4;
 UPDATE Warentraeger SET montagezustand = 97 WHERE id_warentraeger = 5;
@@ -403,6 +419,7 @@ UPDATE Warentraeger SET abstand_mm = 300 WHERE id_warentraeger = 5;
 
 DO SLEEP(1);
 UPDATE Heartbeat SET zeitstempel=CURRENT_TIMESTAMP WHERE id_Heartbeat=1;
+CALL `MOVE_WARENTRAEGER_TO_TRANSPORTBAND`('4', '1112');
 UPDATE Warentraeger SET abstand_mm = 400 WHERE id_warentraeger = 5;
 
 DO SLEEP(1);
@@ -411,6 +428,8 @@ UPDATE Warentraeger SET stoerung = 99 WHERE id_warentraeger = 5;
 
 DO SLEEP(1);
 UPDATE Heartbeat SET zeitstempel=CURRENT_TIMESTAMP WHERE id_Heartbeat=1;
+UPDATE Warentraeger SET abstand_mm = 150 WHERE id_warentraeger = 4;
 
 DO SLEEP(1);
 UPDATE Heartbeat SET zeitstempel=CURRENT_TIMESTAMP WHERE id_Heartbeat=1;
+UPDATE Warentraeger SET stoerung = 99 WHERE id_warentraeger = 4;
