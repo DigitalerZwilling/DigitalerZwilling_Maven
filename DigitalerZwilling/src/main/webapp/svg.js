@@ -320,7 +320,7 @@ function warentraegerErstellen(j_sektoren, j_baender, j_warentraeger) {
         //rect = document.getElementById("svgOne").getElementById("Warentraeger" + j_warentraeger.inhalt[i].id);
         rect.setAttributeNS(null, 'elementId', j_warentraeger.inhalt[i].id);
         rect.setAttributeNS(null, 'id', "Warentraeger" + j_warentraeger.inhalt[i].id);
-        rect.setAttribute(null, 'visibility', 'visible');
+        rect.setAttributeNS(null, 'visibility', 'visible');
         if ((j_warentraeger.inhalt[i].transportbandIDs.length === 1) && (j_warentraeger.inhalt[i].sektorIDs.length === 0)) {
             //WT liegt auf einem TB und in keinem Sektor
             switch (j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].ausrichtung) {
@@ -449,7 +449,7 @@ function warentraegerAendern(j_sektoren, j_baender, j_warentraeger) {
         //console.log(document.getElementById("svgOne").getElementById("Warentraeger" + j_warentraeger.inhalt[i].id));
         //rect = document.createElementNS(svgns, 'rect');
         var rect = document.getElementById("svgOne").getElementById("Warentraeger" + j_warentraeger.inhalt[i].id);
-        rect.setAttribute(null, 'visibility', 'visible');
+        rect.setAttributeNS(null, 'visibility', 'visible');
         if ((j_warentraeger.inhalt[i].transportbandIDs.length === 1) && (j_warentraeger.inhalt[i].sektorIDs.length === 0)) {
             //WT liegt auf einem TB und in keinem Sektor
             switch (j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].ausrichtung) {
