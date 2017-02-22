@@ -311,7 +311,7 @@ function loadDiv(documentNr){
                 case "Artikel": //besitzt keine 3. Spalte
                     break;
                 case "Warenträger":
-                    document.getElementById(typ + "Montagezustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].montagezustand;
+                    document.getElementById(typ + "Montagezustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].montagezustand + "%";
                     break;
                 case "Transportbänder":
                 case "Roboter":
@@ -450,7 +450,7 @@ function loadDiv(documentNr){
                         break;
                         case "Warenträger":
                             mycurrent_cell.setAttribute('id', typ+"Montagezustand_"+liste.inhalt[j].id + "_" + documentNr);
-                            currenttext = document.createTextNode(liste.inhalt[j].montagezustand);
+                            currenttext = document.createTextNode(liste.inhalt[j].montagezustand + "%");
                             break;
                         case "Transportbänder":
                         case "Roboter":

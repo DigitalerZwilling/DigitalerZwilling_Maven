@@ -296,15 +296,14 @@
         var bezeichnung = jsonObject.bezeichnung;
         var zeitstempel = jsonObject.zeitstempel;
         
-        zeitstempel.replace('T',' ');
         var oben = jsonObject.oben;
         var unten = jsonObject.unten;
         var userParameter = jsonObject.user_Parameter;
         var zustand="X";
         
-        if(oben==="1" && unten==="0"){
+        if(oben=="1" && unten=="0"){
             zustand = "&uarr;";
-        }else if(oben==="0" && unten==="1"){
+        }else if(oben=="0" && unten=="1"){
             zustand = "&darr;";
         }
         
