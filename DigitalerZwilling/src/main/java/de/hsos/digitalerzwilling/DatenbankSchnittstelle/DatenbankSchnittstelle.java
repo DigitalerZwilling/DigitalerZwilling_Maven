@@ -184,6 +184,7 @@ public class DatenbankSchnittstelle {
     }
     
     public void commitAndBegin(){
+        if (data==null) return;
         try {
             if(this.data.getAutoCommit()==false){
                 Statement stmt = this.data.createStatement();

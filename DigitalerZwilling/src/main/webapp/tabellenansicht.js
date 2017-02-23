@@ -281,7 +281,7 @@ function loadDiv(documentNr){
                  spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Zustand'];
                 return spaltennamen;
             case "Hubpositionierstationen":
-                spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Position'];
+                spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Zustand'];
                 return spaltennamen;
             case "Hub-Quer-Stationen":
                 spaltennamen = ['Bezeichnung', 'Zeitstempel', 'Zustand'];
@@ -311,7 +311,7 @@ function loadDiv(documentNr){
                 case "Artikel": //besitzt keine 3. Spalte
                     break;
                 case "Warenträger":
-                    document.getElementById(typ + "Montagezustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].montagezustand;
+                    document.getElementById(typ + "Montagezustand_"+liste.inhalt[i].id + "_" + documentNr).innerHTML = liste.inhalt[i].montagezustand + "%";
                     break;
                 case "Transportbänder":
                 case "Roboter":
@@ -450,7 +450,7 @@ function loadDiv(documentNr){
                         break;
                         case "Warenträger":
                             mycurrent_cell.setAttribute('id', typ+"Montagezustand_"+liste.inhalt[j].id + "_" + documentNr);
-                            currenttext = document.createTextNode(liste.inhalt[j].montagezustand);
+                            currenttext = document.createTextNode(liste.inhalt[j].montagezustand + "%");
                             break;
                         case "Transportbänder":
                         case "Roboter":
@@ -511,11 +511,11 @@ function loadDiv(documentNr){
                                motorzustand = "aus";
                            }
                             if (oben){
-                                zustandHuQu = motorzustand+ " - Oben";
+                                zustandHuQu = motorzustand+ " - \u2191";
                             }else if (mittig){
-                                zustandHuQu = motorzustand+ " - Mittig";
+                                zustandHuQu = motorzustand+ " - \u2194";
                             }else if (unten){
-                                zustandHuQu = motorzustand+ " - Unten"; 
+                                zustandHuQu = motorzustand+ " - \u2193"; 
                             }
                             else{
                                 zustandHuQu = motorzustand+ " - X "; 

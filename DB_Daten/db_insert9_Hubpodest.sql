@@ -10,7 +10,7 @@ INSERT INTO Hubpodest (
 		'HUPO Sekt3',
 		'',
 		0,
-		0,
+		1,
 		3
 	);
 	
@@ -26,7 +26,7 @@ INSERT INTO Hubpodest (
 		'HUPO Sekt5',
 		'',
 		0,
-		0,
+		1,
 		5
 	);
 	
@@ -42,7 +42,7 @@ INSERT INTO Hubpodest (
 		'HUPO Sekt6',
 		'',
 		0,
-		0,
+		1,
 		6
 	);
 	
@@ -58,7 +58,7 @@ INSERT INTO Hubpodest (
 		'HUPO Sekt7',
 		'',
 		0,
-		0,
+		1,
 		7
 	);
 	
@@ -74,7 +74,7 @@ INSERT INTO Hubpodest (
 		'HUPO Sekt10',
 		'',
 		0,
-		0,
+		1,
 		10
 	);
 	
@@ -90,7 +90,7 @@ INSERT INTO Hubpodest (
 		'HUPO Sekt12',
 		'',
 		0,
-		0,
+		1,
 		12
 	);
 	
@@ -106,6 +106,8 @@ INSERT INTO Hubpodest (
 		'HUPO Sekt10',
 		'',
 		0,
-		0,
+		1,
 		14
 	);
+	
+COMMIT;

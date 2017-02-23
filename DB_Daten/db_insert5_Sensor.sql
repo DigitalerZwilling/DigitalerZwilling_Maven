@@ -964,7 +964,7 @@ INSERT INTO Sensor (
 		id_sektor
 	) VALUES (
 		53,
-		'WT auf erster HuQu innen',
+		'WT auf zweiter HuQu innen',
 		'',
 		0,
 		0,
@@ -1234,7 +1234,7 @@ INSERT INTO Sensor (
 		id_sektor
 	) VALUES (
 		83,
-		'WT auf erster HuQu innen',
+		'WT auf zweiter HuQu innen',
 		'',
 		0,
 		0,
@@ -1459,3 +1459,5 @@ INSERT INTO Sensor (
 		'10.10 E',
 		15
 	);
+	
+COMMIT;

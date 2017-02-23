@@ -219,21 +219,6 @@ function sektorenErstellen(j_sektoren) {
         rect.setAttributeNS(null, 'stroke', 'black');
         rect.setAttributeNS(null, 'onclick', 'clickSektoren(this)'); //Beim anklicken wird die Id des Elementes ausgeben
         document.getElementById('svgOne').appendChild(rect);
-
-        //zugehöriges Label erstellen
-        var text = document.createElementNS(svgns, 'text');
-        text.setAttributeNS(null, 'id', 'Text' + j_sektoren.inhalt[i].id);
-        text.setAttributeNS(null, 'fill', 'black');
-        text.setAttributeNS(null, 'x', j_sektoren.inhalt[i].x);
-        text.setAttributeNS(null, 'y', j_sektoren.inhalt[i].y + f_size / 1.5);
-        text.setAttributeNS(null, "font-size", f_size);
-        text.setAttributeNS(null, "font-family", "Calibri");
-
-
-        var textNode = document.createTextNode("S" + j_sektoren.inhalt[i].id);
-        text.appendChild(textNode);
-        //document.getElementById("svgOne").getElementById("Sektor" + j_sektoren.inhalt[i].id).appendChild(text);
-        document.getElementById("svgOne").appendChild(text);
     }
 }
 
@@ -316,7 +301,7 @@ function transportbaenderErstellen(j_sektoren, j_baender) {
                 rect.setAttributeNS(null, 'height', j_sektoren.inhalt[getSekByID(j_sektoren, id_vor)].y - (j_sektoren.inhalt[getSekByID(j_sektoren, id_nach)].y + sektor_height));
                 break;
             default:
-                console.log("Sektor " + j_sektoren.inhalt[getSekByID(j_sektoren, id_vor)].id + " falsche Ausrichtung.");
+                //console.log("Sektor " + j_sektoren.inhalt[getSekByID(j_sektoren, id_vor)].id + " falsche Ausrichtung.");
         }
         document.getElementById('svgOne').appendChild(rect);
     }
@@ -335,6 +320,7 @@ function warentraegerErstellen(j_sektoren, j_baender, j_warentraeger) {
         //rect = document.getElementById("svgOne").getElementById("Warentraeger" + j_warentraeger.inhalt[i].id);
         rect.setAttributeNS(null, 'elementId', j_warentraeger.inhalt[i].id);
         rect.setAttributeNS(null, 'id', "Warentraeger" + j_warentraeger.inhalt[i].id);
+        rect.setAttributeNS(null, 'visibility', 'visible');
         if ((j_warentraeger.inhalt[i].transportbandIDs.length === 1) && (j_warentraeger.inhalt[i].sektorIDs.length === 0)) {
             //WT liegt auf einem TB und in keinem Sektor
             switch (j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].ausrichtung) {
@@ -384,7 +370,7 @@ function warentraegerErstellen(j_sektoren, j_baender, j_warentraeger) {
                     rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y - WT_height - j_warentraeger.inhalt[i].abstand_mm);
                     break;
                 default:
-                    console.log("Sektor falsche ausrichtung.");
+                    //console.log("Sektor falsche ausrichtung.");
             }
         } else if ((j_warentraeger.inhalt[i].transportbandIDs.length == 0) && (j_warentraeger.inhalt[i].sektorIDs.length == 1)) {
             //WT liegt in einem Sektor und auf keinem TB
@@ -397,7 +383,8 @@ function warentraegerErstellen(j_sektoren, j_baender, j_warentraeger) {
             var count = coutWTinSek(j_warentraeger, j_warentraeger.inhalt[i].sektorIDs[0]);
         } else {
             //WT liegt auf einem TB und in einem Sektor -- Fehler
-            console.log("WT" + j_warentraeger.inhalt[i].id + " hat falsche Zuordnung.");
+            rect.setAttributeNS(null, 'visibility', 'hidden');
+            //console.log("WT" + j_warentraeger.inhalt[i].id + " hat falsche Zuordnung.");
         }
         rect.setAttributeNS(null, 'height', WT_height);
         rect.setAttributeNS(null, 'width', WT_width);
@@ -431,10 +418,7 @@ function sektorenAendern(j_sektoren) {
 //			rect.setAttributeNS(null, 'stroke-width', '5');
 //			rect.setAttributeNS(null, 'stroke', 'black');
 //			rect.setAttributeNS(null, 'onclick', 'idAusgeben(this)'); //Beim anklicken wird die Id des Elementes ausgeben
-        var text = document.getElementById("svgOne").getElementById('Text' + j_sektoren.inhalt[i].id);
         document.getElementById('svgOne').appendChild(rect);
-        document.getElementById('svgOne').appendChild(text);
-
     }
 }
 
@@ -465,7 +449,7 @@ function warentraegerAendern(j_sektoren, j_baender, j_warentraeger) {
         //console.log(document.getElementById("svgOne").getElementById("Warentraeger" + j_warentraeger.inhalt[i].id));
         //rect = document.createElementNS(svgns, 'rect');
         var rect = document.getElementById("svgOne").getElementById("Warentraeger" + j_warentraeger.inhalt[i].id);
-
+        rect.setAttributeNS(null, 'visibility', 'visible');
         if ((j_warentraeger.inhalt[i].transportbandIDs.length === 1) && (j_warentraeger.inhalt[i].sektorIDs.length === 0)) {
             //WT liegt auf einem TB und in keinem Sektor
             switch (j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].ausrichtung) {
@@ -515,7 +499,7 @@ function warentraegerAendern(j_sektoren, j_baender, j_warentraeger) {
                     rect.setAttributeNS(null, 'y', j_sektoren.inhalt[getSekByID(j_sektoren, j_baender.inhalt[getTBByID(j_baender, j_warentraeger.inhalt[i].transportbandIDs[0])].vorSektorID)].y - WT_height - j_warentraeger.inhalt[i].abstand_mm);
                     break;
                 default:
-                    console.log("Sektor " + j_sektoren.inhalt[id_vor - 1].id + " falsche ausrichtung.");
+                    //console.log("Sektor " + j_sektoren.inhalt[id_vor - 1].id + " falsche ausrichtung.");
             }
         } else if ((j_warentraeger.inhalt[i].transportbandIDs.length == 0) && (j_warentraeger.inhalt[i].sektorIDs.length == 1)) {
             //WT liegt in einem Sektor und auf keinem TB
@@ -524,7 +508,8 @@ function warentraegerAendern(j_sektoren, j_baender, j_warentraeger) {
 
         } else {
             //WT liegt auf einem TB und in einem Sektor -- Fehler
-            console.log("WT" + j_warentraeger.inhalt[i].id + " hat falsche Zuordnung.");
+            rect.setAttributeNS(null, 'visibility', 'hidden');
+            //console.log("WT" + j_warentraeger.inhalt[i].id + " hat falsche Zuordnung.");
         }
         rect.setAttributeNS(null, 'height', WT_height);
         rect.setAttributeNS(null, 'width', WT_width);

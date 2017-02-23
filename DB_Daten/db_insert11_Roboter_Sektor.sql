@@ -45,3 +45,5 @@ INSERT INTO Roboter_Sektor (
 		14,
 		14	
 	);
+	
+COMMIT;

@@ -1,10 +1,83 @@
-<svg width="100%" height="100%" viewBox="0 0 9000 3000"
-     xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink">
-	 
-	 <rect id="rechteck" x="2500" y="1600"   width="500" height="150"/>
-	 <circle id="kreis" cx="4000"  cy="1400"  r="250" />
-	 <ellipse id="ellipse" cx="6000"  cy="1500"  rx="350" ry="130" />
-	 <line id="linie" x1="6500"  y1="1900" x2="8000" y2="1000" stroke="blue" stroke-width="30px"/>
-	 <polygon id="polygon" points="1000,700 1500,1900 500,1700"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 2800 1000"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="hintergrund.svg"
+   width="2800"
+   height="1000"
+   inkscape:version="0.92.0 r15299">
+  <metadata
+     id="metadata14">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs12" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1680"
+     inkscape:window-height="988"
+     id="namedview10"
+     showgrid="false"
+     inkscape:zoom="0.38888889"
+     inkscape:cx="859.19521"
+     inkscape:cy="423.45418"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg8" />
+  <path
+     d="m 1296.2437,466.56329 -30.1742,15.4698 v -30.93961 m -50.2855,30.93961 -30.1743,-15.4698 55.317,-28.37408 v 30.95876"
+     id="path2"
+     inkscape:connector-curvature="0"
+     style="fill:#009fe3;stroke-width:1.69072175" />
+  <path
+     d="m 1215.784,518.16123 -35.2059,-18.0545 v -30.95876 l 35.2059,18.05449 m 85.4913,12.90427 v -30.95876 l -60.3486,30.95876 v 30.93962"
+     id="path4"
+     inkscape:connector-curvature="0"
+     style="fill:#c6c6c6;stroke-width:1.69072175" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:27.90119743px;line-height:17.43824768px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.69752991"
+     x="1302.8374"
+     y="487.47095"
+     id="text18"
+     transform="scale(1.0208431,0.97958246)"><tspan
+       sodipodi:role="line"
+       id="tspan16"
+       x="1302.8374"
+       y="487.47095"
+       style="stroke-width:0.69752991">Labor für Handhabungstechnik</tspan><tspan
+       sodipodi:role="line"
+       x="1302.8374"
+       y="504.90918"
+       id="tspan20"
+       style="stroke-width:0.69752991">                           </tspan><tspan
+       sodipodi:role="line"
+       x="1302.8374"
+       y="522.34747"
+       id="tspan22"
+       style="stroke-width:0.69752991">                           und Robotik</tspan></text>
 </svg>
